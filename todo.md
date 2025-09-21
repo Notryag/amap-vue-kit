@@ -10,7 +10,7 @@
 * [ ] **M0 — 初始化（Day 0）**
 
   * [x] pnpm monorepo：`packages/{core,hooks,shared}`、`docs`、`examples`
-  * [ ] packages/playground：本地最小示例
+  * [x] packages/playground：本地最小示例
   * [x] ESLint：`@antfu/eslint-config`（flat config），VSCode 建议开启保存即修复
   * [x] Vitest + Vue Test Utils
   * [x] Changesets（版本与 Changelog）

@@ -1,23 +1,23 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
+import AmapInfoWindow from '../src/components/AmapInfoWindow.vue'
 import AmapMap from '../src/components/AmapMap.vue'
 import AmapMarker from '../src/components/AmapMarker.vue'
-import AmapInfoWindow from '../src/components/AmapInfoWindow.vue'
 
 async function waitForMap() {
   await flushPromises()
   await flushPromises()
 }
 
-describe('AmapMap', () => {
+describe('amapMap', () => {
   it('creates map instance and reacts to prop changes', async () => {
     const wrapper = mount(AmapMap, {
       props: {
         center: [120, 30],
         zoom: 10,
-        pitch: 30
-      }
+        pitch: 30,
+      },
     })
 
     await waitForMap()
@@ -38,7 +38,7 @@ describe('AmapMap', () => {
   })
 })
 
-describe('AmapMarker', () => {
+describe('amapMarker', () => {
   it('syncs marker position and emits events', async () => {
     const wrapper = mount({
       components: { AmapMap, AmapMarker },
@@ -49,8 +49,8 @@ describe('AmapMarker', () => {
         </AmapMap>
       `,
       methods: {
-        onClick() {}
-      }
+        onClick() {},
+      },
     })
 
     await waitForMap()
@@ -70,7 +70,7 @@ describe('AmapMarker', () => {
   })
 })
 
-describe('AmapInfoWindow', () => {
+describe('amapInfoWindow', () => {
   it('opens and closes based on props', async () => {
     const wrapper = mount({
       components: { AmapMap, AmapInfoWindow },
@@ -81,7 +81,7 @@ describe('AmapInfoWindow', () => {
             <span>Hello</span>
           </AmapInfoWindow>
         </AmapMap>
-      `
+      `,
     })
 
     await waitForMap()

@@ -1,19 +1,18 @@
-<template />
-
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
+import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useMarker } from '@amap-vue/hooks'
-import { amapMapInjectionKey, type LngLatLike, type MapInjectionContext, warn } from '@amap-vue/shared'
+import { amapMapInjectionKey, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
 
 defineOptions({
-  name: 'AmapMarker'
+  name: 'AmapMarker',
 })
 
 const props = defineProps({
   position: {
     type: [Array, Object] as PropType<LngLatLike>,
-    required: true
+    required: true,
   },
   icon: [String, Object] as PropType<string | AMap.Icon>,
   label: [String, Object] as PropType<string | AMap.MarkerLabelOptions>,
@@ -23,8 +22,8 @@ const props = defineProps({
   offset: [Array, Object] as PropType<AMap.Pixel | [number, number]>,
   visible: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 })
 
 const emit = defineEmits<{
@@ -48,17 +47,17 @@ const options = computed(() => ({
   zIndex: props.zIndex,
   extData: props.extData,
   offset: props.offset,
-  visible: props.visible
+  visible: props.visible,
 }))
 
 const markerApi = context ? useMarker(() => context.map.value, options) : null
 const marker = markerApi?.marker ?? shallowRef<AMap.Marker | null>(null)
 
-const eventBindings: Array<{ event: string; handler: (event: any) => void }> = [
+const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
   { event: 'dragend', handler: event => emit('dragend', event) },
   { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) }
+  { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
 if (markerApi)
@@ -79,6 +78,8 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  marker
+  marker,
 })
 </script>
+
+<template />

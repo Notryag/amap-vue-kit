@@ -1,6 +1,6 @@
-import { computed, shallowRef, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, warn } from '@amap-vue/shared'
+import { computed, shallowRef, toValue, watch } from 'vue'
 
 export interface UseMassMarkersOptions {
   data: AMap.MassData[]
@@ -15,11 +15,10 @@ export interface UseMassMarkersReturn {
   destroy: () => void
 }
 
-export function useMassMarkers(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>, options: MaybeRefOrGetter<UseMassMarkersOptions>)
-  : UseMassMarkersReturn {
+export function useMassMarkers(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>, options: MaybeRefOrGetter<UseMassMarkersOptions>): UseMassMarkersReturn {
   const mass = shallowRef<AMap.MassMarks | null>(null)
   const optionsRef = computed<UseMassMarkersOptions>(() => ({
-    ...(toValue(options) as UseMassMarkersOptions | undefined ?? {})
+    ...(toValue(options) as UseMassMarkersOptions | undefined ?? {}),
   }))
 
   async function ensureMassMarkers(mapInstance: AMap.Map | null | undefined) {
@@ -32,7 +31,7 @@ export function useMassMarkers(mapRef: MaybeRefOrGetter<AMap.Map | null | undefi
       const instance = new (AMap as any).MassMarks(data ?? [], {
         ...(massOptions ?? {}),
         map: mapInstance,
-        style
+        style,
       }) as AMap.MassMarks
       mass.value = instance
     }
@@ -54,7 +53,7 @@ export function useMassMarkers(mapRef: MaybeRefOrGetter<AMap.Map | null | undefi
   }, { immediate: true })
 
   watch(() => optionsRef.value.data, data => setData(data ?? []), { deep: true })
-  watch(() => optionsRef.value.style, style => {
+  watch(() => optionsRef.value.style, (style) => {
     if (style)
       setStyle(style)
   }, { deep: true })
@@ -81,6 +80,6 @@ export function useMassMarkers(mapRef: MaybeRefOrGetter<AMap.Map | null | undefi
     mass,
     setData,
     setStyle,
-    destroy
+    destroy,
   }
 }

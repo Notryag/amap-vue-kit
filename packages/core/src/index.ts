@@ -1,13 +1,13 @@
 import type { App } from 'vue'
 
+import AmapCircle from './components/AmapCircle.vue'
+import AmapInfoWindow from './components/AmapInfoWindow.vue'
 import AmapMap from './components/AmapMap.vue'
 import AmapMarker from './components/AmapMarker.vue'
-import AmapInfoWindow from './components/AmapInfoWindow.vue'
-import AmapPolyline from './components/AmapPolyline.vue'
 import AmapPolygon from './components/AmapPolygon.vue'
-import AmapCircle from './components/AmapCircle.vue'
+import AmapPolyline from './components/AmapPolyline.vue'
 
-export { AmapMap, AmapMarker, AmapInfoWindow, AmapPolyline, AmapPolygon, AmapCircle }
+export { AmapCircle, AmapInfoWindow, AmapMap, AmapMarker, AmapPolygon, AmapPolyline }
 
 const components = [
   AmapMap,
@@ -15,7 +15,7 @@ const components = [
   AmapInfoWindow,
   AmapPolyline,
   AmapPolygon,
-  AmapCircle
+  AmapCircle,
 ]
 
 export function install(app: App) {
@@ -26,5 +26,5 @@ export function install(app: App) {
 }
 
 export default {
-  install
+  install,
 }

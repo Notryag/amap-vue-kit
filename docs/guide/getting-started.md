@@ -15,10 +15,10 @@ If you are using `npm` or `yarn`, substitute the install command accordingly.
 Before creating any maps, configure the shared loader with your [AMap Web JSAPI key](https://lbs.amap.com/api/javascript-api/guide/create-project/get-key):
 
 ```ts
+import { loader } from '@amap-vue/shared'
 // main.ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import { loader } from '@amap-vue/shared'
 
 loader.config({
   key: import.meta.env.VITE_AMAP_KEY,

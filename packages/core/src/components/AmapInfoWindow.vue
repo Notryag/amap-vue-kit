@@ -1,25 +1,20 @@
-<template>
-  <div ref="contentRef" class="amap-vue-infowindow-content">
-    <slot />
-  </div>
-</template>
-
 <script setup lang="ts">
-import { inject, onBeforeUnmount, shallowRef, watch } from 'vue'
+import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
-import { amapMapInjectionKey, type LngLatLike, type MapInjectionContext, toLngLat, toPixel, loader, warn } from '@amap-vue/shared'
+import { amapMapInjectionKey, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
+import { inject, onBeforeUnmount, shallowRef, watch } from 'vue'
 
 defineOptions({
-  name: 'AmapInfoWindow'
+  name: 'AmapInfoWindow',
 })
 
 const props = defineProps({
   position: [Array, Object] as PropType<LngLatLike | undefined>,
   isOpen: {
     type: Boolean,
-    default: false
+    default: false,
   },
-  offset: [Array, Object] as PropType<AMap.Pixel | [number, number]>
+  offset: [Array, Object] as PropType<AMap.Pixel | [number, number]>,
 })
 
 const emit = defineEmits<{
@@ -88,7 +83,7 @@ async function createInfoWindow() {
     const AMap = await loader.load()
     const instance = new AMap.InfoWindow({
       content: contentRef.value,
-      offset: props.offset ? toPixel(AMap, props.offset) : undefined
+      offset: props.offset ? toPixel(AMap, props.offset) : undefined,
     })
     infoWindow.value = instance
     emit('ready', instance)
@@ -113,9 +108,15 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  infoWindow
+  infoWindow,
 })
 </script>
+
+<template>
+  <div ref="contentRef" class="amap-vue-infowindow-content">
+    <slot />
+  </div>
+</template>
 
 <style scoped>
 .amap-vue-infowindow-content {

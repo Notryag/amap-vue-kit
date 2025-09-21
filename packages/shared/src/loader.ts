@@ -1,5 +1,5 @@
-import { isClient, invariant, warn } from './utils'
 import type { LoaderOptions } from './types'
+import { invariant, isClient, warn } from './utils'
 
 const DEFAULT_VERSION = '2.0'
 const DEFAULT_LOCA_VERSION = '2.0.0'
@@ -11,7 +11,7 @@ interface LoaderState {
 }
 
 const state: LoaderState = {
-  promise: null
+  promise: null,
 }
 
 let defaults: Partial<LoaderOptions> = {}
@@ -52,7 +52,7 @@ function resolveOptions(options?: Partial<LoaderOptions>): LoaderOptions {
   const resolved: LoaderOptions = {
     version: DEFAULT_VERSION,
     ...defaults,
-    ...options
+    ...options,
   } as LoaderOptions
 
   invariant(resolved.key, 'AMap loader requires an API key. Call loader.config({ key }) before loading.')
@@ -66,11 +66,11 @@ function createLoadPromise(options: LoaderOptions) {
 
   if (options.securityJsCode) {
     (window as any)._AMapSecurityConfig = {
-      securityJsCode: options.securityJsCode
+      securityJsCode: options.securityJsCode,
     }
   }
 
-  if (state.script)
+  if (state.script) {
     return new Promise<typeof AMap>((resolve, reject) => {
       state.script?.addEventListener('load', () => {
         const instance = (window as any).AMap as typeof AMap | undefined
@@ -84,6 +84,7 @@ function createLoadPromise(options: LoaderOptions) {
         reject(new Error('Failed to load the AMap JSAPI script.'))
       })
     })
+  }
 
   return new Promise<typeof AMap>((resolve, reject) => {
     const script = document.createElement('script')
@@ -115,7 +116,7 @@ export function createLoader() {
     config(options: Partial<LoaderOptions>) {
       defaults = {
         ...defaults,
-        ...options
+        ...options,
       }
     },
     get(): typeof AMap | undefined {
@@ -154,7 +155,7 @@ export function createLoader() {
         })
       state.promise = promise
       return promise
-    }
+    },
   }
 }
 

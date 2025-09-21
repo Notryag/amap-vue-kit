@@ -1,31 +1,28 @@
-<template />
-
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, watch } from 'vue'
+import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useOverlay } from '@amap-vue/hooks'
-import { amapMapInjectionKey, type LngLatLike, type MapInjectionContext, loader, toLngLat, warn } from '@amap-vue/shared'
+import { amapMapInjectionKey, loader, toLngLat, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 
 defineOptions({
-  name: 'AmapPolygon'
+  name: 'AmapPolygon',
 })
-
-export type PolygonPath = LngLatLike[] | LngLatLike[][]
 
 const props = defineProps({
   path: {
     type: [Array] as PropType<PolygonPath>,
-    required: true
+    required: true,
   },
   options: {
     type: Object as PropType<Partial<AMap.PolygonOptions>>,
-    default: () => ({})
+    default: () => ({}),
   },
   visible: {
     type: Boolean,
-    default: true
+    default: true,
   },
-  extData: null as any
+  extData: null as any,
 })
 
 const emit = defineEmits<{
@@ -34,6 +31,8 @@ const emit = defineEmits<{
   mouseover: [event: any]
   mouseout: [event: any]
 }>()
+
+export type PolygonPath = LngLatLike[] | LngLatLike[][]
 
 const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 
@@ -44,7 +43,7 @@ const overlayOptions = computed(() => ({
   path: props.path,
   visible: props.visible,
   extData: props.extData,
-  ...props.options
+  ...props.options,
 }))
 
 function normalizePath(AMapInstance: typeof AMap | undefined, path: PolygonPath): any {
@@ -69,7 +68,7 @@ const overlayApi = context
       const { path, visible, map: _ignoredMap, ...rest } = options as any
       const polygon = new AMap.Polygon({
         ...rest,
-        path: normalizePath(AMap, path)
+        path: normalizePath(AMap, path),
       })
       polygon.setMap(map)
       if (visible === false)
@@ -91,10 +90,10 @@ const overlayApi = context
     })
   : null
 
-const eventBindings: Array<{ event: string; handler: (event: any) => void }> = [
+const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
   { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) }
+  { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
 if (overlayApi) {
@@ -112,6 +111,8 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  polygon: overlayApi?.overlay
+  polygon: overlayApi?.overlay,
 })
 </script>
+
+<template />

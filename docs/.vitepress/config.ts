@@ -1,5 +1,5 @@
-import { defineConfig } from 'vitepress'
 import { resolve } from 'node:path'
+import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   lang: 'en-US',
@@ -14,16 +14,16 @@ export default defineConfig({
       { text: 'Hooks', link: '/hooks/use-map' },
       { text: 'Advanced', link: '/advanced/mass-markers' },
       { text: 'Recipes', link: '/recipes/marker-clusters' },
-      { text: 'FAQ', link: '/faq' }
+      { text: 'FAQ', link: '/faq' },
     ],
     sidebar: {
       '/guide/': [
         {
           text: 'Guide',
           items: [
-            { text: 'Getting Started', link: '/guide/getting-started' }
-          ]
-        }
+            { text: 'Getting Started', link: '/guide/getting-started' },
+          ],
+        },
       ],
       '/components/': [
         {
@@ -34,9 +34,9 @@ export default defineConfig({
             { text: 'Info Window', link: '/components/info-window' },
             { text: 'Polyline', link: '/components/polyline' },
             { text: 'Polygon', link: '/components/polygon' },
-            { text: 'Circle', link: '/components/circle' }
-          ]
-        }
+            { text: 'Circle', link: '/components/circle' },
+          ],
+        },
       ],
       '/hooks/': [
         {
@@ -44,9 +44,9 @@ export default defineConfig({
           items: [
             { text: 'useMap', link: '/hooks/use-map' },
             { text: 'useMarker', link: '/hooks/use-marker' },
-            { text: 'useOverlay', link: '/hooks/use-overlay' }
-          ]
-        }
+            { text: 'useOverlay', link: '/hooks/use-overlay' },
+          ],
+        },
       ],
       '/advanced/': [
         {
@@ -55,46 +55,46 @@ export default defineConfig({
             { text: 'Mass Markers', link: '/advanced/mass-markers' },
             { text: 'Loca & Visualizations', link: '/advanced/loca' },
             { text: 'Custom Tiles', link: '/advanced/custom-tiles' },
-            { text: 'Track Animation', link: '/advanced/track-animation' }
-          ]
+            { text: 'Track Animation', link: '/advanced/track-animation' },
+          ],
         },
         {
           text: 'Performance',
           items: [
-            { text: 'Performance Guide', link: '/advanced/performance' }
-          ]
-        }
+            { text: 'Performance Guide', link: '/advanced/performance' },
+          ],
+        },
       ],
       '/recipes/': [
         {
           text: 'Recipes',
           items: [
             { text: 'Marker Clusters', link: '/recipes/marker-clusters' },
-            { text: 'Heatmap', link: '/recipes/heatmap' }
-          ]
-        }
-      ]
+            { text: 'Heatmap', link: '/recipes/heatmap' },
+          ],
+        },
+      ],
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/your-org/amap-vue-kit' }
+      { icon: 'github', link: 'https://github.com/your-org/amap-vue-kit' },
     ],
     algolia: {
       appId: 'YOUR_APP_ID',
       apiKey: 'YOUR_SEARCH_KEY',
-      indexName: 'amap-vue-kit'
+      indexName: 'amap-vue-kit',
     },
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024 AMap Vue Kit'
-    }
+      copyright: 'Copyright © 2024 AMap Vue Kit',
+    },
   },
   vite: {
     resolve: {
       alias: {
         '@amap-vue/core': resolve(__dirname, '../../packages/core/src'),
         '@amap-vue/hooks': resolve(__dirname, '../../packages/hooks/src'),
-        '@amap-vue/shared': resolve(__dirname, '../../packages/shared/src')
-      }
-    }
-  }
+        '@amap-vue/shared': resolve(__dirname, '../../packages/shared/src'),
+      },
+    },
+  },
 })

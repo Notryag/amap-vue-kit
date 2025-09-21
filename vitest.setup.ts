@@ -23,6 +23,7 @@ class LngLat {
   getLng() {
     return this.lng
   }
+
   getLat() {
     return this.lat
   }
@@ -33,6 +34,7 @@ class Pixel {
   getX() {
     return this.x
   }
+
   getY() {
     return this.y
   }
@@ -287,8 +289,8 @@ Object.assign(globalThis, {
     Circle,
     MassMarks,
     LngLat,
-    Pixel
-  }
+    Pixel,
+  },
 })
 
 loader.config({ key: 'test-key' })

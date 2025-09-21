@@ -3,13 +3,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "rootDir": "src",
-    "declaration": true,
-    "declarationDir": "dist",
-    "outDir": "dist",
     "types": [
       "node",
       "vite/client"
-    ]
+    ],
+    "declaration": true,
+    "declarationDir": "dist",
+    "outDir": "dist"
   },
   "include": ["src/**/*", "tests/**/*"],
   "exclude": ["dist"]

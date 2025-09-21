@@ -1,33 +1,32 @@
-<template />
-
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, watch } from 'vue'
+import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useOverlay } from '@amap-vue/hooks'
-import { amapMapInjectionKey, type LngLatLike, type MapInjectionContext, loader, toLngLat, warn } from '@amap-vue/shared'
+import { amapMapInjectionKey, loader, toLngLat, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 
 defineOptions({
-  name: 'AmapCircle'
+  name: 'AmapCircle',
 })
 
 const props = defineProps({
   center: {
     type: [Array, Object] as PropType<LngLatLike>,
-    required: true
+    required: true,
   },
   radius: {
     type: Number,
-    required: true
+    required: true,
   },
   options: {
     type: Object as PropType<Partial<AMap.CircleOptions>>,
-    default: () => ({})
+    default: () => ({}),
   },
   visible: {
     type: Boolean,
-    default: true
+    default: true,
   },
-  extData: null as any
+  extData: null as any,
 })
 
 const emit = defineEmits<{
@@ -47,7 +46,7 @@ const overlayOptions = computed(() => ({
   radius: props.radius,
   visible: props.visible,
   extData: props.extData,
-  ...props.options
+  ...props.options,
 }))
 
 const overlayApi = context
@@ -56,7 +55,7 @@ const overlayApi = context
       const circle = new AMap.Circle({
         ...rest,
         center: center ? toLngLat(AMap, center) ?? center : undefined,
-        radius
+        radius,
       })
       circle.setMap(map)
       if (visible === false)
@@ -80,10 +79,10 @@ const overlayApi = context
     })
   : null
 
-const eventBindings: Array<{ event: string; handler: (event: any) => void }> = [
+const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
   { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) }
+  { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
 if (overlayApi) {
@@ -101,6 +100,8 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  circle: overlayApi?.overlay
+  circle: overlayApi?.overlay,
 })
 </script>
+
+<template />

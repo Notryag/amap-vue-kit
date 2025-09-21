@@ -1,8 +1,8 @@
-import { computed, onBeforeUnmount, onMounted, shallowRef, toValue, watch } from 'vue'
+import type { LngLatLike, LoaderOptions, ReadyCallback } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
-import type { LngLatLike, ReadyCallback, LoaderOptions } from '@amap-vue/shared'
-import { loader } from '@amap-vue/shared'
-import { isClient, toLngLat, warn } from '@amap-vue/shared'
+import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
+
+import { computed, onBeforeUnmount, onMounted, shallowRef, toValue, watch } from 'vue'
 
 export interface UseMapOptions extends Partial<AMap.MapOptions> {
   container?: MaybeRefOrGetter<HTMLElement | null | undefined> | string | HTMLElement
@@ -46,11 +46,11 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
   const map = shallowRef<AMap.Map | null>(null)
   const containerRef = shallowRef<HTMLElement | null>(null)
   const readyCallbacks: ReadyCallback[] = []
-  const listeners = new Set<{ event: string; handler: (event: any) => void }>()
+  const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   let creating = false
 
   const optionsRef = computed<UseMapOptions>(() => ({
-    ...(toValue(options) as UseMapOptions | undefined ?? {})
+    ...(toValue(options) as UseMapOptions | undefined ?? {}),
   }))
 
   const containerSource = computed(() => {
@@ -94,7 +94,7 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       const { container: _ignoredContainer, plugins, loaderOptions, ...mapOptions } = opts
       const loadOptions: Partial<LoaderOptions> = {
         ...(plugins ? { plugins } : {}),
-        ...loaderOptions
+        ...loaderOptions,
       }
 
       const AMap = await loader.load(loadOptions)
@@ -258,6 +258,6 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
     on,
     off,
     destroy,
-    setContainer
+    setContainer,
   }
 }

@@ -1,3 +1,16 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+
+const center = ref<[number, number]>([116.397, 39.908])
+const zoom = ref(11)
+const infoOpen = ref(true)
+const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
+
+function toggleInfo() {
+  infoOpen.value = !infoOpen.value
+}
+</script>
+
 <template>
   <main class="app">
     <h1>AMap Vue Kit Example</h1>
@@ -18,19 +31,6 @@
     </div>
   </main>
 </template>
-
-<script setup lang="ts">
-import { computed, ref } from 'vue'
-
-const center = ref<[number, number]>([116.397, 39.908])
-const zoom = ref(11)
-const infoOpen = ref(true)
-const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
-
-function toggleInfo() {
-  infoOpen.value = !infoOpen.value
-}
-</script>
 
 <style scoped>
 .app {

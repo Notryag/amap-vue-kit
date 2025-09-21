@@ -8,17 +8,17 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
-      fileName: () => 'index.js'
+      fileName: () => 'index.js',
     },
     rollupOptions: {
-      external: ['vue', '@amap-vue/shared']
-    }
+      external: ['vue', '@amap-vue/shared'],
+    },
   },
   plugins: [
     dts({
       entryRoot: 'src',
       outputDir: 'dist',
-      insertTypesEntry: true
-    })
-  ]
+      insertTypesEntry: true,
+    }),
+  ],
 })

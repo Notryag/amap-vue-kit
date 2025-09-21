@@ -1,36 +1,28 @@
-<template />
-
 <script setup lang="ts">
-import { computed, inject, onBeforeUnmount, watch } from 'vue'
+import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useOverlay } from '@amap-vue/hooks'
-import { amapMapInjectionKey, type LngLatLike, type MapInjectionContext, loader, toLngLat, warn } from '@amap-vue/shared'
+import { amapMapInjectionKey, loader, toLngLat, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, watch } from 'vue'
 
 defineOptions({
-  name: 'AmapPolyline'
+  name: 'AmapPolyline',
 })
-
-export interface PolylineProps {
-  path: LngLatLike[]
-  options?: Partial<AMap.PolylineOptions>
-  visible?: boolean
-  extData?: any
-}
 
 const props = defineProps({
   path: {
     type: Array as PropType<LngLatLike[]>,
-    required: true
+    required: true,
   },
   options: {
     type: Object as PropType<Partial<AMap.PolylineOptions>>,
-    default: () => ({})
+    default: () => ({}),
   },
   visible: {
     type: Boolean,
-    default: true
+    default: true,
   },
-  extData: null as any
+  extData: null as any,
 })
 
 const emit = defineEmits<{
@@ -39,6 +31,13 @@ const emit = defineEmits<{
   mouseover: [event: any]
   mouseout: [event: any]
 }>()
+
+export interface PolylineProps {
+  path: LngLatLike[]
+  options?: Partial<AMap.PolylineOptions>
+  visible?: boolean
+  extData?: any
+}
 
 const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 
@@ -49,7 +48,7 @@ const overlayOptions = computed(() => ({
   path: props.path,
   visible: props.visible,
   extData: props.extData,
-  ...props.options
+  ...props.options,
 }))
 
 const overlayApi = context
@@ -57,7 +56,7 @@ const overlayApi = context
       const { path, visible, map: _ignoredMap, ...rest } = options as any
       const polyline = new AMap.Polyline({
         ...rest,
-        path: (path ?? []).map(item => toLngLat(AMap, item) ?? item)
+        path: (path ?? []).map(item => toLngLat(AMap, item) ?? item),
       })
       polyline.setMap(map)
       if (visible === false)
@@ -80,10 +79,10 @@ const overlayApi = context
     })
   : null
 
-const eventBindings: Array<{ event: string; handler: (event: any) => void }> = [
+const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
   { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) }
+  { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
 if (overlayApi) {
@@ -101,6 +100,8 @@ onBeforeUnmount(() => {
 })
 
 defineExpose({
-  polyline: overlayApi?.overlay
+  polyline: overlayApi?.overlay,
 })
 </script>
+
+<template />

@@ -6,8 +6,8 @@ export default antfu({
     'packages/*/dist',
     'docs/.vitepress/cache',
     'docs/.vitepress/dist',
-    'examples/*/dist'
+    'examples/*/dist',
   ],
   vue: true,
-  typescript: true
+  typescript: true,
 })

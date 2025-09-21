@@ -1,8 +1,8 @@
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
-import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import type { LngLatLike } from '@amap-vue/shared'
-import { loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
-import { isClient } from '@amap-vue/shared'
+import type { MaybeRefOrGetter, ShallowRef } from 'vue'
+import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
+
+import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export interface UseMarkerOptions extends Partial<AMap.MarkerOptions> {
   position?: LngLatLike
@@ -27,9 +27,9 @@ export interface UseMarkerReturn {
 
 export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>, options: MaybeRefOrGetter<UseMarkerOptions> = {}): UseMarkerReturn {
   const marker = shallowRef<AMap.Marker | null>(null)
-  const listeners = new Set<{ event: string; handler: (event: any) => void }>()
+  const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   const optionsRef = computed<UseMarkerOptions>(() => ({
-    ...(toValue(options) as UseMarkerOptions | undefined ?? {})
+    ...(toValue(options) as UseMarkerOptions | undefined ?? {}),
   }))
 
   async function ensureMarker(mapInstance: AMap.Map | null | undefined) {
@@ -42,7 +42,7 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
       const AMap = await loader.load()
       const instance = new AMap.Marker({
         ...rest,
-        map: mapInstance
+        map: mapInstance,
       })
       marker.value = instance
       bindListeners(instance)
@@ -196,6 +196,6 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     hide,
     on,
     off,
-    destroy
+    destroy,
   }
 }

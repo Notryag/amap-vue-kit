@@ -1,6 +1,6 @@
 import { resolve } from 'node:path'
-import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 
 export default defineConfig({
@@ -9,8 +9,8 @@ export default defineConfig({
     dts({
       entryRoot: 'src',
       outputDir: 'dist',
-      insertTypesEntry: true
-    })
+      insertTypesEntry: true,
+    }),
   ],
   build: {
     target: 'esnext',
@@ -18,10 +18,10 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'AmapVueCore',
       fileName: () => 'index.js',
-      formats: ['es']
+      formats: ['es'],
     },
     rollupOptions: {
-      external: ['vue', '@amap-vue/hooks', '@amap-vue/shared']
-    }
-  }
+      external: ['vue', '@amap-vue/hooks', '@amap-vue/shared'],
+    },
+  },
 })

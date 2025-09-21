@@ -10,7 +10,7 @@ ready((map) => {
       opacity: [0, 0.8]
     })
     heatmap.setDataSet({
-      data: points.map((point) => ({
+      data: points.map(point => ({
         lng: point[0],
         lat: point[1],
         count: point[2]

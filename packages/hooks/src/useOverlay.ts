@@ -1,6 +1,6 @@
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, warn } from '@amap-vue/shared'
+import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export interface OverlayLifecycle<TOverlay> {
   overlay: ShallowRef<TOverlay | null>
@@ -9,19 +9,19 @@ export interface OverlayLifecycle<TOverlay> {
   off: (event: string, handler: (event: any) => void) => void
 }
 
-export type OverlayFactory<TOverlay, TOptions> = (context: { AMap: typeof AMap; map: AMap.Map; options: TOptions }) => TOverlay
+export type OverlayFactory<TOverlay, TOptions> = (context: { AMap: typeof AMap, map: AMap.Map, options: TOptions }) => TOverlay
 export type OverlayUpdater<TOverlay, TOptions> = (overlay: TOverlay, options: TOptions) => void
 
-export function useOverlay<TOverlay extends { setMap(map: AMap.Map | null): void }, TOptions extends Record<string, any>>(
+export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => void }, TOptions extends Record<string, any>>(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   options: MaybeRefOrGetter<TOptions>,
   factory: OverlayFactory<TOverlay, TOptions>,
-  updater?: OverlayUpdater<TOverlay, TOptions>
+  updater?: OverlayUpdater<TOverlay, TOptions>,
 ): OverlayLifecycle<TOverlay> {
   const overlay = shallowRef<TOverlay | null>(null)
-  const listeners = new Set<{ event: string; handler: (event: any) => void }>()
+  const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   const optionsRef = computed<TOptions>(() => ({
-    ...(toValue(options) as TOptions | undefined ?? {})
+    ...(toValue(options) as TOptions | undefined ?? {}),
   }) as TOptions)
 
   async function ensureOverlay(mapInstance: AMap.Map | null | undefined) {
@@ -104,6 +104,6 @@ export function useOverlay<TOverlay extends { setMap(map: AMap.Map | null): void
     overlay,
     destroy,
     on,
-    off
+    off,
   }
 }

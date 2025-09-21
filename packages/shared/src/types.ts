@@ -2,6 +2,7 @@ import type { ShallowRef } from 'vue'
 
 export type LngLatLike = AMap.LngLat | [number, number]
 export type PixelLike = AMap.Pixel | [number, number]
+export type BoundsLike = AMap.Bounds | [LngLatLike, LngLatLike]
 export type PolygonPath = LngLatLike[] | LngLatLike[][]
 
 export type ReadyCallback = (map: AMap.Map) => void
@@ -9,6 +10,14 @@ export type ReadyCallback = (map: AMap.Map) => void
 export interface MapInjectionContext {
   map: ShallowRef<AMap.Map | null>
   ready: (callback: ReadyCallback) => void
+}
+
+export interface LabelsLayerInjectionContext {
+  layer: ShallowRef<AMap.LabelsLayer | null>
+  ready: (callback: (layer: AMap.LabelsLayer) => void) => void
+  add: (marker: AMap.LabelMarker | AMap.LabelMarker[]) => void
+  remove: (marker: AMap.LabelMarker | AMap.LabelMarker[]) => void
+  clear: () => void
 }
 
 export interface LoaderOptions {

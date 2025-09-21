@@ -1,4 +1,4 @@
-import type { LngLatLike, PixelLike } from './types'
+import type { BoundsLike, LngLatLike, PixelLike } from './types'
 
 export const isClient = typeof window !== 'undefined'
 
@@ -20,6 +20,28 @@ export function toPixel<AMapType extends typeof AMap>(AMap: AMapType, value: Pix
     return new AMap.Pixel(value[0], value[1])
 
   return value
+}
+
+export function toBounds<AMapType extends typeof AMap>(
+  AMap: AMapType,
+  value: BoundsLike | undefined | null,
+): AMap.Bounds | undefined {
+  if (!value)
+    return undefined
+
+  const BoundsConstructor = (AMap as any).Bounds
+  if (typeof BoundsConstructor === 'function' && value instanceof BoundsConstructor)
+    return value as AMap.Bounds
+
+  if (Array.isArray(value) && value.length === 2) {
+    const [southWest, northEast] = value
+    const sw = toLngLat(AMap, southWest)
+    const ne = toLngLat(AMap, northEast)
+    if (sw && ne)
+      return new BoundsConstructor(sw, ne)
+  }
+
+  return undefined
 }
 
 function isDevEnvironment() {

@@ -9,12 +9,13 @@
 
 * [ ] **M0 — 初始化（Day 0）**
 
-  * [ ] pnpm monorepo：`packages/{core,hooks,shared,playground}`、`docs`、`examples`
-  * [ ] ESLint：`@antfu/eslint-config`（flat config），VSCode 建议开启保存即修复
-  * [ ] Vitest + Vue Test Utils
-  * [ ] Changesets（版本与 Changelog）
-  * [ ] `shared`：AMap 脚本单例加载器 `loadAmap()`
-* [ ] **M1 — MVP 基础组件/Hook（Map/Marker/InfoWindow/Polyline/Polygon/Circle）**
+  * [x] pnpm monorepo：`packages/{core,hooks,shared}`、`docs`、`examples`
+  * [ ] packages/playground：本地最小示例
+  * [x] ESLint：`@antfu/eslint-config`（flat config），VSCode 建议开启保存即修复
+  * [x] Vitest + Vue Test Utils
+  * [x] Changesets（版本与 Changelog）
+  * [x] `shared`：AMap 脚本单例加载器 `loadAmap()`
+* [x] **M1 — MVP 基础组件/Hook（Map/Marker/InfoWindow/Polyline/Polygon/Circle）**
 * [ ] **M2 — 图层 & 控件（TileLayer/Traffic/Satellite/RoadNet + ToolBar/Scale/ControlBar）**
 * [ ] **M3 — Labels 系列 & 高性能（LabelsLayer/LabelMarker + OverlayGroup 批量）**
 * [ ] **M4 — 编辑器 & 热力图（Circle/Rectangle/Ellipse Editor + HeatMap）**
@@ -51,23 +52,24 @@ amap-vue-kit/
 
 ## Shared（基础设施）
 
-* [ ] `packages/shared/src/loader.ts`
+* [x] `packages/shared/src/loader.ts`
 
-  * [ ] `loadAmap({ key, version, plugins, securityJsCode })`：仅注入一次
-  * [ ] `getAmap()`：返回已加载的 `AMap` 对象或 `undefined`
-  * [ ] 错误处理与超时（可选）
+  * [x] `loader.load({ key, version, plugins, securityJsCode })`：仅注入一次
+  * [x] `loader.get()`：返回已加载的 `AMap` 对象或 `undefined`
+  * [x] 脚本加载失败 / 重复配置提示
+  * [ ] 加载超时机制（可选）
   * **给 AI 的提示词：**
 
     ```
     用 TypeScript 实现单例 AMap 脚本加载器：
     - 全局只注入一次 <script>；支持 key/version/plugins/securityJsCode 参数
     - 返回 Promise<AMap>；失败给出具名错误
-    - 导出 loadAmap() 与 getAmap()
+    - 导出 loader.load() 与 loader.get()
     ```
 
-* [ ] `packages/shared/src/types.ts`：导出常用类型别名（LngLatLike、BoundsLike 等）
+* [x] `packages/shared/src/types.ts`：导出常用类型别名（LngLatLike、BoundsLike 等）
 
-* [ ] `packages/shared/src/utils.ts`：浅比较、坐标校验、事件绑定工具
+* [x] `packages/shared/src/utils.ts`：浅比较、坐标校验、事件绑定工具
 
 ---
 
@@ -75,7 +77,7 @@ amap-vue-kit/
 
 ### A. 基础容器与覆盖物（M1）
 
-* [ ] **`<AmapMap>`**
+* [x] **`<AmapMap>`**
 
   * props：`center`, `zoom`, `viewMode`, `mapStyle`, `pitch`, `rotation`, `plugins`
   * emits：`ready(map)`, `click`, `moveend`, `complete`, `error`
@@ -90,7 +92,7 @@ amap-vue-kit/
     - emits ready 只触发一次；卸载时销毁
     ```
 
-* [ ] **`<AmapMarker>`**
+* [x] **`<AmapMarker>`**
 
   * props：`position`, `icon`, `label`, `draggable`, `zIndex`, `extData`
   * emits：`click`, `dragend`, `mouseover`, `mouseout`
@@ -104,19 +106,22 @@ amap-vue-kit/
     - onUnmounted remove；绑定常见事件为 emits
     ```
 
-* [ ] **`<AmapInfoWindow>`**
+* [x] **`<AmapInfoWindow>`**
 
-  * props：`position`, `open`, `offset`, `anchor`, `isCustom?`
-  * emits：`open`, `close`
+  * props：`position`, `isOpen`, `offset`（后续扩展 `anchor`、`isCustom`）
+  * emits：`ready`, `open`, `close`
+  * TODO：
+    * [ ] 支持 `anchor`、`isCustom` 等配置透传
+    * [ ] 允许通过 props 设置字符串/DOM `content`
   * **AI 提示词：**
 
     ```
     实现 <AmapInfoWindow>：
-    - open=true -> infoWindow.open(map, position)；false -> close()
+    - isOpen=true -> infoWindow.open(map, position)；false -> close()
     - 内容来自 slot；支持 isCustom
     ```
 
-* [ ] **`<AmapPolyline>`**
+* [x] **`<AmapPolyline>`**
 
   * props：`path`, `strokeColor`, `strokeWeight`, `opacity`, `zIndex`, `extData`
   * emits：`click`, `dblclick`, `mouseover`, `mouseout`
@@ -128,9 +133,9 @@ amap-vue-kit/
     - 绑定常用鼠标事件；卸载销毁
     ```
 
-* [ ] **`<AmapPolygon>`**（同上，`path` 为多边形）
+* [x] **`<AmapPolygon>`**（同上，`path` 为多边形）
 
-* [ ] **`<AmapCircle>`**（`center` + `radius`）
+* [x] **`<AmapCircle>`**（`center` + `radius`）
 
 ### B. 图层类（M2）
 
@@ -233,22 +238,22 @@ amap-vue-kit/
 
 > 所有 hooks 放在 `packages/hooks`，组件内部优先复用 hooks。
 
-* [ ] **`useAmap(options)`**
+* [x] **`useMap(options)`**
 
   * 返回：`{ map, ready, setCenter, setZoom, destroy }`
   * **AI 提示词：**
 
     ```
-    实现 useAmap：
+    实现 useMap：
     - 懒加载 SDK；ready(cb) 保证回调在 map 创建后执行
     - SSR 安全；onUnmounted 自动 destroy（可配置）
     ```
 
-* [ ] **`useMarker(mapRef, options)`**
+* [x] **`useMarker(mapRef, options)`**
 
-* [ ] **`useInfoWindow(mapRef, options)`**
+* [x] **`useInfoWindow(mapRef, options)`**
 
-* [ ] **`usePolyline / usePolygon / useCircle`**
+* [x] **`usePolyline / usePolygon / useCircle`**
 
 * [ ] **`useTileLayer / useTrafficLayer / useRoadNetLayer / useSatelliteLayer`**
 
@@ -259,6 +264,9 @@ amap-vue-kit/
 * [ ] **`useEditorCircle / useEditorRectangle / useEditorEllipse`**
 
 * [ ] **`useHeatMap`**
+
+* [ ] 覆盖物 hooks 单元测试：`useInfoWindow` / `usePolyline` / `usePolygon` / `useCircle`
+* [ ] 文档：新增 hooks 页面（`use-info-window`、`use-polyline`、`use-polygon`、`use-circle`）
 
   * **AI 通用提示词：**
 
@@ -274,7 +282,7 @@ amap-vue-kit/
 
 ## 文档站（VitePress）
 
-* [ ] 初始化 `docs`（暗黑模式、侧边栏、DocSearch 预留）
+* [x] 初始化 `docs`（暗黑模式、侧边栏、DocSearch 预留）
 * [ ] 侧边栏结构
 
   * [ ] Getting Started（安装、Key、最小示例、容器尺寸、常见报错）
@@ -299,7 +307,7 @@ amap-vue-kit/
 
 ## 工程化 / DX
 
-* [ ] **ESLint（flat config）**
+* [x] **ESLint（flat config）**
 
   * `eslint.config.js`：
 
@@ -315,15 +323,15 @@ amap-vue-kit/
 * [ ] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
 * [ ] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
 * [ ] **Changesets**：`pnpm changeset` 流程 + 自动发版（需要 NPM\_TOKEN）
-* [ ] **Examples**：`examples/basic`（Vite + Vue 最小演示），用于 e2e 冒烟
+* [x] **Examples**：`examples/basic`（Vite + Vue 最小演示），用于 e2e 冒烟
 * [ ] **发布脚本**：`release:canary` / `release:stable`，scoped 包 `--access public`
 
 ---
 
 ## 快速核对（完成判据）
 
-* [ ] `loadAmap()` 单例、失败有明确错误信息
-* [ ] Map/Marker/InfoWindow/Polyline/Polygon/Circle 全部具备：props → 增量更新；事件 → emits；卸载清理
+* [x] `loader.load()` 单例、失败有明确错误信息
+* [x] Map/Marker/InfoWindow/Polyline/Polygon/Circle 全部具备：props → 增量更新；事件 → emits；卸载清理
 * [ ] TileLayer 三子类可切换显示且不泄漏
 * [ ] 控件能动态 position/offset 并可隐藏
 * [ ] LabelsLayer/LabelMarker 支撑千级点，不明显卡顿

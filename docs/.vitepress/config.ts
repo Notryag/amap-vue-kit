@@ -46,6 +46,9 @@ export default defineConfig({
           text: 'B · Layers',
           items: [
             { text: 'Tile Layers', link: '/components/tile-layer' },
+            { text: 'Labels Layer', link: '/components/labels-layer' },
+            { text: 'Label Marker', link: '/components/label-marker' },
+            { text: 'Heat Map', link: '/components/heat-map' },
           ],
         },
         {
@@ -67,6 +70,9 @@ export default defineConfig({
             { text: 'useCircle', link: '/hooks/use-circle' },
             { text: 'useTileLayer', link: '/hooks/use-tile-layer' },
             { text: 'useOverlay', link: '/hooks/use-overlay' },
+            { text: 'useLabelsLayer', link: '/hooks/use-labels-layer' },
+            { text: 'useLabelMarker', link: '/hooks/use-label-marker' },
+            { text: 'useHeatMap', link: '/hooks/use-heat-map' },
           ],
         },
       ],

@@ -39,7 +39,7 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     try {
       const opts = optionsRef.value
       const { position, offset, ...rest } = opts
-      const AMap = await loader.load()
+      const AMap = loader.get() ?? await loader.load()
       const instance = new AMap.Marker({
         ...rest,
         map: mapInstance,
@@ -77,6 +77,10 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     else
       ensureMarker(mapInstance)
   }, { immediate: true })
+
+  const initialMap = toValue(mapRef)
+  if (initialMap)
+    ensureMarker(initialMap as AMap.Map)
 
   watch(() => optionsRef.value.position, value => setPosition(value), { deep: true })
   watch(() => optionsRef.value.icon, value => setIcon(value as any))

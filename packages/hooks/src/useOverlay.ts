@@ -1,3 +1,4 @@
+import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
@@ -17,6 +18,7 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
   options: MaybeRefOrGetter<TOptions>,
   factory: OverlayFactory<TOverlay, TOptions>,
   updater?: OverlayUpdater<TOverlay, TOptions>,
+  loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>,
 ): OverlayLifecycle<TOverlay> {
   const overlay = shallowRef<TOverlay | null>(null)
   const listeners = new Set<{ event: string, handler: (event: any) => void }>()
@@ -29,7 +31,8 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
       return
 
     try {
-      const AMap = await loader.load()
+      const loaderOptions = loadOptions ? toValue(loadOptions) : undefined
+      const AMap = await loader.load(loaderOptions)
       const instance = factory({ AMap, map: mapInstance, options: optionsRef.value })
       overlay.value = instance
       bindListeners(instance)

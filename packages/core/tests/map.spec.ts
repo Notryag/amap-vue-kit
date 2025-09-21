@@ -56,7 +56,7 @@ describe('amapMarker', () => {
     await waitForMap()
 
     const markerComponent = wrapper.findComponent(AmapMarker)
-    const marker = (markerComponent.vm as any).marker.value
+    const marker = (markerComponent.vm as any).marker
     expect(marker).toBeTruthy()
     expect(marker.options.position).toEqual([100, 20])
 
@@ -87,7 +87,7 @@ describe('amapInfoWindow', () => {
     await waitForMap()
 
     const infoWindowComponent = wrapper.findComponent(AmapInfoWindow)
-    const infoWindow = (infoWindowComponent.vm as any).infoWindow.value
+    const infoWindow = (infoWindowComponent.vm as any).infoWindow
     expect(infoWindow?.opened).toBe(true)
 
     wrapper.vm.open = false

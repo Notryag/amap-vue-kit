@@ -73,8 +73,17 @@ provide<MapInjectionContext>(amapMapInjectionKey, {
   ready,
 })
 
+const exposedMap = {
+  get value() {
+    return map.value
+  },
+  set value(val: AMap.Map | null) {
+    map.value = val
+  },
+}
+
 defineExpose({
-  map,
+  map: exposedMap,
 })
 
 onBeforeUnmount(() => {

@@ -57,7 +57,7 @@ export function useInfoWindow(
     try {
       const opts = optionsRef.value
       const { position, open, content, offset, ...rest } = opts
-      const AMap = await loader.load()
+      const AMap = loader.get() ?? await loader.load()
       const instance = new AMap.InfoWindow({
         ...rest,
         content: content ?? rest.content,
@@ -100,6 +100,10 @@ export function useInfoWindow(
     else if (pendingOpen)
       openWindow()
   }, { immediate: true })
+
+  const initialMap = toValue(mapRef)
+  if (initialMap)
+    ensureInfoWindow(initialMap as AMap.Map)
 
   watch(() => optionsRef.value.position, position => setPosition(position), { deep: true, immediate: true })
 

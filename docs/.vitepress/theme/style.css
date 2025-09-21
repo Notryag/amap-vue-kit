@@ -1,0 +1,25 @@
+:root {
+  --amap-demo-border: rgba(60, 60, 67, 0.12);
+}
+
+.amap-demo {
+  border: 1px solid var(--amap-demo-border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+}
+
+.amap-demo__map {
+  width: 100%;
+  height: 320px;
+  position: relative;
+}
+
+.amap-demo__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 320px;
+  color: var(--vp-c-text-2);
+  background: var(--vp-c-bg-alt);
+}

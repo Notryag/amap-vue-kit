@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*", "env.d.ts"],
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/hooks" },
+    { "path": "../../packages/shared" }
+  ]
+}

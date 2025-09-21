@@ -1,0 +1,12 @@
+node_modules
+.DS_Store
+coverage
+.temp
+.vscode
+.idea
+*.log
+dist
+packages/*/dist
+docs/.vitepress/cache
+docs/.vitepress/dist
+examples/*/dist

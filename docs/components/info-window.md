@@ -15,6 +15,8 @@ Display contextual information anchored to a map position. The component renders
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.InfoWindow` | Fired when the info window is created. |
+| `open` | `any` | Fired when the info window is opened. |
+| `close` | `any` | Fired when the info window is closed. |
 
 ## Usage
 

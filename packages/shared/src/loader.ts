@@ -41,8 +41,35 @@ async function loadLoca(options: LoaderOptions) {
       script.src = url
       script.async = true
       script.dataset.amapLoca = 'true'
-      script.onload = () => resolve()
-      script.onerror = () => reject(new Error('Failed to load AMap Loca script'))
+      let timeoutId: ReturnType<typeof setTimeout> | undefined
+
+      const cleanup = () => {
+        script.onload = null
+        script.onerror = null
+        if (timeoutId != null) {
+          clearTimeout(timeoutId)
+          timeoutId = undefined
+        }
+      }
+
+      script.onload = () => {
+        cleanup()
+        resolve()
+      }
+      script.onerror = () => {
+        cleanup()
+        script.remove()
+        reject(new Error('Failed to load AMap Loca script'))
+      }
+
+      if (options.timeout != null) {
+        timeoutId = window.setTimeout(() => {
+          cleanup()
+          script.remove()
+          reject(new Error(`Loading the AMap Loca script timed out after ${options.timeout}ms.`))
+        }, options.timeout)
+      }
+
       document.head.appendChild(script)
     })
   }
@@ -70,19 +97,56 @@ function createLoadPromise(options: LoaderOptions) {
     }
   }
 
+  const { timeout } = options
+
   if (state.script) {
     return new Promise<typeof AMap>((resolve, reject) => {
-      state.script?.addEventListener('load', () => {
+      const script = state.script!
+      let timeoutId: ReturnType<typeof setTimeout> | undefined
+      const clearTimer = () => {
+        if (timeoutId != null) {
+          clearTimeout(timeoutId)
+          timeoutId = undefined
+        }
+      }
+
+      let onLoad: () => void
+      let onError: () => void
+
+      const fail = (error: Error) => {
+        clearTimer()
+        script.removeEventListener('load', onLoad)
+        script.removeEventListener('error', onError)
+        state.promise = null
+        if (state.script === script)
+          state.script = undefined
+        script.remove()
+        reject(error)
+      }
+
+      onLoad = () => {
+        clearTimer()
+        script.removeEventListener('load', onLoad)
+        script.removeEventListener('error', onError)
         const instance = (window as any).AMap as typeof AMap | undefined
         if (instance)
           resolve(instance)
         else
-          reject(new Error('AMap JSAPI loaded but did not expose the global `AMap` object.'))
-      })
-      state.script?.addEventListener('error', () => {
-        state.promise = null
-        reject(new Error('Failed to load the AMap JSAPI script.'))
-      })
+          fail(new Error('AMap JSAPI loaded but did not expose the global `AMap` object.'))
+      }
+
+      onError = () => {
+        fail(new Error('Failed to load the AMap JSAPI script.'))
+      }
+
+      if (timeout != null) {
+        timeoutId = window.setTimeout(() => {
+          fail(new Error(`Loading the AMap JSAPI timed out after ${timeout}ms.`))
+        }, timeout)
+      }
+
+      script.addEventListener('load', onLoad)
+      script.addEventListener('error', onError)
     })
   }
 
@@ -93,18 +157,51 @@ function createLoadPromise(options: LoaderOptions) {
     script.dataset.amapLoader = 'true'
     script.src = buildScriptUrl(options)
 
-    script.onload = () => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    const clearTimer = () => {
+      if (timeoutId != null) {
+        clearTimeout(timeoutId)
+        timeoutId = undefined
+      }
+    }
+
+    let onLoad: () => void
+    let onError: () => void
+
+    const fail = (error: Error) => {
+      clearTimer()
+      script.removeEventListener('load', onLoad)
+      script.removeEventListener('error', onError)
+      state.promise = null
+      if (state.script === script)
+        state.script = undefined
+      script.remove()
+      reject(error)
+    }
+
+    onLoad = () => {
+      clearTimer()
+      script.removeEventListener('load', onLoad)
+      script.removeEventListener('error', onError)
       const instance = (window as any).AMap as typeof AMap | undefined
       if (instance)
         resolve(instance)
       else
-        reject(new Error('AMap JSAPI loaded but did not expose the global `AMap` object.'))
+        fail(new Error('AMap JSAPI loaded but did not expose the global `AMap` object.'))
     }
-    script.onerror = () => {
-      state.promise = null
-      script.remove()
-      reject(new Error('Failed to load the AMap JSAPI script.'))
+
+    onError = () => {
+      fail(new Error('Failed to load the AMap JSAPI script.'))
     }
+
+    if (timeout != null) {
+      timeoutId = window.setTimeout(() => {
+        fail(new Error(`Loading the AMap JSAPI timed out after ${timeout}ms.`))
+      }, timeout)
+    }
+
+    script.addEventListener('load', onLoad)
+    script.addEventListener('error', onError)
 
     document.head.appendChild(script)
     state.script = script

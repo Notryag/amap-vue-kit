@@ -8,6 +8,7 @@
     "build": "pnpm -r --filter ./packages/* run build",
     "build:all": "pnpm run build && pnpm --filter docs run build && pnpm --filter examples/basic run build",
     "dev:docs": "pnpm --filter docs run dev",
+    "dev:playground": "pnpm --filter @amap-vue/playground run dev",
     "dev:example": "pnpm --filter examples/basic run dev",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",

@@ -18,7 +18,7 @@
 * [x] **M1 — MVP 基础组件/Hook（Map/Marker/InfoWindow/Polyline/Polygon/Circle）**
 * [x] **M2 — 图层 & 控件（TileLayer/Traffic/Satellite/RoadNet + ToolBar/Scale/ControlBar）**
 * [x] **M3 — Labels 系列 & 高性能（LabelsLayer/LabelMarker + OverlayGroup 批量）**
-* [ ] **M4 — 编辑器 & 热力图（Circle/Rectangle/Ellipse Editor + HeatMap）**
+* [x] **M4 — 编辑器 & 热力图（Circle/Rectangle/Ellipse Editor + HeatMap）**
 * [ ] **M5 — 文档站完善、示例、性能指南、对比页、首次发布**
 
 ---
@@ -206,11 +206,11 @@ amap-vue-kit/
 
 ### E. 编辑器与热力图（M4）
 
-* [ ] **`<AmapCircleEditor>`**
+* [x] **`<AmapCircleEditor>`**
 
-* [ ] **`<AmapRectangleEditor>`**
+* [x] **`<AmapRectangleEditor>`**
 
-* [ ] **`<AmapEllipseEditor>`**
+* [x] **`<AmapEllipseEditor>`**
 
   * props：`target`（覆盖物实例或 id）、`active`
   * emits：`adjust`, `end`
@@ -262,7 +262,7 @@ amap-vue-kit/
 
 * [x] **`useOverlayGroup`**
 
-* [ ] **`useEditorCircle / useEditorRectangle / useEditorEllipse`**
+* [x] **`useEditorCircle / useEditorRectangle / useEditorEllipse`**
 
 * [x] **`useHeatMap`**
 
@@ -338,7 +338,7 @@ amap-vue-kit/
 * [ ] 控件能动态 position/offset 并可隐藏
 * [x] LabelsLayer/LabelMarker 支撑千级点，不明显卡顿
 * [x] OverlayGroup 一次性增删上千覆盖物成功
-* [ ] 三种 Editor 可开关编辑，事件上报
+* [x] 三种 Editor 可开关编辑，事件上报
 * [x] HeatMap 数据集可动态变更
 * [ ] hooks 与组件 API 对应、文档同步
 * [ ] 文档站：入门 5 分钟能跑；页面齐备；动图与 StackBlitz 可用

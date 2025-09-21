@@ -153,6 +153,54 @@ declare global {
       off(event: string, handler: (event: any) => void): void
       destroy(): void
     }
+
+    interface CircleEditorOptions {
+      [key: string]: any
+    }
+
+    class CircleEditor {
+      constructor(map: Map, circle: Circle, options?: CircleEditorOptions)
+      open(): void
+      close(): void
+      setTarget(circle: Circle | null): void
+      getTarget(): Circle | null
+      setOptions(options: Record<string, any>): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
+    }
+
+    interface RectangleEditorOptions {
+      [key: string]: any
+    }
+
+    class RectangleEditor {
+      constructor(map: Map, rectangle: Rectangle, options?: RectangleEditorOptions)
+      open(): void
+      close(): void
+      setTarget(rectangle: Rectangle | null): void
+      getTarget(): Rectangle | null
+      setOptions(options: Record<string, any>): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
+    }
+
+    interface EllipseEditorOptions {
+      [key: string]: any
+    }
+
+    class EllipseEditor {
+      constructor(map: Map, ellipse: Ellipse, options?: EllipseEditorOptions)
+      open(): void
+      close(): void
+      setTarget(ellipse: Ellipse | null): void
+      getTarget(): Ellipse | null
+      setOptions(options: Record<string, any>): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
+    }
   }
 }
 

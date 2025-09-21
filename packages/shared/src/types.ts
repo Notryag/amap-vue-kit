@@ -11,6 +11,14 @@ export interface MapInjectionContext {
   ready: (callback: ReadyCallback) => void
 }
 
+export interface LabelsLayerInjectionContext {
+  layer: ShallowRef<AMap.LabelsLayer | null>
+  ready: (callback: (layer: AMap.LabelsLayer) => void) => void
+  add: (marker: AMap.LabelMarker | AMap.LabelMarker[]) => void
+  remove: (marker: AMap.LabelMarker | AMap.LabelMarker[]) => void
+  clear: () => void
+}
+
 export interface LoaderOptions {
   /**
    * The API key obtained from the AMap developer console.

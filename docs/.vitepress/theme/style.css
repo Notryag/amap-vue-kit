@@ -23,3 +23,34 @@
   color: var(--vp-c-text-2);
   background: var(--vp-c-bg-alt);
 }
+
+.amap-demo__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid var(--amap-demo-border);
+  background: var(--vp-c-bg-soft);
+  font-size: 0.875rem;
+}
+
+.amap-demo__toolbar label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.amap-demo__toolbar select {
+  appearance: none;
+  border-radius: 6px;
+  border: 1px solid var(--amap-demo-border);
+  padding: 0.2rem 0.75rem 0.2rem 0.45rem;
+  background: var(--vp-c-bg);
+  color: inherit;
+}
+
+.amap-demo__toolbar input[type='checkbox'] {
+  width: 0.95rem;
+  height: 0.95rem;
+  accent-color: var(--vp-c-brand-1);
+}

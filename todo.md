@@ -286,9 +286,12 @@ amap-vue-kit/
 * [x] 初始化 `docs`（暗黑模式、侧边栏、DocSearch 预留）
 * [ ] 侧边栏结构
 
-  * [ ] Getting Started（安装、Key、最小示例、容器尺寸、常见报错）
+  * [x] Getting Started（安装、Key、最小示例、容器尺寸、常见报错）
   * [ ] Components（按 A/B/C/D 分组）
-  * [ ] Hooks（与组件一一对应）
+    * [x] B 组：TileLayer + 子层文档初稿
+    * [x] C 组：地图控件（ToolBar/Scale/ControlBar/MapType）
+* [ ] Hooks（与组件一一对应）
+  * [x] TileLayer / Traffic / RoadNet / Satellite hooks 文档
   * [ ] Advanced（大数据点/性能、ImageLayer、轨迹动画、主题样式）
   * [ ] Recipes（园区底图、聚合、信息窗联动）
   * [ ] FAQ（Key、CSP、地图不显示排错）

@@ -44,6 +44,10 @@ export default defineConfig({
           items: [
             { text: 'useMap', link: '/hooks/use-map' },
             { text: 'useMarker', link: '/hooks/use-marker' },
+            { text: 'useInfoWindow', link: '/hooks/use-info-window' },
+            { text: 'usePolyline', link: '/hooks/use-polyline' },
+            { text: 'usePolygon', link: '/hooks/use-polygon' },
+            { text: 'useCircle', link: '/hooks/use-circle' },
             { text: 'useOverlay', link: '/hooks/use-overlay' },
           ],
         },

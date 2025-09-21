@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
+import type { MapInjectionContext, PolygonPath } from '@amap-vue/shared'
 import type { PropType } from 'vue'
-import { useOverlay } from '@amap-vue/hooks'
-import { amapMapInjectionKey, loader, toLngLat, warn } from '@amap-vue/shared'
-import { computed, inject, onBeforeUnmount, watch } from 'vue'
+import { usePolygon } from '@amap-vue/hooks'
+import { amapMapInjectionKey, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
 
 defineOptions({
   name: 'AmapPolygon',
@@ -32,8 +32,6 @@ const emit = defineEmits<{
   mouseout: [event: any]
 }>()
 
-export type PolygonPath = LngLatLike[] | LngLatLike[][]
-
 const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 
 if (!context)
@@ -46,49 +44,8 @@ const overlayOptions = computed(() => ({
   ...props.options,
 }))
 
-function normalizePath(AMapInstance: typeof AMap | undefined, path: PolygonPath): any {
-  if (!Array.isArray(path))
-    return []
-
-  const convertPoint = (point: LngLatLike) => AMapInstance ? toLngLat(AMapInstance, point) ?? point : point
-
-  if (!path.length)
-    return []
-
-  const first = path[0] as any
-  if (Array.isArray(first) && typeof first[0] !== 'number') {
-    return (path as LngLatLike[][]).map(segment => segment.map(point => convertPoint(point)))
-  }
-
-  return (path as LngLatLike[]).map(point => convertPoint(point))
-}
-
-const overlayApi = context
-  ? useOverlay(() => context.map.value, overlayOptions, ({ AMap, map, options }) => {
-      const { path, visible, map: _ignoredMap, ...rest } = options as any
-      const polygon = new AMap.Polygon({
-        ...rest,
-        path: normalizePath(AMap, path),
-      })
-      polygon.setMap(map)
-      if (visible === false)
-        polygon.hide()
-      return polygon
-    }, (polygon, options) => {
-      const { path, visible, map: _ignored, ...rest } = options as any
-      polygon.setOptions(rest)
-      if (path) {
-        const AMapInstance = loader.get()
-        polygon.setPath(normalizePath(AMapInstance, path) as any)
-      }
-      if (visible == null)
-        return
-      if (visible)
-        polygon.show()
-      else
-        polygon.hide()
-    })
-  : null
+const polygonApi = context ? usePolygon(() => context.map.value, overlayOptions) : null
+const polygon = polygonApi?.overlay ?? shallowRef<AMap.Polygon | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
@@ -96,23 +53,25 @@ const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
-if (overlayApi) {
-  watch(overlayApi.overlay, (value) => {
+if (polygonApi) {
+  watch(polygon, (value) => {
     if (value)
       emit('ready', value)
   })
 }
 
-eventBindings.forEach(({ event, handler }) => overlayApi?.on(event, handler))
+eventBindings.forEach(({ event, handler }) => polygonApi?.on(event, handler))
 
 onBeforeUnmount(() => {
-  eventBindings.forEach(({ event, handler }) => overlayApi?.off(event, handler))
-  overlayApi?.destroy()
+  eventBindings.forEach(({ event, handler }) => polygonApi?.off(event, handler))
+  polygonApi?.destroy()
 })
 
 defineExpose({
-  polygon: overlayApi?.overlay,
+  polygon,
 })
 </script>
 
-<template />
+<template>
+  <span v-if="false" />
+</template>

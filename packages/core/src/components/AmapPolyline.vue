@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
-import { useOverlay } from '@amap-vue/hooks'
-import { amapMapInjectionKey, loader, toLngLat, warn } from '@amap-vue/shared'
-import { computed, inject, onBeforeUnmount, watch } from 'vue'
+import { usePolyline } from '@amap-vue/hooks'
+import { amapMapInjectionKey, warn } from '@amap-vue/shared'
+import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
 
 defineOptions({
   name: 'AmapPolyline',
@@ -51,33 +51,8 @@ const overlayOptions = computed(() => ({
   ...props.options,
 }))
 
-const overlayApi = context
-  ? useOverlay(() => context.map.value, overlayOptions, ({ AMap, map, options }) => {
-      const { path, visible, map: _ignoredMap, ...rest } = options as any
-      const polyline = new AMap.Polyline({
-        ...rest,
-        path: (path ?? []).map(item => toLngLat(AMap, item) ?? item),
-      })
-      polyline.setMap(map)
-      if (visible === false)
-        polyline.hide()
-      return polyline
-    }, (polyline, options) => {
-      const { path, visible, map: _ignored, ...rest } = options as any
-      polyline.setOptions(rest)
-      if (path) {
-        const AMapInstance = loader.get()
-        const resolvedPath = path.map((item: LngLatLike) => AMapInstance ? toLngLat(AMapInstance, item) ?? item : item)
-        polyline.setPath(resolvedPath as any)
-      }
-      if (visible == null)
-        return
-      if (visible)
-        polyline.show()
-      else
-        polyline.hide()
-    })
-  : null
+const polylineApi = context ? usePolyline(() => context.map.value, overlayOptions) : null
+const polyline = polylineApi?.overlay ?? shallowRef<AMap.Polyline | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'click', handler: event => emit('click', event) },
@@ -85,23 +60,25 @@ const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'mouseout', handler: event => emit('mouseout', event) },
 ]
 
-if (overlayApi) {
-  watch(overlayApi.overlay, (value) => {
+if (polylineApi) {
+  watch(polyline, (value) => {
     if (value)
       emit('ready', value)
   })
 }
 
-eventBindings.forEach(({ event, handler }) => overlayApi?.on(event, handler))
+eventBindings.forEach(({ event, handler }) => polylineApi?.on(event, handler))
 
 onBeforeUnmount(() => {
-  eventBindings.forEach(({ event, handler }) => overlayApi?.off(event, handler))
-  overlayApi?.destroy()
+  eventBindings.forEach(({ event, handler }) => polylineApi?.off(event, handler))
+  polylineApi?.destroy()
 })
 
 defineExpose({
-  polyline: overlayApi?.overlay,
+  polyline,
 })
 </script>
 
-<template />
+<template>
+  <span v-if="false" />
+</template>

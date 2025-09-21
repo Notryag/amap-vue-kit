@@ -52,10 +52,10 @@ The `<AmapMap>` component accepts all standard JSAPI map options and emits nativ
 
 Prefer the Composition API? The `@amap-vue/hooks` package exposes the same functionality through composables:
 
-```ts
+```vue
 <script setup lang="ts">
-import { ref } from 'vue'
 import { useMap, useMarker } from '@amap-vue/hooks'
+import { ref } from 'vue'
 
 const mapContainer = ref<HTMLDivElement | null>(null)
 const { map, ready } = useMap(() => ({

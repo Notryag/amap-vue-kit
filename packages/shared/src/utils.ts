@@ -22,8 +22,27 @@ export function toPixel<AMapType extends typeof AMap>(AMap: AMapType, value: Pix
   return value
 }
 
+function isDevEnvironment() {
+  if (typeof import.meta !== 'undefined') {
+    const env = (import.meta as any).env
+    if (typeof env?.DEV === 'boolean')
+      return env.DEV
+    if (typeof env?.MODE === 'string')
+      return env.MODE !== 'production'
+  }
+
+  const globalProcess = typeof globalThis !== 'undefined'
+    ? (Reflect.get(globalThis as any, 'process') as { env?: Record<string, any> } | undefined)
+    : undefined
+  const nodeEnv = globalProcess?.env?.NODE_ENV
+  if (typeof nodeEnv === 'string')
+    return nodeEnv !== 'production'
+
+  return true
+}
+
 export function warn(message: string) {
-  if (process.env.NODE_ENV !== 'production')
+  if (isDevEnvironment())
     console.warn(`[amap-vue] ${message}`)
 }
 

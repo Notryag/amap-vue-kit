@@ -1,11 +1,14 @@
 import { loader } from '@amap-vue/shared'
 
+const ListenerMap = globalThis.Map
+const ListenerSet = globalThis.Set
+
 class EventTarget {
-  private listeners = new Map<string, Set<(event: any) => void>>()
+  private listeners = new ListenerMap<string, Set<(event: any) => void>>()
 
   on(event: string, handler: (event: any) => void) {
     if (!this.listeners.has(event))
-      this.listeners.set(event, new Set())
+      this.listeners.set(event, new ListenerSet())
     this.listeners.get(event)!.add(handler)
   }
 
@@ -44,6 +47,7 @@ class Map extends EventTarget {
   public options: any
   public status: Record<string, any> = {}
   public destroyed = false
+  public controls = new Set<any>()
 
   constructor(public container: HTMLElement, options: any = {}) {
     super()
@@ -51,7 +55,10 @@ class Map extends EventTarget {
   }
 
   setCenter(value: any) {
-    this.options.center = value
+    if (value && typeof value.getLng === 'function' && typeof value.getLat === 'function')
+      this.options.center = [value.getLng(), value.getLat()]
+    else
+      this.options.center = value
   }
 
   setZoom(value: number) {
@@ -78,6 +85,18 @@ class Map extends EventTarget {
     this.status = { ...this.status, ...status }
   }
 
+  addControl(control: any) {
+    this.controls.add(control)
+    control.setMap?.(this)
+  }
+
+  removeControl(control: any) {
+    if (this.controls.has(control)) {
+      this.controls.delete(control)
+      control.setMap?.(null)
+    }
+  }
+
   destroy() {
     this.destroyed = true
   }
@@ -98,7 +117,10 @@ class Marker extends EventTarget {
   }
 
   setPosition(position: any) {
-    this.options.position = position
+    if (position && typeof position.getLng === 'function' && typeof position.getLat === 'function')
+      this.options.position = [position.getLng(), position.getLat()]
+    else
+      this.options.position = position
   }
 
   setIcon(icon: any) {
@@ -250,6 +272,135 @@ class Circle extends EventTarget {
   }
 }
 
+class TileLayer extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setOpacity(alpha: number) {
+    this.options.opacity = alpha
+  }
+
+  setzIndex(index: number) {
+    this.options.zIndex = index
+  }
+
+  setTileUrl(url: any) {
+    this.options.tileUrl = url
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  reload() {
+    this.options.reloaded = (this.options.reloaded ?? 0) + 1
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+TileLayer.Satellite = class SatelliteTileLayer extends TileLayer {}
+TileLayer.RoadNet = class RoadNetTileLayer extends TileLayer {}
+TileLayer.Traffic = class TrafficTileLayer extends TileLayer {
+  constructor(options: any = {}) {
+    super(options)
+  }
+}
+
+class ToolBar extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setOffset(offset: any) {
+    this.options.offset = offset
+  }
+
+  setPosition(position: any) {
+    this.options.position = position
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class Scale extends ToolBar {}
+
+class ControlBar extends ToolBar {}
+
+class MapTypeControl extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
 class MassMarks extends EventTarget {
   public map: Map | null = null
   public data: any
@@ -287,6 +438,11 @@ Object.assign(globalThis, {
     Polyline,
     Polygon,
     Circle,
+    TileLayer,
+    ToolBar,
+    Scale,
+    ControlBar,
+    MapType: MapTypeControl,
     MassMarks,
     LngLat,
     Pixel,

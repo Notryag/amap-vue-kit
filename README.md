@@ -5,10 +5,11 @@ Vue 3 components, composables, and tooling for the [AMap JSAPI 2.x](https://lbs.
 ## Packages
 
 - `@amap-vue/shared` – shared loader, utilities, and types.
-- `@amap-vue/hooks` – type-safe composables (`useMap`, `useMarker`, `useOverlay`, `useMassMarkers`).
-- `@amap-vue/core` – declarative Vue components (`<AmapMap>`, `<AmapMarker>`, `<AmapInfoWindow>`, `<AmapPolyline>`, `<AmapPolygon>`, `<AmapCircle>`).
+- `@amap-vue/hooks` – type-safe composables (`useMap`, `useMarker`, `useOverlay`, `useMassMarkers`, `useTileLayer`, `useTrafficLayer`, `useSatelliteLayer`, `useRoadNetLayer`, `useToolBar`, `useScale`, `useControlBar`, `useMapType`).
+- `@amap-vue/core` – declarative Vue components (`<AmapMap>`, `<AmapMarker>`, `<AmapInfoWindow>`, `<AmapPolyline>`, `<AmapPolygon>`, `<AmapCircle>`, `<AmapTileLayer>`, `<AmapTrafficLayer>`, `<AmapSatelliteLayer>`, `<AmapRoadNetLayer>`, `<AmapToolBar>`, `<AmapScale>`, `<AmapControlBar>`, `<AmapMapType>`).
 - `docs` – VitePress documentation site with live demos.
 - `examples/basic` – Vite example app used for smoke testing.
+- `packages/playground` – local development workspace with interactive controls.
 
 ## Development
 
@@ -29,6 +30,12 @@ pnpm --filter @amap-vue/docs dev
 
 ```bash
 pnpm --filter amap-vue-example dev
+```
+
+### Playground
+
+```bash
+pnpm run dev:playground
 ```
 
 Set `VITE_AMAP_KEY` in a `.env.local` file to load the live JSAPI map during development.

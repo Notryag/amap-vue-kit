@@ -10,13 +10,13 @@
 * [ ] **M0 — 初始化（Day 0）**
 
   * [x] pnpm monorepo：`packages/{core,hooks,shared}`、`docs`、`examples`
-  * [ ] packages/playground：本地最小示例
+  * [x] packages/playground：本地最小示例
   * [x] ESLint：`@antfu/eslint-config`（flat config），VSCode 建议开启保存即修复
   * [x] Vitest + Vue Test Utils
   * [x] Changesets（版本与 Changelog）
   * [x] `shared`：AMap 脚本单例加载器 `loadAmap()`
 * [x] **M1 — MVP 基础组件/Hook（Map/Marker/InfoWindow/Polyline/Polygon/Circle）**
-* [ ] **M2 — 图层 & 控件（TileLayer/Traffic/Satellite/RoadNet + ToolBar/Scale/ControlBar）**
+* [x] **M2 — 图层 & 控件（TileLayer/Traffic/Satellite/RoadNet + ToolBar/Scale/ControlBar）**
 * [ ] **M3 — Labels 系列 & 高性能（LabelsLayer/LabelMarker + OverlayGroup 批量）**
 * [ ] **M4 — 编辑器 & 热力图（Circle/Rectangle/Ellipse Editor + HeatMap）**
 * [ ] **M5 — 文档站完善、示例、性能指南、对比页、首次发布**
@@ -139,7 +139,7 @@ amap-vue-kit/
 
 ### B. 图层类（M2）
 
-* [ ] **`<AmapTileLayer>`（基类/自定义 URL）**
+* [x] **`<AmapTileLayer>`（基类/自定义 URL）**
 
   * props：`visible`, `opacity`, `zIndex`, `zooms`, `tileSize`, `tileUrl?`
   * **AI 提示词：**
@@ -149,11 +149,11 @@ amap-vue-kit/
     - 支持自定义 tileUrl；visible 控制 add/remove；watch 做 setOptions
     ```
 
-* [ ] **子类快捷组件**
+* [x] **子类快捷组件**
 
-  * [ ] `<AmapTileLayerSatellite>`
-  * [ ] `<AmapTileLayerRoadNet>`
-  * [ ] `<AmapTileLayerTraffic>`（含 `autoRefresh` 说明）
+  * [x] `<AmapTileLayerSatellite>`
+  * [x] `<AmapTileLayerRoadNet>`
+  * [x] `<AmapTileLayerTraffic>`（含 `autoRefresh` 说明）
   * **AI 提示词：**
 
     ```
@@ -165,9 +165,10 @@ amap-vue-kit/
 
 ### C. 控件（M2）
 
-* [ ] **`<AmapToolBar>`**
-* [ ] **`<AmapScale>`**
-* [ ] **`<AmapControlBar>`**
+* [x] **`<AmapToolBar>`**
+* [x] **`<AmapScale>`**
+* [x] **`<AmapControlBar>`**
+* [x] **`<AmapMapType>`**
 
   * 通用 props：`position`, `offset`, `visible`
   * **AI 提示词：**

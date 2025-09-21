@@ -1,9 +1,9 @@
 import type { LngLatLike, PolygonPath } from '@amap-vue/shared'
-import { loader, toLngLat } from '@amap-vue/shared'
 import type { MaybeRefOrGetter } from 'vue'
-import { computed, toValue } from 'vue'
-
 import type { OverlayLifecycle } from './useOverlay'
+
+import { loader, toLngLat } from '@amap-vue/shared'
+import { computed, toValue } from 'vue'
 import { useOverlay } from './useOverlay'
 
 export interface UsePolygonOptions extends Partial<AMap.PolygonOptions> {

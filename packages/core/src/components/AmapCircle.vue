@@ -77,4 +77,6 @@ defineExpose({
 })
 </script>
 
-<template />
+<template>
+  <span v-if="false" />
+</template>

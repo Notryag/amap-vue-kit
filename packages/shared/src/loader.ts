@@ -134,7 +134,7 @@ export function createLoader() {
 
       if (state.promise) {
         if (state.config) {
-          const { key, version, plugins = [] } = state.config
+          const { key, version } = state.config
           if ((key && key !== resolved.key) || (version && version !== resolved.version))
             warn('Attempted to call loader.load() with a configuration that differs from the initial call. Existing configuration will be reused.')
 

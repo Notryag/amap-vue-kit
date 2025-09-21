@@ -16,6 +16,9 @@ const props = defineProps({
     default: false,
   },
   offset: [Array, Object] as PropType<AMap.Pixel | [number, number]>,
+  anchor: String as PropType<AMap.InfoWindowAnchor | undefined>,
+  isCustom: Boolean,
+  content: [String, Object] as PropType<string | HTMLElement | null>,
 })
 
 const emit = defineEmits<{
@@ -31,11 +34,19 @@ if (!context)
 
 const contentRef = shallowRef<HTMLDivElement | null>(null)
 
+const resolvedContent = computed(() => {
+  if (props.content !== undefined && props.content !== null)
+    return props.content
+  return contentRef.value
+})
+
 const options = computed(() => ({
   position: props.position,
   open: props.isOpen,
   offset: props.offset,
-  content: contentRef.value,
+  anchor: props.anchor,
+  isCustom: props.isCustom,
+  content: resolvedContent.value,
 }))
 
 const infoWindowApi = context ? useInfoWindow(() => context.map.value, options) : null
@@ -68,7 +79,7 @@ defineExpose({
 </script>
 
 <template>
-  <div ref="contentRef" class="amap-vue-infowindow-content">
+  <div v-if="props.content == null" ref="contentRef" class="amap-vue-infowindow-content">
     <slot />
   </div>
 </template>

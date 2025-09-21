@@ -111,8 +111,8 @@ amap-vue-kit/
   * props：`position`, `isOpen`, `offset`（后续扩展 `anchor`、`isCustom`）
   * emits：`ready`, `open`, `close`
   * TODO：
-    * [ ] 支持 `anchor`、`isCustom` 等配置透传
-    * [ ] 允许通过 props 设置字符串/DOM `content`
+    * [x] 支持 `anchor`、`isCustom` 等配置透传
+    * [x] 允许通过 props 设置字符串/DOM `content`
   * **AI 提示词：**
 
     ```
@@ -311,10 +311,11 @@ amap-vue-kit/
 
   * `eslint.config.js`：
 
-    ```js
-    import antfu from '@antfu/eslint-config'
-    export default antfu()
-    ```
+      ```js
+      import antfu from '@antfu/eslint-config'
+
+      export default antfu()
+      ```
   * `package.json`：
 
     ```json

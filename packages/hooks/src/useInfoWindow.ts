@@ -1,6 +1,7 @@
 import type { LngLatLike, PixelLike } from '@amap-vue/shared'
-import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
+
+import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export interface UseInfoWindowOptions extends Partial<AMap.InfoWindowOptions> {

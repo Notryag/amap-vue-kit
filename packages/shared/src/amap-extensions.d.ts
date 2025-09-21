@@ -89,6 +89,39 @@ declare global {
       off(event: string, handler: (event: any) => void): void
       destroy(): void
     }
+
+    interface HeatMapOptions {
+      radius?: number
+      gradient?: Record<string, string>
+      opacity?: [number, number]
+      zooms?: [number, number]
+      zIndex?: number
+      [key: string]: any
+    }
+
+    interface HeatMapDataPoint {
+      lng: number
+      lat: number
+      count: number
+    }
+
+    interface HeatMapDataSet {
+      data: HeatMapDataPoint[]
+      max?: number
+    }
+
+    class HeatMap {
+      constructor(map: Map, options?: HeatMapOptions)
+      setMap(map: Map | null): void
+      setOptions(options: Partial<HeatMapOptions>): void
+      setDataSet(dataSet: HeatMapDataSet): void
+      addDataPoint(lng: number, lat: number, count: number): void
+      show(): void
+      hide(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
+    }
   }
 }
 

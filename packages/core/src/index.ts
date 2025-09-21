@@ -2,6 +2,7 @@ import type { App } from 'vue'
 
 import AmapCircle from './components/AmapCircle.vue'
 import AmapControlBar from './components/AmapControlBar.vue'
+import AmapImageLayer from './components/AmapImageLayer.vue'
 import AmapHeatMap from './components/AmapHeatMap.vue'
 import AmapInfoWindow from './components/AmapInfoWindow.vue'
 import AmapLabelMarker from './components/AmapLabelMarker.vue'
@@ -22,6 +23,7 @@ import AmapTrafficLayer from './components/AmapTrafficLayer.vue'
 export {
   AmapCircle,
   AmapControlBar,
+  AmapImageLayer,
   AmapHeatMap,
   AmapInfoWindow,
   AmapLabelMarker,
@@ -49,6 +51,7 @@ const components = [
   AmapPolygon,
   AmapCircle,
   AmapLabelsLayer,
+  AmapImageLayer,
   AmapHeatMap,
   AmapTileLayer,
   AmapTrafficLayer,

@@ -2,6 +2,7 @@ import { flushPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 
 import AmapControlBar from '../src/components/AmapControlBar.vue'
+import AmapImageLayer from '../src/components/AmapImageLayer.vue'
 import AmapMap from '../src/components/AmapMap.vue'
 import AmapTileLayer from '../src/components/AmapTileLayer.vue'
 import AmapToolBar from '../src/components/AmapToolBar.vue'
@@ -65,6 +66,51 @@ describe('layers', () => {
     await waitForMap()
     expect(layer.options.autoRefresh).toBe(false)
     expect(layer.options.interval).toBe(10)
+  })
+
+  it('creates image layer and updates url and bounds', async () => {
+    const wrapper = mount({
+      components: { AmapMap, AmapImageLayer },
+      data: () => ({
+        url: 'https://example.com/image.png',
+        bounds: [[116, 39], [117, 40]] as [[number, number], [number, number]],
+        visible: true,
+        opacity: 0.6,
+      }),
+      template: `
+        <AmapMap :center="[0, 0]" :zoom="12">
+          <AmapImageLayer
+            :url="url"
+            :bounds="bounds"
+            :visible="visible"
+            :opacity="opacity"
+          />
+        </AmapMap>
+      `,
+    })
+
+    await waitForMap()
+
+    const layerComponent = wrapper.findComponent(AmapImageLayer)
+    const layer = (layerComponent.vm as any).layer
+    expect(layer).toBeTruthy()
+    expect(layer.options.url).toBe('https://example.com/image.png')
+    expect(layer.options.bounds).toBeTruthy()
+    expect(layer.options.opacity).toBe(0.6)
+
+    wrapper.vm.url = 'https://example.com/updated.png'
+    wrapper.vm.bounds = [[118, 38], [119, 39]]
+    wrapper.vm.visible = false
+    wrapper.vm.opacity = 0.8
+
+    await waitForMap()
+
+    expect(layer.options.url).toBe('https://example.com/updated.png')
+    const bounds = layer.options.bounds
+    expect(bounds.getSouthWest().getLng()).toBe(118)
+    expect(bounds.getNorthEast().getLat()).toBe(39)
+    expect(layer.options.visible).toBe(false)
+    expect(layer.options.opacity).toBe(0.8)
   })
 })
 

@@ -43,6 +43,32 @@ class Pixel {
   }
 }
 
+class Bounds {
+  public southWest: LngLat
+  public northEast: LngLat
+
+  constructor(southWest: LngLat | [number, number], northEast: LngLat | [number, number]) {
+    this.southWest = southWest instanceof LngLat ? southWest : new LngLat(southWest[0], southWest[1])
+    this.northEast = northEast instanceof LngLat ? northEast : new LngLat(northEast[0], northEast[1])
+  }
+
+  getSouthWest() {
+    return this.southWest
+  }
+
+  getNorthEast() {
+    return this.northEast
+  }
+
+  contains(lngLat: LngLat | [number, number]) {
+    const point = lngLat instanceof LngLat ? lngLat : new LngLat(lngLat[0], lngLat[1])
+    return point.lng >= this.southWest.lng
+      && point.lng <= this.northEast.lng
+      && point.lat >= this.southWest.lat
+      && point.lat <= this.northEast.lat
+  }
+}
+
 class Map extends EventTarget {
   public options: any
   public status: Record<string, any> = {}
@@ -379,6 +405,52 @@ TileLayer.Traffic = class TrafficTileLayer extends TileLayer {
   }
 }
 
+class ImageLayer extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setImageUrl(url: string) {
+    this.options.url = url
+  }
+
+  setBounds(bounds: any) {
+    this.options.bounds = bounds
+  }
+
+  setOpacity(opacity: number) {
+    this.options.opacity = opacity
+  }
+
+  setzIndex(zIndex: number) {
+    this.options.zIndex = zIndex
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
 class LabelsLayer extends EventTarget {
   public map: Map | null = null
   public options: any
@@ -622,6 +694,7 @@ Object.assign(globalThis, {
     Polygon,
     Circle,
     TileLayer,
+    ImageLayer,
     LabelsLayer,
     ToolBar,
     Scale,
@@ -631,6 +704,7 @@ Object.assign(globalThis, {
     MassMarks,
     LngLat,
     Pixel,
+    Bounds,
   },
 })
 

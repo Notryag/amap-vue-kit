@@ -161,7 +161,7 @@ amap-vue-kit/
     - 内部直接构造对应子类实例；其余行为与基类一致
     ```
 
-* [ ] **`<AmapImageLayer>`**（图片地面覆盖，`url` + `bounds`）
+* [x] **`<AmapImageLayer>`**（图片地面覆盖，`url` + `bounds`）
 
 ### C. 控件（M2）
 
@@ -336,8 +336,8 @@ amap-vue-kit/
 * [x] Map/Marker/InfoWindow/Polyline/Polygon/Circle 全部具备：props → 增量更新；事件 → emits；卸载清理
 * [ ] TileLayer 三子类可切换显示且不泄漏
 * [ ] 控件能动态 position/offset 并可隐藏
-* [ ] LabelsLayer/LabelMarker 支撑千级点，不明显卡顿
-* [ ] OverlayGroup 一次性增删上千覆盖物成功
+* [x] LabelsLayer/LabelMarker 支撑千级点，不明显卡顿
+* [x] OverlayGroup 一次性增删上千覆盖物成功
 * [ ] 三种 Editor 可开关编辑，事件上报
 * [x] HeatMap 数据集可动态变更
 * [ ] hooks 与组件 API 对应、文档同步

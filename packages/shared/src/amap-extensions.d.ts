@@ -2,6 +2,23 @@ declare global {
   namespace AMap {
     type LabelsLayerZooms = [number, number]
 
+    class Bounds {
+      constructor(southWest: AMap.LngLat | [number, number], northEast: AMap.LngLat | [number, number])
+      contains(lngLat: AMap.LngLat | [number, number]): boolean
+      getSouthWest(): AMap.LngLat
+      getNorthEast(): AMap.LngLat
+    }
+
+    interface ImageLayerOptions {
+      url?: string
+      bounds?: AMap.Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]]
+      zooms?: LabelsLayerZooms
+      opacity?: number
+      zIndex?: number
+      visible?: boolean
+      [key: string]: any
+    }
+
     interface LabelsLayerOptions {
       zooms?: LabelsLayerZooms
       zIndex?: number
@@ -39,6 +56,20 @@ declare global {
       visible?: boolean
       collision?: boolean
       [key: string]: any
+    }
+
+    class ImageLayer {
+      constructor(options?: ImageLayerOptions)
+      setMap(map: Map | null): void
+      setImageUrl(url: string): void
+      setBounds(bounds: Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]]): void
+      setOpacity(opacity: number): void
+      setzIndex(zIndex: number): void
+      show(): void
+      hide(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
     }
 
     class LabelsLayer {

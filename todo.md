@@ -266,8 +266,8 @@ amap-vue-kit/
 
 * [x] **`useHeatMap`**
 
-* [ ] 覆盖物 hooks 单元测试：`useInfoWindow` / `usePolyline` / `usePolygon` / `useCircle`
-* [ ] 文档：新增 hooks 页面（`use-info-window`、`use-polyline`、`use-polygon`、`use-circle`）
+* [x] 覆盖物 hooks 单元测试：`useInfoWindow` / `usePolyline` / `usePolygon` / `useCircle`
+* [x] 文档：新增 hooks 页面（`use-info-window`、`use-polyline`、`use-polygon`、`use-circle`）
 
   * **AI 通用提示词：**
 

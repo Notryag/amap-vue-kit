@@ -160,6 +160,58 @@ class Marker extends EventTarget {
   }
 }
 
+class LabelMarker extends EventTarget {
+  public layer: any = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+  }
+
+  setMap(_map: Map | null) {}
+
+  setPosition(position: any) {
+    this.options.position = position
+  }
+
+  setIcon(icon: any) {
+    this.options.icon = icon
+  }
+
+  setText(text: any) {
+    this.options.text = text
+  }
+
+  setZooms(zooms: [number, number]) {
+    this.options.zooms = zooms
+  }
+
+  setOpacity(opacity: number) {
+    this.options.opacity = opacity
+  }
+
+  setzIndex(zIndex: number) {
+    this.options.zIndex = zIndex
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.layer = null
+  }
+}
+
 class InfoWindow {
   public content: any
   public offset: any
@@ -327,6 +379,76 @@ TileLayer.Traffic = class TrafficTileLayer extends TileLayer {
   }
 }
 
+class LabelsLayer extends EventTarget {
+  public map: Map | null = null
+  public options: any
+  public markers = new Set<LabelMarker>()
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  add(markers: LabelMarker | LabelMarker[]) {
+    const items = Array.isArray(markers) ? markers : [markers]
+    items.forEach((marker) => {
+      this.markers.add(marker)
+      marker.layer = this
+      if (this.options.visible === false)
+        marker.hide()
+      else
+        marker.show()
+    })
+  }
+
+  remove(markers: LabelMarker | LabelMarker[]) {
+    const items = Array.isArray(markers) ? markers : [markers]
+    items.forEach((marker) => {
+      if (this.markers.has(marker)) {
+        this.markers.delete(marker)
+        marker.layer = null
+      }
+    })
+  }
+
+  clear() {
+    for (const marker of Array.from(this.markers))
+      marker.layer = null
+    this.markers.clear()
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setOpacity(opacity: number) {
+    this.options.opacity = opacity
+  }
+
+  setzIndex(zIndex: number) {
+    this.options.zIndex = zIndex
+  }
+
+  show() {
+    this.options.visible = true
+    this.markers.forEach(marker => marker.show())
+  }
+
+  hide() {
+    this.options.visible = false
+    this.markers.forEach(marker => marker.hide())
+  }
+
+  destroy() {
+    this.clear()
+    this.map = null
+  }
+}
+
 class ToolBar extends EventTarget {
   public map: Map | null = null
   public options: any
@@ -401,6 +523,66 @@ class MapTypeControl extends EventTarget {
   }
 }
 
+class OverlayGroup extends EventTarget {
+  public map: Map | null = null
+  public overlays: any[]
+  public visible = true
+  public extData: any
+
+  constructor(overlays: any[] = []) {
+    super()
+    this.overlays = [...overlays]
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  addOverlay(overlay: any) {
+    if (overlay == null)
+      return
+    if (!this.overlays.includes(overlay))
+      this.overlays.push(overlay)
+  }
+
+  addOverlays(overlays: any[]) {
+    overlays?.forEach(overlay => this.addOverlay(overlay))
+  }
+
+  removeOverlay(overlay: any) {
+    this.overlays = this.overlays.filter(item => item !== overlay)
+  }
+
+  removeOverlays(overlays: any[]) {
+    overlays?.forEach(overlay => this.removeOverlay(overlay))
+  }
+
+  clearOverlays() {
+    this.overlays = []
+  }
+
+  getOverlays() {
+    return [...this.overlays]
+  }
+
+  show() {
+    this.visible = true
+  }
+
+  hide() {
+    this.visible = false
+  }
+
+  setExtData(extData: any) {
+    this.extData = extData
+  }
+
+  destroy() {
+    this.clearOverlays()
+    this.map = null
+  }
+}
+
 class MassMarks extends EventTarget {
   public map: Map | null = null
   public data: any
@@ -434,15 +616,18 @@ Object.assign(globalThis, {
   AMap: {
     Map,
     Marker,
+    LabelMarker,
     InfoWindow,
     Polyline,
     Polygon,
     Circle,
     TileLayer,
+    LabelsLayer,
     ToolBar,
     Scale,
     ControlBar,
     MapType: MapTypeControl,
+    OverlayGroup,
     MassMarks,
     LngLat,
     Pixel,

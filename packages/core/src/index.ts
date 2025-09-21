@@ -1,9 +1,11 @@
 import type { App } from 'vue'
 
 import AmapCircle from './components/AmapCircle.vue'
+import AmapCircleEditor from './components/AmapCircleEditor.vue'
 import AmapControlBar from './components/AmapControlBar.vue'
-import AmapImageLayer from './components/AmapImageLayer.vue'
+import AmapEllipseEditor from './components/AmapEllipseEditor.vue'
 import AmapHeatMap from './components/AmapHeatMap.vue'
+import AmapImageLayer from './components/AmapImageLayer.vue'
 import AmapInfoWindow from './components/AmapInfoWindow.vue'
 import AmapLabelMarker from './components/AmapLabelMarker.vue'
 import AmapLabelsLayer from './components/AmapLabelsLayer.vue'
@@ -13,6 +15,7 @@ import AmapMarker from './components/AmapMarker.vue'
 import AmapOverlayGroup from './components/AmapOverlayGroup.vue'
 import AmapPolygon from './components/AmapPolygon.vue'
 import AmapPolyline from './components/AmapPolyline.vue'
+import AmapRectangleEditor from './components/AmapRectangleEditor.vue'
 import AmapRoadNetLayer from './components/AmapRoadNetLayer.vue'
 import AmapSatelliteLayer from './components/AmapSatelliteLayer.vue'
 import AmapScale from './components/AmapScale.vue'
@@ -22,9 +25,11 @@ import AmapTrafficLayer from './components/AmapTrafficLayer.vue'
 
 export {
   AmapCircle,
+  AmapCircleEditor,
   AmapControlBar,
-  AmapImageLayer,
+  AmapEllipseEditor,
   AmapHeatMap,
+  AmapImageLayer,
   AmapInfoWindow,
   AmapLabelMarker,
   AmapLabelsLayer,
@@ -34,6 +39,7 @@ export {
   AmapOverlayGroup,
   AmapPolygon,
   AmapPolyline,
+  AmapRectangleEditor,
   AmapRoadNetLayer,
   AmapSatelliteLayer,
   AmapScale,
@@ -50,6 +56,7 @@ const components = [
   AmapPolyline,
   AmapPolygon,
   AmapCircle,
+  AmapCircleEditor,
   AmapLabelsLayer,
   AmapImageLayer,
   AmapHeatMap,
@@ -62,6 +69,8 @@ const components = [
   AmapScale,
   AmapControlBar,
   AmapMapType,
+  AmapRectangleEditor,
+  AmapEllipseEditor,
 ]
 
 export function install(app: App) {

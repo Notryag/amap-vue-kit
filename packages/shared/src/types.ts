@@ -42,6 +42,10 @@ export interface LoaderOptions {
    */
   serviceHost?: string
   /**
+   * Maximum time in milliseconds to wait before considering the script load as failed.
+   */
+  timeout?: number
+  /**
    * Whether to also load the Loca library. Pass `true` for default or provide the version.
    */
   loca?: boolean | { version?: string }

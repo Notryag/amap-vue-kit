@@ -3,8 +3,8 @@
 Imperatively manage JSAPI info windows with Vue reactivity. The composable delays instantiation until both the map and loader are ready, keeps the open state in sync, and cleans up automatically on unmount.
 
 ```ts
-import { ref } from 'vue'
 import { useInfoWindow } from '@amap-vue/hooks'
+import { ref } from 'vue'
 
 const options = ref({
   position: [116.397, 39.908],

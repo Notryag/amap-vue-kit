@@ -1,13 +1,13 @@
 import type { Ref } from 'vue'
 
-import { flushPromises as flushPendingPromises, mount } from '@vue/test-utils'
-import { defineComponent, nextTick, ref } from 'vue'
-import { describe, expect, it } from 'vitest'
-
 import type { UseCircleOptions } from '../src/useCircle'
 import type { UseInfoWindowOptions } from '../src/useInfoWindow'
 import type { UsePolygonOptions } from '../src/usePolygon'
 import type { UsePolylineOptions } from '../src/usePolyline'
+
+import { flushPromises as flushPendingPromises, mount } from '@vue/test-utils'
+import { describe, expect, it } from 'vitest'
+import { defineComponent, nextTick, ref } from 'vue'
 
 import { useCircle } from '../src/useCircle'
 import { useInfoWindow } from '../src/useInfoWindow'

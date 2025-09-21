@@ -3,8 +3,8 @@
 Create and update JSAPI polylines declaratively from Vue state. Paths are normalized from `LngLatLike[]` and the instance reattaches when the map reference changes.
 
 ```ts
-import { ref } from 'vue'
 import { usePolyline } from '@amap-vue/hooks'
+import { ref } from 'vue'
 
 const path = ref([
   [116.38, 39.9],

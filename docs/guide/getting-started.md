@@ -30,6 +30,18 @@ createApp(App).mount('#app')
 
 The loader ensures that the JSAPI script is injected only once, even when multiple maps are rendered across your application.
 
+If you want to fail fast when the JSAPI cannot be reached, provide a `timeout` (in milliseconds). The loader will reject when the script does not load within that window so you can surface a friendly message to users:
+
+```ts
+loader.config({
+  key: import.meta.env.VITE_AMAP_KEY,
+  version: '2.0',
+  timeout: 15000,
+})
+```
+
+You can also pass the same option to individual `loader.load()` calls when you need a per-request override.
+
 ## Render a map
 
 ```vue

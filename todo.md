@@ -57,7 +57,7 @@ amap-vue-kit/
   * [x] `loader.load({ key, version, plugins, securityJsCode })`：仅注入一次
   * [x] `loader.get()`：返回已加载的 `AMap` 对象或 `undefined`
   * [x] 脚本加载失败 / 重复配置提示
-  * [ ] 加载超时机制（可选）
+  * [x] 加载超时机制（可选）
   * **给 AI 的提示词：**
 
     ```
@@ -322,7 +322,8 @@ amap-vue-kit/
     ```json
     { "devDependencies": { "eslint": "^9", "@antfu/eslint-config": "^2.20.0" } }
     ```
-* [ ] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
+  * [x] 清理 docs/hooks 代码示例的 import 顺序，确保 `pnpm lint` 通过
+* [x] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
 * [ ] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
 * [ ] **Changesets**：`pnpm changeset` 流程 + 自动发版（需要 NPM\_TOKEN）
 * [x] **Examples**：`examples/basic`（Vite + Vue 最小演示），用于 e2e 冒烟
@@ -334,8 +335,8 @@ amap-vue-kit/
 
 * [x] `loader.load()` 单例、失败有明确错误信息
 * [x] Map/Marker/InfoWindow/Polyline/Polygon/Circle 全部具备：props → 增量更新；事件 → emits；卸载清理
-* [ ] TileLayer 三子类可切换显示且不泄漏
-* [ ] 控件能动态 position/offset 并可隐藏
+* [x] TileLayer 三子类可切换显示且不泄漏
+* [x] 控件能动态 position/offset 并可隐藏
 * [x] LabelsLayer/LabelMarker 支撑千级点，不明显卡顿
 * [x] OverlayGroup 一次性增删上千覆盖物成功
 * [x] 三种 Editor 可开关编辑，事件上报

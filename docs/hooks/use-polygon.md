@@ -3,8 +3,8 @@
 Manage polygons (single or multi-ring) through Vue reactivity. The hook normalizes the supplied path, keeps visibility in sync, and cleans up automatically.
 
 ```ts
-import { ref } from 'vue'
 import { usePolygon } from '@amap-vue/hooks'
+import { ref } from 'vue'
 
 const polygonOptions = ref({
   path: [

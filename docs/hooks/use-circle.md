@@ -3,8 +3,8 @@
 Control circular overlays reactively. The hook keeps the center and radius synchronized with Vue state, normalizes `LngLatLike` values, and handles visibility toggling.
 
 ```ts
-import { ref } from 'vue'
 import { useCircle } from '@amap-vue/hooks'
+import { ref } from 'vue'
 
 const circleOptions = ref({
   center: [116.397, 39.908],

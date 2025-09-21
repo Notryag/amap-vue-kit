@@ -27,14 +27,31 @@ export default defineConfig({
       ],
       '/components/': [
         {
-          text: 'Map',
+          text: 'A · Basics & Overlays',
           items: [
             { text: 'Map', link: '/components/map' },
             { text: 'Marker', link: '/components/marker' },
             { text: 'Info Window', link: '/components/info-window' },
+          ],
+        },
+        {
+          text: 'A · Geometry',
+          items: [
             { text: 'Polyline', link: '/components/polyline' },
             { text: 'Polygon', link: '/components/polygon' },
             { text: 'Circle', link: '/components/circle' },
+          ],
+        },
+        {
+          text: 'B · Layers',
+          items: [
+            { text: 'Tile Layers', link: '/components/tile-layer' },
+          ],
+        },
+        {
+          text: 'C · Controls',
+          items: [
+            { text: 'Map Controls', link: '/components/map-controls' },
           ],
         },
       ],
@@ -48,6 +65,7 @@ export default defineConfig({
             { text: 'usePolyline', link: '/hooks/use-polyline' },
             { text: 'usePolygon', link: '/hooks/use-polygon' },
             { text: 'useCircle', link: '/hooks/use-circle' },
+            { text: 'useTileLayer', link: '/hooks/use-tile-layer' },
             { text: 'useOverlay', link: '/hooks/use-overlay' },
           ],
         },

@@ -1,6 +1,7 @@
 export * from './useCircle'
 export * from './useControl'
 export * from './useImageLayer'
+export * from './useHeatMap'
 export * from './useInfoWindow'
 export * from './useLabelMarker'
 export * from './useLabelsLayer'

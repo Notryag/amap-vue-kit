@@ -57,6 +57,14 @@ export default defineConfig({
             { text: 'Map Controls', link: '/components/map-controls' },
           ],
         },
+        {
+          text: 'D · Utilities & Editors',
+          items: [
+            { text: 'Image Layer', link: '/components/image-layer' },
+            { text: 'Overlay Group', link: '/components/overlay-group' },
+            { text: 'Shape Editors', link: '/components/editors' },
+          ],
+        },
       ],
       '/hooks/': [
         {
@@ -69,10 +77,15 @@ export default defineConfig({
             { text: 'usePolygon', link: '/hooks/use-polygon' },
             { text: 'useCircle', link: '/hooks/use-circle' },
             { text: 'useTileLayer', link: '/hooks/use-tile-layer' },
+            { text: 'useImageLayer', link: '/hooks/use-image-layer' },
+            { text: 'useHeatMap', link: '/hooks/use-heat-map' },
             { text: 'useOverlay', link: '/hooks/use-overlay' },
+            { text: 'useOverlayGroup', link: '/hooks/use-overlay-group' },
             { text: 'useLabelsLayer', link: '/hooks/use-labels-layer' },
             { text: 'useLabelMarker', link: '/hooks/use-label-marker' },
-            { text: 'useHeatMap', link: '/hooks/use-heat-map' },
+            { text: 'useMassMarkers', link: '/hooks/use-mass-markers' },
+            { text: 'useControl', link: '/hooks/use-control' },
+            { text: 'useEditor', link: '/hooks/use-editor' },
           ],
         },
       ],

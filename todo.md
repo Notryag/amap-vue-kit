@@ -293,7 +293,7 @@ amap-vue-kit/
 * [ ] Hooks（与组件一一对应）
   * [x] TileLayer / Traffic / RoadNet / Satellite hooks 文档
   * [ ] Advanced（大数据点/性能、ImageLayer、轨迹动画、主题样式）
-  * [ ] Recipes（园区底图、聚合、信息窗联动）
+* [x] Recipes（园区底图、聚合、信息窗联动）
   * [ ] FAQ（Key、CSP、地图不显示排错）
   * [ ] Changelog（changesets）
 * [ ] 每个页面都包含可运行示例（docs 内嵌 SFC + `ClientOnly`）

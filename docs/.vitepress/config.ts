@@ -110,7 +110,9 @@ export default defineConfig({
         {
           text: 'Recipes',
           items: [
+            { text: 'Campus Basemap', link: '/recipes/campus-basemap' },
             { text: 'Marker Clusters', link: '/recipes/marker-clusters' },
+            { text: 'Linked Info Windows', link: '/recipes/info-window-linking' },
             { text: 'Heatmap', link: '/recipes/heatmap' },
           ],
         },

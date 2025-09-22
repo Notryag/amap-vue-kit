@@ -351,6 +351,38 @@ amap-vue-kit/
 
 ---
 
+## 待完善的高德示例功能
+
+### 点标记
+
+* [ ] `<AmapMarker>` 支持自定义 HTML/SVG 内容（官方「自定义点标记」示例需要 `content`/slot 能力）。
+* [ ] `<AmapMarker>` 暴露 `anchor`/`offset` 组合示例，完善锚点位置说明。
+* [ ] 新增 `<AmapText>` 组件与 `useText` hook，对接 `AMap.Text`（覆盖「文本点标记」）。
+* [ ] 新增 `<AmapCircleMarker>` / `useCircleMarker`，支持轻量圆点覆盖物。
+* [ ] 新增 `<AmapElasticMarker>` / `useElasticMarker`，封装灵活点标记插件。
+* [ ] 新增 `<AmapMarkerCluster>` 组件或 `useMarkerClusterer` hook，整合点聚合能力。
+
+### 海量标注
+
+* [ ] 为海量点/海量标注整理统一 Demo，覆盖 `MassMarks` 与 `LabelsLayer` 联动场景。
+
+### 线覆盖物
+
+* [ ] 新增 `<AmapBezierCurve>` 组件与 `useBezierCurve` hook，封装贝塞尔曲线。
+* [ ] 提供折线/贝塞尔编辑组件或 `usePolylineEditor`、`useBezierCurveEditor` hook，对接官方编辑插件。
+
+### 面覆盖物
+
+* [ ] 新增 `<AmapPolygonEditor>`，并封装多边形绘制/编辑流程（结合 `MouseTool`）。
+* [ ] 新增 `<AmapRectangle>`、`<AmapEllipse>` 组件及对应 hooks，完善矩形/椭圆绘制流程。
+* [ ] 封装 `MouseTool` 抽象，统一圆形/矩形/椭圆/多边形的绘制交互。
+
+### 控件与弹窗
+
+* [ ] 新增 `<AmapContextMenu>` 组件或 `useContextMenu` hook，支持右键菜单。
+
+---
+
 ### 备注
 
 * 所有对 AI 的提示词都已尽量简短聚焦，如需更细请在对应任务下补充「输入例子/期待输出」。

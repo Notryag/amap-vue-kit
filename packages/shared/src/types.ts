@@ -4,6 +4,7 @@ export type LngLatLike = AMap.LngLat | [number, number]
 export type PixelLike = AMap.Pixel | [number, number]
 export type BoundsLike = AMap.Bounds | [LngLatLike, LngLatLike]
 export type PolygonPath = LngLatLike[] | LngLatLike[][]
+export type BezierCurvePath = LngLatLike[][]
 
 export type ReadyCallback = (map: AMap.Map) => void
 

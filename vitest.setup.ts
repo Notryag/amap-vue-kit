@@ -173,6 +173,73 @@ class Marker extends EventTarget {
     this.options.offset = offset
   }
 
+  setContent(content: any) {
+    this.options.content = content
+  }
+
+  setAnchor(anchor: any) {
+    this.options.anchor = anchor
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class Text extends EventTarget {
+  public map: Map | null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.map = options.map ?? null
+    this.options = { ...options }
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setText(text: any) {
+    this.options.text = text
+  }
+
+  setStyle(style: any) {
+    this.options.style = { ...(this.options.style ?? {}), ...style }
+  }
+
+  setPosition(position: any) {
+    this.options.position = position
+  }
+
+  setOffset(offset: any) {
+    this.options.offset = offset
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setzIndex(zIndex: number) {
+    this.options.zIndex = zIndex
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
+  }
+
   show() {
     this.options.visible = true
   }
@@ -309,9 +376,165 @@ class Polyline extends EventTarget {
   }
 }
 
+class BezierCurve extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setPath(path: any) {
+    this.options.path = path
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
 class Polygon extends Polyline {}
 
 class Circle extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setCenter(center: any) {
+    this.options.center = center
+  }
+
+  setRadius(radius: number) {
+    this.options.radius = radius
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class Rectangle extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setBounds(bounds: any) {
+    this.options.bounds = bounds
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class Ellipse extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setCenter(center: any) {
+    this.options.center = center
+  }
+
+  setRadius(radius: [number, number]) {
+    this.options.radius = radius
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class CircleMarker extends EventTarget {
   public map: Map | null = null
   public options: any
 
@@ -335,6 +558,10 @@ class Circle extends EventTarget {
 
   setOptions(options: any) {
     this.options = { ...this.options, ...options }
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
   }
 
   show() {
@@ -521,6 +748,103 @@ class LabelsLayer extends EventTarget {
   }
 }
 
+class ElasticMarker extends EventTarget {
+  public map: Map | null = null
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { visible: true, ...options }
+    this.map = options.map ?? null
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setPosition(position: any) {
+    this.options.position = position
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setStyles(styles: any) {
+    this.options.styles = styles
+  }
+
+  setZoomStyleMapping(mapping: Record<number, number>) {
+    this.options.zoomStyleMapping = mapping
+  }
+
+  setExtData(extData: any) {
+    this.options.extData = extData
+  }
+
+  show() {
+    this.options.visible = true
+  }
+
+  hide() {
+    this.options.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class MarkerCluster extends EventTarget {
+  public map: Map | null
+  public markers: AMap.Marker[]
+  public options: any
+
+  constructor(map: Map, markers: AMap.Marker[] | AMap.Marker = [], options: any = {}) {
+    super()
+    this.map = map
+    this.markers = Array.isArray(markers) ? [...markers] : [markers]
+    this.options = { ...options }
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  addMarker(marker: AMap.Marker) {
+    this.markers.push(marker)
+  }
+
+  addMarkers(markers: AMap.Marker[]) {
+    this.markers.push(...markers)
+  }
+
+  removeMarker(marker: AMap.Marker) {
+    this.markers = this.markers.filter(item => item !== marker)
+  }
+
+  removeMarkers(markers: AMap.Marker[]) {
+    markers.forEach(marker => this.removeMarker(marker))
+  }
+
+  clearMarkers() {
+    this.markers = []
+  }
+
+  setMarkers(markers: AMap.Marker[]) {
+    this.markers = [...markers]
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  destroy() {
+    this.clearMarkers()
+    this.map = null
+  }
+}
+
 class ToolBar extends EventTarget {
   public map: Map | null = null
   public options: any
@@ -684,15 +1008,168 @@ class MassMarks extends EventTarget {
   }
 }
 
+class MouseTool extends EventTarget {
+  public map: Map
+  public lastOverlay: any
+
+  constructor(map: Map) {
+    super()
+    this.map = map
+  }
+
+  circle(options: any = {}) {
+    const overlay = new Circle({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  rectangle(options: any = {}) {
+    const overlay = new Rectangle({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  polygon(options: any = {}) {
+    const overlay = new Polygon({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  polyline(options: any = {}) {
+    const overlay = new Polyline({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  bezierCurve(options: any = {}) {
+    const overlay = new BezierCurve({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  ellipse(options: any = {}) {
+    const overlay = new Ellipse({ ...options, map: this.map })
+    overlay.setMap(this.map)
+    this.lastOverlay = overlay
+    this.emit('draw', { obj: overlay })
+    return overlay
+  }
+
+  close() {
+    this.lastOverlay = null
+  }
+}
+
+class ContextMenu extends EventTarget {
+  public items: Array<{ text: string, handler: (event: any) => void }>
+  public map: Map | null = null
+  public position: any
+  public opened = false
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+    this.items = []
+  }
+
+  addItem(text: string, handler: (event: any) => void, index?: number) {
+    const item = { text, handler }
+    if (typeof index === 'number')
+      this.items.splice(index, 0, item)
+    else
+      this.items.push(item)
+  }
+
+  removeItem(text: string, handler: (event: any) => void) {
+    this.items = this.items.filter(item => item.text !== text || item.handler !== handler)
+  }
+
+  open(map: Map, position: any) {
+    this.map = map
+    this.position = position
+    this.opened = true
+    this.emit('open', { position })
+  }
+
+  close() {
+    this.opened = false
+    this.emit('close', {})
+  }
+}
+
+class BaseEditor<TTarget> extends EventTarget {
+  public map: Map
+  public target: TTarget | null
+  public options: any
+  public active = false
+
+  constructor(map: Map, target: TTarget | null, options: any = {}) {
+    super()
+    this.map = map
+    this.target = target
+    this.options = { ...options }
+  }
+
+  open() {
+    this.active = true
+    this.emit('open', { target: this.target })
+  }
+
+  close() {
+    this.active = false
+    this.emit('close', { target: this.target })
+  }
+
+  setTarget(target: TTarget | null) {
+    this.target = target
+  }
+
+  getTarget(): TTarget | null {
+    return this.target
+  }
+
+  setOptions(options: Record<string, any>) {
+    this.options = { ...this.options, ...options }
+  }
+
+  destroy() {
+    this.close()
+    this.target = null
+  }
+}
+
+class CircleEditor extends BaseEditor<Circle> {}
+class RectangleEditor extends BaseEditor<Rectangle> {}
+class EllipseEditor extends BaseEditor<Ellipse> {}
+class PolylineEditor extends BaseEditor<Polyline> {}
+class BezierCurveEditor extends BaseEditor<BezierCurve> {}
+class PolygonEditor extends BaseEditor<Polygon> {}
+
 Object.assign(globalThis, {
   AMap: {
     Map,
     Marker,
+    CircleMarker,
+    Text,
     LabelMarker,
     InfoWindow,
     Polyline,
+    BezierCurve,
     Polygon,
     Circle,
+    Rectangle,
+    Ellipse,
     TileLayer,
     ImageLayer,
     LabelsLayer,
@@ -702,9 +1179,19 @@ Object.assign(globalThis, {
     MapType: MapTypeControl,
     OverlayGroup,
     MassMarks,
+    MouseTool,
+    ContextMenu,
+    CircleEditor,
+    RectangleEditor,
+    EllipseEditor,
+    PolylineEditor,
+    BezierCurveEditor,
+    PolygonEditor,
     LngLat,
     Pixel,
     Bounds,
+    ElasticMarker,
+    MarkerCluster,
   },
 })
 

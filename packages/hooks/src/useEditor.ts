@@ -337,3 +337,39 @@ export function useEditorEllipse(
     ({ AMap, map, target, options: editorOptions }) => new (AMap as any).EllipseEditor(map, target, editorOptions),
   )(mapRef, options)
 }
+
+export type UseEditorPolylineOptions = UseEditorOptions<AMap.Polyline, AMap.PolylineEditorOptions>
+
+export function useEditorPolyline(
+  mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
+  options: MaybeRefOrGetter<UseEditorPolylineOptions>,
+): UseEditorReturn<AMap.PolylineEditor, AMap.Polyline> {
+  return createEditorHook<AMap.Polyline, AMap.PolylineEditor, AMap.PolylineEditorOptions>(
+    'AMap.PolylineEditor',
+    ({ AMap, map, target, options: editorOptions }) => new (AMap as any).PolylineEditor(map, target, editorOptions),
+  )(mapRef, options)
+}
+
+export type UseEditorBezierCurveOptions = UseEditorOptions<AMap.BezierCurve, AMap.BezierCurveEditorOptions>
+
+export function useEditorBezierCurve(
+  mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
+  options: MaybeRefOrGetter<UseEditorBezierCurveOptions>,
+): UseEditorReturn<AMap.BezierCurveEditor, AMap.BezierCurve> {
+  return createEditorHook<AMap.BezierCurve, AMap.BezierCurveEditor, AMap.BezierCurveEditorOptions>(
+    'AMap.BezierCurveEditor',
+    ({ AMap, map, target, options: editorOptions }) => new (AMap as any).BezierCurveEditor(map, target, editorOptions),
+  )(mapRef, options)
+}
+
+export type UseEditorPolygonOptions = UseEditorOptions<AMap.Polygon, AMap.PolygonEditorOptions>
+
+export function useEditorPolygon(
+  mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
+  options: MaybeRefOrGetter<UseEditorPolygonOptions>,
+): UseEditorReturn<AMap.PolygonEditor, AMap.Polygon> {
+  return createEditorHook<AMap.Polygon, AMap.PolygonEditor, AMap.PolygonEditorOptions>(
+    'AMap.PolygonEditor',
+    ({ AMap, map, target, options: editorOptions }) => new (AMap as any).PolygonEditor(map, target, editorOptions),
+  )(mapRef, options)
+}

@@ -1,18 +1,22 @@
 import type { Ref } from 'vue'
 
 import type { UseCircleOptions } from '../src/useCircle'
+import type { UseEllipseOptions } from '../src/useEllipse'
 import type { UseInfoWindowOptions } from '../src/useInfoWindow'
 import type { UsePolygonOptions } from '../src/usePolygon'
 import type { UsePolylineOptions } from '../src/usePolyline'
+import type { UseRectangleOptions } from '../src/useRectangle'
 
 import { flushPromises as flushPendingPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import { defineComponent, nextTick, ref } from 'vue'
 
 import { useCircle } from '../src/useCircle'
+import { useEllipse } from '../src/useEllipse'
 import { useInfoWindow } from '../src/useInfoWindow'
 import { usePolygon } from '../src/usePolygon'
 import { usePolyline } from '../src/usePolyline'
+import { useRectangle } from '../src/useRectangle'
 
 function createContainer() {
   const container = document.createElement('div')
@@ -336,6 +340,125 @@ describe('useCircle', () => {
     harness.mapRef.value = harness.map
     await flushReactivity()
     expect(instance.map?.container).toBe(harness.map.container)
+
+    harness.hook.destroy()
+    expect(harness.hook.overlay.value).toBeNull()
+    expect(instance.map).toBeNull()
+    harness.cleanup()
+  })
+})
+
+describe('useRectangle', () => {
+  it('manages rectangle bounds and visibility', async () => {
+    const harness = mountHookWithMap<UseRectangleOptions, ReturnType<typeof useRectangle>>(
+      (mapRef, options) => useRectangle(mapRef, options),
+      {
+        bounds: [
+          [116.38, 39.9],
+          [116.42, 39.94],
+        ],
+        visible: true,
+      },
+    )
+
+    const instance = await waitForInstance(() => harness.hook.overlay.value)
+    if (!instance)
+      throw new Error('Rectangle instance was not created')
+
+    expect(instance).toBeInstanceOf((AMap as any).Rectangle)
+    expect(instance.map?.container).toBe(harness.map.container)
+    expect(instance.options.bounds).toBeDefined()
+
+    harness.options.value = {
+      ...harness.options.value,
+      bounds: [
+        [117.1, 40.1],
+        [117.3, 40.3],
+      ],
+      visible: false,
+    }
+    await flushReactivity()
+
+    expect(instance.options.visible).toBe(false)
+    expect(instance.options.bounds).toBeDefined()
+
+    harness.hook.setBounds([
+      [118.1, 41.1],
+      [118.4, 41.4],
+    ])
+    expect(instance.options.bounds).toBeDefined()
+
+    harness.hook.setOptions({ strokeWeight: 2 })
+    expect(instance.options.strokeWeight).toBe(2)
+
+    harness.hook.setExtData({ id: 'rectangle' })
+    expect(instance.options.extData).toEqual({ id: 'rectangle' })
+
+    harness.hook.hide()
+    expect(instance.options.visible).toBe(false)
+    harness.hook.show()
+    expect(instance.options.visible).toBe(true)
+
+    harness.mapRef.value = null
+    await flushReactivity()
+    expect(instance.map).toBeNull()
+
+    harness.mapRef.value = harness.map
+    await flushReactivity()
+    expect(instance.map?.container).toBe(harness.map.container)
+
+    harness.hook.destroy()
+    expect(harness.hook.overlay.value).toBeNull()
+    expect(instance.map).toBeNull()
+    harness.cleanup()
+  })
+})
+
+describe('useEllipse', () => {
+  it('handles ellipse radius and center updates', async () => {
+    const harness = mountHookWithMap<UseEllipseOptions, ReturnType<typeof useEllipse>>(
+      (mapRef, options) => useEllipse(mapRef, options),
+      {
+        center: [116.39, 39.91],
+        radius: [1000, 600],
+        visible: true,
+      },
+    )
+
+    const instance = await waitForInstance(() => harness.hook.overlay.value)
+    if (!instance)
+      throw new Error('Ellipse instance was not created')
+
+    expect(instance).toBeInstanceOf((AMap as any).Ellipse)
+    expect(instance.map?.container).toBe(harness.map.container)
+    expect(instance.options.center).toBeInstanceOf(AMap.LngLat)
+    expect(Array.isArray(instance.options.radius)).toBe(true)
+
+    harness.options.value = {
+      ...harness.options.value,
+      radius: [1500, 800],
+      visible: false,
+    }
+    await flushReactivity()
+    expect(instance.options.radius).toEqual([1500, 800])
+    expect(instance.options.visible).toBe(false)
+
+    harness.hook.setCenter([118.1, 31.2])
+    expect(instance.options.center).toBeInstanceOf(AMap.LngLat)
+
+    harness.hook.setRadius([1800, 900])
+    expect(instance.options.radius).toEqual([1800, 900])
+
+    harness.hook.setOptions({ strokeColor: '#f5222d' })
+    expect(instance.options.strokeColor).toBe('#f5222d')
+
+    harness.hook.setExtData({ id: 'ellipse' })
+    expect(instance.options.extData).toEqual({ id: 'ellipse' })
+
+    harness.hook.hide()
+    expect(instance.options.visible).toBe(false)
+    harness.hook.show()
+    expect(instance.options.visible).toBe(true)
 
     harness.hook.destroy()
     expect(harness.hook.overlay.value).toBeNull()

@@ -7,6 +7,8 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 export interface UseMarkerOptions extends Partial<AMap.MarkerOptions> {
   position?: LngLatLike
   offset?: AMap.Pixel | [number, number]
+  content?: string | HTMLElement | null
+  anchor?: AMap.MarkerAnchor
 }
 
 export interface UseMarkerReturn {
@@ -18,6 +20,9 @@ export interface UseMarkerReturn {
   setDraggable: (draggable: boolean | undefined) => void
   setZIndex: (zIndex: number | undefined) => void
   setOffset: (offset: AMap.Pixel | [number, number] | undefined) => void
+  setContent: (content: string | HTMLElement | null | undefined) => void
+  setAnchor: (anchor: AMap.MarkerAnchor | undefined) => void
+  setIsCustom: (isCustom: boolean | undefined) => void
   show: () => void
   hide: () => void
   on: (event: string, handler: (event: any) => void) => void
@@ -38,7 +43,7 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
 
     try {
       const opts = optionsRef.value
-      const { position, offset, ...rest } = opts
+      const { position, offset, content, anchor, isCustom, visible, ...rest } = opts
       const AMap = loader.get() ?? await loader.load()
       const instance = new AMap.Marker({
         ...rest,
@@ -50,6 +55,14 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
         setPosition(position)
       if (offset)
         setOffset(offset)
+      if (typeof anchor !== 'undefined')
+        setAnchor(anchor as AMap.MarkerAnchor | undefined)
+      if (typeof isCustom === 'boolean')
+        setIsCustom(isCustom)
+      if (typeof content !== 'undefined')
+        setContent(content)
+      if (visible === false)
+        hide()
     }
     catch (error) {
       warn(error instanceof Error ? error.message : String(error))
@@ -89,6 +102,9 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   watch(() => optionsRef.value.zIndex, value => setZIndex(value))
   watch(() => optionsRef.value.extData, value => setExtData(value))
   watch(() => optionsRef.value.offset, value => setOffset(value as any), { deep: true })
+  watch(() => optionsRef.value.content, value => setContent(value), { immediate: true })
+  watch(() => optionsRef.value.anchor as AMap.MarkerAnchor | undefined, value => setAnchor(value), { immediate: true })
+  watch(() => optionsRef.value.isCustom as boolean | undefined, value => setIsCustom(value), { immediate: true })
   watch(() => optionsRef.value.visible, (visible) => {
     if (visible == null)
       return
@@ -152,6 +168,35 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     instance.setOffset(value as any)
   }
 
+  function setContent(content: string | HTMLElement | null | undefined) {
+    if (typeof content === 'undefined')
+      return
+    const instance = marker.value as any
+    if (!instance || typeof instance.setContent !== 'function')
+      return
+    instance.setContent(content as any)
+  }
+
+  function setAnchor(anchor: AMap.MarkerAnchor | undefined) {
+    const instance = marker.value as any
+    if (!instance || anchor == null)
+      return
+    if (typeof instance.setAnchor === 'function')
+      instance.setAnchor(anchor)
+    else if (typeof instance.setOptions === 'function')
+      instance.setOptions({ anchor })
+  }
+
+  function setIsCustom(isCustom: boolean | undefined) {
+    const instance = marker.value as any
+    if (!instance || typeof isCustom !== 'boolean')
+      return
+    if (typeof instance.setOptions === 'function')
+      instance.setOptions({ isCustom })
+    else
+      instance.isCustom = isCustom
+  }
+
   function show() {
     marker.value?.show()
   }
@@ -196,6 +241,9 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     setDraggable,
     setZIndex,
     setOffset,
+    setContent,
+    setAnchor,
+    setIsCustom,
     show,
     hide,
     on,

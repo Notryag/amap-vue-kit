@@ -1,20 +1,20 @@
-# `<AmapCircleEditor>`, `<AmapRectangleEditor>`, `<AmapEllipseEditor>`
+# `<AmapCircleEditor>`, `<AmapRectangleEditor>`, `<AmapEllipseEditor>`, `<AmapPolylineEditor>`, `<AmapBezierCurveEditor>`, `<AmapPolygonEditor>`
 
-Enable interactive geometry editing without hand-rolling plugin wiring. These lightweight components wrap their respective JSAPI editors and sync the `active` state and target overlay reactively.
+Enable interactive editing for common geometries without wiring plugins manually. These lightweight components wrap their respective JSAPI editors, watch the `active` flag, and let you pass either overlay instances or string identifiers.
 
 ## Shared props
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `target` | `AMap.Circle \| AMap.Rectangle \| AMap.Ellipse \| string \| null \| undefined` | – | Overlay instance (or identifier) to edit. Strings resolve against `overlay.getId()` or `overlay.getExtData().id`. |
+| `target` | `AMap.Circle \| AMap.Rectangle \| AMap.Ellipse \| AMap.Polyline \| AMap.BezierCurve \| AMap.Polygon \| string \| null \| undefined` | – | Overlay instance (or identifier) to edit. Strings resolve against `overlay.getId()`, `overlay.getExtData().id`, or `overlay.id`. |
 | `active` | `boolean` | `false` | Whether the editor should be open. Toggle reactively to start/stop editing. |
-| `options` | `Partial<AMap.CircleEditorOptions \| AMap.RectangleEditorOptions \| AMap.EllipseEditorOptions>` | `{}` | Extra plugin options forwarded on creation. Each component narrows this union to the right type. |
+| `options` | `Partial<AMap.CircleEditorOptions>` / `Partial<AMap.RectangleEditorOptions>` / `Partial<AMap.EllipseEditorOptions>` / `Partial<AMap.PolylineEditorOptions>` / `Partial<AMap.BezierCurveEditorOptions>` / `Partial<AMap.PolygonEditorOptions>` | `{}` | Extra plugin options forwarded on creation. Each component narrows the union to the correct type. |
 
 ## Events
 
 | Event | Payload | Description |
 | --- | --- | --- |
-| `ready` | `AMap.CircleEditor \| AMap.RectangleEditor \| AMap.EllipseEditor` | Fired once the editor instance is instantiated. |
+| `ready` | `AMap.CircleEditor \| AMap.RectangleEditor \| AMap.EllipseEditor \| AMap.PolylineEditor \| AMap.BezierCurveEditor \| AMap.PolygonEditor` | Fired once the editor instance is instantiated. |
 | `adjust` | `any` | Mirrors the JSAPI `adjust` event emitted while dragging control points. |
 | `end` | `any` | Emitted after editing finishes (`mouseup`). |
 
@@ -28,13 +28,21 @@ import { onBeforeUnmount, ref, shallowRef } from 'vue'
 const circleEditing = ref(false)
 const rectangleEditing = ref(false)
 const ellipseEditing = ref(false)
+const polylineEditing = ref(false)
+const bezierEditing = ref(false)
+const polygonEditing = ref(false)
+
 const map = shallowRef<AMap.Map | null>(null)
 const rectangle = shallowRef<AMap.Rectangle | null>(null)
 const ellipse = shallowRef<AMap.Ellipse | null>(null)
+const polyline = shallowRef<AMap.Polyline | null>(null)
+const bezier = shallowRef<AMap.BezierCurve | null>(null)
+const polygon = shallowRef<AMap.Polygon | null>(null)
 
 async function handleReady(instance: AMap.Map) {
   map.value = instance
-  const AMap = await loader.load()
+  const AMap = await loader.load({ plugins: ['AMap.BezierCurve'] })
+
   const rect = new AMap.Rectangle({
     bounds: new AMap.Bounds([116.36, 39.9], [116.41, 39.94]),
     strokeColor: '#20c997',
@@ -53,11 +61,54 @@ async function handleReady(instance: AMap.Map) {
   })
   ell.setMap(instance)
   ellipse.value = ell
+
+  const line = new AMap.Polyline({
+    path: [
+      [116.35, 39.9],
+      [116.38, 39.92],
+      [116.41, 39.91],
+    ],
+    strokeColor: '#722ed1',
+    strokeWeight: 4,
+  })
+  line.setMap(instance)
+  polyline.value = line
+
+  const curve = new (AMap as any).BezierCurve({
+    path: [
+      [
+        [116.36, 39.88],
+        [116.38, 39.92],
+        [116.4, 39.94],
+        [116.42, 39.91],
+      ],
+    ],
+    strokeColor: '#13c2c2',
+    strokeWeight: 4,
+  }) as AMap.BezierCurve
+  curve.setMap(instance)
+  bezier.value = curve
+
+  const polygonOverlay = new AMap.Polygon({
+    path: [
+      [116.37, 39.9],
+      [116.41, 39.9],
+      [116.42, 39.93],
+      [116.38, 39.94],
+    ],
+    strokeColor: '#fa8c16',
+    fillColor: 'rgba(250, 140, 22, 0.25)',
+  })
+  polygonOverlay.setMap(instance)
+  polygon.value = polygonOverlay
 }
 
 onBeforeUnmount(() => {
   rectangle.value?.destroy?.()
   ellipse.value?.destroy?.()
+  polyline.value?.destroy?.()
+  bezier.value?.destroy?.()
+  polygon.value?.destroy?.()
 })
 </script>
 
@@ -73,6 +124,9 @@ onBeforeUnmount(() => {
     <AmapCircleEditor target="demo-circle" :active="circleEditing" />
     <AmapRectangleEditor :target="rectangle" :active="rectangleEditing" />
     <AmapEllipseEditor target="demo-ellipse" :active="ellipseEditing" />
+    <AmapPolylineEditor :target="polyline" :active="polylineEditing" />
+    <AmapBezierCurveEditor :target="bezier" :active="bezierEditing" />
+    <AmapPolygonEditor :target="polygon" :active="polygonEditing" />
   </AmapMap>
 </template>
 ```
@@ -108,13 +162,36 @@ export interface EllipseEditorProps {
   options?: Partial<AMap.EllipseEditorOptions>
 }
 
-type EditorReadyPayload = AMap.CircleEditor | AMap.RectangleEditor | AMap.EllipseEditor
+export interface PolylineEditorProps {
+  target?: AMap.Polyline | string | null
+  active?: boolean
+  options?: Partial<AMap.PolylineEditorOptions>
+}
+
+export interface BezierCurveEditorProps {
+  target?: AMap.BezierCurve | string | null
+  active?: boolean
+  options?: Partial<AMap.BezierCurveEditorOptions>
+}
+
+export interface PolygonEditorProps {
+  target?: AMap.Polygon | string | null
+  active?: boolean
+  options?: Partial<AMap.PolygonEditorOptions>
+}
+
+type EditorReadyPayload = AMap.CircleEditor
+  | AMap.RectangleEditor
+  | AMap.EllipseEditor
+  | AMap.PolylineEditor
+  | AMap.BezierCurveEditor
+  | AMap.PolygonEditor
 ```
 
 ### Common pitfalls
 
 - Provide a stable way to resolve the target overlay—either pass the overlay instance directly or set `extData.id`/`id` so string lookups succeed.
-- Editors request their corresponding plugins (`AMap.CircleEditor`, etc.) lazily; make sure your loader key has permission to access them.
+- Editors request their corresponding plugins lazily (`AMap.CircleEditor`, `AMap.BezierCurveEditor`, etc.); ensure your loader key has permission to access them.
 - When destroying overlays manually, also set the editor `active` flag to `false` to avoid the plugin holding stale references.
 
 ### StackBlitz

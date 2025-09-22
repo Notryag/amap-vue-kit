@@ -21,7 +21,7 @@ markerApi.on('click', (event) => {
 | Key | Description |
 | --- | --- |
 | `marker` | `ShallowRef<AMap.Marker \| null>` referencing the marker instance. |
-| `setPosition`, `setIcon`, `setLabel`, `setExtData`, `setDraggable`, `setZIndex`, `setOffset` | Imperative setters mirroring JSAPI methods. |
+| `setPosition`, `setIcon`, `setLabel`, `setExtData`, `setDraggable`, `setZIndex`, `setOffset`, `setContent`, `setAnchor`, `setIsCustom` | Imperative setters mirroring JSAPI methods. |
 | `show` / `hide` | Toggle marker visibility. |
 | `on` / `off` | Subscribe to marker events. |
 | `destroy` | Remove the marker from the map. |

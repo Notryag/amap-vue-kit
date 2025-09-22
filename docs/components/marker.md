@@ -13,6 +13,9 @@
 | `zIndex` | `number` | Z-index ordering. |
 | `extData` | `any` | Arbitrary data stored on the marker. |
 | `offset` | `AMap.Pixel \| [number, number]` | Pixel offset relative to the anchor point. |
+| `anchor` | `AMap.MarkerAnchor` | Anchor position used together with `offset` for precise alignment. |
+| `content` | `string \| HTMLElement` | Custom HTML/SVG content. When omitted the default marker icon is rendered. |
+| `isCustom` | `boolean` | Force-enable or disable custom rendering. Automatically inferred when a slot or `content` is provided. |
 | `visible` | `boolean` | Controls marker visibility. |
 
 ## Events
@@ -33,7 +36,24 @@
 </AmapMap>
 ```
 
-Markers support arbitrary slot content inside `<AmapInfoWindow>` instances for rich popups.
+### Custom HTML or SVG content
+
+`<AmapMarker>` now mirrors the JSAPI `content` capability. Pass a string/HTMLElement through the `content` prop or provide a default slot to render Vue templates as marker content. When slot content is present the component automatically toggles `isCustom` and the marker uses the supplied HTML/SVG instead of the default icon.
+
+```vue
+<AmapMarker
+  :position="[116.397, 39.908]"
+  anchor="bottom-center"
+  :offset="[0, -28]"
+>
+  <div class="custom-marker">
+    <span class="custom-marker__emoji">🍜</span>
+    <span>Beijing Noodles</span>
+  </div>
+</AmapMarker>
+```
+
+Use `anchor` together with `offset` to align the slot content relative to the geographic point. For example `anchor="bottom-center"` with a negative Y offset keeps the base of the HTML card pinned to the coordinate.
 
 ## Live example
 

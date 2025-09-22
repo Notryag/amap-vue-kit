@@ -23,8 +23,17 @@ Use the composable inside `ready` handlers to ensure the map exists before insta
   <UseMassMarkersHookDemo />
 </ClientOnly>
 
+## Mass markers vs labels layer
+
+Switch between high-density mass markers and rich label markers using the same dataset.
+
+<ClientOnly>
+  <MassMarksComparisonDemo />
+</ClientOnly>
+
 <script setup lang="ts">
 import UseMassMarkersHookDemo from '../examples/hooks/UseMassMarkersHookDemo.vue'
+import MassMarksComparisonDemo from '../examples/MassMarksComparisonDemo.vue'
 </script>
 
 ### Tips

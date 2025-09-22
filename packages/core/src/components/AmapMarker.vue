@@ -3,7 +3,7 @@ import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useMarker } from '@amap-vue/hooks'
 import { amapMapInjectionKey, warn } from '@amap-vue/shared'
-import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { Comment, computed, inject, onBeforeUnmount, shallowRef, useSlots, watch } from 'vue'
 
 defineOptions({
   name: 'AmapMarker',
@@ -24,6 +24,12 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  content: [String, Object] as PropType<string | HTMLElement | null>,
+  anchor: String as PropType<AMap.MarkerAnchor | undefined>,
+  isCustom: {
+    type: Boolean,
+    default: undefined,
+  },
 })
 
 const emit = defineEmits<{
@@ -39,6 +45,37 @@ const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 if (!context)
   warn('<AmapMarker> must be used inside <AmapMap>.')
 
+const contentRef = shallowRef<HTMLDivElement | null>(null)
+const slots = useSlots()
+
+const slotHasContent = computed(() => {
+  if (!slots.default)
+    return false
+  const content = slots.default()
+  return content.some((node) => {
+    if (node.type === Comment)
+      return false
+    if (typeof node.children === 'string')
+      return node.children.trim().length > 0
+    return true
+  })
+})
+
+const resolvedContent = computed(() => {
+  if (props.content !== undefined)
+    return props.content
+  return slotHasContent.value ? contentRef.value : null
+})
+
+const shouldUseCustomContent = computed(() => {
+  if (typeof props.isCustom === 'boolean')
+    return props.isCustom
+  const content = resolvedContent.value
+  if (content == null)
+    return undefined
+  return typeof content !== 'string'
+})
+
 const options = computed(() => ({
   position: props.position,
   icon: props.icon,
@@ -48,6 +85,9 @@ const options = computed(() => ({
   extData: props.extData,
   offset: props.offset,
   visible: props.visible,
+  content: resolvedContent.value,
+  anchor: props.anchor,
+  isCustom: shouldUseCustomContent.value,
 }))
 
 const markerApi = context ? useMarker(() => context.map.value, options) : null
@@ -83,5 +123,15 @@ defineExpose({
 </script>
 
 <template>
-  <span v-if="false" />
+  <div v-if="props.content == null" ref="contentRef" class="amap-vue-marker-content">
+    <slot />
+  </div>
 </template>
+
+<style scoped>
+.amap-vue-marker-content {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+</style>

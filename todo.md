@@ -294,7 +294,7 @@ amap-vue-kit/
   * [x] TileLayer / Traffic / RoadNet / Satellite hooks 文档
   * [ ] Advanced（大数据点/性能、ImageLayer、轨迹动画、主题样式）
 * [x] Recipes（园区底图、聚合、信息窗联动）
-  * [ ] FAQ（Key、CSP、地图不显示排错）
+  * [x] FAQ（Key、CSP、地图不显示排错）
   * [ ] Changelog（changesets）
 * [ ] 每个页面都包含可运行示例（docs 内嵌 SFC + `ClientOnly`）
 * [ ] 顶部 README 动图（Map + Marker + InfoWindow 3 秒演示）
@@ -327,7 +327,8 @@ amap-vue-kit/
     ```
   * [x] 清理 docs/hooks 代码示例的 import 顺序，确保 `pnpm lint` 通过
 * [x] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
-* [ ] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
+* [x] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
+  * 已添加 `.github/workflows/ci.yml`，执行 `pnpm lint`、`pnpm test -- --run`、`pnpm run build:all`
 * [ ] **Changesets**：`pnpm changeset` 流程 + 自动发版（需要 NPM\_TOKEN）
 * [x] **Examples**：`examples/basic`（Vite + Vue 最小演示），用于 e2e 冒烟
 * [ ] **发布脚本**：`release:canary` / `release:stable`，scoped 包 `--access public`

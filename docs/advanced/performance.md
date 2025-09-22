@@ -5,3 +5,13 @@
 3. **Prefer Mass Markers** – for >1,000 points use `useMassMarkers` or cluster overlays; standard markers are intended for small batches.
 4. **Enable WebGL features** – set `viewMode="3D"` and configure `pitch` and `rotation` when using WebGL-based visualizations.
 5. **Use `destroy` hooks** – both components and composables clean up automatically, but when working with raw JSAPI instances always call `destroy` to prevent memory leaks.
+
+## Live example
+
+<ClientOnly>
+  <PerformancePlaygroundDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import PerformancePlaygroundDemo from '../examples/advanced/PerformancePlaygroundDemo.vue'
+</script>

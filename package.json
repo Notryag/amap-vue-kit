@@ -15,7 +15,9 @@
     "test": "vitest",
     "typecheck": "vue-tsc --build --force",
     "changeset": "changeset",
-    "release": "changeset publish"
+    "release": "pnpm run release:stable",
+    "release:stable": "changeset publish",
+    "release:canary": "pnpm changeset version --snapshot canary && pnpm install && pnpm -r publish --tag canary --access public --no-git-checks"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.4.1",

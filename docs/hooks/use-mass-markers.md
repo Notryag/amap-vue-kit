@@ -39,3 +39,17 @@ watch(points, value => mass.setData(value))
 - The hook automatically loads the `AMap.MassMarks` plugin; ensure your loader key is authorised for it.
 - When the map reference becomes `null` the mass markers detach from the map and reattach once the map is back online.
 - Use lightweight point data objects (no large payloads in `extData`) to keep updates cheap.
+
+## Live example
+
+<ClientOnly>
+  <UseMassMarkersHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseMassMarkersHookDemo from '../examples/hooks/UseMassMarkersHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

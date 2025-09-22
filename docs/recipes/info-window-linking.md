@@ -135,3 +135,13 @@ The watcher keeps the info window and marker in sync regardless of whether the u
 ### StackBlitz
 
 [Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+
+## Live example
+
+<ClientOnly>
+  <InfoWindowLinkingRecipe />
+</ClientOnly>
+
+<script setup lang="ts">
+import InfoWindowLinkingRecipe from '../examples/recipes/InfoWindowLinkingRecipe.vue'
+</script>

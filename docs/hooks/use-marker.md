@@ -14,6 +14,8 @@ markerApi.on('click', (event) => {
 })
 ```
 
+`useMarker` mirrors the props exposed by `<AmapMarker>` so you can switch between declarative and imperative code paths as needed.
+
 ## Return value
 
 | Key | Description |
@@ -25,3 +27,17 @@ markerApi.on('click', (event) => {
 | `destroy` | Remove the marker from the map. |
 
 When the map reference becomes `null` (e.g. during unmount) the marker is automatically removed and destroyed.
+
+## Live example
+
+<ClientOnly>
+  <UseMarkerHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseMarkerHookDemo from '../examples/hooks/UseMarkerHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

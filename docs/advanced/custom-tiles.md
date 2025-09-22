@@ -13,3 +13,19 @@ ready((map) => {
 ```
 
 Combine tile layers with Vue reactivity by storing references in `shallowRef` instances and updating options inside watchers.
+
+## Live example
+
+<ClientOnly>
+  <CustomTilesDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import CustomTilesDemo from '../examples/advanced/CustomTilesDemo.vue'
+</script>
+
+### Tips
+
+- Keep custom tiles on their own layer so you can fade between them and native AMap imagery.
+- When pointing to third-party servers, ensure CORS headers allow the JSAPI to fetch PNG/JPG resources.
+- Use `useTileLayer` with a computed `tileUrl` when switching providers without recreating the map.

@@ -20,6 +20,8 @@ infoWindowApi.on('open', () => {
 })
 ```
 
+`useInfoWindow` powers `<AmapInfoWindow>` behind the scenes, so you can graduate from declarative slots to fully custom content strings or DOM nodes whenever necessary.
+
 ## Return value
 
 | Key | Description |
@@ -35,3 +37,17 @@ infoWindowApi.on('open', () => {
 
 - Passing reactive `open`, `position`, or `content` options keeps the JSAPI instance in sync without manual watchers.
 - When the provided map reference becomes `null`, the info window closes itself and reattaches once a map is available again.
+
+## Live example
+
+<ClientOnly>
+  <UseInfoWindowHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseInfoWindowHookDemo from '../examples/hooks/UseInfoWindowHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

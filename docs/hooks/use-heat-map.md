@@ -35,3 +35,17 @@ watch(points, (next) => {
 - The `data` option is watched deeply. Pushing to the reactive array triggers incremental updates without recreating the instanc
 e.
 - When the map reference becomes `null`, the heat map detaches itself and waits for a new map instance before reattaching.
+
+## Live example
+
+<ClientOnly>
+  <UseHeatMapHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseHeatMapHookDemo from '../examples/hooks/UseHeatMapHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

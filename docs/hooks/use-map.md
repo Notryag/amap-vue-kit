@@ -11,6 +11,8 @@ const { map, ready, setCenter, setZoom, on, off, destroy } = useMap(() => ({
 }))
 ```
 
+`useMap` powers the `<AmapMap>` component internally, so the same options and events apply.
+
 ## Return value
 
 | Key | Type | Description |
@@ -28,3 +30,17 @@ const { map, ready, setCenter, setZoom, on, off, destroy } = useMap(() => ({
 | `destroy` | `() => void` | Dispose the map and detach listeners. |
 
 Because the loader is shared, calling `useMap` in multiple components will reuse the same script injection and plugin configuration.
+
+## Live example
+
+<ClientOnly>
+  <UseMapHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseMapHookDemo from '../examples/hooks/UseMapHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -34,3 +34,17 @@
 ```
 
 Markers support arbitrary slot content inside `<AmapInfoWindow>` instances for rich popups.
+
+## Live example
+
+<ClientOnly>
+  <MarkerComponentDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import MarkerComponentDemo from '../examples/MarkerComponentDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

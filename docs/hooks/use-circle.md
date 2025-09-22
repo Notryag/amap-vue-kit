@@ -20,6 +20,8 @@ circleApi.on('dragend', () => {
 })
 ```
 
+`useCircle` is the imperative counterpart to `<AmapCircle>`—share option objects between the two when composing larger widgets.
+
 ## Return value
 
 | Key | Description |
@@ -36,3 +38,17 @@ circleApi.on('dragend', () => {
 
 - Setting the reactive `visible` option hides or shows the circle automatically.
 - When the map reference becomes `null`, the circle detaches itself and reattaches once a map instance is available again.
+
+## Live example
+
+<ClientOnly>
+  <UseCircleHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseCircleHookDemo from '../examples/hooks/UseCircleHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

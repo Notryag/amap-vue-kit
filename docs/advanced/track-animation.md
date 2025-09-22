@@ -12,3 +12,19 @@ ready((map) => {
 ```
 
 Consider combining track animations with `<AmapPolyline>` overlays to render the path outline while the marker moves along it.
+
+## Live example
+
+<ClientOnly>
+  <TrackAnimationDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import TrackAnimationDemo from '../examples/advanced/TrackAnimationDemo.vue'
+</script>
+
+### Tips
+
+- Always load `AMap.MoveAnimation` before calling `moveAlong` to avoid runtime errors.
+- Use `pauseMove` and `stopMove` to provide user controls for replaying the animation.
+- Pair the marker with a polyline or mass markers to show the origin and destination context.

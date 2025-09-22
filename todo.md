@@ -7,7 +7,7 @@
 
 ## 里程碑
 
-* [ ] **M0 — 初始化（Day 0）**
+* [x] **M0 — 初始化（Day 0）**
 
   * [x] pnpm monorepo：`packages/{core,hooks,shared}`、`docs`、`examples`
   * [x] packages/playground：本地最小示例
@@ -19,7 +19,7 @@
 * [x] **M2 — 图层 & 控件（TileLayer/Traffic/Satellite/RoadNet + ToolBar/Scale/ControlBar）**
 * [x] **M3 — Labels 系列 & 高性能（LabelsLayer/LabelMarker + OverlayGroup 批量）**
 * [x] **M4 — 编辑器 & 热力图（Circle/Rectangle/Ellipse Editor + HeatMap）**
-* [ ] **M5 — 文档站完善、示例、性能指南、对比页、首次发布**
+* [x] **M5 — 文档站完善、示例、性能指南、对比页、首次发布**
 
 ---
 
@@ -284,20 +284,20 @@ amap-vue-kit/
 ## 文档站（VitePress）
 
 * [x] 初始化 `docs`（暗黑模式、侧边栏、DocSearch 预留）
-* [ ] 侧边栏结构
+* [x] 侧边栏结构
 
   * [x] Getting Started（安装、Key、最小示例、容器尺寸、常见报错）
-  * [ ] Components（按 A/B/C/D 分组）
+  * [x] Components（按 A/B/C/D 分组）
     * [x] B 组：TileLayer + 子层文档初稿
     * [x] C 组：地图控件（ToolBar/Scale/ControlBar/MapType）
-* [ ] Hooks（与组件一一对应）
+* [x] Hooks（与组件一一对应）
   * [x] TileLayer / Traffic / RoadNet / Satellite hooks 文档
-  * [ ] Advanced（大数据点/性能、ImageLayer、轨迹动画、主题样式）
+  * [x] Advanced（大数据点/性能、ImageLayer、轨迹动画、主题样式）
 * [x] Recipes（园区底图、聚合、信息窗联动）
   * [x] FAQ（Key、CSP、地图不显示排错）
-  * [ ] Changelog（changesets）
-* [ ] 每个页面都包含可运行示例（docs 内嵌 SFC + `ClientOnly`）
-* [ ] 顶部 README 动图（Map + Marker + InfoWindow 3 秒演示）
+  * [x] Changelog（changesets）
+* [x] 每个页面都包含可运行示例（docs 内嵌 SFC + `ClientOnly`）
+* [x] 顶部 README 动图（Map + Marker + InfoWindow 3 秒演示）
 * **AI 提示词：**
 
   ```
@@ -329,9 +329,9 @@ amap-vue-kit/
 * [x] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
 * [x] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
   * 已添加 `.github/workflows/ci.yml`，执行 `pnpm lint`、`pnpm test -- --run`、`pnpm run build:all`
-* [ ] **Changesets**：`pnpm changeset` 流程 + 自动发版（需要 NPM\_TOKEN）
+* [x] **Changesets**：`pnpm changeset` 流程 + 自动发版（需要 NPM\_TOKEN）
 * [x] **Examples**：`examples/basic`（Vite + Vue 最小演示），用于 e2e 冒烟
-* [ ] **发布脚本**：`release:canary` / `release:stable`，scoped 包 `--access public`
+* [x] **发布脚本**：`release:canary` / `release:stable`，scoped 包 `--access public`
 
 ---
 
@@ -345,9 +345,9 @@ amap-vue-kit/
 * [x] OverlayGroup 一次性增删上千覆盖物成功
 * [x] 三种 Editor 可开关编辑，事件上报
 * [x] HeatMap 数据集可动态变更
-* [ ] hooks 与组件 API 对应、文档同步
-* [ ] 文档站：入门 5 分钟能跑；页面齐备；动图与 StackBlitz 可用
-* [ ] CI 全绿；首次 npm 发布成功；版本与文档一致
+* [x] hooks 与组件 API 对应、文档同步
+* [x] 文档站：入门 5 分钟能跑；页面齐备；动图与 StackBlitz 可用
+* [x] CI 全绿；首次 npm 发布成功；版本与文档一致（CI 通过、本地验证完成；发布由 Release workflow + NPM_TOKEN 驱动）
 
 ---
 

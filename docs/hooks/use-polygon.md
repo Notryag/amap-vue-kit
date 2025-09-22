@@ -20,6 +20,8 @@ const polygonApi = usePolygon(() => map.value, polygonOptions)
 polygonApi.setExtData({ regionId: 'beijing-core' })
 ```
 
+The same API powers `<AmapPolygon>`, so migrating from declarative templates to composables involves minimal changes.
+
 ## Return value
 
 | Key | Description |
@@ -35,3 +37,17 @@ polygonApi.setExtData({ regionId: 'beijing-core' })
 
 - The `path` option can be reactive and represent holes or multiple rings. Each segment is normalized to JSAPI coordinates.
 - Setting `visible` to `false` hides the polygon until the flag is flipped back to `true`.
+
+## Live example
+
+<ClientOnly>
+  <UsePolygonHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UsePolygonHookDemo from '../examples/hooks/UsePolygonHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

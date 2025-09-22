@@ -35,3 +35,17 @@ Display contextual information anchored to a map position. The component renders
 Toggle the `isOpen` prop or call `infoWindow.open(map, position)` on the exposed instance for imperative control.
 
 To render a fully custom chrome, set `is-custom` and either keep the slot markup or pass markup through the `content` prop when you already own a DOM node.
+
+## Live example
+
+<ClientOnly>
+  <InfoWindowComponentDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import InfoWindowComponentDemo from '../examples/InfoWindowComponentDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

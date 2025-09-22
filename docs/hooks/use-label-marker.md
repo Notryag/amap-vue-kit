@@ -40,3 +40,17 @@ layer.ready((instance) => {
 - `text.offset` accepts tuples such as `[0, -12]`; they are converted to `AMap.Pixel` behind the scenes when the JSAPI is availa
 ble.
 - When the supplied layer reference is `null`, the marker detaches itself and waits until a layer becomes available again.
+
+## Live example
+
+<ClientOnly>
+  <UseLabelMarkerHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseLabelMarkerHookDemo from '../examples/hooks/UseLabelMarkerHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

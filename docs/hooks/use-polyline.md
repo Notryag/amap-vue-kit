@@ -22,6 +22,8 @@ polylineApi.on('click', () => {
 })
 ```
 
+`usePolyline` exposes the same options as `<AmapPolyline>`, letting you reuse styling presets or migrate from components to composables seamlessly.
+
 ## Return value
 
 | Key | Description |
@@ -37,3 +39,17 @@ polylineApi.on('click', () => {
 
 - The composable watches the reactive options and updates the JSAPI object incrementally, so you can mutate `path.value` or `strokeColor` without manual glue code.
 - Setting `visible: false` in the options will hide the overlay until the flag becomes truthy again.
+
+## Live example
+
+<ClientOnly>
+  <UsePolylineHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UsePolylineHookDemo from '../examples/hooks/UsePolylineHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

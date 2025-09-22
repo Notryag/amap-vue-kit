@@ -40,3 +40,17 @@ labelsLayer.ready((layer) => {
 - When the map reference becomes `null`, the layer detaches itself and reattaches once a map is available again.
 - Use the higher-level `<AmapLabelsLayer>` component when authoring templates; `useLabelsLayer` is ideal for custom renderers or
 server-driven setups.
+
+## Live example
+
+<ClientOnly>
+  <UseLabelsLayerHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseLabelsLayerHookDemo from '../examples/hooks/UseLabelsLayerHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

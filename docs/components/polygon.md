@@ -33,3 +33,17 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
   :options="{ fillColor: 'rgba(75,139,255,0.25)', strokeColor: '#4b8bff' }"
 />
 ```
+
+## Live example
+
+<ClientOnly>
+  <PolygonComponentDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import PolygonComponentDemo from '../examples/PolygonComponentDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

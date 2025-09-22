@@ -40,3 +40,17 @@ circleEditor.on('end', () => {
 - When a string `target` is provided the hook polls `map.getAllOverlays()` until the overlay appears, making it safe to pass IDs before overlays mount.
 - Updating the reactive options triggers `editor.setOptions` so you can tweak handles (e.g. `radius`, `borderWeight`) without recreating the editor.
 - Remember to destroy or deactivate the editor when removing the target overlay to prevent stale references.
+
+## Live example
+
+<ClientOnly>
+  <UseEditorHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseEditorHookDemo from '../examples/hooks/UseEditorHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

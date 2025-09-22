@@ -48,3 +48,17 @@ watch(currentOverlay, (next) => {
 - The hook automatically requests the `AMap.ImageLayer` plugin the first time it runs.
 - When the map reference becomes `null` the layer detaches itself and reattaches once a new map instance is provided.
 - Bounds and offsets are normalised via the shared helpers from `@amap-vue/shared`, so you can safely pass array shorthand values.
+
+## Live example
+
+<ClientOnly>
+  <UseImageLayerHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseImageLayerHookDemo from '../examples/hooks/UseImageLayerHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

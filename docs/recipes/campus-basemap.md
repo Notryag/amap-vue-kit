@@ -60,3 +60,13 @@ Adjust the `bounds` to match the coordinates that enclose your artwork. Hosting 
 ### StackBlitz
 
 [Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+
+## Live example
+
+<ClientOnly>
+  <CampusBasemapRecipe />
+</ClientOnly>
+
+<script setup lang="ts">
+import CampusBasemapRecipe from '../examples/recipes/CampusBasemapRecipe.vue'
+</script>

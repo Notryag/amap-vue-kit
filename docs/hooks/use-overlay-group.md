@@ -40,3 +40,17 @@ overlayGroup.clearOverlays()
 - The hook clears and readds overlays when the reactive `overlays` array changes, ensuring the JSAPI group stays in sync.
 - Combine the hook with the loader helpers to instantiate overlays lazily after the JSAPI bundle is ready.
 - Call `destroy()` or `clearOverlays()` when tearing down large datasets to avoid leaving detached markers on the map.
+
+## Live example
+
+<ClientOnly>
+  <UseOverlayGroupHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseOverlayGroupHookDemo from '../examples/hooks/UseOverlayGroupHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

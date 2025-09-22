@@ -42,3 +42,17 @@ The hooks accept the corresponding JSAPI options (for example `ToolBarOptions`) 
 - The hook lazily loads the required plugin (`AMap.ToolBar`, `AMap.Scale`, etc.) the first time it runs. No manual `loader.config` call is required.
 - Controls automatically reattach themselves if the map reference changes (for example, when remounting `<AmapMap>`).
 - Prefer toggling the reactive `visible` option over conditional rendering so the control instance can be reused.
+
+## Live example
+
+<ClientOnly>
+  <UseControlHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseControlHookDemo from '../examples/hooks/UseControlHookDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

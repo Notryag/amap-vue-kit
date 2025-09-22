@@ -32,3 +32,17 @@ Draw polylines representing paths or routes. The component consumes the map cont
   :options="{ strokeColor: '#4b8bff', strokeWeight: 4 }"
 />
 ```
+
+## Live example
+
+<ClientOnly>
+  <PolylineComponentDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import PolylineComponentDemo from '../examples/PolylineComponentDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

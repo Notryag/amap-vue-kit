@@ -22,3 +22,13 @@ ready((map) => {
 ```
 
 Wrap the heatmap instance in a composable to react to prop changes if you plan to update the dataset frequently.
+
+## Live example
+
+<ClientOnly>
+  <HeatmapRecipe />
+</ClientOnly>
+
+<script setup lang="ts">
+import HeatmapRecipe from '../examples/recipes/HeatmapRecipe.vue'
+</script>

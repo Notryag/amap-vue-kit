@@ -1,5 +1,7 @@
 # AMap Vue Kit
 
+![AMap Vue Kit demo](docs/public/hero.gif)
+
 Vue 3 components, composables, and tooling for the [AMap JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary).
 
 ## Packages

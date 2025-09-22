@@ -73,6 +73,16 @@ The hook defers instantiation until both the map instance and JSAPI script are a
 
 Each variant returns the same API surface while narrowing `overlay.value` to the concrete JSAPI class.
 
+## Live example
+
+<ClientOnly>
+  <UseTileLayerHookDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import UseTileLayerHookDemo from '../examples/hooks/UseTileLayerHookDemo.vue'
+</script>
+
 ## TypeScript signature
 
 ```ts

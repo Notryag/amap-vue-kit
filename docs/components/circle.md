@@ -30,3 +30,17 @@ Render geofenced regions or coverage areas using circles.
   :options="{ strokeColor: '#ff6a00', fillColor: 'rgba(255,106,0,0.1)' }"
 />
 ```
+
+## Live example
+
+<ClientOnly>
+  <CircleComponentDemo />
+</ClientOnly>
+
+<script setup lang="ts">
+import CircleComponentDemo from '../examples/CircleComponentDemo.vue'
+</script>
+
+### StackBlitz
+
+[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -17,6 +17,18 @@ importers:
       '@types/amap-js-api':
         specifier: ^1.4.16
         version: 1.4.16
+      '@types/amap-js-api-control-bar':
+        specifier: ^1.4.0
+        version: 1.4.4
+      '@types/amap-js-api-map-type':
+        specifier: ^1.4.0
+        version: 1.4.4
+      '@types/amap-js-api-scale':
+        specifier: ^1.4.0
+        version: 1.4.5
+      '@types/amap-js-api-tool-bar':
+        specifier: ^1.4.0
+        version: 1.4.4
       '@types/node':
         specifier: ^24.5.2
         version: 24.5.2
@@ -112,12 +124,6 @@ importers:
         specifier: ^3.4.0
         version: 3.5.21(typescript@5.9.2)
 
-  packages/shared:
-    dependencies:
-      vue:
-        specifier: ^3.4.0
-        version: 3.5.21(typescript@5.9.2)
-
   packages/playground:
     dependencies:
       '@amap-vue/core':
@@ -139,6 +145,12 @@ importers:
       vite:
         specifier: ^7.1.6
         version: 7.1.6(@types/node@24.5.2)
+
+  packages/shared:
+    dependencies:
+      vue:
+        specifier: ^3.4.0
+        version: 3.5.21(typescript@5.9.2)
 
 packages:
 
@@ -1790,6 +1802,30 @@ packages:
       espree: 10.4.0
       estraverse: 5.3.0
       picomatch: 4.0.3
+    dev: true
+
+  /@types/amap-js-api-control-bar@1.4.4:
+    resolution: {integrity: sha512-Nv82KxOQsSf0EYmkK5P2sNBNRmyG/ADwe/DtNkx8Rp0BZ64JANFRgxPuOExpsDK+OCblgdo3uPc1ZM68z9bfsA==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+    dev: true
+
+  /@types/amap-js-api-map-type@1.4.4:
+    resolution: {integrity: sha512-Ged7t6pjmgNBqdPVb+ufZuNglH2iLMqVohuwZiwYHiCYbLkFZvfeCFR7pWyZAL7JyXfI8xpt24TnnF3RnRjT+g==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+    dev: true
+
+  /@types/amap-js-api-scale@1.4.5:
+    resolution: {integrity: sha512-5r2ohxGUQG+KiyzGmPceWMe8ZYRtBeitlliTizhsjm49KrZfDQ9kbjl4HR9va6qu4joHXj/K1O8YosjAAgrJhA==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+    dev: true
+
+  /@types/amap-js-api-tool-bar@1.4.4:
+    resolution: {integrity: sha512-iAztayLK1ltszRDyXYzGN8QFEexwlzdcyp8tQpd8hhObqrkxLz3iGz392DocX3W45YPFGeml1oZInJThZDhLvw==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
     dev: true
 
   /@types/amap-js-api@1.4.16:

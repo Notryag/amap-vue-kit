@@ -383,7 +383,60 @@ amap-vue-kit/
 
 ---
 
+## Playground 优化（待实现）
+
+* [ ] 支持一键切换的组件面板，覆盖 README 中列出的 Map / Marker / InfoWindow / Polyline / Polygon / Circle / TileLayer / Traffic / Satellite / RoadNet / ToolBar / Scale / ControlBar / MapType。
+* [ ] 各面板提供受控表单（经纬度、缩放、旋转、可见性、样式、事件开关等），并在右下角显示实时事件日志。
+* [ ] Playground 右上角提供「复制为示例代码」按钮，将当前表单状态序列化为 `<AmapXXX>` SFC 片段。
+* [ ] 使用 URL Hash/Query 与 LocalStorage 持久化配置，实现刷新或分享状态不丢失。
+* [ ] 内置小/中/大三档数据集（100 / 3k / 1 万点），用于展示渲染耗时或 FPS 统计，便于压测性能。
+* [ ] 提供虚拟滚动 / 分块渲染开关，适配 MassMarkers 或 Clusterer 等大数据量场景。
+* [ ] 增加 Map Inspector：展示当前 zoom / center / bounds、已加载图层列表以及覆盖物添加/销毁计数。
+* [ ] Playground 提示与兜底：AMap Key 缺失时读取 `.env.local` 的 `VITE_AMAP_KEY`，并允许用户临时输入。
+
+---
+
+## 组件 / Hook 待补齐（优先级高 → 低）
+
+### 聚合与海量点
+
+* [ ] `<AmapMarkerClusterer>` 组件或 `useMarkerClusterer` hook，封装点聚合能力。
+* [ ] `<AmapMassMarks>` 组件封装（基于 `useMassMarkers`），支持样式、事件与数据源增量优化。
+
+### 热力图
+
+* [ ] `<AmapHeatMap>` 组件与示例，涵盖权重字段映射、渐变色、半径与模糊度配置。
+
+### 行政区与边界图层
+
+* [ ] `<AmapDistrictLayer>` 组件，支持国家 / 省 / 市多级加载与切换。
+* [ ] `<AmapGeoJSONLayer>` 组件，一键加载 GeoJSON 数据源。
+
+### 绘制与编辑工具
+
+* [ ] `<AmapMouseTool>` 组件或 UI，支持绘制点、线、面、矩形、圆。
+* [ ] `<AmapPolylineEditor>` / `<AmapPolygonEditor>` 组件化（或 hooks + 简易 UI），补齐折线与多边形编辑流程。
+* [ ] `<AmapCircleEditor>` / `<AmapRectangleEditor>` 组件封装，覆盖圆与矩形编辑场景。
+
+### 检索与路线规划
+
+* [ ] `<AmapAutoComplete>` / `<AmapPlaceSearch>` 组件，提供地点搜索体验。
+* [ ] `<AmapDriving>` / `<AmapWalking>` / `<AmapRiding>` 组件，渲染路线并提供面板 slot。
+
+### 服务能力
+
+* [ ] `useGeocoder` / `<AmapReverseGeocodePanel>`，整合逆地理/正向地理编码能力。
+* [ ] `useGeolocation`，包含权限处理与失败兜底。
+* [ ] `useWeather`，配城市选择器与天气展示组件。
+
+### 交互增强
+
+* [ ] `<AmapContextMenu>` 组件（或 `useContextMenu`），支持右键菜单交互。
+
+---
+
 ### 备注
 
 * 所有对 AI 的提示词都已尽量简短聚焦，如需更细请在对应任务下补充「输入例子/期待输出」。
 * 若 npm 名称冲突，优先用你自己的 scope（如 `@jointray/amap-vue-kit`），仓库名仍用 `amap-vue-kit` 即可。
+

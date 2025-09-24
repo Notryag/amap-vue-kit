@@ -401,7 +401,7 @@ amap-vue-kit/
 ### 聚合与海量点
 
 * [ ] `<AmapMarkerClusterer>` 组件或 `useMarkerClusterer` hook，封装点聚合能力。
-* [ ] `<AmapMassMarks>` 组件封装（基于 `useMassMarkers`），支持样式、事件与数据源增量优化。
+* [x] `<AmapMassMarks>` 组件封装（基于 `useMassMarkers`），支持样式、事件与数据源增量优化。
 
 ### 热力图
 
@@ -409,12 +409,12 @@ amap-vue-kit/
 
 ### 行政区与边界图层
 
-* [ ] `<AmapDistrictLayer>` 组件，支持国家 / 省 / 市多级加载与切换。
-* [ ] `<AmapGeoJSONLayer>` 组件，一键加载 GeoJSON 数据源。
+* [x] `<AmapDistrictLayer>` 组件，支持国家 / 省 / 市多级加载与切换。
+* [x] `<AmapGeoJSONLayer>` 组件，一键加载 GeoJSON 数据源。
 
 ### 绘制与编辑工具
 
-* [ ] `<AmapMouseTool>` 组件或 UI，支持绘制点、线、面、矩形、圆。
+* [x] `<AmapMouseTool>` 组件或 UI，支持绘制点、线、面、矩形、圆。
 * [ ] `<AmapPolylineEditor>` / `<AmapPolygonEditor>` 组件化（或 hooks + 简易 UI），补齐折线与多边形编辑流程。
 * [ ] `<AmapCircleEditor>` / `<AmapRectangleEditor>` 组件封装，覆盖圆与矩形编辑场景。
 
@@ -425,9 +425,9 @@ amap-vue-kit/
 
 ### 服务能力
 
-* [ ] `useGeocoder` / `<AmapReverseGeocodePanel>`，整合逆地理/正向地理编码能力。
-* [ ] `useGeolocation`，包含权限处理与失败兜底。
-* [ ] `useWeather`，配城市选择器与天气展示组件。
+* [x] `useGeocoder` / `<AmapReverseGeocodePanel>`，整合逆地理/正向地理编码能力。
+* [x] `useGeolocation`，包含权限处理与失败兜底。
+* [x] `useWeather`，配城市选择器与天气展示组件。
 
 ### 交互增强
 
@@ -439,4 +439,3 @@ amap-vue-kit/
 
 * 所有对 AI 的提示词都已尽量简短聚焦，如需更细请在对应任务下补充「输入例子/期待输出」。
 * 若 npm 名称冲突，优先用你自己的 scope（如 `@jointray/amap-vue-kit`），仓库名仍用 `amap-vue-kit` 即可。
-

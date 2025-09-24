@@ -1156,6 +1156,201 @@ class PolylineEditor extends BaseEditor<Polyline> {}
 class BezierCurveEditor extends BaseEditor<BezierCurve> {}
 class PolygonEditor extends BaseEditor<Polygon> {}
 
+class DistrictLayerBase extends EventTarget {
+  public map: Map | null = null
+  public options: any
+  public visible = true
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setStyles(styles: any) {
+    this.options.styles = styles
+  }
+
+  setDistricts(adcode: any) {
+    this.options.adcode = adcode
+  }
+
+  setZooms(zooms: [number, number]) {
+    this.options.zooms = zooms
+  }
+
+  setzIndex(zIndex: number) {
+    this.options.zIndex = zIndex
+  }
+
+  show() {
+    this.visible = true
+  }
+
+  hide() {
+    this.visible = false
+  }
+
+  destroy() {
+    this.map = null
+  }
+}
+
+class DistrictLayerWorld extends DistrictLayerBase {}
+class DistrictLayerCountry extends DistrictLayerBase {}
+class DistrictLayerProvince extends DistrictLayerBase {}
+class DistrictLayerCity extends DistrictLayerBase {}
+class DistrictLayerDistrict extends DistrictLayerBase {}
+
+class DistrictLayerMain extends DistrictLayerBase {}
+;(DistrictLayerMain as any).World = DistrictLayerWorld
+;(DistrictLayerMain as any).Country = DistrictLayerCountry
+;(DistrictLayerMain as any).Province = DistrictLayerProvince
+;(DistrictLayerMain as any).City = DistrictLayerCity
+;(DistrictLayerMain as any).District = DistrictLayerDistrict
+
+class GeoJSON extends OverlayGroup {
+  public options: any
+  public data: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+    this.data = options.geoJSON ?? null
+  }
+
+  importData(data: any) {
+    this.data = data
+  }
+
+  toGeoJSON() {
+    if (Array.isArray(this.data))
+      return this.data
+    if (this.data)
+      return [this.data]
+    return []
+  }
+}
+
+class Geocoder extends EventTarget {
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  getLocation(address: string, callback: (status: string, result: any) => void) {
+    callback('complete', {
+      info: 'OK',
+      geocodes: [{ formattedAddress: address, location: new LngLat(116.39, 39.9) }],
+    })
+  }
+
+  getAddress(lngLat: LngLat, callback: (status: string, result: any) => void) {
+    callback('complete', {
+      info: 'OK',
+      regeocode: {
+        formattedAddress: `地址(${lngLat.getLng()}, ${lngLat.getLat()})`,
+        addressComponent: {
+          province: '北京市',
+          city: '北京市',
+          district: '东城区',
+          streetNumber: { street: '长安街', number: '1号' },
+        },
+        pois: [
+          { id: 'poi-1', name: '天安门广场', location: new LngLat(116.397, 39.908) },
+        ],
+      },
+    })
+  }
+}
+
+class Geolocation extends EventTarget {
+  public options: any
+  private counter = 1
+  private watchers = new ListenerMap<number, (result: any) => void>()
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { enableHighAccuracy: true, ...options }
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  getCurrentPosition(callback: (status: string, result: any) => void) {
+    callback('complete', {
+      position: new LngLat(116.39, 39.9),
+      accuracy: 10,
+      info: 'OK',
+    })
+  }
+
+  watchPosition(callback: (status: string, result: any) => void) {
+    const id = this.counter++
+    this.watchers.set(id, result => callback('complete', result))
+    callback('complete', {
+      position: new LngLat(116.39, 39.9),
+      accuracy: 10,
+      info: 'OK',
+    })
+    return id
+  }
+
+  clearWatch(id: number) {
+    this.watchers.delete(id)
+  }
+
+  getCityInfo(callback: (status: string, result: any) => void) {
+    callback('complete', {
+      city: '北京市',
+      province: '北京市',
+      citycode: '010',
+    })
+  }
+}
+
+class Weather extends EventTarget {
+  getLive(city: string, callback: (status: string, result: any) => void) {
+    callback('complete', {
+      city,
+      province: '北京',
+      adcode: '110000',
+      weather: '晴',
+      temperature: '25',
+      windDirection: '东',
+      windPower: '3级',
+      humidity: '60',
+      reportTime: '2024-01-01 10:00:00',
+    })
+  }
+
+  getForecast(city: string, callback: (status: string, result: any) => void) {
+    callback('complete', {
+      city,
+      province: '北京',
+      adcode: '110000',
+      forecasts: [
+        { date: '2024-01-01', week: '周一', dayWeather: '晴', nightWeather: '多云', dayTemp: '26', nightTemp: '18' },
+        { date: '2024-01-02', week: '周二', dayWeather: '多云', nightWeather: '阵雨', dayTemp: '24', nightTemp: '17' },
+      ],
+    })
+  }
+}
+
 Object.assign(globalThis, {
   AMap: {
     Map,
@@ -1187,6 +1382,11 @@ Object.assign(globalThis, {
     PolylineEditor,
     BezierCurveEditor,
     PolygonEditor,
+    DistrictLayer: DistrictLayerMain,
+    GeoJSON,
+    Geocoder,
+    Geolocation,
+    Weather,
     LngLat,
     Pixel,
     Bounds,

@@ -366,6 +366,163 @@ declare global {
       off(event: string, handler: (event: any) => void): void
     }
 
+    interface DistrictLayerOptions {
+      zIndex?: number
+      zooms?: [number, number]
+      opacity?: number
+      depth?: number
+      adcode?: string | number | Array<string | number>
+      styles?: Record<string, any>
+      features?: string[]
+      visible?: boolean
+      [key: string]: any
+    }
+
+    class DistrictLayer {
+      constructor(options?: DistrictLayerOptions)
+      setMap(map: Map | null): void
+      setOptions(options: Partial<DistrictLayerOptions>): void
+      setStyles(styles: DistrictLayerOptions['styles']): void
+      setDistricts(adcode: string | number | Array<string | number>): void
+      setZooms(zooms: [number, number]): void
+      setzIndex(zIndex: number): void
+      show(): void
+      hide(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy(): void
+    }
+
+    namespace DistrictLayer {
+      class World extends DistrictLayer {}
+      class Country extends DistrictLayer {}
+      class Province extends DistrictLayer {}
+      class City extends DistrictLayer {}
+      class District extends DistrictLayer {}
+    }
+
+    interface GeocoderOptions {
+      city?: string
+      radius?: number
+      batch?: boolean
+      extensions?: 'base' | 'all'
+      [key: string]: any
+    }
+
+    interface GeocoderAddressComponent {
+      province?: string
+      city?: string | string[]
+      district?: string
+      township?: string
+      streetNumber?: { street?: string, number?: string }
+      [key: string]: any
+    }
+
+    interface GeocoderPoi {
+      id?: string
+      name?: string
+      location?: AMap.LngLat
+      address?: string
+      distance?: number
+      [key: string]: any
+    }
+
+    interface GeocoderRegeocode {
+      formattedAddress?: string
+      addressComponent?: GeocoderAddressComponent
+      pois?: GeocoderPoi[]
+      roads?: any[]
+      [key: string]: any
+    }
+
+    interface GeocoderResult {
+      info?: string
+      geocodes?: Array<{ formattedAddress?: string, location?: AMap.LngLat | [number, number], [key: string]: any }>
+      regeocode?: GeocoderRegeocode
+      [key: string]: any
+    }
+
+    class Geocoder {
+      constructor(options?: GeocoderOptions)
+      setOptions(options: Partial<GeocoderOptions>): void
+      getLocation(address: string, callback: (status: string, result: GeocoderResult) => void, city?: string): void
+      getAddress(lngLat: AMap.LngLat | [number, number], callback: (status: string, result: GeocoderResult) => void): void
+    }
+
+    interface GeolocationOptions {
+      enableHighAccuracy?: boolean
+      timeout?: number
+      maximumAge?: number
+      convert?: boolean
+      showButton?: boolean
+      buttonPosition?: string
+      buttonOffset?: AMap.Pixel | [number, number]
+      showMarker?: boolean
+      showCircle?: boolean
+      panToLocation?: boolean
+      zoomToAccuracy?: boolean
+      [key: string]: any
+    }
+
+    interface GeolocationResult {
+      position: AMap.LngLat
+      accuracy?: number
+      info?: string
+      [key: string]: any
+    }
+
+    interface GeolocationCityInfo {
+      city?: string
+      province?: string
+      citycode?: string
+      [key: string]: any
+    }
+
+    class Geolocation {
+      constructor(options?: GeolocationOptions)
+      setOptions(options: Partial<GeolocationOptions>): void
+      getCurrentPosition(callback: (status: string, result: GeolocationResult) => void): void
+      watchPosition(callback: (status: string, result: GeolocationResult) => void): number
+      clearWatch(id: number): void
+      getCityInfo(callback: (status: string, result: GeolocationCityInfo) => void): void
+    }
+
+    interface WeatherLiveResult {
+      city?: string
+      province?: string
+      adcode?: string
+      weather?: string
+      temperature?: string
+      windDirection?: string
+      windPower?: string
+      humidity?: string
+      reportTime?: string
+      [key: string]: any
+    }
+
+    interface WeatherForecast {
+      date: string
+      week: string
+      dayWeather: string
+      nightWeather: string
+      dayTemp: string
+      nightTemp: string
+      [key: string]: any
+    }
+
+    interface WeatherForecastResult {
+      city?: string
+      province?: string
+      adcode?: string
+      forecasts: WeatherForecast[]
+      [key: string]: any
+    }
+
+    class Weather {
+      getLive(city: string, callback: (status: string, result: WeatherLiveResult) => void): void
+      getForecast(city: string, callback: (status: string, result: WeatherForecastResult) => void): void
+    }
+
     interface ContextMenuOptions {
       width?: number
       isCustom?: boolean

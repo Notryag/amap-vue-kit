@@ -1,19 +1,225 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, reactive, ref, watch } from 'vue'
 
 type LngLatTuple = [number, number]
+type ControlPosition = 'LT' | 'RT' | 'LB' | 'RB'
+type InfoWindowAnchor = 'top-left'
+  | 'top-center'
+  | 'top-right'
+  | 'middle-left'
+  | 'center'
+  | 'middle-right'
+  | 'bottom-left'
+  | 'bottom-center'
+  | 'bottom-right'
+type MarkerLabelDirection = 'top' | 'bottom' | 'left' | 'right' | 'center'
+type MapStyleKey = 'default' | 'dark' | 'light' | 'fresh' | 'grey' | 'whitesmoke' | 'macaron' | 'blue' | 'darkblue'
+type ViewMode = '2D' | '3D'
+
+interface PanelDefinition {
+  id:
+    | 'map'
+    | 'marker'
+    | 'infoWindow'
+    | 'polyline'
+    | 'polygon'
+    | 'circle'
+    | 'tileLayer'
+    | 'traffic'
+    | 'satellite'
+    | 'roadNet'
+    | 'toolBar'
+    | 'scale'
+    | 'controlBar'
+    | 'mapType'
+  label: string
+  description: string
+}
 
 const center = ref<LngLatTuple>([116.397428, 39.90923])
 const initialCenter: LngLatTuple = [...center.value] as LngLatTuple
 const zoom = ref(12)
-const infoOpen = ref(true)
-const markerDraggable = ref(true)
-const showPolyline = ref(true)
-const showPolygon = ref(false)
-const showCircle = ref(false)
-const circleRadius = ref(600)
+const pitch = ref(40)
+const rotation = ref(0)
+const viewMode = ref<ViewMode>('3D')
+const mapStyle = ref<MapStyleKey>('default')
+
+const markerState = reactive({
+  draggable: true,
+  showLabel: true,
+  labelText: 'Drag me around',
+  labelDirection: 'top' as MarkerLabelDirection,
+  offsetX: 0,
+  offsetY: -10,
+})
+
+const infoWindowState = reactive({
+  isOpen: true,
+  title: 'Playground ready',
+  body: 'Drag the marker or adjust controls to explore component props.',
+  anchor: 'bottom-center' as InfoWindowAnchor,
+  offsetX: 0,
+  offsetY: 0,
+})
+
+const polylineState = reactive({
+  visible: true,
+  strokeColor: '#2563eb',
+  strokeWeight: 4,
+})
+
+const polygonState = reactive({
+  visible: true,
+  strokeColor: '#1d4ed8',
+  fillColor: '#2563eb',
+  fillOpacity: 0.12,
+})
+
+const circleState = reactive({
+  visible: true,
+  radius: 600,
+  strokeColor: '#f97316',
+  strokeWeight: 2,
+  fillColor: '#fb923c',
+  fillOpacity: 0.18,
+})
+
+const tileLayerState = reactive({
+  visible: true,
+  opacity: 0.65,
+  tileUrl: 'https://webrd02.is.autonavi.com/appmaptile?style=7&x=[x]&y=[y]&z=[z]',
+})
+
+const trafficState = reactive({
+  visible: true,
+  autoRefresh: false,
+  interval: 60,
+  opacity: 0.9,
+})
+
+const satelliteState = reactive({
+  visible: true,
+  opacity: 0.85,
+})
+
+const roadNetState = reactive({
+  visible: true,
+  opacity: 1,
+})
+
+const toolBarState = reactive({
+  visible: true,
+  position: 'LT' as ControlPosition,
+  offsetX: 16,
+  offsetY: 16,
+})
+
+const scaleState = reactive({
+  visible: true,
+  position: 'LB' as ControlPosition,
+  offsetX: 16,
+  offsetY: 16,
+})
+
+const controlBarState = reactive({
+  visible: true,
+  position: 'RB' as ControlPosition,
+  offsetX: 16,
+  offsetY: 80,
+  showZoomBar: true,
+  showControlButton: true,
+})
+
+const mapTypeState = reactive({
+  visible: true,
+  position: 'RT' as ControlPosition,
+  offsetX: 16,
+  offsetY: 16,
+  defaultType: 0,
+  showTraffic: true,
+  showRoad: true,
+})
 
 const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
+
+const panels = [
+  {
+    id: 'map',
+    label: 'Map',
+    description: 'Control the base map view, pitch, and rotation.',
+  },
+  {
+    id: 'marker',
+    label: 'Marker',
+    description: 'Toggle draggable markers, labels, and offsets.',
+  },
+  {
+    id: 'infoWindow',
+    label: 'InfoWindow',
+    description: 'Experiment with anchored popups and custom content.',
+  },
+  {
+    id: 'polyline',
+    label: 'Polyline',
+    description: 'Adjust path styling and visibility.',
+  },
+  {
+    id: 'polygon',
+    label: 'Polygon',
+    description: 'Tweak fill opacity and stroke colours.',
+  },
+  {
+    id: 'circle',
+    label: 'Circle',
+    description: 'Resize and style circular overlays.',
+  },
+  {
+    id: 'tileLayer',
+    label: 'TileLayer',
+    description: 'Overlay custom tiles on top of the base map.',
+  },
+  {
+    id: 'traffic',
+    label: 'Traffic',
+    description: 'Toggle real-time traffic data with opacity control.',
+  },
+  {
+    id: 'satellite',
+    label: 'Satellite',
+    description: 'Blend satellite imagery into the scene.',
+  },
+  {
+    id: 'roadNet',
+    label: 'RoadNet',
+    description: 'Display the road network overlay.',
+  },
+  {
+    id: 'toolBar',
+    label: 'ToolBar',
+    description: 'Place interactive navigation controls.',
+  },
+  {
+    id: 'scale',
+    label: 'Scale',
+    description: 'Display a scale bar at configurable positions.',
+  },
+  {
+    id: 'controlBar',
+    label: 'ControlBar',
+    description: 'Show 3D navigation buttons and toggles.',
+  },
+  {
+    id: 'mapType',
+    label: 'MapType',
+    description: 'Switch between map types and show quick toggles.',
+  },
+] as const satisfies readonly PanelDefinition[]
+
+type PanelId = typeof panels[number]['id']
+
+const activePanel = ref<PanelId>('map')
+
+const activePanelMeta = computed(() => panels.find(panel => panel.id === activePanel.value) ?? panels[0])
 
 const polylinePath: LngLatTuple[] = [
   [116.391312, 39.907415],
@@ -29,38 +235,120 @@ const polygonPath: LngLatTuple[] = [
   [116.403112, 39.90399],
 ]
 
-const polylineStyle = {
-  strokeColor: '#2563eb',
-  strokeWeight: 4,
-  strokeOpacity: 0.9,
-  lineJoin: 'round',
-  lineCap: 'round',
-} as const
+const viewModeOptions: Array<{ label: string, value: ViewMode }> = [
+  { label: '3D (default)', value: '3D' },
+  { label: '2D', value: '2D' },
+]
 
-const polygonStyle = {
-  strokeColor: '#1d4ed8',
-  strokeWeight: 2,
-  fillColor: '#2563eb',
-  fillOpacity: 0.08,
-} as const
+const mapStyleOptions: Array<{ label: string, value: MapStyleKey }> = [
+  { label: 'Default', value: 'default' },
+  { label: 'Dark', value: 'dark' },
+  { label: 'Light', value: 'light' },
+  { label: 'Fresh', value: 'fresh' },
+  { label: 'Grey', value: 'grey' },
+  { label: 'Whitesmoke', value: 'whitesmoke' },
+  { label: 'Macaron', value: 'macaron' },
+  { label: 'Blue', value: 'blue' },
+  { label: 'Dark Blue', value: 'darkblue' },
+]
 
-const circleStyle = {
-  strokeColor: '#f97316',
-  strokeWeight: 2,
-  strokeOpacity: 0.8,
-  fillColor: '#fb923c',
-  fillOpacity: 0.12,
-} as const
+const markerDirectionOptions: Array<{ label: string, value: MarkerLabelDirection }> = [
+  { label: 'Top', value: 'top' },
+  { label: 'Bottom', value: 'bottom' },
+  { label: 'Left', value: 'left' },
+  { label: 'Right', value: 'right' },
+  { label: 'Center', value: 'center' },
+]
+
+const infoWindowAnchorOptions: Array<{ label: string, value: InfoWindowAnchor }> = [
+  { label: 'Top left', value: 'top-left' },
+  { label: 'Top center', value: 'top-center' },
+  { label: 'Top right', value: 'top-right' },
+  { label: 'Middle left', value: 'middle-left' },
+  { label: 'Center', value: 'center' },
+  { label: 'Middle right', value: 'middle-right' },
+  { label: 'Bottom left', value: 'bottom-left' },
+  { label: 'Bottom center', value: 'bottom-center' },
+  { label: 'Bottom right', value: 'bottom-right' },
+]
+
+const controlPositionOptions: Array<{ label: string, value: ControlPosition }> = [
+  { label: 'Left top', value: 'LT' },
+  { label: 'Right top', value: 'RT' },
+  { label: 'Left bottom', value: 'LB' },
+  { label: 'Right bottom', value: 'RB' },
+]
+
+const mapTypeDefaultOptions = [
+  { label: 'Standard map', value: 0 },
+  { label: 'Satellite map', value: 1 },
+]
 
 const centerText = computed(() => {
   const [lng, lat] = center.value
   return `${lng.toFixed(6)}, ${lat.toFixed(6)}`
 })
 
+const resolvedMapStyle = computed(() => {
+  if (mapStyle.value === 'default')
+    return undefined
+  return `amap://styles/${mapStyle.value}`
+})
+
+const showMarker = computed(() => ['map', 'marker', 'infoWindow'].includes(activePanel.value))
+
+const markerLabel = computed(() => {
+  if (!markerState.showLabel || !markerState.labelText.trim())
+    return undefined
+  return {
+    content: markerState.labelText,
+    direction: markerState.labelDirection,
+  } satisfies AMap.MarkerLabelOptions
+})
+
+const markerOffset = computed(() => [markerState.offsetX, markerState.offsetY] as [number, number])
+const infoWindowOffset = computed(() => [infoWindowState.offsetX, infoWindowState.offsetY] as [number, number])
+
+const polylineOptions = computed(() => ({
+  strokeColor: polylineState.strokeColor,
+  strokeWeight: polylineState.strokeWeight,
+  strokeOpacity: 0.9,
+  lineJoin: 'round',
+  lineCap: 'round',
+}))
+
+const polygonOptions = computed(() => ({
+  strokeColor: polygonState.strokeColor,
+  strokeWeight: 2,
+  fillColor: polygonState.fillColor,
+  fillOpacity: polygonState.fillOpacity,
+}))
+
+const circleOptions = computed(() => ({
+  strokeColor: circleState.strokeColor,
+  strokeWeight: circleState.strokeWeight,
+  strokeOpacity: 0.9,
+  fillColor: circleState.fillColor,
+  fillOpacity: circleState.fillOpacity,
+}))
+
+const toolBarOffset = computed(() => [toolBarState.offsetX, toolBarState.offsetY] as [number, number])
+const scaleOffset = computed(() => [scaleState.offsetX, scaleState.offsetY] as [number, number])
+const controlBarOffset = computed(() => [controlBarState.offsetX, controlBarState.offsetY] as [number, number])
+const mapTypeOffset = computed(() => [mapTypeState.offsetX, mapTypeState.offsetY] as [number, number])
+
+watch(activePanel, (panel) => {
+  if (panel === 'infoWindow')
+    infoWindowState.isOpen = true
+})
+
 function resetView() {
   center.value = [...initialCenter] as LngLatTuple
   zoom.value = 12
-  infoOpen.value = true
+  pitch.value = 40
+  rotation.value = 0
+  viewMode.value = '3D'
+  mapStyle.value = 'default'
 }
 
 function stepZoom(delta: number) {
@@ -84,6 +372,14 @@ function handleMapMoveend(event: any) {
   const currentZoom = map?.getZoom?.()
   if (typeof currentZoom === 'number')
     zoom.value = Math.round(currentZoom)
+
+  const currentPitch = map?.getPitch?.()
+  if (typeof currentPitch === 'number')
+    pitch.value = Math.round(currentPitch)
+
+  const currentRotation = map?.getRotation?.()
+  if (typeof currentRotation === 'number')
+    rotation.value = Math.round(currentRotation)
 }
 
 function handleMarkerDragend(event: any) {
@@ -92,8 +388,9 @@ function handleMarkerDragend(event: any) {
     center.value = [Number(lnglat.lng.toFixed(6)), Number(lnglat.lat.toFixed(6))] as LngLatTuple
 }
 
-function updateCircleRadius(step: number) {
-  circleRadius.value = Math.min(2000, Math.max(100, circleRadius.value + step))
+function handleMarkerClick() {
+  if (activePanel.value === 'infoWindow')
+    infoWindowState.isOpen = true
 }
 </script>
 
@@ -102,81 +399,457 @@ function updateCircleRadius(step: number) {
     <aside class="sidebar">
       <header class="header">
         <h1>AMap Vue Kit Playground</h1>
-        <p>Adjust props, toggle overlays, and test interactions while iterating locally.</p>
+        <p>Switch between component panels to preview props, events, and runtime behaviour.</p>
       </header>
 
-      <section class="card">
-        <h2>View controls</h2>
-        <dl class="metrics">
-          <div>
-            <dt>Center</dt>
-            <dd>{{ centerText }}</dd>
-          </div>
-          <div>
-            <dt>Zoom</dt>
-            <dd>{{ zoom }}</dd>
-          </div>
-        </dl>
-        <div class="button-row">
-          <button type="button" @click="resetView">
-            Reset view
-          </button>
-          <button type="button" @click="stepZoom(1)">
-            Zoom in
-          </button>
-          <button type="button" @click="stepZoom(-1)">
-            Zoom out
-          </button>
-        </div>
-        <div class="nudge-grid">
-          <button type="button" @click="nudge(0, 0.01)">
-            Move north
-          </button>
-          <div class="nudge-center">
-            <button type="button" @click="nudge(-0.01, 0)">
-              Move west
-            </button>
-            <button type="button" @click="nudge(0.01, 0)">
-              Move east
-            </button>
-          </div>
-          <button type="button" @click="nudge(0, -0.01)">
-            Move south
-          </button>
-        </div>
-        <label class="toggle">
-          <input v-model="markerDraggable" type="checkbox">
-          <span>Draggable marker</span>
-        </label>
-        <label class="toggle">
-          <input v-model="infoOpen" type="checkbox">
-          <span>Info window open</span>
-        </label>
-      </section>
+      <nav class="panel-nav" aria-label="Component panels">
+        <button
+          v-for="panel in panels"
+          :key="panel.id"
+          type="button"
+          class="panel-tab"
+          :class="{ active: activePanel === panel.id }"
+          @click="activePanel = panel.id"
+        >
+          {{ panel.label }}
+        </button>
+      </nav>
 
       <section class="card">
-        <h2>Overlays</h2>
-        <label class="toggle">
-          <input v-model="showPolyline" type="checkbox">
-          <span>Show polyline path</span>
-        </label>
-        <label class="toggle">
-          <input v-model="showPolygon" type="checkbox">
-          <span>Show polygon area</span>
-        </label>
-        <label class="toggle">
-          <input v-model="showCircle" type="checkbox">
-          <span>Show circle radius</span>
-        </label>
-        <div v-if="showCircle" class="radius-controls">
-          <span>Radius: {{ circleRadius }} m</span>
+        <header class="panel-header">
+          <h2>{{ activePanelMeta.label }}</h2>
+          <p>{{ activePanelMeta.description }}</p>
+        </header>
+
+        <div v-if="activePanel === 'map'" class="panel-body">
+          <dl class="metrics">
+            <div>
+              <dt>Center</dt>
+              <dd>{{ centerText }}</dd>
+            </div>
+            <div>
+              <dt>Zoom</dt>
+              <dd>{{ zoom }}</dd>
+            </div>
+            <div>
+              <dt>Pitch</dt>
+              <dd>{{ pitch }}°</dd>
+            </div>
+            <div>
+              <dt>Rotation</dt>
+              <dd>{{ rotation }}°</dd>
+            </div>
+          </dl>
+
           <div class="button-row">
-            <button type="button" @click="updateCircleRadius(-100)">
-              -100 m
+            <button type="button" @click="resetView">
+              Reset view
             </button>
-            <button type="button" @click="updateCircleRadius(100)">
-              +100 m
+            <button type="button" @click="stepZoom(1)">
+              Zoom in
             </button>
+            <button type="button" @click="stepZoom(-1)">
+              Zoom out
+            </button>
+          </div>
+
+          <div class="nudge-grid">
+            <button type="button" @click="nudge(0, 0.01)">
+              Move north
+            </button>
+            <div class="nudge-center">
+              <button type="button" @click="nudge(-0.01, 0)">
+                Move west
+              </button>
+              <button type="button" @click="nudge(0.01, 0)">
+                Move east
+              </button>
+            </div>
+            <button type="button" @click="nudge(0, -0.01)">
+              Move south
+            </button>
+          </div>
+
+          <div class="form-grid">
+            <label class="form-field">
+              <span>View mode</span>
+              <select v-model="viewMode">
+                <option v-for="option in viewModeOptions" :key="option.value" :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </label>
+
+            <label class="form-field">
+              <span>Map style</span>
+              <select v-model="mapStyle">
+                <option v-for="option in mapStyleOptions" :key="option.value" :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </label>
+
+            <label class="form-field slider">
+              <span>Pitch</span>
+              <div class="slider-control">
+                <input v-model.number="pitch" type="range" min="0" max="75" step="1">
+                <span>{{ pitch }}°</span>
+              </div>
+            </label>
+
+            <label class="form-field slider">
+              <span>Rotation</span>
+              <div class="slider-control">
+                <input v-model.number="rotation" type="range" min="0" max="360" step="1">
+                <span>{{ rotation }}°</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div v-else-if="activePanel === 'marker'" class="panel-body">
+          <label class="toggle">
+            <input v-model="markerState.draggable" type="checkbox">
+            <span>Marker is draggable</span>
+          </label>
+          <label class="toggle">
+            <input v-model="markerState.showLabel" type="checkbox">
+            <span>Show label</span>
+          </label>
+
+          <label class="form-field">
+            <span>Label text</span>
+            <input v-model="markerState.labelText" type="text" placeholder="Marker label">
+          </label>
+
+          <label class="form-field">
+            <span>Label direction</span>
+            <select v-model="markerState.labelDirection">
+              <option v-for="option in markerDirectionOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="markerState.offsetX" type="number" step="1" aria-label="Marker offset X">
+              <input v-model.number="markerState.offsetY" type="number" step="1" aria-label="Marker offset Y">
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="activePanel === 'infoWindow'" class="panel-body">
+          <label class="toggle">
+            <input v-model="infoWindowState.isOpen" type="checkbox">
+            <span>Info window open</span>
+          </label>
+
+          <label class="form-field">
+            <span>Anchor</span>
+            <select v-model="infoWindowState.anchor">
+              <option v-for="option in infoWindowAnchorOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="infoWindowState.offsetX" type="number" step="1" aria-label="Info window offset X">
+              <input v-model.number="infoWindowState.offsetY" type="number" step="1" aria-label="Info window offset Y">
+            </div>
+          </div>
+
+          <label class="form-field">
+            <span>Title</span>
+            <input v-model="infoWindowState.title" type="text" placeholder="Window title">
+          </label>
+
+          <label class="form-field">
+            <span>Body</span>
+            <textarea v-model="infoWindowState.body" rows="3" />
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'polyline'" class="panel-body">
+          <label class="toggle">
+            <input v-model="polylineState.visible" type="checkbox">
+            <span>Show polyline</span>
+          </label>
+
+          <label class="form-field slider">
+            <span>Stroke weight</span>
+            <div class="slider-control">
+              <input v-model.number="polylineState.strokeWeight" type="range" min="1" max="12" step="1">
+              <span>{{ polylineState.strokeWeight }} px</span>
+            </div>
+          </label>
+
+          <label class="form-field">
+            <span>Stroke colour</span>
+            <input v-model="polylineState.strokeColor" type="color">
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'polygon'" class="panel-body">
+          <label class="toggle">
+            <input v-model="polygonState.visible" type="checkbox">
+            <span>Show polygon</span>
+          </label>
+
+          <label class="form-field">
+            <span>Stroke colour</span>
+            <input v-model="polygonState.strokeColor" type="color">
+          </label>
+
+          <label class="form-field">
+            <span>Fill colour</span>
+            <input v-model="polygonState.fillColor" type="color">
+          </label>
+
+          <label class="form-field slider">
+            <span>Fill opacity</span>
+            <div class="slider-control">
+              <input v-model.number="polygonState.fillOpacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(polygonState.fillOpacity * 100) }}%</span>
+            </div>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'circle'" class="panel-body">
+          <label class="toggle">
+            <input v-model="circleState.visible" type="checkbox">
+            <span>Show circle</span>
+          </label>
+
+          <label class="form-field slider">
+            <span>Radius</span>
+            <div class="slider-control">
+              <input v-model.number="circleState.radius" type="range" min="100" max="2000" step="50">
+              <span>{{ circleState.radius }} m</span>
+            </div>
+          </label>
+
+          <label class="form-field">
+            <span>Stroke colour</span>
+            <input v-model="circleState.strokeColor" type="color">
+          </label>
+
+          <label class="form-field">
+            <span>Fill colour</span>
+            <input v-model="circleState.fillColor" type="color">
+          </label>
+
+          <label class="form-field slider">
+            <span>Fill opacity</span>
+            <div class="slider-control">
+              <input v-model.number="circleState.fillOpacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(circleState.fillOpacity * 100) }}%</span>
+            </div>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'tileLayer'" class="panel-body">
+          <label class="toggle">
+            <input v-model="tileLayerState.visible" type="checkbox">
+            <span>Show tile layer</span>
+          </label>
+
+          <label class="form-field slider">
+            <span>Opacity</span>
+            <div class="slider-control">
+              <input v-model.number="tileLayerState.opacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(tileLayerState.opacity * 100) }}%</span>
+            </div>
+          </label>
+
+          <label class="form-field">
+            <span>Tile URL template</span>
+            <input v-model="tileLayerState.tileUrl" type="text" spellcheck="false">
+            <small class="field-hint">Supports [x], [y], [z] placeholders.</small>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'traffic'" class="panel-body">
+          <label class="toggle">
+            <input v-model="trafficState.visible" type="checkbox">
+            <span>Show traffic layer</span>
+          </label>
+
+          <label class="toggle">
+            <input v-model="trafficState.autoRefresh" type="checkbox">
+            <span>Auto refresh</span>
+          </label>
+
+          <label class="form-field">
+            <span>Refresh interval (s)</span>
+            <input v-model.number="trafficState.interval" type="number" min="15" max="300" step="15">
+          </label>
+
+          <label class="form-field slider">
+            <span>Opacity</span>
+            <div class="slider-control">
+              <input v-model.number="trafficState.opacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(trafficState.opacity * 100) }}%</span>
+            </div>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'satellite'" class="panel-body">
+          <label class="toggle">
+            <input v-model="satelliteState.visible" type="checkbox">
+            <span>Show satellite imagery</span>
+          </label>
+
+          <label class="form-field slider">
+            <span>Opacity</span>
+            <div class="slider-control">
+              <input v-model.number="satelliteState.opacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(satelliteState.opacity * 100) }}%</span>
+            </div>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'roadNet'" class="panel-body">
+          <label class="toggle">
+            <input v-model="roadNetState.visible" type="checkbox">
+            <span>Show road network</span>
+          </label>
+
+          <label class="form-field slider">
+            <span>Opacity</span>
+            <div class="slider-control">
+              <input v-model.number="roadNetState.opacity" type="range" min="0" max="1" step="0.05">
+              <span>{{ Math.round(roadNetState.opacity * 100) }}%</span>
+            </div>
+          </label>
+        </div>
+
+        <div v-else-if="activePanel === 'toolBar'" class="panel-body">
+          <label class="toggle">
+            <input v-model="toolBarState.visible" type="checkbox">
+            <span>Show tool bar</span>
+          </label>
+
+          <label class="form-field">
+            <span>Position</span>
+            <select v-model="toolBarState.position">
+              <option v-for="option in controlPositionOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="toolBarState.offsetX" type="number" step="1" aria-label="Tool bar offset X">
+              <input v-model.number="toolBarState.offsetY" type="number" step="1" aria-label="Tool bar offset Y">
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="activePanel === 'scale'" class="panel-body">
+          <label class="toggle">
+            <input v-model="scaleState.visible" type="checkbox">
+            <span>Show scale</span>
+          </label>
+
+          <label class="form-field">
+            <span>Position</span>
+            <select v-model="scaleState.position">
+              <option v-for="option in controlPositionOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="scaleState.offsetX" type="number" step="1" aria-label="Scale offset X">
+              <input v-model.number="scaleState.offsetY" type="number" step="1" aria-label="Scale offset Y">
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="activePanel === 'controlBar'" class="panel-body">
+          <label class="toggle">
+            <input v-model="controlBarState.visible" type="checkbox">
+            <span>Show control bar</span>
+          </label>
+
+          <label class="toggle">
+            <input v-model="controlBarState.showZoomBar" type="checkbox">
+            <span>Show zoom bar</span>
+          </label>
+
+          <label class="toggle">
+            <input v-model="controlBarState.showControlButton" type="checkbox">
+            <span>Show tilt button</span>
+          </label>
+
+          <label class="form-field">
+            <span>Position</span>
+            <select v-model="controlBarState.position">
+              <option v-for="option in controlPositionOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="controlBarState.offsetX" type="number" step="1" aria-label="Control bar offset X">
+              <input v-model.number="controlBarState.offsetY" type="number" step="1" aria-label="Control bar offset Y">
+            </div>
+          </div>
+        </div>
+
+        <div v-else-if="activePanel === 'mapType'" class="panel-body">
+          <label class="toggle">
+            <input v-model="mapTypeState.visible" type="checkbox">
+            <span>Show map type control</span>
+          </label>
+
+          <label class="form-field">
+            <span>Default type</span>
+            <select v-model.number="mapTypeState.defaultType">
+              <option v-for="option in mapTypeDefaultOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <label class="toggle">
+            <input v-model="mapTypeState.showTraffic" type="checkbox">
+            <span>Allow traffic toggle</span>
+          </label>
+
+          <label class="toggle">
+            <input v-model="mapTypeState.showRoad" type="checkbox">
+            <span>Allow road net toggle</span>
+          </label>
+
+          <label class="form-field">
+            <span>Position</span>
+            <select v-model="mapTypeState.position">
+              <option v-for="option in controlPositionOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div class="form-field inline">
+            <span>Offset (px)</span>
+            <div class="inline-inputs">
+              <input v-model.number="mapTypeState.offsetX" type="number" step="1" aria-label="Map type offset X">
+              <input v-model.number="mapTypeState.offsetY" type="number" step="1" aria-label="Map type offset Y">
+            </div>
           </div>
         </div>
       </section>
@@ -205,28 +878,103 @@ function updateCircleRadius(step: number) {
         class="map"
         :center="center"
         :zoom="zoom"
-        :pitch="40"
-        view-mode="3D"
+        :pitch="pitch"
+        :rotation="rotation"
+        :view-mode="viewMode"
+        :map-style="resolvedMapStyle"
         @moveend="handleMapMoveend"
       >
         <AmapMarker
+          v-if="showMarker"
           :position="center"
-          :draggable="markerDraggable"
-          @click="infoOpen = true"
+          :draggable="markerState.draggable"
+          :label="markerLabel"
+          :offset="markerOffset"
+          @click="handleMarkerClick"
           @dragend="handleMarkerDragend"
         />
-        <AmapInfoWindow :position="center" :is-open="infoOpen" @close="infoOpen = false">
+        <AmapInfoWindow
+          v-if="activePanel === 'infoWindow'"
+          :position="center"
+          :is-open="infoWindowState.isOpen"
+          :anchor="infoWindowState.anchor"
+          :offset="infoWindowOffset"
+          @close="infoWindowState.isOpen = false"
+          @open="infoWindowState.isOpen = true"
+        >
           <div class="info-window">
-            <h3>Playground ready</h3>
-            <p>
-              Drag the marker or use the controls to experiment with overlays and map events. This view mirrors the behaviour of
-              the published components.
-            </p>
+            <h3>{{ infoWindowState.title }}</h3>
+            <p>{{ infoWindowState.body }}</p>
           </div>
         </AmapInfoWindow>
-        <AmapPolyline v-if="showPolyline" :path="polylinePath" :options="polylineStyle" />
-        <AmapPolygon v-if="showPolygon" :path="polygonPath" :options="polygonStyle" />
-        <AmapCircle v-if="showCircle" :center="center" :radius="circleRadius" :options="circleStyle" />
+        <AmapPolyline
+          v-if="activePanel === 'polyline' && polylineState.visible"
+          :path="polylinePath"
+          :options="polylineOptions"
+        />
+        <AmapPolygon
+          v-if="activePanel === 'polygon' && polygonState.visible"
+          :path="polygonPath"
+          :options="polygonOptions"
+        />
+        <AmapCircle
+          v-if="activePanel === 'circle' && circleState.visible"
+          :center="center"
+          :radius="circleState.radius"
+          :options="circleOptions"
+        />
+        <AmapTileLayer
+          v-if="activePanel === 'tileLayer'"
+          :visible="tileLayerState.visible"
+          :opacity="tileLayerState.opacity"
+          :tile-url="tileLayerState.tileUrl"
+        />
+        <AmapTrafficLayer
+          v-if="activePanel === 'traffic'"
+          :visible="trafficState.visible"
+          :auto-refresh="trafficState.autoRefresh"
+          :interval="trafficState.interval"
+          :opacity="trafficState.opacity"
+        />
+        <AmapSatelliteLayer
+          v-if="activePanel === 'satellite'"
+          :visible="satelliteState.visible"
+          :opacity="satelliteState.opacity"
+        />
+        <AmapRoadNetLayer
+          v-if="activePanel === 'roadNet'"
+          :visible="roadNetState.visible"
+          :opacity="roadNetState.opacity"
+        />
+        <AmapToolBar
+          v-if="activePanel === 'toolBar'"
+          :visible="toolBarState.visible"
+          :position="toolBarState.position"
+          :offset="toolBarOffset"
+        />
+        <AmapScale
+          v-if="activePanel === 'scale'"
+          :visible="scaleState.visible"
+          :position="scaleState.position"
+          :offset="scaleOffset"
+        />
+        <AmapControlBar
+          v-if="activePanel === 'controlBar'"
+          :visible="controlBarState.visible"
+          :position="controlBarState.position"
+          :offset="controlBarOffset"
+          :show-zoom-bar="controlBarState.showZoomBar"
+          :show-control-button="controlBarState.showControlButton"
+        />
+        <AmapMapType
+          v-if="activePanel === 'mapType'"
+          :visible="mapTypeState.visible"
+          :position="mapTypeState.position"
+          :offset="mapTypeOffset"
+          :default-type="mapTypeState.defaultType"
+          :show-traffic="mapTypeState.showTraffic"
+          :show-road="mapTypeState.showRoad"
+        />
       </AmapMap>
     </section>
   </main>
@@ -236,7 +984,7 @@ function updateCircleRadius(step: number) {
 .playground {
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
   background: #f1f5f9;
   color: #0f172a;
 }
@@ -245,7 +993,7 @@ function updateCircleRadius(step: number) {
   padding: 2rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
   border-right: 1px solid rgba(15, 23, 42, 0.08);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.75));
   backdrop-filter: blur(12px);
@@ -263,22 +1011,62 @@ function updateCircleRadius(step: number) {
   color: #475569;
 }
 
+.panel-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.panel-tab {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1e293b;
+  background: rgba(148, 163, 184, 0.2);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.panel-tab.active {
+  background: #2563eb;
+  color: #fff;
+  box-shadow: 0 12px 30px -18px rgba(37, 99, 235, 0.7);
+}
+
+.panel-tab:hover {
+  background: rgba(59, 130, 246, 0.25);
+}
+
 .card {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  padding: 1.1rem 1.25rem;
-  border-radius: 16px;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: 18px;
   border: 1px solid rgba(148, 163, 184, 0.3);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 20px 45px -28px rgba(15, 23, 42, 0.45);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 22px 50px -32px rgba(15, 23, 42, 0.45);
 }
 
-.card h2 {
+.panel-header h2 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
+}
+
+.panel-header p {
+  margin: 0.35rem 0 0;
+  font-size: 0.9rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .metrics {
@@ -310,13 +1098,13 @@ function updateCircleRadius(step: number) {
 .button-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
 .button-row button {
   border: none;
   border-radius: 9999px;
-  padding: 0.45rem 0.9rem;
+  padding: 0.45rem 0.95rem;
   font-size: 0.9rem;
   font-weight: 600;
   color: #fff;
@@ -356,6 +1144,80 @@ function updateCircleRadius(step: number) {
   background: rgba(59, 130, 246, 0.25);
 }
 
+.form-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #334155;
+}
+
+.form-field select,
+.form-field input[type='text'],
+.form-field input[type='number'],
+.form-field textarea {
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 10px;
+  padding: 0.45rem 0.6rem;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.9);
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-field select:focus,
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: rgba(37, 99, 235, 0.8);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+.form-field.inline {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inline-inputs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.inline-inputs input {
+  width: 100%;
+}
+
+.slider {
+  gap: 0.55rem;
+}
+
+.slider-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slider-control input[type='range'] {
+  flex: 1;
+}
+
+.slider-control span {
+  min-width: 3rem;
+  font-variant-numeric: tabular-nums;
+  color: #1e293b;
+}
+
 .toggle {
   display: flex;
   align-items: center;
@@ -370,12 +1232,9 @@ function updateCircleRadius(step: number) {
   accent-color: #2563eb;
 }
 
-.radius-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  font-size: 0.9rem;
-  color: #1e293b;
+.field-hint {
+  font-size: 0.75rem;
+  color: #64748b;
 }
 
 .notice {

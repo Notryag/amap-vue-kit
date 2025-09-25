@@ -634,6 +634,131 @@ declare global {
       off(event: string, handler: (event: any) => void): void
       destroy(): void
     }
+
+    interface AutoCompleteOptions {
+      city?: string
+      citylimit?: boolean
+      datatype?: string
+      type?: string
+      lang?: string
+      [key: string]: any
+    }
+
+    interface AutoCompleteTip {
+      id?: string
+      name?: string
+      district?: string
+      adcode?: string
+      address?: string
+      location?: AMap.LngLat | [number, number]
+      typecode?: string
+      [key: string]: any
+    }
+
+    interface AutoCompleteResult {
+      info: string
+      tips: AutoCompleteTip[]
+      count?: number
+      [key: string]: any
+    }
+
+    class AutoComplete {
+      constructor(options?: AutoCompleteOptions)
+      search(keyword: string, callback: (status: string, result: AutoCompleteResult) => void): void
+      setCity(city: string): void
+      setType(type: string): void
+      setCityLimit(citylimit: boolean): void
+      setLanguage(lang: string): void
+      setDataType(datatype: string): void
+      setOptions(options: Partial<AutoCompleteOptions>): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+    }
+
+    interface PlaceSearchOptions {
+      city?: string
+      citylimit?: boolean
+      type?: string
+      pageSize?: number
+      pageIndex?: number
+      extensions?: 'base' | 'all'
+      map?: Map | null
+      panel?: string | HTMLElement
+      [key: string]: any
+    }
+
+    interface PlaceSearchCityInfo {
+      name: string
+      citycode: string
+      adcode: string
+      count: number
+    }
+
+    interface PlaceSearchSuggestion {
+      keywords?: Array<{ keyword: string, adcode: string }>
+      cities?: PlaceSearchCityInfo[]
+    }
+
+    interface PlaceSearchPoi {
+      id?: string
+      name?: string
+      type?: string
+      typecode?: string
+      address?: string
+      tel?: string
+      district?: string
+      citycode?: string
+      adcode?: string
+      location?: AMap.LngLat | [number, number]
+      [key: string]: any
+    }
+
+    interface PlaceSearchPoiList {
+      count: number
+      pageIndex: number
+      pageSize: number
+      pois: PlaceSearchPoi[]
+    }
+
+    interface PlaceSearchResult {
+      info: string
+      cityList?: PlaceSearchCityInfo[]
+      suggestion?: PlaceSearchSuggestion
+      poiList?: PlaceSearchPoiList
+      [key: string]: any
+    }
+
+    class PlaceSearch {
+      constructor(options?: PlaceSearchOptions)
+      search(keyword: string, callback: (status: string, result: PlaceSearchResult) => void): void
+      searchNearBy(
+        keyword: string,
+        center: AMap.LngLat | [number, number],
+        radius: number,
+        callback: (status: string, result: PlaceSearchResult) => void,
+      ): void
+      searchInBounds(
+        keyword: string,
+        bounds: AMap.Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]],
+        callback: (status: string, result: PlaceSearchResult) => void,
+      ): void
+      getDetails(
+        poiId: string,
+        callback: (
+          status: string,
+          result: { info: string, poiList?: PlaceSearchPoiList | null },
+        ) => void,
+      ): void
+      setCity(city: string): void
+      setType(type: string): void
+      setPageIndex(pageIndex: number): void
+      setPageSize(pageSize: number): void
+      setMap(map: Map | null): void
+      clear(): void
+      setOptions(options: Partial<PlaceSearchOptions>): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+    }
   }
 }
 

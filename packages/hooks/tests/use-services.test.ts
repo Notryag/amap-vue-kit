@@ -1,7 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
+import { useAutoComplete } from '../src/useAutoComplete'
 import { useGeocoder } from '../src/useGeocoder'
 import { useGeolocation } from '../src/useGeolocation'
+import { usePlaceSearch } from '../src/usePlaceSearch'
 import { useWeather } from '../src/useWeather'
 
 describe('service hooks', () => {
@@ -35,5 +37,26 @@ describe('service hooks', () => {
 
     const forecast = await weather.getForecast('北京')
     expect(forecast?.forecasts?.length).toBeGreaterThan(0)
+  })
+
+  it('auto complete returns suggestions for keywords', async () => {
+    const autoComplete = useAutoComplete()
+    const result = await autoComplete.search('咖啡')
+    expect(result?.tips?.length).toBeGreaterThan(0)
+    autoComplete.setCity('北京')
+    autoComplete.setType('餐饮服务')
+    autoComplete.destroy()
+  })
+
+  it('place search paginates results', async () => {
+    const placeSearch = usePlaceSearch({ pageSize: 5 })
+    const first = await placeSearch.search('美食')
+    expect(first?.poiList?.pois.length).toBe(5)
+    placeSearch.setPageIndex(2)
+    const second = await placeSearch.search('美食')
+    expect(second?.poiList?.pageIndex).toBe(2)
+    const details = await placeSearch.getDetails('美食-1')
+    expect(details?.poiList?.pois[0]?.name).toContain('详情')
+    placeSearch.destroy()
   })
 })

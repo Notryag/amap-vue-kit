@@ -1351,6 +1351,167 @@ class Weather extends EventTarget {
   }
 }
 
+class AutoComplete extends EventTarget {
+  public options: any
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { ...options }
+  }
+
+  search(keyword: string, callback: (status: string, result: any) => void) {
+    if (!keyword) {
+      callback('no_data', { info: 'NO_DATA', tips: [] })
+      return
+    }
+    const tips = [
+      {
+        id: `${keyword}-1`,
+        name: `${keyword}中心`,
+        district: '北京市',
+        adcode: '110000',
+        address: `${keyword}大街1号`,
+        location: new LngLat(116.397, 39.909),
+      },
+      {
+        id: `${keyword}-2`,
+        name: `${keyword}地铁站`,
+        district: '北京市',
+        adcode: '110000',
+        address: `${keyword}路`,
+        location: new LngLat(116.405, 39.92),
+      },
+    ]
+    callback('complete', { info: 'OK', tips })
+  }
+
+  setCity(city: string) {
+    this.options.city = city
+  }
+
+  setType(type: string) {
+    this.options.type = type
+  }
+
+  setCityLimit(limit: boolean) {
+    this.options.citylimit = limit
+  }
+
+  setLanguage(lang: string) {
+    this.options.lang = lang
+  }
+
+  setDataType(datatype: string) {
+    this.options.datatype = datatype
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+}
+
+class PlaceSearch extends EventTarget {
+  public options: any
+  public map: Map | null
+
+  constructor(options: any = {}) {
+    super()
+    this.options = { pageIndex: 1, pageSize: 10, ...options }
+    this.map = options.map ?? null
+  }
+
+  private buildPois(keyword: string) {
+    const baseLng = 116.397
+    const baseLat = 39.909
+    const count = this.options.pageSize ?? 10
+    const startIndex = ((this.options.pageIndex ?? 1) - 1) * count
+    return Array.from({ length: count }, (_, index) => {
+      const offset = (startIndex + index) * 0.001
+      return {
+        id: `${keyword}-${startIndex + index + 1}`,
+        name: `${keyword} POI ${startIndex + index + 1}`,
+        type: '餐饮服务',
+        typecode: '050000',
+        address: `${keyword}路${startIndex + index + 1}号`,
+        district: '北京市',
+        adcode: '110000',
+        location: new LngLat(baseLng + offset, baseLat + offset),
+      }
+    })
+  }
+
+  search(keyword: string, callback: (status: string, result: any) => void) {
+    if (!keyword) {
+      callback('no_data', { info: 'NO_DATA', poiList: { count: 0, pageIndex: 1, pageSize: this.options.pageSize ?? 10, pois: [] } })
+      return
+    }
+    const pois = this.buildPois(keyword)
+    callback('complete', {
+      info: 'OK',
+      poiList: {
+        count: 50,
+        pageIndex: this.options.pageIndex ?? 1,
+        pageSize: this.options.pageSize ?? 10,
+        pois,
+      },
+    })
+  }
+
+  searchNearBy(keyword: string, _center: any, _radius: number, callback: (status: string, result: any) => void) {
+    this.search(keyword, callback)
+  }
+
+  searchInBounds(keyword: string, _bounds: any, callback: (status: string, result: any) => void) {
+    this.search(keyword, callback)
+  }
+
+  getDetails(poiId: string, callback: (status: string, result: any) => void) {
+    const poi = {
+      id: poiId,
+      name: `详情 ${poiId}`,
+      address: `${poiId} 地址`,
+      district: '北京市',
+      adcode: '110000',
+      location: new LngLat(116.397, 39.909),
+    }
+    callback('complete', {
+      info: 'OK',
+      poiList: {
+        count: 1,
+        pageIndex: 1,
+        pageSize: 1,
+        pois: [poi],
+      },
+    })
+  }
+
+  setCity(city: string) {
+    this.options.city = city
+  }
+
+  setType(type: string) {
+    this.options.type = type
+  }
+
+  setPageIndex(pageIndex: number) {
+    this.options.pageIndex = pageIndex
+  }
+
+  setPageSize(pageSize: number) {
+    this.options.pageSize = pageSize
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+
+  clear() {}
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+}
+
 Object.assign(globalThis, {
   AMap: {
     Map,
@@ -1387,6 +1548,8 @@ Object.assign(globalThis, {
     Geocoder,
     Geolocation,
     Weather,
+    AutoComplete,
+    PlaceSearch,
     LngLat,
     Pixel,
     Bounds,

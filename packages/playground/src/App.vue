@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import type { PerformanceDatasetId } from './data/performance-datasets'
 import { computed, reactive, ref, watch } from 'vue'
+import { performanceDatasets } from './data/performance-datasets'
 
 type LngLatTuple = [number, number]
 type ControlPosition = 'LT' | 'RT' | 'LB' | 'RB'
@@ -32,6 +34,7 @@ interface PanelDefinition {
     | 'scale'
     | 'controlBar'
     | 'mapType'
+    | 'performance'
   label: string
   description: string
 }
@@ -213,6 +216,11 @@ const panels = [
     label: 'MapType',
     description: 'Switch between map types and show quick toggles.',
   },
+  {
+    id: 'performance',
+    label: 'Performance',
+    description: 'Benchmark overlays with ready-made datasets.',
+  },
 ] as const satisfies readonly PanelDefinition[]
 
 type PanelId = typeof panels[number]['id']
@@ -220,6 +228,62 @@ type PanelId = typeof panels[number]['id']
 const activePanel = ref<PanelId>('map')
 
 const activePanelMeta = computed(() => panels.find(panel => panel.id === activePanel.value) ?? panels[0])
+
+const performanceDatasetOptions = performanceDatasets.map(dataset => ({
+  label: dataset.label,
+  value: dataset.id,
+}))
+
+const performanceDatasetId = ref<PerformanceDatasetId>('small')
+
+const performanceDataset = computed(() =>
+  performanceDatasets.find(dataset => dataset.id === performanceDatasetId.value) ?? performanceDatasets[0],
+)
+
+const performanceMetrics = computed(() => {
+  const dataset = performanceDataset.value
+  const { bounds, averages, medianWeight } = dataset.summary
+  return {
+    pointCount: dataset.size.toLocaleString(),
+    lngSpan: (bounds.maxLng - bounds.minLng).toFixed(3),
+    latSpan: (bounds.maxLat - bounds.minLat).toFixed(3),
+    averageWeight: averages.weight.toFixed(2),
+    medianWeight: medianWeight.toFixed(2),
+  }
+})
+
+const performanceSamples = computed(() => performanceDataset.value.samples)
+const performanceMassData = computed(() => performanceDataset.value.mass)
+const performanceDescription = computed(() => performanceDataset.value.description)
+const showPerformanceMassMarks = computed(() => activePanel.value === 'performance')
+
+const massMarkerStyles = ref<AMap.MassMarkersStyleOptions[]>([])
+
+function createMassStyle(amap: typeof AMap, color: string): AMap.MassMarkersStyleOptions {
+  const size = new amap.Size(10, 10)
+  const anchor = new amap.Pixel(5, 5)
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="${color}" fill-opacity="0.9"/><circle cx="6" cy="6" r="2.5" fill="#ffffff" fill-opacity="0.55"/></svg>`
+  return {
+    url: `data:image/svg+xml,${encodeURIComponent(svg)}`,
+    size,
+    anchor,
+  }
+}
+
+function handleMapReady() {
+  if (massMarkerStyles.value.length > 0 || typeof window === 'undefined')
+    return
+
+  const AMapGlobal = (window as typeof window & { AMap?: typeof AMap }).AMap
+  if (!AMapGlobal)
+    return
+
+  massMarkerStyles.value = [
+    createMassStyle(AMapGlobal, '#2563eb'),
+    createMassStyle(AMapGlobal, '#f97316'),
+    createMassStyle(AMapGlobal, '#16a34a'),
+  ]
+}
 
 const polylinePath: LngLatTuple[] = [
   [116.391312, 39.907415],
@@ -852,6 +916,68 @@ function handleMarkerClick() {
             </div>
           </div>
         </div>
+
+        <div v-else-if="activePanel === 'performance'" class="panel-body">
+          <label class="form-field">
+            <span>Dataset size</span>
+            <select v-model="performanceDatasetId">
+              <option v-for="option in performanceDatasetOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <p class="dataset-description">
+            {{ performanceDescription }}
+          </p>
+
+          <dl class="metrics metrics-wide">
+            <div>
+              <dt>Points</dt>
+              <dd>{{ performanceMetrics.pointCount }}</dd>
+            </div>
+            <div>
+              <dt>Lng span</dt>
+              <dd>{{ performanceMetrics.lngSpan }}°</dd>
+            </div>
+            <div>
+              <dt>Lat span</dt>
+              <dd>{{ performanceMetrics.latSpan }}°</dd>
+            </div>
+            <div>
+              <dt>Avg weight</dt>
+              <dd>{{ performanceMetrics.averageWeight }}</dd>
+            </div>
+            <div>
+              <dt>Median weight</dt>
+              <dd>{{ performanceMetrics.medianWeight }}</dd>
+            </div>
+          </dl>
+
+          <div class="dataset-sample">
+            <header>
+              <h3>Sample points</h3>
+              <p>
+                First five entries for quick inspection.
+              </p>
+            </header>
+            <ul>
+              <li
+                v-for="(sample, index) in performanceSamples"
+                :key="`${sample.clusterId}-${sample.lng}-${sample.lat}`"
+              >
+                <span class="sample-index">#{{ index + 1 }}</span>
+                <code>{{ sample.lng.toFixed(6) }}, {{ sample.lat.toFixed(6) }}</code>
+                <span class="sample-meta">Cluster {{ sample.clusterId + 1 }} · weight {{ sample.weight.toFixed(2) }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <p class="dataset-hint">
+            Use the selected dataset with mass markers or heat maps to measure FPS and render latency. Swap sizes to compare
+            batching throughput.
+          </p>
+        </div>
       </section>
 
       <section class="card notice">
@@ -882,6 +1008,7 @@ function handleMarkerClick() {
         :rotation="rotation"
         :view-mode="viewMode"
         :map-style="resolvedMapStyle"
+        @ready="handleMapReady"
         @moveend="handleMapMoveend"
       >
         <AmapMarker
@@ -974,6 +1101,11 @@ function handleMarkerClick() {
           :default-type="mapTypeState.defaultType"
           :show-traffic="mapTypeState.showTraffic"
           :show-road="mapTypeState.showRoad"
+        />
+        <AmapMassMarks
+          v-if="showPerformanceMassMarks"
+          :data="performanceMassData"
+          :style="massMarkerStyles"
         />
       </AmapMap>
     </section>
@@ -1074,6 +1206,10 @@ function handleMarkerClick() {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
   margin: 0;
+}
+
+.metrics-wide {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .metrics div {
@@ -1246,6 +1382,86 @@ function handleMarkerClick() {
   margin: 0;
   color: #1e293b;
   line-height: 1.6;
+}
+
+.dataset-description {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #475569;
+}
+
+.dataset-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.05);
+  border: 1px solid rgba(37, 99, 235, 0.15);
+}
+
+.dataset-sample header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1d4ed8;
+}
+
+.dataset-sample header p {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.dataset-sample ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.dataset-sample li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  align-items: center;
+}
+
+.dataset-sample code {
+  font-family: 'SFMono-Regular', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+    monospace;
+  font-size: 0.78rem;
+  color: #0f172a;
+}
+
+.sample-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.12);
+}
+
+.sample-meta {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: #475569;
+}
+
+.dataset-hint {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #334155;
 }
 
 .map-container {

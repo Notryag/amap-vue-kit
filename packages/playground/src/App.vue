@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PerformanceDatasetId } from './data/performance-datasets'
-import { computed, reactive, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue'
 import { performanceDatasets } from './data/performance-datasets'
 
 type LngLatTuple = [number, number]
@@ -145,6 +145,49 @@ const mapTypeState = reactive({
 
 const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
 
+type EventSource = 'Map' | 'Marker' | 'InfoWindow' | 'Panel' | 'Dataset' | 'Clipboard' | 'State'
+
+interface EventLogEntry {
+  id: number
+  time: string
+  source: EventSource
+  summary: string
+  detail?: string
+}
+
+const EVENT_LOG_LIMIT = 12
+let eventLogId = 0
+const eventLog = ref<EventLogEntry[]>([])
+
+function formatTimestamp(date: Date) {
+  const hours = String(date.getHours()).padStart(2, '0')
+  const minutes = String(date.getMinutes()).padStart(2, '0')
+  const seconds = String(date.getSeconds()).padStart(2, '0')
+  return `${hours}:${minutes}:${seconds}`
+}
+
+function logEvent(source: EventSource, summary: string, detail?: string) {
+  const entry: EventLogEntry = {
+    id: ++eventLogId,
+    time: formatTimestamp(new Date()),
+    source,
+    summary,
+    detail,
+  }
+
+  eventLog.value.unshift(entry)
+  if (eventLog.value.length > EVENT_LOG_LIMIT)
+    eventLog.value.splice(EVENT_LOG_LIMIT)
+}
+
+logEvent(
+  'Map',
+  hasKey.value ? 'API key detected' : 'API key missing',
+  hasKey.value
+    ? 'Map components will request JSAPI resources.'
+    : 'Set VITE_AMAP_KEY in .env.local to load the live map.',
+)
+
 const panels = [
   {
     id: 'map',
@@ -283,6 +326,8 @@ function handleMapReady() {
     createMassStyle(AMapGlobal, '#f97316'),
     createMassStyle(AMapGlobal, '#16a34a'),
   ]
+
+  logEvent('Map', 'ready', 'Map initialised and controls are interactive.')
 }
 
 const polylinePath: LngLatTuple[] = [
@@ -343,6 +388,21 @@ const controlPositionOptions: Array<{ label: string, value: ControlPosition }> =
   { label: 'Right bottom', value: 'RB' },
 ]
 
+const CONTROL_POSITION_VALUES: readonly ControlPosition[] = ['LT', 'RT', 'LB', 'RB']
+const MARKER_LABEL_DIRECTIONS: readonly MarkerLabelDirection[] = ['top', 'bottom', 'left', 'right', 'center']
+const INFO_WINDOW_ANCHORS: readonly InfoWindowAnchor[] = [
+  'top-left',
+  'top-center',
+  'top-right',
+  'middle-left',
+  'center',
+  'middle-right',
+  'bottom-left',
+  'bottom-center',
+  'bottom-right',
+]
+const VIEW_MODE_VALUES: readonly ViewMode[] = ['2D', '3D']
+
 const mapTypeDefaultOptions = [
   { label: 'Standard map', value: 0 },
   { label: 'Satellite map', value: 1 },
@@ -401,10 +461,775 @@ const scaleOffset = computed(() => [scaleState.offsetX, scaleState.offsetY] as [
 const controlBarOffset = computed(() => [controlBarState.offsetX, controlBarState.offsetY] as [number, number])
 const mapTypeOffset = computed(() => [mapTypeState.offsetX, mapTypeState.offsetY] as [number, number])
 
-watch(activePanel, (panel) => {
+const MAP_STYLE_VALUES = mapStyleOptions.map(option => option.value)
+const PANEL_IDS = panels.map(panel => panel.id)
+
+watch(activePanel, (panel, previousPanel) => {
   if (panel === 'infoWindow')
     infoWindowState.isOpen = true
+
+  if (previousPanel && panel !== previousPanel)
+    logEvent('Panel', 'switch', `Viewing ${panel} panel`)
 })
+
+watch(performanceDatasetId, (datasetId) => {
+  const dataset = performanceDatasets.find(item => item.id === datasetId)
+  if (dataset)
+    logEvent('Dataset', 'switch', `${dataset.label} · ${dataset.size.toLocaleString()} points`)
+})
+
+interface PlaygroundState {
+  activePanel: PanelId
+  center: LngLatTuple
+  zoom: number
+  pitch: number
+  rotation: number
+  viewMode: ViewMode
+  mapStyle: MapStyleKey
+  marker: {
+    draggable: boolean
+    showLabel: boolean
+    labelText: string
+    labelDirection: MarkerLabelDirection
+    offsetX: number
+    offsetY: number
+  }
+  infoWindow: {
+    isOpen: boolean
+    title: string
+    body: string
+    anchor: InfoWindowAnchor
+    offsetX: number
+    offsetY: number
+  }
+  polyline: {
+    visible: boolean
+    strokeColor: string
+    strokeWeight: number
+  }
+  polygon: {
+    visible: boolean
+    strokeColor: string
+    fillColor: string
+    fillOpacity: number
+  }
+  circle: {
+    visible: boolean
+    radius: number
+    strokeColor: string
+    strokeWeight: number
+    fillColor: string
+    fillOpacity: number
+  }
+  tileLayer: {
+    visible: boolean
+    opacity: number
+    tileUrl: string
+  }
+  traffic: {
+    visible: boolean
+    autoRefresh: boolean
+    interval: number
+    opacity: number
+  }
+  satellite: {
+    visible: boolean
+    opacity: number
+  }
+  roadNet: {
+    visible: boolean
+    opacity: number
+  }
+  toolBar: {
+    visible: boolean
+    position: ControlPosition
+    offsetX: number
+    offsetY: number
+  }
+  scale: {
+    visible: boolean
+    position: ControlPosition
+    offsetX: number
+    offsetY: number
+  }
+  controlBar: {
+    visible: boolean
+    position: ControlPosition
+    offsetX: number
+    offsetY: number
+    showZoomBar: boolean
+    showControlButton: boolean
+  }
+  mapType: {
+    visible: boolean
+    position: ControlPosition
+    offsetX: number
+    offsetY: number
+    defaultType: number
+    showTraffic: boolean
+    showRoad: boolean
+  }
+  performanceDatasetId: PerformanceDatasetId
+}
+
+type RestoreSource = 'hash' | 'storage'
+
+const PLAYGROUND_STORAGE_KEY = 'amap-vue-kit:playground-state'
+const PLAYGROUND_HASH_KEY = 'state'
+
+let persistencePaused = false
+let lastStoredState = ''
+
+function toFiniteNumber(value: unknown): number | undefined {
+  if (typeof value === 'number' && Number.isFinite(value))
+    return value
+  if (typeof value === 'string' && value.trim()) {
+    const parsed = Number(value)
+    if (Number.isFinite(parsed))
+      return parsed
+  }
+  return undefined
+}
+
+function toBoolean(value: unknown): boolean | undefined {
+  if (typeof value === 'boolean')
+    return value
+  if (typeof value === 'string') {
+    if (value === 'true')
+      return true
+    if (value === 'false')
+      return false
+  }
+  return undefined
+}
+
+function toLngLatTuple(value: unknown): LngLatTuple | undefined {
+  if (!Array.isArray(value) || value.length !== 2)
+    return undefined
+  const [lngValue, latValue] = value
+  const lng = toFiniteNumber(lngValue)
+  const lat = toFiniteNumber(latValue)
+  if (lng == null || lat == null)
+    return undefined
+  return [lng, lat] as LngLatTuple
+}
+
+function isPanelId(value: unknown): value is PanelId {
+  return typeof value === 'string' && PANEL_IDS.includes(value as PanelId)
+}
+
+function isViewMode(value: unknown): value is ViewMode {
+  return typeof value === 'string' && (VIEW_MODE_VALUES as readonly string[]).includes(value)
+}
+
+function isMapStyle(value: unknown): value is MapStyleKey {
+  return typeof value === 'string' && (MAP_STYLE_VALUES as readonly string[]).includes(value)
+}
+
+function isMarkerDirection(value: unknown): value is MarkerLabelDirection {
+  return typeof value === 'string' && (MARKER_LABEL_DIRECTIONS as readonly string[]).includes(value)
+}
+
+function isInfoWindowAnchor(value: unknown): value is InfoWindowAnchor {
+  return typeof value === 'string' && (INFO_WINDOW_ANCHORS as readonly string[]).includes(value)
+}
+
+function isControlPosition(value: unknown): value is ControlPosition {
+  return typeof value === 'string' && (CONTROL_POSITION_VALUES as readonly string[]).includes(value)
+}
+
+function createPlaygroundState(): PlaygroundState {
+  return {
+    activePanel: activePanel.value,
+    center: [...center.value] as LngLatTuple,
+    zoom: zoom.value,
+    pitch: pitch.value,
+    rotation: rotation.value,
+    viewMode: viewMode.value,
+    mapStyle: mapStyle.value,
+    marker: {
+      draggable: markerState.draggable,
+      showLabel: markerState.showLabel,
+      labelText: markerState.labelText,
+      labelDirection: markerState.labelDirection,
+      offsetX: markerState.offsetX,
+      offsetY: markerState.offsetY,
+    },
+    infoWindow: {
+      isOpen: infoWindowState.isOpen,
+      title: infoWindowState.title,
+      body: infoWindowState.body,
+      anchor: infoWindowState.anchor,
+      offsetX: infoWindowState.offsetX,
+      offsetY: infoWindowState.offsetY,
+    },
+    polyline: {
+      visible: polylineState.visible,
+      strokeColor: polylineState.strokeColor,
+      strokeWeight: polylineState.strokeWeight,
+    },
+    polygon: {
+      visible: polygonState.visible,
+      strokeColor: polygonState.strokeColor,
+      fillColor: polygonState.fillColor,
+      fillOpacity: polygonState.fillOpacity,
+    },
+    circle: {
+      visible: circleState.visible,
+      radius: circleState.radius,
+      strokeColor: circleState.strokeColor,
+      strokeWeight: circleState.strokeWeight,
+      fillColor: circleState.fillColor,
+      fillOpacity: circleState.fillOpacity,
+    },
+    tileLayer: {
+      visible: tileLayerState.visible,
+      opacity: tileLayerState.opacity,
+      tileUrl: tileLayerState.tileUrl,
+    },
+    traffic: {
+      visible: trafficState.visible,
+      autoRefresh: trafficState.autoRefresh,
+      interval: trafficState.interval,
+      opacity: trafficState.opacity,
+    },
+    satellite: {
+      visible: satelliteState.visible,
+      opacity: satelliteState.opacity,
+    },
+    roadNet: {
+      visible: roadNetState.visible,
+      opacity: roadNetState.opacity,
+    },
+    toolBar: {
+      visible: toolBarState.visible,
+      position: toolBarState.position,
+      offsetX: toolBarState.offsetX,
+      offsetY: toolBarState.offsetY,
+    },
+    scale: {
+      visible: scaleState.visible,
+      position: scaleState.position,
+      offsetX: scaleState.offsetX,
+      offsetY: scaleState.offsetY,
+    },
+    controlBar: {
+      visible: controlBarState.visible,
+      position: controlBarState.position,
+      offsetX: controlBarState.offsetX,
+      offsetY: controlBarState.offsetY,
+      showZoomBar: controlBarState.showZoomBar,
+      showControlButton: controlBarState.showControlButton,
+    },
+    mapType: {
+      visible: mapTypeState.visible,
+      position: mapTypeState.position,
+      offsetX: mapTypeState.offsetX,
+      offsetY: mapTypeState.offsetY,
+      defaultType: mapTypeState.defaultType,
+      showTraffic: mapTypeState.showTraffic,
+      showRoad: mapTypeState.showRoad,
+    },
+    performanceDatasetId: performanceDatasetId.value,
+  }
+}
+
+function persistPlaygroundState(state: PlaygroundState, options: { force?: boolean } = {}) {
+  if (typeof window === 'undefined')
+    return
+  if (persistencePaused && !options.force)
+    return
+
+  const serialized = JSON.stringify(state)
+  if (!options.force && serialized === lastStoredState)
+    return
+
+  lastStoredState = serialized
+
+  try {
+    window.localStorage.setItem(PLAYGROUND_STORAGE_KEY, serialized)
+  }
+  catch {
+    // Ignore storage quota or availability issues
+  }
+
+  const params = new URLSearchParams(window.location.hash.slice(1))
+  params.set(PLAYGROUND_HASH_KEY, serialized)
+  const newHash = params.toString()
+  const currentHash = window.location.hash.slice(1)
+  if (currentHash !== newHash) {
+    const base = `${window.location.pathname}${window.location.search}`
+    const hashString = newHash ? `#${newHash}` : ''
+    window.history.replaceState(null, '', `${base}${hashString}`)
+  }
+}
+
+function restoreStateFromHash(): Partial<PlaygroundState> | undefined {
+  if (typeof window === 'undefined')
+    return undefined
+  try {
+    const params = new URLSearchParams(window.location.hash.slice(1))
+    const raw = params.get(PLAYGROUND_HASH_KEY)
+    if (!raw)
+      return undefined
+    const parsed = JSON.parse(raw)
+    if (parsed && typeof parsed === 'object')
+      return parsed as Partial<PlaygroundState>
+  }
+  catch {
+    // Ignore malformed state payloads
+  }
+  return undefined
+}
+
+function restoreStateFromStorage(): Partial<PlaygroundState> | undefined {
+  if (typeof window === 'undefined')
+    return undefined
+  try {
+    const raw = window.localStorage.getItem(PLAYGROUND_STORAGE_KEY)
+    if (!raw)
+      return undefined
+    const parsed = JSON.parse(raw)
+    if (parsed && typeof parsed === 'object')
+      return parsed as Partial<PlaygroundState>
+  }
+  catch {
+    // Ignore malformed storage payloads
+  }
+  return undefined
+}
+
+function applyPlaygroundState(state: Partial<PlaygroundState>, source: RestoreSource) {
+  persistencePaused = true
+  let restored = false
+
+  try {
+    if (state.activePanel && isPanelId(state.activePanel)) {
+      activePanel.value = state.activePanel
+      restored = true
+    }
+
+    const restoredCenter = toLngLatTuple(state.center)
+    if (restoredCenter) {
+      center.value = restoredCenter
+      restored = true
+    }
+
+    const restoredZoom = toFiniteNumber(state.zoom)
+    if (restoredZoom != null) {
+      zoom.value = Math.round(restoredZoom)
+      restored = true
+    }
+
+    const restoredPitch = toFiniteNumber(state.pitch)
+    if (restoredPitch != null) {
+      pitch.value = Math.round(restoredPitch)
+      restored = true
+    }
+
+    const restoredRotation = toFiniteNumber(state.rotation)
+    if (restoredRotation != null) {
+      rotation.value = Math.round(restoredRotation)
+      restored = true
+    }
+
+    if (state.viewMode && isViewMode(state.viewMode)) {
+      viewMode.value = state.viewMode
+      restored = true
+    }
+
+    if (state.mapStyle && isMapStyle(state.mapStyle)) {
+      mapStyle.value = state.mapStyle
+      restored = true
+    }
+
+    if (state.marker) {
+      const marker = state.marker
+      const draggable = toBoolean(marker.draggable)
+      const showLabel = toBoolean(marker.showLabel)
+      const labelText = typeof marker.labelText === 'string' ? marker.labelText : undefined
+      const labelDirection = isMarkerDirection(marker.labelDirection) ? marker.labelDirection : undefined
+      const offsetX = toFiniteNumber(marker.offsetX)
+      const offsetY = toFiniteNumber(marker.offsetY)
+
+      if (draggable != null) {
+        markerState.draggable = draggable
+        restored = true
+      }
+      if (showLabel != null) {
+        markerState.showLabel = showLabel
+        restored = true
+      }
+      if (labelText != null) {
+        markerState.labelText = labelText
+        restored = true
+      }
+      if (labelDirection) {
+        markerState.labelDirection = labelDirection
+        restored = true
+      }
+      if (offsetX != null) {
+        markerState.offsetX = offsetX
+        restored = true
+      }
+      if (offsetY != null) {
+        markerState.offsetY = offsetY
+        restored = true
+      }
+    }
+
+    if (state.infoWindow) {
+      const infoWindow = state.infoWindow
+      const isOpen = toBoolean(infoWindow.isOpen)
+      const title = typeof infoWindow.title === 'string' ? infoWindow.title : undefined
+      const body = typeof infoWindow.body === 'string' ? infoWindow.body : undefined
+      const anchor = isInfoWindowAnchor(infoWindow.anchor) ? infoWindow.anchor : undefined
+      const offsetX = toFiniteNumber(infoWindow.offsetX)
+      const offsetY = toFiniteNumber(infoWindow.offsetY)
+
+      if (isOpen != null) {
+        infoWindowState.isOpen = isOpen
+        restored = true
+      }
+      if (title != null) {
+        infoWindowState.title = title
+        restored = true
+      }
+      if (body != null) {
+        infoWindowState.body = body
+        restored = true
+      }
+      if (anchor) {
+        infoWindowState.anchor = anchor
+        restored = true
+      }
+      if (offsetX != null) {
+        infoWindowState.offsetX = offsetX
+        restored = true
+      }
+      if (offsetY != null) {
+        infoWindowState.offsetY = offsetY
+        restored = true
+      }
+    }
+
+    if (state.polyline) {
+      const polyline = state.polyline
+      const visible = toBoolean(polyline.visible)
+      const strokeColor = typeof polyline.strokeColor === 'string' ? polyline.strokeColor : undefined
+      const strokeWeight = toFiniteNumber(polyline.strokeWeight)
+
+      if (visible != null) {
+        polylineState.visible = visible
+        restored = true
+      }
+      if (strokeColor != null) {
+        polylineState.strokeColor = strokeColor
+        restored = true
+      }
+      if (strokeWeight != null) {
+        polylineState.strokeWeight = Math.max(1, Math.round(strokeWeight))
+        restored = true
+      }
+    }
+
+    if (state.polygon) {
+      const polygon = state.polygon
+      const visible = toBoolean(polygon.visible)
+      const strokeColor = typeof polygon.strokeColor === 'string' ? polygon.strokeColor : undefined
+      const fillColor = typeof polygon.fillColor === 'string' ? polygon.fillColor : undefined
+      const fillOpacity = toFiniteNumber(polygon.fillOpacity)
+
+      if (visible != null) {
+        polygonState.visible = visible
+        restored = true
+      }
+      if (strokeColor != null) {
+        polygonState.strokeColor = strokeColor
+        restored = true
+      }
+      if (fillColor != null) {
+        polygonState.fillColor = fillColor
+        restored = true
+      }
+      if (fillOpacity != null) {
+        polygonState.fillOpacity = Math.min(1, Math.max(0, fillOpacity))
+        restored = true
+      }
+    }
+
+    if (state.circle) {
+      const circle = state.circle
+      const visible = toBoolean(circle.visible)
+      const radius = toFiniteNumber(circle.radius)
+      const strokeColor = typeof circle.strokeColor === 'string' ? circle.strokeColor : undefined
+      const strokeWeight = toFiniteNumber(circle.strokeWeight)
+      const fillColor = typeof circle.fillColor === 'string' ? circle.fillColor : undefined
+      const fillOpacity = toFiniteNumber(circle.fillOpacity)
+
+      if (visible != null) {
+        circleState.visible = visible
+        restored = true
+      }
+      if (radius != null) {
+        circleState.radius = Math.max(0, Math.round(radius))
+        restored = true
+      }
+      if (strokeColor != null) {
+        circleState.strokeColor = strokeColor
+        restored = true
+      }
+      if (strokeWeight != null) {
+        circleState.strokeWeight = Math.max(1, Math.round(strokeWeight))
+        restored = true
+      }
+      if (fillColor != null) {
+        circleState.fillColor = fillColor
+        restored = true
+      }
+      if (fillOpacity != null) {
+        circleState.fillOpacity = Math.min(1, Math.max(0, fillOpacity))
+        restored = true
+      }
+    }
+
+    if (state.tileLayer) {
+      const tileLayer = state.tileLayer
+      const visible = toBoolean(tileLayer.visible)
+      const opacity = toFiniteNumber(tileLayer.opacity)
+      const tileUrl = typeof tileLayer.tileUrl === 'string' ? tileLayer.tileUrl : undefined
+
+      if (visible != null) {
+        tileLayerState.visible = visible
+        restored = true
+      }
+      if (opacity != null) {
+        tileLayerState.opacity = Math.min(1, Math.max(0, opacity))
+        restored = true
+      }
+      if (tileUrl != null) {
+        tileLayerState.tileUrl = tileUrl
+        restored = true
+      }
+    }
+
+    if (state.traffic) {
+      const traffic = state.traffic
+      const visible = toBoolean(traffic.visible)
+      const autoRefresh = toBoolean(traffic.autoRefresh)
+      const interval = toFiniteNumber(traffic.interval)
+      const opacity = toFiniteNumber(traffic.opacity)
+
+      if (visible != null) {
+        trafficState.visible = visible
+        restored = true
+      }
+      if (autoRefresh != null) {
+        trafficState.autoRefresh = autoRefresh
+        restored = true
+      }
+      if (interval != null) {
+        trafficState.interval = Math.max(1, Math.round(interval))
+        restored = true
+      }
+      if (opacity != null) {
+        trafficState.opacity = Math.min(1, Math.max(0, opacity))
+        restored = true
+      }
+    }
+
+    if (state.satellite) {
+      const satellite = state.satellite
+      const visible = toBoolean(satellite.visible)
+      const opacity = toFiniteNumber(satellite.opacity)
+
+      if (visible != null) {
+        satelliteState.visible = visible
+        restored = true
+      }
+      if (opacity != null) {
+        satelliteState.opacity = Math.min(1, Math.max(0, opacity))
+        restored = true
+      }
+    }
+
+    if (state.roadNet) {
+      const roadNet = state.roadNet
+      const visible = toBoolean(roadNet.visible)
+      const opacity = toFiniteNumber(roadNet.opacity)
+
+      if (visible != null) {
+        roadNetState.visible = visible
+        restored = true
+      }
+      if (opacity != null) {
+        roadNetState.opacity = Math.min(1, Math.max(0, opacity))
+        restored = true
+      }
+    }
+
+    if (state.toolBar) {
+      const toolBar = state.toolBar
+      const visible = toBoolean(toolBar.visible)
+      const position = isControlPosition(toolBar.position) ? toolBar.position : undefined
+      const offsetX = toFiniteNumber(toolBar.offsetX)
+      const offsetY = toFiniteNumber(toolBar.offsetY)
+
+      if (visible != null) {
+        toolBarState.visible = visible
+        restored = true
+      }
+      if (position) {
+        toolBarState.position = position
+        restored = true
+      }
+      if (offsetX != null) {
+        toolBarState.offsetX = Math.round(offsetX)
+        restored = true
+      }
+      if (offsetY != null) {
+        toolBarState.offsetY = Math.round(offsetY)
+        restored = true
+      }
+    }
+
+    if (state.scale) {
+      const scale = state.scale
+      const visible = toBoolean(scale.visible)
+      const position = isControlPosition(scale.position) ? scale.position : undefined
+      const offsetX = toFiniteNumber(scale.offsetX)
+      const offsetY = toFiniteNumber(scale.offsetY)
+
+      if (visible != null) {
+        scaleState.visible = visible
+        restored = true
+      }
+      if (position) {
+        scaleState.position = position
+        restored = true
+      }
+      if (offsetX != null) {
+        scaleState.offsetX = Math.round(offsetX)
+        restored = true
+      }
+      if (offsetY != null) {
+        scaleState.offsetY = Math.round(offsetY)
+        restored = true
+      }
+    }
+
+    if (state.controlBar) {
+      const controlBar = state.controlBar
+      const visible = toBoolean(controlBar.visible)
+      const position = isControlPosition(controlBar.position) ? controlBar.position : undefined
+      const offsetX = toFiniteNumber(controlBar.offsetX)
+      const offsetY = toFiniteNumber(controlBar.offsetY)
+      const showZoomBar = toBoolean(controlBar.showZoomBar)
+      const showControlButton = toBoolean(controlBar.showControlButton)
+
+      if (visible != null) {
+        controlBarState.visible = visible
+        restored = true
+      }
+      if (position) {
+        controlBarState.position = position
+        restored = true
+      }
+      if (offsetX != null) {
+        controlBarState.offsetX = Math.round(offsetX)
+        restored = true
+      }
+      if (offsetY != null) {
+        controlBarState.offsetY = Math.round(offsetY)
+        restored = true
+      }
+      if (showZoomBar != null) {
+        controlBarState.showZoomBar = showZoomBar
+        restored = true
+      }
+      if (showControlButton != null) {
+        controlBarState.showControlButton = showControlButton
+        restored = true
+      }
+    }
+
+    if (state.mapType) {
+      const mapType = state.mapType
+      const visible = toBoolean(mapType.visible)
+      const position = isControlPosition(mapType.position) ? mapType.position : undefined
+      const offsetX = toFiniteNumber(mapType.offsetX)
+      const offsetY = toFiniteNumber(mapType.offsetY)
+      const defaultType = toFiniteNumber(mapType.defaultType)
+      const showTraffic = toBoolean(mapType.showTraffic)
+      const showRoad = toBoolean(mapType.showRoad)
+
+      if (visible != null) {
+        mapTypeState.visible = visible
+        restored = true
+      }
+      if (position) {
+        mapTypeState.position = position
+        restored = true
+      }
+      if (offsetX != null) {
+        mapTypeState.offsetX = Math.round(offsetX)
+        restored = true
+      }
+      if (offsetY != null) {
+        mapTypeState.offsetY = Math.round(offsetY)
+        restored = true
+      }
+      if (defaultType != null) {
+        mapTypeState.defaultType = Math.max(0, Math.round(defaultType))
+        restored = true
+      }
+      if (showTraffic != null) {
+        mapTypeState.showTraffic = showTraffic
+        restored = true
+      }
+      if (showRoad != null) {
+        mapTypeState.showRoad = showRoad
+        restored = true
+      }
+    }
+
+    if (state.performanceDatasetId && typeof state.performanceDatasetId === 'string') {
+      const datasetExists = performanceDatasets.some(dataset => dataset.id === state.performanceDatasetId)
+      if (datasetExists) {
+        performanceDatasetId.value = state.performanceDatasetId
+        restored = true
+      }
+    }
+  }
+  finally {
+    const currentState = createPlaygroundState()
+    persistPlaygroundState(currentState, { force: true })
+    persistencePaused = false
+    if (restored)
+      logEvent('State', 'restore', source === 'hash' ? 'Restored from URL hash' : 'Restored from local storage')
+  }
+}
+
+if (typeof window !== 'undefined') {
+  const hashState = restoreStateFromHash()
+  if (hashState) {
+    applyPlaygroundState(hashState, 'hash')
+  }
+  else {
+    const storedState = restoreStateFromStorage()
+    if (storedState)
+      applyPlaygroundState(storedState, 'storage')
+    else
+      persistPlaygroundState(createPlaygroundState(), { force: true })
+  }
+}
+
+watch(
+  () => createPlaygroundState(),
+  (state) => {
+    persistPlaygroundState(state)
+  },
+)
 
 function resetView() {
   center.value = [...initialCenter] as LngLatTuple
@@ -444,18 +1269,476 @@ function handleMapMoveend(event: any) {
   const currentRotation = map?.getRotation?.()
   if (typeof currentRotation === 'number')
     rotation.value = Math.round(currentRotation)
+
+  logEvent('Map', 'moveend', `Center ${centerText.value} · zoom ${zoom.value}`)
 }
 
 function handleMarkerDragend(event: any) {
   const { lnglat } = event ?? {}
   if (lnglat)
     center.value = [Number(lnglat.lng.toFixed(6)), Number(lnglat.lat.toFixed(6))] as LngLatTuple
+
+  if (lnglat)
+    logEvent('Marker', 'dragend', `${lnglat.lng.toFixed(6)}, ${lnglat.lat.toFixed(6)}`)
 }
 
 function handleMarkerClick() {
   if (activePanel.value === 'infoWindow')
     infoWindowState.isOpen = true
+
+  logEvent('Marker', 'click', 'Marker clicked')
 }
+
+function handleMapClick(event: any) {
+  const { lnglat } = event ?? {}
+  if (lnglat)
+    logEvent('Map', 'click', `${lnglat.lng.toFixed(6)}, ${lnglat.lat.toFixed(6)}`)
+  else
+    logEvent('Map', 'click', 'Click event received')
+}
+
+function handleInfoWindowOpen() {
+  infoWindowState.isOpen = true
+  logEvent('InfoWindow', 'open', 'Info window opened')
+}
+
+function handleInfoWindowClose() {
+  infoWindowState.isOpen = false
+  logEvent('InfoWindow', 'close', 'Info window closed')
+}
+
+type CopyStatus = 'idle' | 'copied' | 'error'
+
+function indentLines(text: string, spaces: number) {
+  const padding = ' '.repeat(spaces)
+  return text
+    .split('\n')
+    .map(line => (line.length > 0 ? `${padding}${line}` : line))
+    .join('\n')
+}
+
+function formatNumber(value: number) {
+  if (Number.isInteger(value))
+    return value.toString()
+  return value.toFixed(2).replace(/\.0+$/, '').replace(/(\.[1-9]*)0+$/, '$1')
+}
+
+function formatCoordinate(value: number) {
+  return value.toFixed(6)
+}
+
+function formatLngLatTuple(tuple: LngLatTuple) {
+  return `[${tuple.map(formatCoordinate).join(', ')}]`
+}
+
+function formatTuple(values: number[]) {
+  return `[${values.map(formatNumber).join(', ')}]`
+}
+
+function formatBoolean(value: boolean) {
+  return value ? 'true' : 'false'
+}
+
+function escapeSingleQuotes(value: string) {
+  return value.replace(/\\/g, '\\\\').replace(/'/g, '\\\'')
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+}
+
+function formatJson(value: unknown) {
+  return JSON.stringify(value, null, 2)
+}
+
+function buildMapTemplate(children?: string) {
+  const attributes = [
+    `:center="${formatLngLatTuple(center.value)}"`,
+    `:zoom="${zoom.value}"`,
+    `:pitch="${pitch.value}"`,
+    `:rotation="${rotation.value}"`,
+    `view-mode="${viewMode.value}"`,
+  ]
+
+  if (resolvedMapStyle.value)
+    attributes.push(`map-style="${resolvedMapStyle.value}"`)
+
+  const attributeLines = attributes.map(attribute => `    ${attribute}`).join('\n')
+
+  if (!children)
+    return `<template>\n  <AmapMap\n${attributeLines}\n  />\n</template>`
+
+  return `<template>\n  <AmapMap\n${attributeLines}\n  >\n${indentLines(children, 4)}\n  </AmapMap>\n</template>`
+}
+
+function createSfcSnippet(options: {
+  components: string[]
+  children?: string
+  extraImports?: string[]
+  declarations?: string[]
+}) {
+  const template = buildMapTemplate(options.children)
+  const componentOrder = ['AmapMap', ...options.components.filter(component => component !== 'AmapMap')]
+  const componentList = Array.from(new Set(componentOrder))
+  const imports = [
+    `import { ${componentList.join(', ')} } from '@amap-vue/core'`,
+    ...(options.extraImports ?? []),
+  ]
+  const declarations = (options.declarations ?? []).filter(line => line !== undefined && line !== null && line !== '')
+  const scriptLines = ['<script setup lang="ts">', ...imports]
+  if (declarations.length > 0)
+    scriptLines.push('', ...declarations)
+  scriptLines.push('<\\/script>')
+  return [template, '', scriptLines.join('\n'), ''].join('\n')
+}
+
+function renderMarkerTag() {
+  const lines = [
+    '<AmapMarker',
+    `  :position="${formatLngLatTuple(center.value)}"`,
+    `  :draggable="${formatBoolean(markerState.draggable)}"`,
+  ]
+
+  if (markerState.showLabel && markerState.labelText.trim()) {
+    lines.push(
+      `  :label="{ content: '${escapeSingleQuotes(markerState.labelText.trim())}', direction: '${markerState.labelDirection}' }"`,
+    )
+  }
+
+  lines.push(`  :offset="${formatTuple([markerState.offsetX, markerState.offsetY])}"`)
+  lines.push('/>')
+  return lines.join('\n')
+}
+
+function renderInfoWindowTag() {
+  const contentLines = [
+    '<AmapInfoWindow',
+    `  :position="${formatLngLatTuple(center.value)}"`,
+    `  :is-open="${formatBoolean(infoWindowState.isOpen)}"`,
+    `  anchor="${infoWindowState.anchor}"`,
+    `  :offset="${formatTuple([infoWindowState.offsetX, infoWindowState.offsetY])}"`,
+    '>',
+  ]
+
+  const title = escapeHtml(infoWindowState.title)
+  const body = escapeHtml(infoWindowState.body).replace(/\n/g, '<br>')
+
+  contentLines.push('  <div class="info-window">')
+  contentLines.push(`    <h3>${title}</h3>`)
+  contentLines.push(`    <p>${body}</p>`)
+  contentLines.push('  </div>')
+  contentLines.push('</AmapInfoWindow>')
+  return contentLines.join('\n')
+}
+
+const snippetGenerators: Record<PanelId, () => string> = {
+  map: () => createSfcSnippet({ components: [] }),
+  marker: () => createSfcSnippet({ components: ['AmapMarker'], children: renderMarkerTag() }),
+  infoWindow: () => {
+    const sections = [renderMarkerTag(), renderInfoWindowTag()]
+    return createSfcSnippet({ components: ['AmapMarker', 'AmapInfoWindow'], children: sections.join('\n\n') })
+  },
+  polyline: () => {
+    const declarations = [
+      `const path = ${formatJson(polylinePath)}`,
+      `const options = ${formatJson(polylineOptions.value)}`,
+    ]
+    const child = [
+      '<AmapPolyline',
+      '  :path="path"',
+      '  :options="options"',
+      `  :visible="${formatBoolean(polylineState.visible)}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapPolyline'], children: child, declarations })
+  },
+  polygon: () => {
+    const declarations = [
+      `const path = ${formatJson(polygonPath)}`,
+      `const options = ${formatJson(polygonOptions.value)}`,
+    ]
+    const child = [
+      '<AmapPolygon',
+      '  :path="path"',
+      '  :options="options"',
+      `  :visible="${formatBoolean(polygonState.visible)}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapPolygon'], children: child, declarations })
+  },
+  circle: () => {
+    const declarations = [`const options = ${formatJson(circleOptions.value)}`]
+    const child = [
+      '<AmapCircle',
+      `  :center="${formatLngLatTuple(center.value)}"`,
+      `  :radius="${circleState.radius}"`,
+      '  :options="options"',
+      `  :visible="${formatBoolean(circleState.visible)}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapCircle'], children: child, declarations })
+  },
+  tileLayer: () => {
+    const child = [
+      '<AmapTileLayer',
+      `  :visible="${formatBoolean(tileLayerState.visible)}"`,
+      `  :opacity="${tileLayerState.opacity}"`,
+      `  tile-url="${tileLayerState.tileUrl}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapTileLayer'], children: child })
+  },
+  traffic: () => {
+    const child = [
+      '<AmapTrafficLayer',
+      `  :visible="${formatBoolean(trafficState.visible)}"`,
+      `  :auto-refresh="${formatBoolean(trafficState.autoRefresh)}"`,
+      `  :interval="${trafficState.interval}"`,
+      `  :opacity="${trafficState.opacity}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapTrafficLayer'], children: child })
+  },
+  satellite: () => {
+    const child = [
+      '<AmapSatelliteLayer',
+      `  :visible="${formatBoolean(satelliteState.visible)}"`,
+      `  :opacity="${satelliteState.opacity}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapSatelliteLayer'], children: child })
+  },
+  roadNet: () => {
+    const child = [
+      '<AmapRoadNetLayer',
+      `  :visible="${formatBoolean(roadNetState.visible)}"`,
+      `  :opacity="${roadNetState.opacity}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapRoadNetLayer'], children: child })
+  },
+  toolBar: () => {
+    const child = [
+      '<AmapToolBar',
+      `  :visible="${formatBoolean(toolBarState.visible)}"`,
+      `  position="${toolBarState.position}"`,
+      `  :offset="${formatTuple([toolBarState.offsetX, toolBarState.offsetY])}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapToolBar'], children: child })
+  },
+  scale: () => {
+    const child = [
+      '<AmapScale',
+      `  :visible="${formatBoolean(scaleState.visible)}"`,
+      `  position="${scaleState.position}"`,
+      `  :offset="${formatTuple([scaleState.offsetX, scaleState.offsetY])}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapScale'], children: child })
+  },
+  controlBar: () => {
+    const child = [
+      '<AmapControlBar',
+      `  :visible="${formatBoolean(controlBarState.visible)}"`,
+      `  position="${controlBarState.position}"`,
+      `  :offset="${formatTuple([controlBarState.offsetX, controlBarState.offsetY])}"`,
+      `  :show-zoom-bar="${formatBoolean(controlBarState.showZoomBar)}"`,
+      `  :show-control-button="${formatBoolean(controlBarState.showControlButton)}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapControlBar'], children: child })
+  },
+  mapType: () => {
+    const child = [
+      '<AmapMapType',
+      `  :visible="${formatBoolean(mapTypeState.visible)}"`,
+      `  position="${mapTypeState.position}"`,
+      `  :offset="${formatTuple([mapTypeState.offsetX, mapTypeState.offsetY])}"`,
+      `  :default-type="${mapTypeState.defaultType}"`,
+      `  :show-traffic="${formatBoolean(mapTypeState.showTraffic)}"`,
+      `  :show-road="${formatBoolean(mapTypeState.showRoad)}"`,
+      '/>',
+    ].join('\n')
+    return createSfcSnippet({ components: ['AmapMapType'], children: child })
+  },
+  performance: () => {
+    const dataset = performanceDataset.value
+    const sampleLines = dataset.samples.map((sample, index) =>
+      `  { lnglat: [${formatCoordinate(sample.lng)}, ${formatCoordinate(sample.lat)}], name: 'Point ${index + 1}', style: ${sample.clusterId} }, // weight ${sample.weight.toFixed(2)}`,
+    )
+    const remaining = dataset.size - dataset.samples.length
+    const onMountedLines = `
+onMounted(async () => {
+  const AMap = await loader.load({
+    key: 'YOUR_AMAP_KEY',
+    plugins: ['AMap.MassMarks'],
+  })
+
+  const createStyle = (color: string): AMap.MassMarkersStyleOptions => {
+    const svg = [
+      '<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="',
+      '__COLOR_PLACEHOLDER__',
+      '" fill-opacity="0.9"/><circle cx="6" cy="6" r="2.5" fill="#ffffff" fill-opacity="0.55"/></svg>',
+    ].join('')
+    const url = 'data:image/svg+xml,__URL_PLACEHOLDER__'
+    return {
+      url,
+      size: new AMap.Size(10, 10),
+      anchor: new AMap.Pixel(5, 5),
+    }
+  }
+
+  styles.value = [
+    createStyle('#2563eb'),
+    createStyle('#f97316'),
+    createStyle('#16a34a'),
+  ]
+})
+`.trim().split('\n')
+
+    const declarations = [
+      `// Selected dataset: ${dataset.label} (${dataset.size.toLocaleString()} points)`,
+      [
+        'const points: AMap.MassData[] = [',
+        ...sampleLines,
+        remaining > 0 ? `  // ... ${remaining.toLocaleString()} more points` : undefined,
+        ']',
+      ]
+        .filter(Boolean)
+        .join('\n'),
+      'const styles = ref<AMap.MassMarkersStyleOptions[]>([])',
+      onMountedLines.join('\n'),
+    ]
+
+    const child = [
+      '<AmapMassMarks',
+      '  :data="points"',
+      '  :style="styles"',
+      '/>',
+    ].join('\n')
+
+    const snippet = createSfcSnippet({
+      components: ['AmapMassMarks'],
+      children: child,
+      extraImports: ['import { onMounted, ref } from \'vue\'', 'import { loader } from \'@amap-vue/shared\''],
+      declarations,
+    })
+      .replaceAll('__COLOR_PLACEHOLDER__', `${'${'}color}`)
+      .replace('__URL_PLACEHOLDER__', `${'${'}encodeURIComponent(svg)}`)
+
+    return snippet
+  },
+}
+
+const panelSnippet = computed(() => snippetGenerators[activePanel.value]?.() ?? '')
+const hasSnippet = computed(() => panelSnippet.value.trim().length > 0)
+
+const copyStatus = ref<CopyStatus>('idle')
+const copyErrorMessage = ref('')
+let copyResetHandle: ReturnType<typeof setTimeout> | undefined
+
+const copyButtonLabel = computed(() => {
+  if (copyStatus.value === 'copied')
+    return 'Copied!'
+  if (copyStatus.value === 'error')
+    return 'Retry copy'
+  return 'Copy snippet'
+})
+
+const copyStatusMessage = computed(() => {
+  if (!hasSnippet.value)
+    return 'Snippet is unavailable for the current panel.'
+  if (copyStatus.value === 'copied')
+    return `${activePanelMeta.value.label} snippet copied to the clipboard.`
+  if (copyStatus.value === 'error')
+    return copyErrorMessage.value || 'Clipboard copy failed. Try copying manually.'
+  return `Copy the ${activePanelMeta.value.label} panel as a ready-to-use <script setup> snippet.`
+})
+
+const copyButtonStateClass = computed(() => (copyStatus.value === 'idle' ? null : copyStatus.value))
+
+function scheduleCopyReset(status: CopyStatus) {
+  if (copyResetHandle != null) {
+    clearTimeout(copyResetHandle)
+    copyResetHandle = undefined
+  }
+
+  const delay = status === 'copied' ? 2400 : 4000
+  copyResetHandle = setTimeout(() => {
+    copyStatus.value = 'idle'
+    copyErrorMessage.value = ''
+    copyResetHandle = undefined
+  }, delay)
+}
+
+async function attemptClipboardWrite(text: string) {
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text)
+      return true
+    }
+    catch {
+      // Ignore and attempt fallback
+    }
+  }
+
+  if (typeof document !== 'undefined') {
+    try {
+      const textarea = document.createElement('textarea')
+      textarea.value = text
+      textarea.setAttribute('readonly', 'true')
+      textarea.style.position = 'fixed'
+      textarea.style.top = '-1000px'
+      textarea.style.opacity = '0'
+      document.body.appendChild(textarea)
+      textarea.select()
+      const success = document.execCommand('copy')
+      document.body.removeChild(textarea)
+      if (success)
+        return true
+    }
+    catch {
+      // Ignore and bubble up failure
+    }
+  }
+
+  return false
+}
+
+async function copySnippet() {
+  if (!hasSnippet.value) {
+    copyStatus.value = 'error'
+    copyErrorMessage.value = 'No snippet available for this panel.'
+    scheduleCopyReset('error')
+    return
+  }
+
+  const snippet = panelSnippet.value
+  const success = await attemptClipboardWrite(snippet)
+
+  if (success) {
+    copyStatus.value = 'copied'
+    copyErrorMessage.value = ''
+    logEvent('Clipboard', 'copy', `${activePanelMeta.value.label} panel snippet`)
+    scheduleCopyReset('copied')
+  }
+  else {
+    copyStatus.value = 'error'
+    copyErrorMessage.value = 'Clipboard copy is not supported in this environment.'
+    scheduleCopyReset('error')
+  }
+}
+
+onBeforeUnmount(() => {
+  if (copyResetHandle != null) {
+    clearTimeout(copyResetHandle)
+    copyResetHandle = undefined
+  }
+})
 </script>
 
 <template>
@@ -993,6 +2276,22 @@ function handleMarkerClick() {
     </aside>
 
     <section class="map-container">
+      <div class="map-toolbar">
+        <button
+          type="button"
+          class="copy-button"
+          :class="copyButtonStateClass"
+          :disabled="!hasSnippet"
+          :title="copyStatusMessage"
+          @click="copySnippet"
+        >
+          {{ copyButtonLabel }}
+        </button>
+        <p class="copy-feedback" aria-live="polite">
+          {{ copyStatusMessage }}
+        </p>
+      </div>
+
       <div v-if="!hasKey" class="map-placeholder">
         <strong>No API key detected.</strong>
         <p>
@@ -1009,6 +2308,7 @@ function handleMarkerClick() {
         :view-mode="viewMode"
         :map-style="resolvedMapStyle"
         @ready="handleMapReady"
+        @click="handleMapClick"
         @moveend="handleMapMoveend"
       >
         <AmapMarker
@@ -1026,8 +2326,8 @@ function handleMarkerClick() {
           :is-open="infoWindowState.isOpen"
           :anchor="infoWindowState.anchor"
           :offset="infoWindowOffset"
-          @close="infoWindowState.isOpen = false"
-          @open="infoWindowState.isOpen = true"
+          @close="handleInfoWindowClose"
+          @open="handleInfoWindowOpen"
         >
           <div class="info-window">
             <h3>{{ infoWindowState.title }}</h3>
@@ -1108,6 +2408,26 @@ function handleMarkerClick() {
           :style="massMarkerStyles"
         />
       </AmapMap>
+
+      <aside class="event-log" aria-live="polite">
+        <header class="event-log-header">
+          <h2>Event log</h2>
+          <span class="event-log-meta">Last {{ Math.min(eventLog.length, EVENT_LOG_LIMIT) }} events</span>
+        </header>
+        <p v-if="eventLog.length === 0" class="event-log-empty">
+          Interact with the map or controls to see live events.
+        </p>
+        <ul v-else class="event-log-list">
+          <li v-for="entry in eventLog" :key="entry.id" class="event-log-item">
+            <span class="event-log-time">{{ entry.time }}</span>
+            <div class="event-log-content">
+              <strong class="event-log-source">{{ entry.source }}</strong>
+              <span class="event-log-summary">{{ entry.summary }}</span>
+              <span v-if="entry.detail" class="event-log-detail">{{ entry.detail }}</span>
+            </div>
+          </li>
+        </ul>
+      </aside>
     </section>
   </main>
 </template>
@@ -1472,9 +2792,151 @@ function handleMarkerClick() {
   justify-content: center;
 }
 
+.map-toolbar {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  z-index: 10;
+}
+
+.copy-button {
+  border: none;
+  border-radius: 9999px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.85);
+  box-shadow: 0 14px 30px -18px rgba(15, 23, 42, 0.8);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.copy-button:hover {
+  background: rgba(37, 99, 235, 0.9);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 34px -18px rgba(30, 64, 175, 0.65);
+}
+
+.copy-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.copy-button.copied {
+  background: rgba(22, 163, 74, 0.92);
+}
+
+.copy-button.error {
+  background: rgba(220, 38, 38, 0.9);
+}
+
+.copy-feedback {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.85);
+  text-align: right;
+  max-width: 220px;
+}
+
 .map {
   width: 100%;
   height: 100vh;
+}
+
+.event-log {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  width: min(320px, calc(100% - 3rem));
+  max-height: calc(100vh - 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e2e8f0;
+  box-shadow: 0 20px 45px -20px rgba(15, 23, 42, 0.65);
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.event-log-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.event-log-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.event-log-meta {
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.event-log-empty {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(226, 232, 240, 0.8);
+}
+
+.event-log-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  overflow-y: auto;
+  max-height: 220px;
+  padding-right: 0.25rem;
+}
+
+.event-log-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.65rem;
+  align-items: start;
+}
+
+.event-log-time {
+  font-family: 'Menlo', 'Fira Code', 'SFMono-Regular', monospace;
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.event-log-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.event-log-source {
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: rgba(96, 165, 250, 0.9);
+}
+
+.event-log-summary {
+  font-size: 0.9rem;
+}
+
+.event-log-detail {
+  font-size: 0.8rem;
+  color: rgba(226, 232, 240, 0.75);
 }
 
 .map-placeholder {
@@ -1527,6 +2989,23 @@ function handleMarkerClick() {
 
   .map {
     height: 70vh;
+  }
+
+  .event-log {
+    position: static;
+    width: auto;
+    max-height: none;
+    margin: 1rem;
+  }
+
+  .map-toolbar {
+    position: static;
+    align-items: stretch;
+    margin: 1rem;
+  }
+
+  .copy-feedback {
+    text-align: left;
   }
 }
 </style>

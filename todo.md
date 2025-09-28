@@ -385,10 +385,10 @@ amap-vue-kit/
 
 ## Playground 优化（待实现）
 
-* [ ] 支持一键切换的组件面板，覆盖 README 中列出的 Map / Marker / InfoWindow / Polyline / Polygon / Circle / TileLayer / Traffic / Satellite / RoadNet / ToolBar / Scale / ControlBar / MapType。
-* [ ] 各面板提供受控表单（经纬度、缩放、旋转、可见性、样式、事件开关等），并在右下角显示实时事件日志。
-* [ ] Playground 右上角提供「复制为示例代码」按钮，将当前表单状态序列化为 `<AmapXXX>` SFC 片段。
-* [ ] 使用 URL Hash/Query 与 LocalStorage 持久化配置，实现刷新或分享状态不丢失。
+* [x] 支持一键切换的组件面板，覆盖 README 中列出的 Map / Marker / InfoWindow / Polyline / Polygon / Circle / TileLayer / Traffic / Satellite / RoadNet / ToolBar / Scale / ControlBar / MapType。
+* [x] 各面板提供受控表单（经纬度、缩放、旋转、可见性、样式、事件开关等），并在右下角显示实时事件日志。
+* [x] Playground 右上角提供「复制为示例代码」按钮，将当前表单状态序列化为 `<AmapXXX>` SFC 片段。
+* [x] 使用 URL Hash/Query 与 LocalStorage 持久化配置，实现刷新或分享状态不丢失。
 * [x] 内置小/中/大三档数据集（100 / 3k / 1 万点），用于展示渲染耗时或 FPS 统计，便于压测性能。
 * [ ] 提供虚拟滚动 / 分块渲染开关，适配 MassMarkers 或 Clusterer 等大数据量场景。
 * [ ] 增加 Map Inspector：展示当前 zoom / center / bounds、已加载图层列表以及覆盖物添加/销毁计数。

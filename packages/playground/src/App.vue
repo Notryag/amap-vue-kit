@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PerformanceDatasetId } from './data/performance-datasets'
-import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, reactive, ref, shallowRef, watch } from 'vue'
 import { performanceDatasets } from './data/performance-datasets'
 
 type LngLatTuple = [number, number]
@@ -277,11 +277,18 @@ const performanceDatasetOptions = performanceDatasets.map(dataset => ({
   value: dataset.id,
 }))
 
+type PerformanceRenderMode = 'immediate' | 'chunked'
+
 const performanceDatasetId = ref<PerformanceDatasetId>('small')
+const performanceRenderMode = ref<PerformanceRenderMode>('immediate')
 
 const performanceDataset = computed(() =>
   performanceDatasets.find(dataset => dataset.id === performanceDatasetId.value) ?? performanceDatasets[0],
 )
+const performanceRenderModeOptions: Array<{ label: string, value: PerformanceRenderMode }> = [
+  { label: 'Immediate (single batch)', value: 'immediate' },
+  { label: 'Chunked (progressive)', value: 'chunked' },
+]
 
 const performanceMetrics = computed(() => {
   const dataset = performanceDataset.value
@@ -299,6 +306,58 @@ const performanceSamples = computed(() => performanceDataset.value.samples)
 const performanceMassData = computed(() => performanceDataset.value.mass)
 const performanceDescription = computed(() => performanceDataset.value.description)
 const showPerformanceMassMarks = computed(() => activePanel.value === 'performance')
+
+const performanceMassRenderData = shallowRef<AMap.MassData[]>(performanceMassData.value)
+const MASS_CHUNK_SIZE = 800
+let massRenderFrame: number | null = null
+
+function cancelMassRenderTask() {
+  if (massRenderFrame != null && typeof window !== 'undefined') {
+    window.cancelAnimationFrame(massRenderFrame)
+    massRenderFrame = null
+  }
+}
+
+function hydratePerformanceData() {
+  cancelMassRenderTask()
+  const data = performanceMassData.value
+  if (performanceRenderMode.value !== 'chunked' || typeof window === 'undefined' || data.length <= MASS_CHUNK_SIZE) {
+    performanceMassRenderData.value = data
+    return
+  }
+
+  performanceMassRenderData.value = []
+  if (data.length === 0)
+    return
+
+  let index = 0
+  const step = () => {
+    index = Math.min(index + MASS_CHUNK_SIZE, data.length)
+    performanceMassRenderData.value = data.slice(0, index)
+    if (index < data.length)
+      massRenderFrame = window.requestAnimationFrame(step)
+    else
+      massRenderFrame = null
+  }
+
+  massRenderFrame = window.requestAnimationFrame(step)
+}
+
+const chunkProgress = computed(() => {
+  const total = performanceMassData.value.length
+  if (total === 0)
+    return 1
+  return Math.min(1, performanceMassRenderData.value.length / total)
+})
+
+const chunkProgressLabel = computed(() => {
+  const total = performanceMassData.value.length
+  if (total === 0)
+    return '0 points loaded'
+  const loaded = performanceMassRenderData.value.length
+  const percentage = Math.round(chunkProgress.value * 100)
+  return `${percentage}% · ${loaded.toLocaleString()} / ${total.toLocaleString()} points`
+})
 
 const massMarkerStyles = ref<AMap.MassMarkersStyleOptions[]>([])
 
@@ -478,6 +537,29 @@ watch(performanceDatasetId, (datasetId) => {
     logEvent('Dataset', 'switch', `${dataset.label} · ${dataset.size.toLocaleString()} points`)
 })
 
+watch([performanceMassData, performanceRenderMode], () => {
+  hydratePerformanceData()
+}, { immediate: true })
+
+watch(performanceRenderMode, (mode, previous) => {
+  if (!previous || mode === previous)
+    return
+  const summary = mode === 'chunked'
+    ? 'Chunked updates · progressive hydration'
+    : 'Immediate updates · single batch'
+  logEvent('Dataset', 'render mode', summary)
+})
+
+watch(performanceMassRenderData, (value, previous) => {
+  if (performanceRenderMode.value !== 'chunked')
+    return
+  const total = performanceMassData.value.length
+  if (total === 0)
+    return
+  if (value.length === total && (previous?.length ?? 0) !== total)
+    logEvent('Dataset', 'chunked ready', `${total.toLocaleString()} points hydrated`)
+})
+
 interface PlaygroundState {
   activePanel: PanelId
   center: LngLatTuple
@@ -570,6 +652,7 @@ interface PlaygroundState {
     showRoad: boolean
   }
   performanceDatasetId: PerformanceDatasetId
+  performanceRenderMode: PerformanceRenderMode
 }
 
 type RestoreSource = 'hash' | 'storage'
@@ -636,6 +719,10 @@ function isInfoWindowAnchor(value: unknown): value is InfoWindowAnchor {
 
 function isControlPosition(value: unknown): value is ControlPosition {
   return typeof value === 'string' && (CONTROL_POSITION_VALUES as readonly string[]).includes(value)
+}
+
+function isPerformanceRenderMode(value: unknown): value is PerformanceRenderMode {
+  return value === 'immediate' || value === 'chunked'
 }
 
 function createPlaygroundState(): PlaygroundState {
@@ -731,6 +818,7 @@ function createPlaygroundState(): PlaygroundState {
       showRoad: mapTypeState.showRoad,
     },
     performanceDatasetId: performanceDatasetId.value,
+    performanceRenderMode: performanceRenderMode.value,
   }
 }
 
@@ -1199,6 +1287,11 @@ function applyPlaygroundState(state: Partial<PlaygroundState>, source: RestoreSo
         performanceDatasetId.value = state.performanceDatasetId
         restored = true
       }
+    }
+
+    if (state.performanceRenderMode && isPerformanceRenderMode(state.performanceRenderMode)) {
+      performanceRenderMode.value = state.performanceRenderMode
+      restored = true
     }
   }
   finally {
@@ -1738,6 +1831,7 @@ onBeforeUnmount(() => {
     clearTimeout(copyResetHandle)
     copyResetHandle = undefined
   }
+  cancelMassRenderTask()
 })
 </script>
 
@@ -2210,6 +2304,20 @@ onBeforeUnmount(() => {
             </select>
           </label>
 
+          <label class="form-field">
+            <span>Render mode</span>
+            <select v-model="performanceRenderMode">
+              <option v-for="option in performanceRenderModeOptions" :key="option.value" :value="option.value">
+                {{ option.label }}
+              </option>
+            </select>
+          </label>
+
+          <div v-if="performanceRenderMode === 'chunked'" class="chunk-progress">
+            <progress :value="chunkProgress" max="1" aria-label="Chunked load progress" />
+            <span>{{ chunkProgressLabel }}</span>
+          </div>
+
           <p class="dataset-description">
             {{ performanceDescription }}
           </p>
@@ -2404,7 +2512,7 @@ onBeforeUnmount(() => {
         />
         <AmapMassMarks
           v-if="showPerformanceMassMarks"
-          :data="performanceMassData"
+          :data="performanceMassRenderData"
           :style="massMarkerStyles"
         />
       </AmapMap>
@@ -2709,6 +2817,30 @@ onBeforeUnmount(() => {
   font-size: 0.85rem;
   line-height: 1.5;
   color: #475569;
+}
+
+.chunk-progress {
+  margin: 0.5rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.08);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.chunk-progress progress {
+  width: 100%;
+  height: 8px;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.chunk-progress span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1d4ed8;
 }
 
 .dataset-sample {

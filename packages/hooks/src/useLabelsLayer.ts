@@ -1,7 +1,7 @@
 import type { MaybeRefOrGetter } from 'vue'
 import type { OverlayLifecycle } from './useOverlay'
 
-import { computed, toValue } from 'vue'
+import { computed, toValue, watch } from 'vue'
 import { useOverlay } from './useOverlay'
 
 export interface UseLabelsLayerOptions extends Partial<AMap.LabelsLayerOptions> {
@@ -64,6 +64,55 @@ export function useLabelsLayer(
     () => ({ plugins: ['AMap.LabelsLayer'] }),
   )
 
+  const pendingAdds = new Set<AMap.LabelMarker>()
+  const pendingRemovals = new Set<AMap.LabelMarker>()
+  let flushScheduled = false
+
+  function scheduleFlush() {
+    if (flushScheduled)
+      return
+    if (!pendingAdds.size && !pendingRemovals.size)
+      return
+    flushScheduled = true
+    const schedule = typeof queueMicrotask === 'function' ? queueMicrotask : (fn: () => void) => Promise.resolve().then(fn)
+    schedule(() => {
+      flushScheduled = false
+      flushPending()
+    })
+  }
+
+  function flushPending() {
+    const instance = overlay.overlay.value
+    if (!instance)
+      return
+
+    if (pendingRemovals.size) {
+      instance.remove(Array.from(pendingRemovals))
+      pendingRemovals.clear()
+    }
+
+    if (pendingAdds.size) {
+      instance.add(Array.from(pendingAdds))
+      pendingAdds.clear()
+    }
+  }
+
+  function normalizeMarkers(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
+    return Array.isArray(markers) ? markers : [markers]
+  }
+
+  watch(() => overlay.overlay.value, (instance) => {
+    if (instance) {
+      // Layer instance just became available (or was replaced); flush queued operations
+      // immediately so pending label markers actually call through to `LabelsLayer.add/remove`.
+      flushPending()
+    }
+    else {
+      pendingAdds.clear()
+      pendingRemovals.clear()
+    }
+  })
+
   function show() {
     overlay.overlay.value?.show?.()
   }
@@ -93,16 +142,28 @@ export function useLabelsLayer(
   function add(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
     if (!markers)
       return
-    overlay.overlay.value?.add?.(markers)
+    const items = normalizeMarkers(markers)
+    for (const marker of items) {
+      pendingRemovals.delete(marker)
+      pendingAdds.add(marker)
+    }
+    scheduleFlush()
   }
 
   function remove(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
     if (!markers)
       return
-    overlay.overlay.value?.remove?.(markers)
+    const items = normalizeMarkers(markers)
+    for (const marker of items) {
+      if (!pendingAdds.delete(marker))
+        pendingRemovals.add(marker)
+    }
+    scheduleFlush()
   }
 
   function clear() {
+    pendingAdds.clear()
+    pendingRemovals.clear()
     overlay.overlay.value?.clear?.()
   }
 

@@ -15,7 +15,7 @@ const { container, hasKey, map } = useHookDemoMap(() => ({
 
 const labelsLayer = useLabelsLayer(() => map.value, () => ({ zIndex: 130 }))
 
-const marker = useLabelMarker(() => labelsLayer.overlay.value, () => ({
+const marker = useLabelMarker(labelsLayer, () => ({
   position: position.value,
   visible: visible.value,
   text: {

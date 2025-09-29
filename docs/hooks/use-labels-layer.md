@@ -14,10 +14,8 @@ const labelsLayer = useLabelsLayer(() => map.value, () => ({
   collision: true,
 }))
 
-labelsLayer.ready((layer) => {
-  markers.value.forEach((item) => {
-    useLabelMarker(() => layer, { position: item.position, text: item.text })
-  })
+markers.value.forEach((item) => {
+  useLabelMarker(labelsLayer, { position: item.position, text: item.text })
 })
 ```
 

@@ -390,7 +390,7 @@ amap-vue-kit/
 * [x] Playground 右上角提供「复制为示例代码」按钮，将当前表单状态序列化为 `<AmapXXX>` SFC 片段。
 * [x] 使用 URL Hash/Query 与 LocalStorage 持久化配置，实现刷新或分享状态不丢失。
 * [x] 内置小/中/大三档数据集（100 / 3k / 1 万点），用于展示渲染耗时或 FPS 统计，便于压测性能。
-* [ ] 提供虚拟滚动 / 分块渲染开关，适配 MassMarkers 或 Clusterer 等大数据量场景。
+* [x] 提供虚拟滚动 / 分块渲染开关，适配 MassMarkers 或 Clusterer 等大数据量场景。
 * [ ] 增加 Map Inspector：展示当前 zoom / center / bounds、已加载图层列表以及覆盖物添加/销毁计数。
 * [ ] Playground 提示与兜底：AMap Key 缺失时读取 `.env.local` 的 `VITE_AMAP_KEY`，并允许用户临时输入。
 

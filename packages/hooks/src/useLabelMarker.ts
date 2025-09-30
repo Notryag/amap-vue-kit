@@ -1,5 +1,6 @@
-import type { LngLatLike } from '@amap-vue/shared'
+import type { LabelsLayerInjectionContext, LngLatLike } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
+import type { UseLabelsLayerReturn } from './useLabelsLayer'
 
 import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
@@ -31,8 +32,28 @@ export interface UseLabelMarkerReturn {
   destroy: () => void
 }
 
+interface LabelsLayerAdapter {
+  overlay: ShallowRef<AMap.LabelsLayer | null>
+  add: (markers: AMap.LabelMarker | AMap.LabelMarker[]) => void
+  remove: (markers: AMap.LabelMarker | AMap.LabelMarker[]) => void
+}
+
+function isUseLabelsLayerReturn(value: any): value is UseLabelsLayerReturn {
+  return value && typeof value === 'object'
+    && 'overlay' in value
+    && 'add' in value
+    && 'remove' in value
+}
+
+function isLabelsLayerInjectionContext(value: any): value is LabelsLayerInjectionContext {
+  return value && typeof value === 'object'
+    && 'layer' in value
+    && 'add' in value
+    && 'remove' in value
+}
+
 export function useLabelMarker(
-  layerRef: MaybeRefOrGetter<AMap.LabelsLayer | null | undefined>,
+  layerRef: MaybeRefOrGetter<AMap.LabelsLayer | UseLabelsLayerReturn | LabelsLayerInjectionContext | null | undefined>,
   options: MaybeRefOrGetter<UseLabelMarkerOptions>,
 ): UseLabelMarkerReturn {
   const marker = shallowRef<AMap.LabelMarker | null>(null)
@@ -40,9 +61,57 @@ export function useLabelMarker(
   const optionsRef = computed<UseLabelMarkerOptions>(() => ({
     ...(toValue(options) as UseLabelMarkerOptions | undefined ?? {}),
   }))
-  let attachedLayer: AMap.LabelsLayer | null = null
+  let attachedLayer: LabelsLayerAdapter | null = null
+  let attachedInstance: AMap.LabelsLayer | null = null
 
-  async function ensureMarker(layerInstance: AMap.LabelsLayer | null | undefined) {
+  const directLayerRef = shallowRef<AMap.LabelsLayer | null>(null)
+  const directLayerAdapter: LabelsLayerAdapter = {
+    overlay: directLayerRef,
+    add(markers) {
+      const instance = directLayerRef.value
+      if (!instance)
+        return
+      instance.add(markers as any)
+    },
+    remove(markers) {
+      const instance = directLayerRef.value
+      if (!instance)
+        return
+      instance.remove(markers as any)
+    },
+  }
+
+  const layerAdapter = shallowRef<LabelsLayerAdapter | null>(null)
+
+  function resolveLayerAdapter(
+    value: AMap.LabelsLayer | UseLabelsLayerReturn | LabelsLayerInjectionContext | null | undefined,
+  ): LabelsLayerAdapter | null {
+    if (!value) {
+      directLayerRef.value = null
+      return null
+    }
+    if (isUseLabelsLayerReturn(value)) {
+      directLayerRef.value = null
+      return value
+    }
+    if (isLabelsLayerInjectionContext(value)) {
+      directLayerRef.value = null
+      return {
+        overlay: value.layer,
+        add: value.add,
+        remove: value.remove,
+      }
+    }
+    directLayerRef.value = value
+    return directLayerAdapter
+  }
+
+  watch(() => toValue(layerRef), (value) => {
+    layerAdapter.value = resolveLayerAdapter(value)
+  }, { immediate: true })
+
+  async function ensureMarker(adapter: LabelsLayerAdapter | null) {
+    const layerInstance = adapter?.overlay.value
     if (!isClient || marker.value || !layerInstance)
       return
 
@@ -53,7 +122,7 @@ export function useLabelMarker(
       const instance = new (AMapInstance as any).LabelMarker(rest)
       marker.value = instance
       bindListeners(instance)
-      attachToLayer(layerInstance)
+      attachToLayer(adapter)
       if (position)
         setPosition(position)
       if (opts.text)
@@ -90,33 +159,40 @@ export function useLabelMarker(
       (instance as any).off?.(listener.event, listener.handler)
   }
 
-  function attachToLayer(layerInstance: AMap.LabelsLayer) {
-    if (!marker.value)
+  function attachToLayer(adapter: LabelsLayerAdapter | null) {
+    const markerInstance = marker.value
+    const layerInstance = adapter?.overlay.value ?? null
+    if (!markerInstance || !adapter || !layerInstance)
       return
-    if (attachedLayer === layerInstance)
+    if (attachedLayer && attachedInstance && (attachedLayer !== adapter || attachedInstance !== layerInstance))
+      attachedLayer.remove(markerInstance)
+    if (attachedLayer === adapter && attachedInstance === layerInstance)
       return
-    if (attachedLayer)
-      detachFromLayer()
-    layerInstance.add(marker.value)
-    attachedLayer = layerInstance
+    adapter.add(markerInstance)
+    attachedLayer = adapter
+    attachedInstance = layerInstance
   }
 
   function detachFromLayer() {
     if (marker.value && attachedLayer)
       attachedLayer.remove(marker.value)
     attachedLayer = null
+    attachedInstance = null
   }
 
-  watch(() => toValue(layerRef), (layerInstance) => {
-    if (!layerInstance) {
+  watch(() => ({
+    adapter: layerAdapter.value,
+    instance: layerAdapter.value?.overlay.value ?? null,
+  }), ({ adapter, instance }) => {
+    if (!adapter || !instance) {
       detachFromLayer()
       return
     }
 
     if (marker.value)
-      attachToLayer(layerInstance)
+      attachToLayer(adapter)
     else
-      ensureMarker(layerInstance)
+      ensureMarker(adapter)
   }, { immediate: true })
 
   watch(() => optionsRef.value.position, value => setPosition(value), { deep: true })

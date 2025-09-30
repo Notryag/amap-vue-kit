@@ -9,14 +9,12 @@ import { useLabelMarker, useLabelsLayer } from '@amap-vue/hooks'
 
 const layer = useLabelsLayer(() => map.value, () => ({ collision: true }))
 
-layer.ready((instance) => {
-  const marker = useLabelMarker(() => instance, () => ({
-    position: [116.397, 39.908],
-    text: { content: 'HQ', direction: 'top' },
-  }))
+const marker = useLabelMarker(layer, () => ({
+  position: [116.397, 39.908],
+  text: { content: 'HQ', direction: 'top' },
+}))
 
-  marker.on('click', () => console.log('label clicked'))
-})
+marker.on('click', () => console.log('label clicked'))
 ```
 
 ## Return value
@@ -37,9 +35,9 @@ layer.ready((instance) => {
 ### Notes
 
 - The composable automatically reattaches the marker if the labels layer instance changes.
-- `text.offset` accepts tuples such as `[0, -12]`; they are converted to `AMap.Pixel` behind the scenes when the JSAPI is availa
-ble.
+- `text.offset` accepts tuples such as `[0, -12]`; they are converted to `AMap.Pixel` behind the scenes when the JSAPI is available.
 - When the supplied layer reference is `null`, the marker detaches itself and waits until a layer becomes available again.
+- You can pass a raw `LabelsLayer` instance, the object returned by `useLabelsLayer`, or the `<AmapLabelsLayer>` injection context—the hook queues and attaches markers appropriately in each scenario.
 
 ## Live example
 

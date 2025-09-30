@@ -85,7 +85,7 @@ const markerOptions = computed<UseLabelMarkerOptions>(() => {
   return base
 })
 
-const markerApi = layerContext ? useLabelMarker(() => layerContext.layer.value, markerOptions) : null
+const markerApi = layerContext ? useLabelMarker(layerContext, markerOptions) : null
 const marker = markerApi?.marker ?? shallowRef<AMap.LabelMarker | null>(null)
 
 if (markerApi) {

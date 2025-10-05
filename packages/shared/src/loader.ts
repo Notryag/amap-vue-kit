@@ -6,12 +6,14 @@ const DEFAULT_LOCA_VERSION = '2.0.0'
 
 interface LoaderState {
   promise: Promise<typeof AMap> | null
+  locaPromise: Promise<void> | null
   script?: HTMLScriptElement
   config?: LoaderOptions
 }
 
 const state: LoaderState = {
   promise: null,
+  locaPromise: null,
 }
 
 let defaults: Partial<LoaderOptions> = {}
@@ -32,47 +34,92 @@ async function loadLoca(options: LoaderOptions) {
   if (!options.loca)
     return
 
+  if (isLocaReady())
+    return
+
+  if (state.locaPromise)
+    return state.locaPromise
+
   const version = typeof options.loca === 'object' && options.loca?.version ? options.loca.version : DEFAULT_LOCA_VERSION
   const url = `https://webapi.amap.com/loca?v=${version}&key=${options.key}`
 
-  if (!document.querySelector('script[data-amap-loca]')) {
-    await new Promise<void>((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = url
-      script.async = true
-      script.dataset.amapLoca = 'true'
-      let timeoutId: ReturnType<typeof setTimeout> | undefined
+  const existing = document.querySelector('script[data-amap-loca]') as HTMLScriptElement | null
+  if (existing) {
+    state.locaPromise = new Promise<void>((resolve, reject) => {
+      if (isLocaReady()) {
+        state.locaPromise = null
+        resolve()
+        return
+      }
 
       const cleanup = () => {
-        script.onload = null
-        script.onerror = null
-        if (timeoutId != null) {
-          clearTimeout(timeoutId)
-          timeoutId = undefined
-        }
+        existing.removeEventListener('load', onLoad)
+        existing.removeEventListener('error', onError)
+        state.locaPromise = null
       }
 
-      script.onload = () => {
+      const onLoad = () => {
         cleanup()
-        resolve()
+        if (isLocaReady())
+          resolve()
+        else
+          reject(new Error('AMap Loca script loaded but `Loca` global is missing.'))
       }
-      script.onerror = () => {
+
+      const onError = () => {
+        cleanup()
+        reject(new Error('Failed to load the AMap Loca script.'))
+      }
+
+      existing.addEventListener('load', onLoad, { once: true })
+      existing.addEventListener('error', onError, { once: true })
+    })
+    return state.locaPromise
+  }
+
+  state.locaPromise = new Promise<void>((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = url
+    script.async = true
+    script.dataset.amapLoca = 'true'
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+
+    const cleanup = () => {
+      script.onload = null
+      script.onerror = null
+      if (timeoutId != null) {
+        clearTimeout(timeoutId)
+        timeoutId = undefined
+      }
+      state.locaPromise = null
+    }
+
+    script.onload = () => {
+      cleanup()
+      if (isLocaReady())
+        resolve()
+      else
+        reject(new Error('AMap Loca script loaded but `Loca` global is missing.'))
+    }
+
+    script.onerror = () => {
+      cleanup()
+      script.remove()
+      reject(new Error('Failed to load the AMap Loca script.'))
+    }
+
+    if (options.timeout != null) {
+      timeoutId = window.setTimeout(() => {
         cleanup()
         script.remove()
-        reject(new Error('Failed to load AMap Loca script'))
-      }
+        reject(new Error(`Loading the AMap Loca script timed out after ${options.timeout}ms.`))
+      }, options.timeout)
+    }
 
-      if (options.timeout != null) {
-        timeoutId = window.setTimeout(() => {
-          cleanup()
-          script.remove()
-          reject(new Error(`Loading the AMap Loca script timed out after ${options.timeout}ms.`))
-        }, options.timeout)
-      }
+    document.head.appendChild(script)
+  })
 
-      document.head.appendChild(script)
-    })
-  }
+  return state.locaPromise
 }
 
 function resolveOptions(options?: Partial<LoaderOptions>): LoaderOptions {
@@ -257,5 +304,9 @@ export function createLoader() {
 }
 
 export const loader = createLoader()
+
+export function isLocaReady(): boolean {
+  return Boolean(isClient && (window as any).Loca)
+}
 
 export type { LoaderOptions }

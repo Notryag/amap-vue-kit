@@ -124,6 +124,15 @@ importers:
         specifier: ^3.4.0
         version: 3.5.21(typescript@5.9.2)
 
+  packages/loca:
+    dependencies:
+      '@amap-vue/shared':
+        specifier: workspace:*
+        version: link:../shared
+      vue:
+        specifier: ^3.4.0
+        version: 3.5.21(typescript@5.9.2)
+
   packages/playground:
     dependencies:
       '@amap-vue/core':

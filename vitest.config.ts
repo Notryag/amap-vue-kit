@@ -9,6 +9,7 @@ export default defineConfig({
       '@amap-vue/core': resolve(__dirname, 'packages/core/src'),
       '@amap-vue/hooks': resolve(__dirname, 'packages/hooks/src'),
       '@amap-vue/shared': resolve(__dirname, 'packages/shared/src'),
+      '@amap-vue/loca': resolve(__dirname, 'packages/loca/src'),
     },
   },
   test: {

@@ -326,6 +326,7 @@ amap-vue-kit/
     { "devDependencies": { "eslint": "^9", "@antfu/eslint-config": "^2.20.0" } }
     ```
   * [x] 清理 docs/hooks 代码示例的 import 顺序，确保 `pnpm lint` 通过
+  * [x] 对 `packages/loca` 组件/Composable 与测试修复 import 顺序与缩进，`pnpm lint` 仅剩历史 warning
 * [x] **Vitest**：核心组件与 hooks 的单元测试（创建/更新/销毁/事件）
 * [x] **CI**：`lint/test/build/docs-deploy`（GitHub Actions）
   * 已添加 `.github/workflows/ci.yml`，执行 `pnpm lint`、`pnpm test -- --run`、`pnpm run build:all`
@@ -391,8 +392,8 @@ amap-vue-kit/
 * [x] 使用 URL Hash/Query 与 LocalStorage 持久化配置，实现刷新或分享状态不丢失。
 * [x] 内置小/中/大三档数据集（100 / 3k / 1 万点），用于展示渲染耗时或 FPS 统计，便于压测性能。
 * [x] 提供虚拟滚动 / 分块渲染开关，适配 MassMarkers 或 Clusterer 等大数据量场景。
-* [ ] 增加 Map Inspector：展示当前 zoom / center / bounds、已加载图层列表以及覆盖物添加/销毁计数。
-* [ ] Playground 提示与兜底：AMap Key 缺失时读取 `.env.local` 的 `VITE_AMAP_KEY`，并允许用户临时输入。
+* [x] 增加 Map Inspector：展示当前 zoom / center / bounds、已加载图层列表以及覆盖物添加/销毁计数。
+* [x] Playground 提示与兜底：AMap Key 缺失时读取 `.env.local` 的 `VITE_AMAP_KEY`，并允许用户临时输入。
 
 ---
 

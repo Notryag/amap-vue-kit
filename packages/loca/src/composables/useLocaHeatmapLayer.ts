@@ -1,4 +1,3 @@
-import { computed, shallowRef, unref } from 'vue'
 import type {
   LocaContainer,
   LocaHeatmapLayer,
@@ -6,6 +5,7 @@ import type {
   LocaLayerStyle,
   MaybeRefMap,
 } from '../types'
+import { computed, shallowRef, unref } from 'vue'
 import { getLoca } from '../utils'
 
 export interface HeatmapLike {

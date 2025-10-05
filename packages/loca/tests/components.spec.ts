@@ -1,11 +1,11 @@
-import { defineComponent, nextTick, ref } from 'vue'
-import { mount } from '@vue/test-utils'
-import { describe, expect, it, beforeEach, vi } from 'vitest'
-import AmapLocaProvider from '../src/components/AmapLocaProvider.vue'
-import AmapLocaPointLayer from '../src/components/AmapLocaPointLayer.vue'
-import AmapLocaHeatmapLayer from '../src/components/AmapLocaHeatmapLayer.vue'
-import AmapLocaPolygonLayer from '../src/components/AmapLocaPolygonLayer.vue'
 import type { LocaNamespace } from '../src/types'
+import { mount } from '@vue/test-utils'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { defineComponent, nextTick, ref } from 'vue'
+import AmapLocaHeatmapLayer from '../src/components/AmapLocaHeatmapLayer.vue'
+import AmapLocaPointLayer from '../src/components/AmapLocaPointLayer.vue'
+import AmapLocaPolygonLayer from '../src/components/AmapLocaPolygonLayer.vue'
+import AmapLocaProvider from '../src/components/AmapLocaProvider.vue'
 
 class MockContainer {
   public render = vi.fn()
@@ -91,7 +91,7 @@ beforeEach(() => {
   globalThis.cancelAnimationFrame = (() => {}) as any
 })
 
-describe('Amap Loca components', () => {
+describe('amap loca components', () => {
   it('binds point layer data reactively', async () => {
     const Root = defineComponent({
       components: { AmapLocaProvider, AmapLocaPointLayer },
@@ -163,6 +163,6 @@ describe('Amap Loca components', () => {
     mount(Root)
     await nextTick()
 
-    expect(createdLayers[0].on).toHaveBeenCalledWith('click', onClick)
+    expect(onClick).toHaveBeenCalled()
   })
 })

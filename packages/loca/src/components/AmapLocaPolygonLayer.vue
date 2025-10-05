@@ -1,16 +1,12 @@
-<template>
-  <slot />
-</template>
-
 <script setup lang="ts">
-import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import type { ShallowRef } from 'vue'
+import type { PolygonSource } from '../composables/useLocaPolygonLayer'
 import type {
   LocaContainer,
   LocaLayerStyle,
   LocaPolygonLayerOptions,
 } from '../types'
-import type { PolygonSource } from '../composables/useLocaPolygonLayer'
+import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaPolygonLayer } from '../composables/useLocaPolygonLayer'
 
 interface PolygonLayerProps {
@@ -34,12 +30,7 @@ const layerApi = useLocaPolygonLayer(() => containerRef.value ?? null, props.opt
 let pendingRender: number | null = null
 const raf = typeof requestAnimationFrame !== 'undefined'
   ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => {
-    const now = typeof performance !== 'undefined' && typeof performance.now === 'function'
-      ? performance.now()
-      : Date.now()
-    cb(now)
-  }, 16)
+  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
 const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
 
 function scheduleRender() {
@@ -133,3 +124,7 @@ onBeforeUnmount(() => {
   layerApi.destroy()
 })
 </script>
+
+<template>
+  <slot />
+</template>

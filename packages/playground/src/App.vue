@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PerformanceDatasetId } from './data/performance-datasets'
+import { loader } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, reactive, ref, shallowRef, watch } from 'vue'
 import { performanceDatasets } from './data/performance-datasets'
 
@@ -38,6 +39,55 @@ interface PanelDefinition {
   label: string
   description: string
 }
+
+const PLAYGROUND_KEY_STORAGE_KEY = 'amap-vue-kit:playground:key'
+const envKey = (import.meta.env.VITE_AMAP_KEY ?? '').trim()
+const runtimeKey = ref('')
+
+if (!envKey && typeof window !== 'undefined') {
+  const savedKey = window.localStorage.getItem(PLAYGROUND_KEY_STORAGE_KEY)
+  if (savedKey)
+    runtimeKey.value = savedKey
+}
+
+const runtimeKeyDraft = ref(runtimeKey.value)
+const effectiveKey = computed(() => envKey || runtimeKey.value.trim())
+const usingEnvKey = computed(() => envKey.length > 0)
+const usingRuntimeKey = computed(() => !usingEnvKey.value && runtimeKey.value.trim().length > 0)
+const hasKey = computed(() => effectiveKey.value.length > 0)
+const keyStatusDetail = computed(() => {
+  if (usingEnvKey.value)
+    return 'Using key from .env.local. Restart the dev server after changing it.'
+  if (usingRuntimeKey.value)
+    return 'Using runtime key stored in this browser.'
+  return 'Set VITE_AMAP_KEY in .env.local or paste a temporary key in the sidebar to load the JSAPI.'
+})
+const canApplyRuntimeKey = computed(() => {
+  if (usingEnvKey.value)
+    return false
+  const trimmed = runtimeKeyDraft.value.trim()
+  return trimmed.length > 0 && trimmed !== runtimeKey.value.trim()
+})
+
+watch(runtimeKey, (value) => {
+  if (!usingEnvKey.value)
+    runtimeKeyDraft.value = value
+
+  if (usingEnvKey.value || typeof window === 'undefined')
+    return
+
+  const trimmed = value.trim()
+  if (trimmed)
+    window.localStorage.setItem(PLAYGROUND_KEY_STORAGE_KEY, trimmed)
+  else
+    window.localStorage.removeItem(PLAYGROUND_KEY_STORAGE_KEY)
+})
+
+watch(effectiveKey, (value, previousValue) => {
+  if (!value || value === previousValue)
+    return
+  loader.config({ key: value })
+}, { immediate: true })
 
 const center = ref<LngLatTuple>([116.397428, 39.90923])
 const initialCenter: LngLatTuple = [...center.value] as LngLatTuple
@@ -143,8 +193,6 @@ const mapTypeState = reactive({
   showRoad: true,
 })
 
-const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
-
 type EventSource = 'Map' | 'Marker' | 'InfoWindow' | 'Panel' | 'Dataset' | 'Clipboard' | 'State'
 
 interface EventLogEntry {
@@ -182,11 +230,30 @@ function logEvent(source: EventSource, summary: string, detail?: string) {
 
 logEvent(
   'Map',
-  hasKey.value ? 'API key detected' : 'API key missing',
-  hasKey.value
-    ? 'Map components will request JSAPI resources.'
-    : 'Set VITE_AMAP_KEY in .env.local to load the live map.',
+  hasKey.value ? 'API key ready' : 'API key missing',
+  keyStatusDetail.value,
 )
+
+function applyRuntimeKey() {
+  if (usingEnvKey.value)
+    return
+
+  const trimmed = runtimeKeyDraft.value.trim()
+  if (!trimmed || trimmed === runtimeKey.value.trim())
+    return
+
+  runtimeKey.value = trimmed
+  logEvent('Map', 'api-key', 'Runtime key applied. Reloading JSAPI with live data.')
+}
+
+function clearRuntimeKey() {
+  if (usingEnvKey.value || !runtimeKey.value)
+    return
+
+  runtimeKey.value = ''
+  runtimeKeyDraft.value = ''
+  logEvent('Map', 'api-key', 'Runtime key cleared. Using placeholder map instead.')
+}
 
 const panels = [
   {
@@ -361,6 +428,41 @@ const chunkProgressLabel = computed(() => {
 
 const massMarkerStyles = ref<AMap.MassMarkersStyleOptions[]>([])
 
+interface BoundsSnapshot {
+  southWest: LngLatTuple
+  northEast: LngLatTuple
+}
+
+const mapInstance = shallowRef<AMap.Map | null>(null)
+const mapBounds = shallowRef<BoundsSnapshot | null>(null)
+const inspectorLayers = ref<string[]>([])
+const overlayStats = reactive({ total: 0, added: 0, removed: 0 })
+const overlayRegistry = new Set<object>()
+let inspectorRefreshHandle: number | null = null
+
+const boundsText = computed(() => {
+  const bounds = mapBounds.value
+  if (!bounds)
+    return '—'
+  const [swLng, swLat] = bounds.southWest
+  const [neLng, neLat] = bounds.northEast
+  return `${swLng.toFixed(4)}, ${swLat.toFixed(4)} → ${neLng.toFixed(4)}, ${neLat.toFixed(4)}`
+})
+
+const mapInspectorStatusLabel = computed(() => {
+  if (!hasKey.value)
+    return 'No key'
+  if (mapInstance.value)
+    return 'Connected'
+  return 'Waiting'
+})
+
+const mapInspectorStatusClass = computed(() => ({
+  active: hasKey.value && Boolean(mapInstance.value),
+  warning: !hasKey.value,
+  pending: hasKey.value && !mapInstance.value,
+}))
+
 function createMassStyle(amap: typeof AMap, color: string): AMap.MassMarkersStyleOptions {
   const size = new amap.Size(10, 10)
   const anchor = new amap.Pixel(5, 5)
@@ -372,21 +474,146 @@ function createMassStyle(amap: typeof AMap, color: string): AMap.MassMarkersStyl
   }
 }
 
-function handleMapReady() {
-  if (massMarkerStyles.value.length > 0 || typeof window === 'undefined')
-    return
+function describeLayer(layer: any): string {
+  if (layer && typeof layer.CLASS_NAME === 'string')
+    return layer.CLASS_NAME.replace(/^AMap\./, '')
+  const constructorName = layer?.constructor?.name
+  if (typeof constructorName === 'string' && constructorName.length)
+    return constructorName.replace(/^AMap\./, '')
+  if (typeof layer?.type === 'string' && layer.type.length)
+    return layer.type
+  return 'Layer'
+}
 
-  const AMapGlobal = (window as typeof window & { AMap?: typeof AMap }).AMap
-  if (!AMapGlobal)
-    return
+function collectOverlayArray(raw: unknown): object[] {
+  if (!raw)
+    return []
+  if (Array.isArray(raw))
+    return raw.filter((value): value is object => typeof value === 'object' && value !== null)
+  if (typeof raw === 'object') {
+    const result: object[] = []
+    for (const value of Object.values(raw as Record<string, unknown>)) {
+      if (Array.isArray(value)) {
+        for (const entry of value) {
+          if (typeof entry === 'object' && entry !== null)
+            result.push(entry as object)
+        }
+      }
+    }
+    return result
+  }
+  return []
+}
 
-  massMarkerStyles.value = [
-    createMassStyle(AMapGlobal, '#2563eb'),
-    createMassStyle(AMapGlobal, '#f97316'),
-    createMassStyle(AMapGlobal, '#16a34a'),
-  ]
+function captureMapBounds(map: AMap.Map) {
+  const bounds = map.getBounds?.()
+  if (!bounds || typeof bounds.getSouthWest !== 'function' || typeof bounds.getNorthEast !== 'function') {
+    mapBounds.value = null
+    return
+  }
+
+  const southWest = bounds.getSouthWest()
+  const northEast = bounds.getNorthEast()
+  if (!southWest || !northEast) {
+    mapBounds.value = null
+    return
+  }
+
+  mapBounds.value = {
+    southWest: [Number(southWest.getLng().toFixed(6)), Number(southWest.getLat().toFixed(6))] as LngLatTuple,
+    northEast: [Number(northEast.getLng().toFixed(6)), Number(northEast.getLat().toFixed(6))] as LngLatTuple,
+  }
+}
+
+function refreshMapLayers(map: AMap.Map) {
+  const layers = (map as any).getLayers?.()
+  if (!Array.isArray(layers)) {
+    inspectorLayers.value = []
+    return
+  }
+  inspectorLayers.value = layers.map(layer => describeLayer(layer))
+}
+
+function refreshOverlayStats(map: AMap.Map) {
+  const getter = (map as any).getAllOverlays
+  if (typeof getter !== 'function') {
+    overlayStats.total = overlayRegistry.size
+    return
+  }
+
+  const overlays = collectOverlayArray(getter.call(map))
+  const seen = new Set<object>(overlays)
+
+  for (const overlay of overlays) {
+    if (!overlayRegistry.has(overlay)) {
+      overlayRegistry.add(overlay)
+      overlayStats.added += 1
+    }
+  }
+
+  for (const existing of Array.from(overlayRegistry)) {
+    if (!seen.has(existing)) {
+      overlayRegistry.delete(existing)
+      overlayStats.removed += 1
+    }
+  }
+
+  overlayStats.total = overlays.length
+}
+
+function updateInspectorSnapshot() {
+  const map = mapInstance.value
+  if (!map)
+    return
+  captureMapBounds(map)
+  refreshMapLayers(map)
+  refreshOverlayStats(map)
+}
+
+function scheduleInspectorRefresh() {
+  if (typeof window === 'undefined' || !mapInstance.value)
+    return
+  if (inspectorRefreshHandle != null)
+    return
+  inspectorRefreshHandle = window.requestAnimationFrame(() => {
+    inspectorRefreshHandle = null
+    updateInspectorSnapshot()
+  })
+}
+
+function resetMapInspector() {
+  if (inspectorRefreshHandle != null && typeof window !== 'undefined') {
+    window.cancelAnimationFrame(inspectorRefreshHandle)
+    inspectorRefreshHandle = null
+  }
+  mapInstance.value = null
+  mapBounds.value = null
+  inspectorLayers.value = []
+  overlayRegistry.clear()
+  overlayStats.total = 0
+  overlayStats.added = 0
+  overlayStats.removed = 0
+}
+
+function handleMapReady(map: AMap.Map) {
+  mapInstance.value = map
+  captureMapBounds(map)
+  refreshMapLayers(map)
+  refreshOverlayStats(map)
+
+  if (massMarkerStyles.value.length === 0 && typeof window !== 'undefined') {
+    const AMapGlobal = (window as typeof window & { AMap?: typeof AMap }).AMap
+    if (AMapGlobal) {
+      massMarkerStyles.value = [
+        createMassStyle(AMapGlobal, '#2563eb'),
+        createMassStyle(AMapGlobal, '#f97316'),
+        createMassStyle(AMapGlobal, '#16a34a'),
+      ]
+    }
+  }
 
   logEvent('Map', 'ready', 'Map initialised and controls are interactive.')
+  scheduleInspectorRefresh()
 }
 
 const polylinePath: LngLatTuple[] = [
@@ -479,6 +706,22 @@ const resolvedMapStyle = computed(() => {
 })
 
 const showMarker = computed(() => ['map', 'marker', 'infoWindow'].includes(activePanel.value))
+
+watch(
+  [
+    activePanel,
+    showMarker,
+    showPerformanceMassMarks,
+    () => tileLayerState.visible,
+    () => trafficState.visible,
+    () => satelliteState.visible,
+    () => roadNetState.visible,
+    () => mapTypeState.visible,
+  ],
+  () => {
+    scheduleInspectorRefresh()
+  },
+)
 
 const markerLabel = computed(() => {
   if (!markerState.showLabel || !markerState.labelText.trim())
@@ -1324,6 +1567,11 @@ watch(
   },
 )
 
+watch(hasKey, (value) => {
+  if (!value)
+    resetMapInspector()
+})
+
 function resetView() {
   center.value = [...initialCenter] as LngLatTuple
   zoom.value = 12
@@ -1346,7 +1594,13 @@ function nudge(lngDelta: number, latDelta: number) {
 }
 
 function handleMapMoveend(event: any) {
-  const map = event?.target as AMap.Map | undefined
+  const map = (event?.target as AMap.Map | undefined) ?? mapInstance.value ?? undefined
+  if (map) {
+    mapInstance.value = map
+    captureMapBounds(map)
+    refreshOverlayStats(map)
+  }
+
   const currentCenter = map?.getCenter?.()
   if (currentCenter)
     center.value = [Number(currentCenter.getLng().toFixed(6)), Number(currentCenter.getLat().toFixed(6))] as LngLatTuple
@@ -1364,6 +1618,7 @@ function handleMapMoveend(event: any) {
     rotation.value = Math.round(currentRotation)
 
   logEvent('Map', 'moveend', `Center ${centerText.value} · zoom ${zoom.value}`)
+  scheduleInspectorRefresh()
 }
 
 function handleMarkerDragend(event: any) {
@@ -1832,6 +2087,7 @@ onBeforeUnmount(() => {
     copyResetHandle = undefined
   }
   cancelMassRenderTask()
+  resetMapInspector()
 })
 </script>
 
@@ -2373,18 +2629,92 @@ onBeforeUnmount(() => {
 
       <section class="card notice">
         <h2>API key</h2>
-        <p v-if="hasKey">
-          Using key from <code>.env.local</code>. Restart the dev server after changing it.
-        </p>
-        <p v-else>
-          Add <code>VITE_AMAP_KEY</code> to <code>.env.local</code> to load the live JSAPI map. Without it the container shows a
-          placeholder.
-        </p>
+        <template v-if="usingEnvKey">
+          <p>
+            Using key from <code>.env.local</code>. Restart the dev server after changing it.
+          </p>
+        </template>
+        <template v-else>
+          <p v-if="usingRuntimeKey">
+            Using a runtime key stored in this browser. Clear it below to switch back to the placeholder map.
+          </p>
+          <p v-else>
+            Paste a JSAPI key to load the live map. The key is saved to local storage for convenience.
+          </p>
+          <label class="form-field">
+            <span>Temporary key</span>
+            <input
+              v-model="runtimeKeyDraft"
+              type="text"
+              placeholder="Paste your AMap JSAPI key"
+              autocomplete="off"
+              spellcheck="false"
+            >
+          </label>
+          <div class="button-row key-actions">
+            <button type="button" :disabled="!canApplyRuntimeKey" @click="applyRuntimeKey">
+              Apply key
+            </button>
+            <button
+              v-if="usingRuntimeKey"
+              type="button"
+              class="secondary"
+              @click="clearRuntimeKey"
+            >
+              Clear key
+            </button>
+          </div>
+          <p class="field-hint">
+            Stored locally as <code>{{ PLAYGROUND_KEY_STORAGE_KEY }}</code>. Never committed to the repository.
+          </p>
+        </template>
       </section>
     </aside>
 
     <section class="map-container">
       <div class="map-toolbar">
+        <section class="map-inspector" :class="mapInspectorStatusClass" aria-live="polite">
+          <header class="map-inspector-header">
+            <h2>Map inspector</h2>
+            <span class="map-inspector-status" :class="mapInspectorStatusClass">
+              {{ mapInspectorStatusLabel }}
+            </span>
+          </header>
+          <dl class="metrics metrics-wide inspector-metrics">
+            <div>
+              <dt>Center</dt>
+              <dd>{{ centerText }}</dd>
+            </div>
+            <div>
+              <dt>Zoom</dt>
+              <dd>{{ zoom }}</dd>
+            </div>
+            <div>
+              <dt>Bounds</dt>
+              <dd>{{ boundsText }}</dd>
+            </div>
+          </dl>
+          <div class="inspector-section">
+            <h3>Layers ({{ inspectorLayers.length }})</h3>
+            <ul v-if="inspectorLayers.length" class="inspector-list">
+              <li v-for="layer in inspectorLayers" :key="layer">
+                {{ layer }}
+              </li>
+            </ul>
+            <p v-else class="inspector-empty">
+              Base layers only.
+            </p>
+          </div>
+          <div class="inspector-section">
+            <h3>Overlays</h3>
+            <p class="inspector-count">
+              <strong>{{ overlayStats.total }}</strong> active
+            </p>
+            <p class="inspector-subtext">
+              {{ overlayStats.added }} added · {{ overlayStats.removed }} removed
+            </p>
+          </div>
+        </section>
         <button
           type="button"
           class="copy-button"
@@ -2403,7 +2733,8 @@ onBeforeUnmount(() => {
       <div v-if="!hasKey" class="map-placeholder">
         <strong>No API key detected.</strong>
         <p>
-          Set <code>VITE_AMAP_KEY</code> to explore the interactive map. The controls on the left still update component props.
+          Set <code>VITE_AMAP_KEY</code> or paste a temporary key in the sidebar to explore the live map. The controls on the
+          left stay interactive even without the JSAPI.
         </p>
       </div>
       <AmapMap
@@ -2931,8 +3262,145 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.35rem;
+  gap: 0.75rem;
   z-index: 10;
+}
+
+.map-inspector {
+  width: 320px;
+  max-width: calc(100vw - 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #e2e8f0;
+  box-shadow: 0 20px 45px -22px rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(12px);
+}
+
+.map-inspector.pending {
+  opacity: 0.85;
+}
+
+.map-inspector.warning {
+  opacity: 0.7;
+}
+
+.map-inspector-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.map-inspector-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.map-inspector-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.1rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(148, 163, 184, 0.25);
+  color: #cbd5f5;
+}
+
+.map-inspector-status.active {
+  background: rgba(34, 197, 94, 0.25);
+  color: #4ade80;
+}
+
+.map-inspector-status.pending {
+  background: rgba(59, 130, 246, 0.25);
+  color: #93c5fd;
+}
+
+.map-inspector-status.warning {
+  background: rgba(248, 113, 113, 0.18);
+  color: #fca5a5;
+}
+
+.map-inspector .metrics div {
+  background: rgba(148, 163, 184, 0.18);
+}
+
+.map-inspector .metrics dt {
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.map-inspector .metrics dd {
+  color: #f8fafc;
+}
+
+.inspector-metrics dd {
+  font-size: 0.82rem;
+  word-break: break-word;
+}
+
+.inspector-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.inspector-section h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(226, 232, 240, 0.75);
+}
+
+.inspector-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.25rem;
+  font-size: 0.82rem;
+}
+
+.inspector-list li {
+  list-style: disc;
+}
+
+.inspector-empty {
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(226, 232, 240, 0.65);
+}
+
+.inspector-count {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.inspector-subtext {
+  margin: 0;
+  font-size: 0.75rem;
+  color: rgba(226, 232, 240, 0.7);
+}
+
+.key-actions {
+  justify-content: flex-start;
+}
+
+.key-actions .secondary {
+  background: rgba(148, 163, 184, 0.2);
+  color: #1e293b;
+}
+
+.key-actions .secondary:hover {
+  background: rgba(148, 163, 184, 0.3);
 }
 
 .copy-button {
@@ -3134,6 +3602,11 @@ onBeforeUnmount(() => {
     position: static;
     align-items: stretch;
     margin: 1rem;
+  }
+
+  .map-inspector {
+    width: auto;
+    max-width: none;
   }
 
   .copy-feedback {

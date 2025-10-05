@@ -1,5 +1,5 @@
-import { isLocaReady } from '@amap-vue/shared'
 import type { Loca } from './types'
+import { isLocaReady } from '@amap-vue/shared'
 
 export function getLoca(): Loca {
   if (!isLocaReady())

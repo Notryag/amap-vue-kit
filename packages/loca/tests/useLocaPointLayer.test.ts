@@ -1,6 +1,6 @@
+import type { LocaNamespace } from '../src/types'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useLocaPointLayer } from '../src/composables/useLocaPointLayer'
-import type { LocaNamespace } from '../src/types'
 
 class MockContainer {
   render = vi.fn()

@@ -1,13 +1,9 @@
-<template>
-  <slot />
-</template>
-
 <script setup lang="ts">
-import { computed, onBeforeUnmount, provide, watchEffect } from 'vue'
 import type { LocaContainerOptions } from '../types'
+import { computed, onBeforeUnmount, provide, watchEffect } from 'vue'
 import { useLocaContainer } from '../composables/useLocaContainer'
 
-type ProviderProps = {
+interface ProviderProps {
   map: AMap.Map | null | undefined
   options?: Partial<LocaContainerOptions>
 }
@@ -32,3 +28,7 @@ onBeforeUnmount(() => {
   container.destroy()
 })
 </script>
+
+<template>
+  <slot />
+</template>

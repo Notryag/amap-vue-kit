@@ -13,9 +13,9 @@ export interface LocaContainerOptions {
 }
 
 export interface LocaContainer {
-  getMap(): AMap.Map
-  render(): void
-  destroy(): void
+  getMap: () => AMap.Map
+  render: () => void
+  destroy: () => void
 }
 
 export type LocaStyleValue<TData = any> = any | ((item: TData) => any)
@@ -23,15 +23,15 @@ export type LocaStyleValue<TData = any> = any | ((item: TData) => any)
 export type LocaLayerStyle<TData = any> = Record<string, LocaStyleValue<TData>>
 
 export interface LocaLayer<TData = any> {
-  setData(data: TData[], options?: Record<string, any>): void
-  setStyle(style: LocaLayerStyle<TData>): void
-  setOptions?(options: Record<string, any>): void
-  addTo(container: LocaContainer): void
-  remove(): void
-  render(): void
-  destroy(): void
-  on(event: string, handler: (event: any) => void): void
-  off(event: string, handler: (event: any) => void): void
+  setData: (data: TData[], options?: Record<string, any>) => void
+  setStyle: (style: LocaLayerStyle<TData>) => void
+  setOptions?: (options: Record<string, any>) => void
+  addTo: (container: LocaContainer) => void
+  remove: () => void
+  render: () => void
+  destroy: () => void
+  on: (event: string, handler: (event: any) => void) => void
+  off: (event: string, handler: (event: any) => void) => void
 }
 
 export interface LocaPointLayerOptions {

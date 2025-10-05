@@ -1,12 +1,8 @@
-<template>
-  <slot />
-</template>
-
 <script setup lang="ts">
-import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import type { ShallowRef } from 'vue'
-import type { LocaContainer, LocaHeatmapLayerOptions, LocaLayerStyle } from '../types'
 import type { HeatmapLike } from '../composables/useLocaHeatmapLayer'
+import type { LocaContainer, LocaHeatmapLayerOptions, LocaLayerStyle } from '../types'
+import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaHeatmapLayer } from '../composables/useLocaHeatmapLayer'
 
 interface HeatmapLayerProps {
@@ -31,12 +27,7 @@ const layerApi = useLocaHeatmapLayer(() => containerRef.value ?? null, props.opt
 let pendingRender: number | null = null
 const raf = typeof requestAnimationFrame !== 'undefined'
   ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => {
-    const now = typeof performance !== 'undefined' && typeof performance.now === 'function'
-      ? performance.now()
-      : Date.now()
-    cb(now)
-  }, 16)
+  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
 const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
 
 function scheduleRender() {
@@ -103,3 +94,7 @@ onBeforeUnmount(() => {
   layerApi.destroy()
 })
 </script>
+
+<template>
+  <slot />
+</template>

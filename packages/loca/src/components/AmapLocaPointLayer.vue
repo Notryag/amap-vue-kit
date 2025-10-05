@@ -1,12 +1,8 @@
-<template>
-  <slot />
-</template>
-
 <script setup lang="ts">
-import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import type { ShallowRef } from 'vue'
-import type { LocaContainer, LocaLayerStyle } from '../types'
 import type { PointLike, UseLocaPointLayerOptions } from '../composables/useLocaPointLayer'
+import type { LocaContainer, LocaLayerStyle } from '../types'
+import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaPointLayer } from '../composables/useLocaPointLayer'
 
 interface PointLayerProps {
@@ -33,12 +29,7 @@ const layerApi = useLocaPointLayer(() => containerRef.value ?? null, props.optio
 let pendingRender: number | null = null
 const raf = typeof requestAnimationFrame !== 'undefined'
   ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => {
-    const now = typeof performance !== 'undefined' && typeof performance.now === 'function'
-      ? performance.now()
-      : Date.now()
-    cb(now)
-  }, 16)
+  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
 const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
 
 function scheduleRender() {
@@ -96,3 +87,7 @@ onBeforeUnmount(() => {
   layerApi.destroy()
 })
 </script>
+
+<template>
+  <slot />
+</template>

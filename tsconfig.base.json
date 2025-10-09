@@ -7,7 +7,9 @@
     "resolveJsonModule": true,
     "types": [
       "node",
-      "vite/client"
+      "vite/client",
+      "@types/amap-js-api",
+      "@amap/amap-jsapi-types"
     ],
     "strict": true,
     "allowSyntheticDefaultImports": true,

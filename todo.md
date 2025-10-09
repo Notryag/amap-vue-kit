@@ -256,15 +256,33 @@ amap-vue-kit/
 
 * [x] **`usePolyline / usePolygon / useCircle`**
 
+* [x] **`useRectangle / useEllipse`**
+
+* [x] **`useCircleMarker / useElasticMarker / useText`**
+
 * [x] **`useTileLayer / useTrafficLayer / useRoadNetLayer / useSatelliteLayer`**
 
 * [x] **`useLabelsLayer / useLabelMarker`**
 
+* [x] **`useBezierCurve / useImageLayer / useOverlay`**
+
 * [x] **`useOverlayGroup`**
+
+* [x] **`useMassMarkers / useMarkerClusterer`**
+
+* [x] **`useContextMenu / useMouseTool`**
+
+* [x] **`useAutoComplete / usePlaceSearch`**
+
+* [x] **`useDistrictLayer / useGeoJSONLayer`**
 
 * [x] **`useEditorCircle / useEditorRectangle / useEditorEllipse`**
 
+* [x] **`useBezierCurveEditor / usePolygonEditor / usePolylineEditor`**
+
 * [x] **`useHeatMap`**
+
+* [x] **`useWeather`**
 
 * [x] 覆盖物 hooks 单元测试：`useInfoWindow` / `usePolyline` / `usePolygon` / `useCircle`
 * [x] 文档：新增 hooks 页面（`use-info-window`、`use-polyline`、`use-polygon`、`use-circle`）
@@ -428,7 +446,7 @@ amap-vue-kit/
 
 * [x] `useGeocoder` / `<AmapReverseGeocodePanel>`，整合逆地理/正向地理编码能力。
 * [x] `useGeolocation`，包含权限处理与失败兜底。
-* [x] `useWeather`，配城市选择器与天气展示组件。
+* [x] `useWeather` / `<AmapWeatherPanel>`，配城市选择器与天气展示组件。
 
 ### 交互增强
 

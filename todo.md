@@ -401,12 +401,12 @@ amap-vue-kit/
 
 ### 聚合与海量点
 
-* [ ] `<AmapMarkerClusterer>` 组件或 `useMarkerClusterer` hook，封装点聚合能力。
+* [x] `<AmapMarkerCluster>` 组件或 `useMarkerClusterer` hook，封装点聚合能力。
 * [x] `<AmapMassMarks>` 组件封装（基于 `useMassMarkers`），支持样式、事件与数据源增量优化。
 
 ### 热力图
 
-* [ ] `<AmapHeatMap>` 组件与示例，涵盖权重字段映射、渐变色、半径与模糊度配置。
+* [x] `<AmapHeatMap>` 组件与示例，涵盖权重字段映射、渐变色、半径与模糊度配置。
 
 ### 行政区与边界图层
 
@@ -416,12 +416,12 @@ amap-vue-kit/
 ### 绘制与编辑工具
 
 * [x] `<AmapMouseTool>` 组件或 UI，支持绘制点、线、面、矩形、圆。
-* [ ] `<AmapPolylineEditor>` / `<AmapPolygonEditor>` 组件化（或 hooks + 简易 UI），补齐折线与多边形编辑流程。
-* [ ] `<AmapCircleEditor>` / `<AmapRectangleEditor>` 组件封装，覆盖圆与矩形编辑场景。
+* [x] `<AmapPolylineEditor>` / `<AmapPolygonEditor>` 组件化（或 hooks + 简易 UI），补齐折线与多边形编辑流程。
+* [x] `<AmapCircleEditor>` / `<AmapRectangleEditor>` 组件封装，覆盖圆与矩形编辑场景。
 
 ### 检索与路线规划
 
-* [ ] `<AmapAutoComplete>` / `<AmapPlaceSearch>` 组件，提供地点搜索体验。
+* [x] `<AmapAutoComplete>` / `<AmapPlaceSearch>` 组件，提供地点搜索体验。
 * [ ] `<AmapDriving>` / `<AmapWalking>` / `<AmapRiding>` 组件，渲染路线并提供面板 slot。
 
 ### 服务能力
@@ -432,7 +432,7 @@ amap-vue-kit/
 
 ### 交互增强
 
-* [ ] `<AmapContextMenu>` 组件（或 `useContextMenu`），支持右键菜单交互。
+* [x] `<AmapContextMenu>` 组件（或 `useContextMenu`），支持右键菜单交互。
 
 ---
 

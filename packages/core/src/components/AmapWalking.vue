@@ -173,11 +173,11 @@ defineExpose({
       <header class="amap-route-panel__header">
         <div class="amap-route-panel__field">
           <span>起点</span>
-          <input v-model="originInput" class="amap-route-panel__input" type="text" placeholder="请输入起点" />
+          <input v-model="originInput" class="amap-route-panel__input" type="text" placeholder="请输入起点">
         </div>
         <div class="amap-route-panel__field">
           <span>终点</span>
-          <input v-model="destinationInput" class="amap-route-panel__input" type="text" placeholder="请输入终点" />
+          <input v-model="destinationInput" class="amap-route-panel__input" type="text" placeholder="请输入终点">
         </div>
       </header>
       <div class="amap-route-panel__actions">
@@ -188,14 +188,18 @@ defineExpose({
           清空
         </button>
       </div>
-      <p v-if="loading" class="amap-route-panel__status">正在规划路线…</p>
+      <p v-if="loading" class="amap-route-panel__status">
+        正在规划路线…
+      </p>
       <p v-else-if="errorMessage" class="amap-route-panel__status amap-route-panel__status--error">
         {{ errorMessage }}
       </p>
       <slot name="panel" :panel-ref="panelRef">
         <div v-if="panel" ref="panelRef" class="amap-route-panel__panel" />
       </slot>
-      <p v-if="!loading && !errorMessage && !result" class="amap-route-panel__status">暂无路线结果。</p>
+      <p v-if="!loading && !errorMessage && !result" class="amap-route-panel__status">
+        暂无路线结果。
+      </p>
     </slot>
   </div>
 </template>

@@ -1,4 +1,4 @@
-import type { LoaderOptions, LngLatLike } from '@amap-vue/shared'
+import type { LngLatLike, LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'

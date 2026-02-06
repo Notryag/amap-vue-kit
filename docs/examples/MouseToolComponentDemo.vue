@@ -39,7 +39,9 @@ function handleDraw(event: any) {
       <button type="button" @click="mode = 'none'">
         Cancel
       </button>
-      <div v-if="lastShape">Last overlay: {{ lastShape }}</div>
+      <div v-if="lastShape">
+        Last overlay: {{ lastShape }}
+      </div>
     </div>
   </div>
 </template>

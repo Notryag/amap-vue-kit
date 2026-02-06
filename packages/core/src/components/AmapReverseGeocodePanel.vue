@@ -154,14 +154,18 @@ defineExpose({
       :clear="clear"
     >
       <div class="amap-geocode-panel__body">
-        <p v-if="loading" class="amap-geocode-panel__status">正在获取位置信息…</p>
-        <p v-else-if="errorMessage" class="amap-geocode-panel__status amap-geocode-panel__status--error">{{ errorMessage }}</p>
+        <p v-if="loading" class="amap-geocode-panel__status">
+          正在获取位置信息…
+        </p>
+        <p v-else-if="errorMessage" class="amap-geocode-panel__status amap-geocode-panel__status--error">
+          {{ errorMessage }}
+        </p>
         <template v-else-if="result">
           <header class="amap-geocode-panel__header">
             <strong>{{ result.formattedAddress }}</strong>
             <small v-if="mode">({{ mode === 'reverse' ? '逆地理' : '正向地理' }})</small>
           </header>
-          <dl class="amap-geocode-panel__details" v-if="result.regeocode?.addressComponent">
+          <dl v-if="result.regeocode?.addressComponent" class="amap-geocode-panel__details">
             <div>
               <dt>省市</dt>
               <dd>{{ result.regeocode.addressComponent.province }}{{ result.regeocode.addressComponent.city }}</dd>
@@ -176,10 +180,14 @@ defineExpose({
             </div>
           </dl>
           <ul v-if="Array.isArray(result.regeocode?.pois) && result.regeocode.pois.length" class="amap-geocode-panel__pois">
-            <li v-for="poi in result.regeocode.pois" :key="poi.id">{{ poi.name }}</li>
+            <li v-for="poi in result.regeocode.pois" :key="poi.id">
+              {{ poi.name }}
+            </li>
           </ul>
         </template>
-        <p v-else class="amap-geocode-panel__status">暂无地址信息。</p>
+        <p v-else class="amap-geocode-panel__status">
+          暂无地址信息。
+        </p>
       </div>
     </slot>
   </div>

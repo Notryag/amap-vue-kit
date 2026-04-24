@@ -139,12 +139,18 @@ defineExpose({
       </button>
     </header>
     <div class="amap-weather-panel__body">
-      <p v-if="loading" class="amap-weather-panel__status">正在查询天气…</p>
-      <p v-else-if="errorMessage" class="amap-weather-panel__status amap-weather-panel__status--error">{{ errorMessage }}</p>
+      <p v-if="loading" class="amap-weather-panel__status">
+        正在查询天气…
+      </p>
+      <p v-else-if="errorMessage" class="amap-weather-panel__status amap-weather-panel__status--error">
+        {{ errorMessage }}
+      </p>
       <template v-else>
         <section v-if="live" class="amap-weather-panel__live">
           <h3>实时天气</h3>
-          <p class="amap-weather-panel__temperature">{{ live.temperature }}℃ · {{ live.weather }}</p>
+          <p class="amap-weather-panel__temperature">
+            {{ live.temperature }}℃ · {{ live.weather }}
+          </p>
           <ul>
             <li>风向：{{ live.windDirection }}</li>
             <li>风力：{{ live.windPower }}</li>
@@ -162,7 +168,9 @@ defineExpose({
             </li>
           </ul>
         </section>
-        <p v-if="!live && !forecast" class="amap-weather-panel__status">暂无天气数据。</p>
+        <p v-if="!live && !forecast" class="amap-weather-panel__status">
+          暂无天气数据。
+        </p>
       </template>
     </div>
   </div>

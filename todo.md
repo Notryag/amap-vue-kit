@@ -422,7 +422,7 @@ amap-vue-kit/
 ### 检索与路线规划
 
 * [x] `<AmapAutoComplete>` / `<AmapPlaceSearch>` 组件，提供地点搜索体验。
-* [ ] `<AmapDriving>` / `<AmapWalking>` / `<AmapRiding>` 组件，渲染路线并提供面板 slot。
+* [x] `<AmapDriving>` / `<AmapWalking>` / `<AmapRiding>` 组件，渲染路线并提供面板 slot。
 
 ### 服务能力
 

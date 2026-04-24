@@ -9,6 +9,7 @@ import AmapCircleMarker from './components/AmapCircleMarker.vue'
 import AmapContextMenu from './components/AmapContextMenu.vue'
 import AmapControlBar from './components/AmapControlBar.vue'
 import AmapDistrictLayer from './components/AmapDistrictLayer.vue'
+import AmapDriving from './components/AmapDriving.vue'
 import AmapElasticMarker from './components/AmapElasticMarker.vue'
 import AmapEllipse from './components/AmapEllipse.vue'
 import AmapEllipseEditor from './components/AmapEllipseEditor.vue'
@@ -33,6 +34,7 @@ import AmapPolylineEditor from './components/AmapPolylineEditor.vue'
 import AmapRectangle from './components/AmapRectangle.vue'
 import AmapRectangleEditor from './components/AmapRectangleEditor.vue'
 import AmapReverseGeocodePanel from './components/AmapReverseGeocodePanel.vue'
+import AmapRiding from './components/AmapRiding.vue'
 import AmapRoadNetLayer from './components/AmapRoadNetLayer.vue'
 import AmapSatelliteLayer from './components/AmapSatelliteLayer.vue'
 import AmapScale from './components/AmapScale.vue'
@@ -40,6 +42,7 @@ import AmapText from './components/AmapText.vue'
 import AmapTileLayer from './components/AmapTileLayer.vue'
 import AmapToolBar from './components/AmapToolBar.vue'
 import AmapTrafficLayer from './components/AmapTrafficLayer.vue'
+import AmapWalking from './components/AmapWalking.vue'
 import AmapWeatherPanel from './components/AmapWeatherPanel.vue'
 
 export {
@@ -52,6 +55,7 @@ export {
   AmapContextMenu,
   AmapControlBar,
   AmapDistrictLayer,
+  AmapDriving,
   AmapElasticMarker,
   AmapEllipse,
   AmapEllipseEditor,
@@ -76,6 +80,7 @@ export {
   AmapRectangle,
   AmapRectangleEditor,
   AmapReverseGeocodePanel,
+  AmapRiding,
   AmapRoadNetLayer,
   AmapSatelliteLayer,
   AmapScale,
@@ -83,6 +88,7 @@ export {
   AmapTileLayer,
   AmapToolBar,
   AmapTrafficLayer,
+  AmapWalking,
   AmapWeatherPanel,
 }
 
@@ -96,6 +102,7 @@ const components = [
   AmapContextMenu,
   AmapControlBar,
   AmapDistrictLayer,
+  AmapDriving,
   AmapElasticMarker,
   AmapEllipse,
   AmapEllipseEditor,
@@ -120,6 +127,7 @@ const components = [
   AmapRectangle,
   AmapRectangleEditor,
   AmapReverseGeocodePanel,
+  AmapRiding,
   AmapRoadNetLayer,
   AmapSatelliteLayer,
   AmapScale,
@@ -127,6 +135,7 @@ const components = [
   AmapTileLayer,
   AmapToolBar,
   AmapTrafficLayer,
+  AmapWalking,
   AmapWeatherPanel,
 ]
 

@@ -6,6 +6,6 @@
     "outDir": "temp/types",
     "declarationDir": "temp/types"
   },
-  "include": ["src/**/*", "tests/**/*"],
-  "exclude": ["dist"]
+  "include": ["src/**/*"],
+  "exclude": ["dist", "tests", "**/*.test.ts"]
 }

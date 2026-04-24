@@ -8,11 +8,23 @@ interface ClusterConfig {
   intensity: number
 }
 
-interface RawPoint {
+export interface RawPoint {
   clusterId: number
   lng: number
   lat: number
   weight: number
+}
+
+export interface PlaygroundMassData {
+  lnglat: [number, number]
+  name: string
+  style: number
+}
+
+export interface PlaygroundHeatDataPoint {
+  lng: number
+  lat: number
+  count: number
 }
 
 function createRng(seed: number) {
@@ -115,8 +127,8 @@ export interface PerformanceDataset {
   label: string
   description: string
   size: number
-  mass: AMap.MassData[]
-  heat: AMap.HeatMapDataPoint[]
+  mass: PlaygroundMassData[]
+  heat: PlaygroundHeatDataPoint[]
   summary: ReturnType<typeof summarise>
   samples: RawPoint[]
 }
@@ -139,12 +151,12 @@ function createDataset(id: PerformanceDataset['id'], size: number, seed: number)
       lnglat: [point.lng, point.lat],
       name: `Point ${index + 1}`,
       style: point.clusterId,
-    } satisfies AMap.MassData)),
+    })),
     heat: points.map(point => ({
       lng: point.lng,
       lat: point.lat,
       count: Math.round(point.weight),
-    } satisfies AMap.HeatMapDataPoint)),
+    })),
     summary,
     samples: points.slice(0, 5),
   }

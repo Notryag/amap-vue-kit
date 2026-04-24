@@ -1,0 +1,87 @@
+<script setup lang="ts">
+import type { usePlaygroundState } from '../../composables/usePlaygroundState'
+
+const props = defineProps<{
+  state: ReturnType<typeof usePlaygroundState>
+}>()
+
+const { activePanel, tileLayerState, trafficState, satelliteState, roadNetState } = props.state
+</script>
+
+<template>
+  <div v-if="activePanel === 'tileLayer'" class="panel-body">
+    <label class="toggle">
+      <input v-model="tileLayerState.visible" type="checkbox">
+      <span>Show tile layer</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="tileLayerState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(tileLayerState.opacity * 100) }}%</span>
+      </div>
+    </label>
+
+    <label class="form-field">
+      <span>Tile URL template</span>
+      <input v-model="tileLayerState.tileUrl" type="text" spellcheck="false">
+      <small class="field-hint">Supports [x], [y], [z] placeholders.</small>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'traffic'" class="panel-body">
+    <label class="toggle">
+      <input v-model="trafficState.visible" type="checkbox">
+      <span>Show traffic layer</span>
+    </label>
+
+    <label class="toggle">
+      <input v-model="trafficState.autoRefresh" type="checkbox">
+      <span>Auto refresh</span>
+    </label>
+
+    <label class="form-field">
+      <span>Refresh interval (s)</span>
+      <input v-model.number="trafficState.interval" type="number" min="15" max="300" step="15">
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="trafficState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(trafficState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'satellite'" class="panel-body">
+    <label class="toggle">
+      <input v-model="satelliteState.visible" type="checkbox">
+      <span>Show satellite imagery</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="satelliteState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(satelliteState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'roadNet'" class="panel-body">
+    <label class="toggle">
+      <input v-model="roadNetState.visible" type="checkbox">
+      <span>Show road network</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="roadNetState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(roadNetState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+</template>

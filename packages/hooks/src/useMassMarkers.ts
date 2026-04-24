@@ -132,7 +132,35 @@ export function useMassMarkers(
   function setOptions(options: Partial<AMap.MassMarkersOptions>) {
     if (!options)
       return
-    mass.value?.setOptions?.(options)
+
+    const instance = mass.value as (AMap.MassMarks & {
+      setOpacity?: (opacity: number) => void
+      setzIndex?: (zIndex: number) => void
+      setZooms?: (zooms: [number, number]) => void
+      setCursor?: (cursor: string) => void
+      setAlwaysRender?: (alwaysRender: boolean) => void
+    }) | null
+
+    if (!instance)
+      return
+
+    if (options.opacity != null)
+      instance.setOpacity?.(options.opacity)
+
+    if (options.zIndex != null)
+      instance.setzIndex?.(options.zIndex)
+
+    if (options.zooms)
+      instance.setZooms?.(options.zooms)
+
+    if (options.style)
+      setStyle(options.style)
+
+    if (options.cursor)
+      instance.setCursor?.(options.cursor)
+
+    if (options.alwaysRender != null)
+      instance.setAlwaysRender?.(options.alwaysRender)
   }
 
   function show() {

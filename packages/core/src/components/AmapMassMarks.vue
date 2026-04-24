@@ -96,17 +96,12 @@ function setStyle(style: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOpt
   massApi?.setStyle(style)
 }
 
-function setOptions(options: Partial<AMap.MassMarkersOptions>) {
-  massApi?.setOptions(options)
-}
-
 defineExpose({
   mass,
   show,
   hide,
   setData,
   setStyle,
-  setOptions,
 })
 </script>
 

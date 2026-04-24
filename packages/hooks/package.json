@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist temp"
   },
   "peerDependencies": {
     "vue": "^3.4.0"

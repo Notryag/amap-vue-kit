@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist temp",
     "test": "vitest"
   },
   "peerDependencies": {

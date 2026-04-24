@@ -983,12 +983,22 @@ class MassMarks extends EventTarget {
   public map: Map | null = null
   public data: any
   public style: any
+  public opacity?: number
+  public zIndex?: number
+  public zooms?: [number, number]
+  public cursor?: string
+  public alwaysRender?: boolean
 
   constructor(data: any[] = [], options: any = {}) {
     super()
     this.data = data
     this.style = options.style
     this.map = options.map ?? null
+    this.opacity = options.opacity
+    this.zIndex = options.zIndex
+    this.zooms = options.zooms
+    this.cursor = options.cursor
+    this.alwaysRender = options.alwaysRender
   }
 
   setMap(map: Map | null) {
@@ -1001,6 +1011,38 @@ class MassMarks extends EventTarget {
 
   setStyle(style: any) {
     this.style = style
+  }
+
+  getOpacity() {
+    return this.opacity
+  }
+
+  setOpacity(opacity: number) {
+    this.opacity = opacity
+  }
+
+  getzIndex() {
+    return this.zIndex
+  }
+
+  setzIndex(zIndex: number) {
+    this.zIndex = zIndex
+  }
+
+  getZooms() {
+    return this.zooms
+  }
+
+  setZooms(zooms: [number, number]) {
+    this.zooms = zooms
+  }
+
+  setCursor(cursor: string) {
+    this.cursor = cursor
+  }
+
+  setAlwaysRender(alwaysRender: boolean) {
+    this.alwaysRender = alwaysRender
   }
 
   destroy() {

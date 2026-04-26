@@ -241,6 +241,98 @@ export function createApplyStateValues(ctx: any) {
       }
     }
 
+    if (state.text) {
+      const visible = toBoolean(state.text.visible)
+      const text = typeof state.text.text === 'string' ? state.text.text : undefined
+      const color = typeof state.text.color === 'string' ? state.text.color : undefined
+
+      if (visible != null) {
+        ctx.textState.visible = visible
+        restored = true
+      }
+
+      if (text != null) {
+        ctx.textState.text = text
+        restored = true
+      }
+
+      if (color != null) {
+        ctx.textState.color = color
+        restored = true
+      }
+    }
+
+    if (state.circleMarker) {
+      const visible = toBoolean(state.circleMarker.visible)
+      const radius = toFiniteNumber(state.circleMarker.radius)
+      const fillColor = typeof state.circleMarker.fillColor === 'string' ? state.circleMarker.fillColor : undefined
+      const strokeColor = typeof state.circleMarker.strokeColor === 'string' ? state.circleMarker.strokeColor : undefined
+
+      if (visible != null) {
+        ctx.circleMarkerState.visible = visible
+        restored = true
+      }
+
+      if (radius != null) {
+        ctx.circleMarkerState.radius = Math.max(1, Math.round(radius))
+        restored = true
+      }
+
+      if (fillColor != null) {
+        ctx.circleMarkerState.fillColor = fillColor
+        restored = true
+      }
+
+      if (strokeColor != null) {
+        ctx.circleMarkerState.strokeColor = strokeColor
+        restored = true
+      }
+    }
+
+    if (state.elasticMarker) {
+      const visible = toBoolean(state.elasticMarker.visible)
+      if (visible != null) {
+        ctx.elasticMarkerState.visible = visible
+        restored = true
+      }
+    }
+
+    if (state.labelsLayer) {
+      const visible = toBoolean(state.labelsLayer.visible)
+      const collision = toBoolean(state.labelsLayer.collision)
+      const allowCollision = toBoolean(state.labelsLayer.allowCollision)
+
+      if (visible != null) {
+        ctx.labelsLayerState.visible = visible
+        restored = true
+      }
+
+      if (collision != null) {
+        ctx.labelsLayerState.collision = collision
+        restored = true
+      }
+
+      if (allowCollision != null) {
+        ctx.labelsLayerState.allowCollision = allowCollision
+        restored = true
+      }
+    }
+
+    if (state.markerCluster) {
+      const visible = toBoolean(state.markerCluster.visible)
+      const gridSize = toFiniteNumber(state.markerCluster.gridSize)
+
+      if (visible != null) {
+        ctx.markerClusterState.visible = visible
+        restored = true
+      }
+
+      if (gridSize != null) {
+        ctx.markerClusterState.gridSize = Math.max(1, Math.round(gridSize))
+        restored = true
+      }
+    }
+
     if (state.infoWindow) {
       const infoWindow = state.infoWindow
       const isOpen = toBoolean(infoWindow.isOpen)
@@ -396,6 +488,93 @@ function applyOverlayState(
     }
   }
 
+  if (state.rectangle) {
+    const visible = toBoolean(state.rectangle.visible)
+    const strokeColor = typeof state.rectangle.strokeColor === 'string' ? state.rectangle.strokeColor : undefined
+    const fillColor = typeof state.rectangle.fillColor === 'string' ? state.rectangle.fillColor : undefined
+    const fillOpacity = toFiniteNumber(state.rectangle.fillOpacity)
+
+    if (visible != null) {
+      ctx.rectangleState.visible = visible
+      markRestored()
+    }
+
+    if (strokeColor != null) {
+      ctx.rectangleState.strokeColor = strokeColor
+      markRestored()
+    }
+
+    if (fillColor != null) {
+      ctx.rectangleState.fillColor = fillColor
+      markRestored()
+    }
+
+    if (fillOpacity != null) {
+      ctx.rectangleState.fillOpacity = Math.min(1, Math.max(0, fillOpacity))
+      markRestored()
+    }
+  }
+
+  if (state.ellipse) {
+    const visible = toBoolean(state.ellipse.visible)
+    const radiusX = toFiniteNumber(state.ellipse.radiusX)
+    const radiusY = toFiniteNumber(state.ellipse.radiusY)
+    const strokeColor = typeof state.ellipse.strokeColor === 'string' ? state.ellipse.strokeColor : undefined
+    const fillColor = typeof state.ellipse.fillColor === 'string' ? state.ellipse.fillColor : undefined
+    const fillOpacity = toFiniteNumber(state.ellipse.fillOpacity)
+
+    if (visible != null) {
+      ctx.ellipseState.visible = visible
+      markRestored()
+    }
+
+    if (radiusX != null) {
+      ctx.ellipseState.radiusX = Math.max(1, Math.round(radiusX))
+      markRestored()
+    }
+
+    if (radiusY != null) {
+      ctx.ellipseState.radiusY = Math.max(1, Math.round(radiusY))
+      markRestored()
+    }
+
+    if (strokeColor != null) {
+      ctx.ellipseState.strokeColor = strokeColor
+      markRestored()
+    }
+
+    if (fillColor != null) {
+      ctx.ellipseState.fillColor = fillColor
+      markRestored()
+    }
+
+    if (fillOpacity != null) {
+      ctx.ellipseState.fillOpacity = Math.min(1, Math.max(0, fillOpacity))
+      markRestored()
+    }
+  }
+
+  if (state.bezierCurve) {
+    const visible = toBoolean(state.bezierCurve.visible)
+    const strokeColor = typeof state.bezierCurve.strokeColor === 'string' ? state.bezierCurve.strokeColor : undefined
+    const strokeWeight = toFiniteNumber(state.bezierCurve.strokeWeight)
+
+    if (visible != null) {
+      ctx.bezierCurveState.visible = visible
+      markRestored()
+    }
+
+    if (strokeColor != null) {
+      ctx.bezierCurveState.strokeColor = strokeColor
+      markRestored()
+    }
+
+    if (strokeWeight != null) {
+      ctx.bezierCurveState.strokeWeight = Math.max(1, Math.round(strokeWeight))
+      markRestored()
+    }
+  }
+
   applyLayerState(state, ctx, markRestored)
   applyControlState(state, ctx, markRestored)
 }
@@ -459,6 +638,84 @@ function applyLayerState(
         ctx.trafficState.interval = Math.max(1, Math.round(interval))
         markRestored()
       }
+    }
+  }
+
+  if (state.imageLayer) {
+    const visible = toBoolean(state.imageLayer.visible)
+    const opacity = toFiniteNumber(state.imageLayer.opacity)
+
+    if (visible != null) {
+      ctx.imageLayerState.visible = visible
+      markRestored()
+    }
+
+    if (opacity != null) {
+      ctx.imageLayerState.opacity = Math.min(1, Math.max(0, opacity))
+      markRestored()
+    }
+  }
+
+  if (state.districtLayer) {
+    const visible = toBoolean(state.districtLayer.visible)
+    const opacity = toFiniteNumber(state.districtLayer.opacity)
+    const adcode = typeof state.districtLayer.adcode === 'string' ? state.districtLayer.adcode : undefined
+
+    if (visible != null) {
+      ctx.districtLayerState.visible = visible
+      markRestored()
+    }
+
+    if (opacity != null) {
+      ctx.districtLayerState.opacity = Math.min(1, Math.max(0, opacity))
+      markRestored()
+    }
+
+    if (adcode != null) {
+      ctx.districtLayerState.adcode = adcode
+      markRestored()
+    }
+  }
+
+  if (state.geoJSONLayer) {
+    const visible = toBoolean(state.geoJSONLayer.visible)
+    const fillOpacity = toFiniteNumber(state.geoJSONLayer.fillOpacity)
+
+    if (visible != null) {
+      ctx.geoJSONLayerState.visible = visible
+      markRestored()
+    }
+
+    if (fillOpacity != null) {
+      ctx.geoJSONLayerState.fillOpacity = Math.min(1, Math.max(0, fillOpacity))
+      markRestored()
+    }
+  }
+
+  if (state.heatMap) {
+    const visible = toBoolean(state.heatMap.visible)
+    const radius = toFiniteNumber(state.heatMap.radius)
+    const opacityStart = toFiniteNumber(state.heatMap.opacityStart)
+    const opacityEnd = toFiniteNumber(state.heatMap.opacityEnd)
+
+    if (visible != null) {
+      ctx.heatMapState.visible = visible
+      markRestored()
+    }
+
+    if (radius != null) {
+      ctx.heatMapState.radius = Math.max(1, Math.round(radius))
+      markRestored()
+    }
+
+    if (opacityStart != null) {
+      ctx.heatMapState.opacityStart = Math.min(1, Math.max(0, opacityStart))
+      markRestored()
+    }
+
+    if (opacityEnd != null) {
+      ctx.heatMapState.opacityEnd = Math.min(1, Math.max(0, opacityEnd))
+      markRestored()
     }
   }
 }

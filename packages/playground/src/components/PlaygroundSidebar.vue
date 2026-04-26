@@ -3,6 +3,7 @@ import type { useAmapKey } from '../composables/useAmapKey'
 import type { usePerformanceMarks } from '../composables/usePerformanceMarks'
 import type { usePlaygroundState } from '../composables/usePlaygroundState'
 import type { PanelDefinition } from '../types'
+import { computed } from 'vue'
 import ApiKeyPanel from './ApiKeyPanel.vue'
 import ControlPanelControls from './panels/ControlPanelControls.vue'
 import InfoWindowPanelControls from './panels/InfoWindowPanelControls.vue'
@@ -24,11 +25,28 @@ defineEmits<{
   resetView: []
   stepZoom: [delta: number]
   nudge: [lngDelta: number, latDelta: number]
+  locateShape: []
   applyRuntimeKey: []
   clearRuntimeKey: []
 }>()
 
 const { activePanel } = props.state
+
+const groupedPanels = computed(() => {
+  const groups: Array<{ name: string, panels: readonly PanelDefinition[] }> = []
+
+  props.panels.forEach((panel) => {
+    const group = groups.find(item => item.name === panel.group)
+    if (group) {
+      group.panels = [...group.panels, panel]
+      return
+    }
+
+    groups.push({ name: panel.group, panels: [panel] })
+  })
+
+  return groups
+})
 </script>
 
 <template>
@@ -39,16 +57,23 @@ const { activePanel } = props.state
     </header>
 
     <nav class="panel-nav" aria-label="Component panels">
-      <button
-        v-for="panel in panels"
-        :key="panel.id"
-        type="button"
-        class="panel-tab"
-        :class="{ active: activePanel === panel.id }"
-        @click="activePanel = panel.id"
-      >
-        {{ panel.label }}
-      </button>
+      <section v-for="group in groupedPanels" :key="group.name" class="panel-nav-group">
+        <h2 class="panel-nav-heading">
+          {{ group.name }}
+        </h2>
+        <div class="panel-nav-items">
+          <button
+            v-for="panel in group.panels"
+            :key="panel.id"
+            type="button"
+            class="panel-tab"
+            :class="{ active: activePanel === panel.id }"
+            @click="activePanel = panel.id"
+          >
+            {{ panel.label }}
+          </button>
+        </div>
+      </section>
     </nav>
 
     <section class="card">
@@ -65,10 +90,28 @@ const { activePanel } = props.state
         @nudge="(lngDelta, latDelta) => $emit('nudge', lngDelta, latDelta)"
       />
       <MarkerPanelControls v-else-if="activePanel === 'marker'" :state="state" />
+      <MarkerPanelControls
+        v-else-if="
+          activePanel === 'text'
+            || activePanel === 'circleMarker'
+            || activePanel === 'elasticMarker'
+            || activePanel === 'labelsLayer'
+            || activePanel === 'markerCluster'
+        "
+        :state="state"
+      />
       <InfoWindowPanelControls v-else-if="activePanel === 'infoWindow'" :state="state" />
       <ShapePanelControls
-        v-else-if="activePanel === 'polyline' || activePanel === 'polygon' || activePanel === 'circle'"
+        v-else-if="
+          activePanel === 'polyline'
+            || activePanel === 'polygon'
+            || activePanel === 'circle'
+            || activePanel === 'rectangle'
+            || activePanel === 'ellipse'
+            || activePanel === 'bezierCurve'
+        "
         :state="state"
+        @locate="$emit('locateShape')"
       />
       <LayerPanelControls
         v-else-if="
@@ -76,6 +119,10 @@ const { activePanel } = props.state
             || activePanel === 'traffic'
             || activePanel === 'satellite'
             || activePanel === 'roadNet'
+            || activePanel === 'imageLayer'
+            || activePanel === 'districtLayer'
+            || activePanel === 'geoJSONLayer'
+            || activePanel === 'heatMap'
         "
         :state="state"
       />

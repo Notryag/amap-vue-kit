@@ -35,19 +35,32 @@ export interface PanelDefinition {
   id:
     | 'map'
     | 'marker'
+    | 'text'
+    | 'circleMarker'
+    | 'elasticMarker'
+    | 'labelsLayer'
+    | 'markerCluster'
     | 'infoWindow'
     | 'polyline'
     | 'polygon'
     | 'circle'
+    | 'rectangle'
+    | 'ellipse'
+    | 'bezierCurve'
     | 'tileLayer'
     | 'traffic'
     | 'satellite'
     | 'roadNet'
+    | 'imageLayer'
+    | 'districtLayer'
+    | 'geoJSONLayer'
+    | 'heatMap'
     | 'toolBar'
     | 'scale'
     | 'controlBar'
     | 'mapType'
     | 'performance'
+  group: string
   label: string
   description: string
 }
@@ -78,6 +91,29 @@ export interface PlaygroundState {
     offsetX: number
     offsetY: number
   }
+  text: {
+    visible: boolean
+    text: string
+    color: string
+  }
+  circleMarker: {
+    visible: boolean
+    radius: number
+    fillColor: string
+    strokeColor: string
+  }
+  elasticMarker: {
+    visible: boolean
+  }
+  labelsLayer: {
+    visible: boolean
+    collision: boolean
+    allowCollision: boolean
+  }
+  markerCluster: {
+    visible: boolean
+    gridSize: number
+  }
   infoWindow: {
     isOpen: boolean
     title: string
@@ -105,6 +141,25 @@ export interface PlaygroundState {
     fillColor: string
     fillOpacity: number
   }
+  rectangle: {
+    visible: boolean
+    strokeColor: string
+    fillColor: string
+    fillOpacity: number
+  }
+  ellipse: {
+    visible: boolean
+    radiusX: number
+    radiusY: number
+    strokeColor: string
+    fillColor: string
+    fillOpacity: number
+  }
+  bezierCurve: {
+    visible: boolean
+    strokeColor: string
+    strokeWeight: number
+  }
   tileLayer: {
     visible: boolean
     opacity: number
@@ -123,6 +178,25 @@ export interface PlaygroundState {
   roadNet: {
     visible: boolean
     opacity: number
+  }
+  imageLayer: {
+    visible: boolean
+    opacity: number
+  }
+  districtLayer: {
+    visible: boolean
+    opacity: number
+    adcode: string
+  }
+  geoJSONLayer: {
+    visible: boolean
+    fillOpacity: number
+  }
+  heatMap: {
+    visible: boolean
+    radius: number
+    opacityStart: number
+    opacityEnd: number
   }
   toolBar: {
     visible: boolean

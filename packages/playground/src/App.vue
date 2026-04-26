@@ -12,7 +12,7 @@ import { createApplyStateValues, usePlaygroundPersistence } from './composables/
 import { usePlaygroundState } from './composables/usePlaygroundState'
 import { useSnippetCopy } from './composables/useSnippetCopy'
 import { panels } from './config/panels'
-import { polygonPath, polylinePath } from './constants/paths'
+import { bezierCurvePath, polygonPath, polylinePath } from './constants/paths'
 
 const EVENT_LOG_LIMIT = 12
 const OFFICIAL_MASS_VIEW = {
@@ -31,14 +31,26 @@ const {
   mapStyle,
   activePanel,
   markerState,
+  textState,
+  circleMarkerState,
+  elasticMarkerState,
+  labelsLayerState,
+  markerClusterState,
   infoWindowState,
   polylineState,
   polygonState,
   circleState,
+  rectangleState,
+  ellipseState,
+  bezierCurveState,
   tileLayerState,
   trafficState,
   satelliteState,
   roadNetState,
+  imageLayerState,
+  districtLayerState,
+  geoJSONLayerState,
+  heatMapState,
   toolBarState,
   scaleState,
   controlBarState,
@@ -120,6 +132,29 @@ function createPlaygroundState(): PlaygroundState {
       offsetX: markerState.offsetX,
       offsetY: markerState.offsetY,
     },
+    text: {
+      visible: textState.visible,
+      text: textState.text,
+      color: textState.color,
+    },
+    circleMarker: {
+      visible: circleMarkerState.visible,
+      radius: circleMarkerState.radius,
+      fillColor: circleMarkerState.fillColor,
+      strokeColor: circleMarkerState.strokeColor,
+    },
+    elasticMarker: {
+      visible: elasticMarkerState.visible,
+    },
+    labelsLayer: {
+      visible: labelsLayerState.visible,
+      collision: labelsLayerState.collision,
+      allowCollision: labelsLayerState.allowCollision,
+    },
+    markerCluster: {
+      visible: markerClusterState.visible,
+      gridSize: markerClusterState.gridSize,
+    },
     infoWindow: {
       isOpen: infoWindowState.isOpen,
       title: infoWindowState.title,
@@ -147,6 +182,25 @@ function createPlaygroundState(): PlaygroundState {
       fillColor: circleState.fillColor,
       fillOpacity: circleState.fillOpacity,
     },
+    rectangle: {
+      visible: rectangleState.visible,
+      strokeColor: rectangleState.strokeColor,
+      fillColor: rectangleState.fillColor,
+      fillOpacity: rectangleState.fillOpacity,
+    },
+    ellipse: {
+      visible: ellipseState.visible,
+      radiusX: ellipseState.radiusX,
+      radiusY: ellipseState.radiusY,
+      strokeColor: ellipseState.strokeColor,
+      fillColor: ellipseState.fillColor,
+      fillOpacity: ellipseState.fillOpacity,
+    },
+    bezierCurve: {
+      visible: bezierCurveState.visible,
+      strokeColor: bezierCurveState.strokeColor,
+      strokeWeight: bezierCurveState.strokeWeight,
+    },
     tileLayer: {
       visible: tileLayerState.visible,
       opacity: tileLayerState.opacity,
@@ -165,6 +219,25 @@ function createPlaygroundState(): PlaygroundState {
     roadNet: {
       visible: roadNetState.visible,
       opacity: roadNetState.opacity,
+    },
+    imageLayer: {
+      visible: imageLayerState.visible,
+      opacity: imageLayerState.opacity,
+    },
+    districtLayer: {
+      visible: districtLayerState.visible,
+      opacity: districtLayerState.opacity,
+      adcode: districtLayerState.adcode,
+    },
+    geoJSONLayer: {
+      visible: geoJSONLayerState.visible,
+      fillOpacity: geoJSONLayerState.fillOpacity,
+    },
+    heatMap: {
+      visible: heatMapState.visible,
+      radius: heatMapState.radius,
+      opacityStart: heatMapState.opacityStart,
+      opacityEnd: heatMapState.opacityEnd,
     },
     toolBar: {
       visible: toolBarState.visible,
@@ -213,10 +286,22 @@ watch(
     activePanel,
     showMarker,
     showPerformanceMassMarks,
+    () => textState.visible,
+    () => circleMarkerState.visible,
+    () => elasticMarkerState.visible,
+    () => labelsLayerState.visible,
+    () => markerClusterState.visible,
+    () => rectangleState.visible,
+    () => ellipseState.visible,
+    () => bezierCurveState.visible,
     () => tileLayerState.visible,
     () => trafficState.visible,
     () => satelliteState.visible,
     () => roadNetState.visible,
+    () => imageLayerState.visible,
+    () => districtLayerState.visible,
+    () => geoJSONLayerState.visible,
+    () => heatMapState.visible,
     () => mapTypeState.visible,
   ],
   () => {
@@ -275,6 +360,48 @@ function stepZoom(delta: number) {
 
 function nudge(lngDelta: number, latDelta: number) {
   state.nudge(lngDelta, latDelta)
+}
+
+function getPathCenter(path: LngLatTuple[]): LngLatTuple {
+  const lngValues = path.map(point => point[0])
+  const latValues = path.map(point => point[1])
+  const lng = (Math.min(...lngValues) + Math.max(...lngValues)) / 2
+  const lat = (Math.min(...latValues) + Math.max(...latValues)) / 2
+
+  return [Number(lng.toFixed(6)), Number(lat.toFixed(6))]
+}
+
+function applyShapeView(targetCenter: LngLatTuple, targetZoom: number) {
+  center.value = [...targetCenter] as LngLatTuple
+  zoom.value = targetZoom
+  pitch.value = 0
+  rotation.value = 0
+  viewMode.value = '3D'
+  logEvent('Panel', 'locate', `Focused ${activePanel.value} at zoom ${targetZoom}`)
+  scheduleInspectorRefresh()
+}
+
+function locateActiveShape() {
+  switch (activePanel.value) {
+    case 'polyline':
+      applyShapeView(getPathCenter(polylinePath), 15)
+      break
+    case 'polygon':
+      applyShapeView(getPathCenter(polygonPath), 15)
+      break
+    case 'circle':
+      applyShapeView([...center.value] as LngLatTuple, circleState.radius > 1200 ? 13 : 15)
+      break
+    case 'rectangle':
+      applyShapeView([...center.value] as LngLatTuple, 14)
+      break
+    case 'ellipse':
+      applyShapeView([...center.value] as LngLatTuple, ellipseState.radiusX > 1200 ? 13 : 14)
+      break
+    case 'bezierCurve':
+      applyShapeView(getPathCenter(bezierCurvePath.flat()), 12)
+      break
+  }
 }
 
 function handleMapReady(map: AMap.Map) {
@@ -373,6 +500,7 @@ onBeforeUnmount(() => {
       @reset-view="resetView"
       @step-zoom="stepZoom"
       @nudge="nudge"
+      @locate-shape="locateActiveShape"
       @apply-runtime-key="applyRuntimeKey"
       @clear-runtime-key="clearRuntimeKey"
     />

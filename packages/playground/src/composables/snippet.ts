@@ -225,7 +225,7 @@ function renderInfoWindowTag(ctx: SnippetContext) {
   return lines.join('\n')
 }
 
-export function createSnippetGenerators(ctx: SnippetContext): Record<PanelId, () => string> {
+export function createSnippetGenerators(ctx: SnippetContext): Partial<Record<PanelId, () => string>> {
   return {
     map: () => createSfcSnippet(ctx, { components: [] }),
 

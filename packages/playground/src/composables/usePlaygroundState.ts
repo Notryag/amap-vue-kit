@@ -29,6 +29,34 @@ export function usePlaygroundState() {
     offsetY: -10,
   })
 
+  const textState = reactive({
+    visible: true,
+    text: 'Text overlay',
+    color: '#0f172a',
+  })
+
+  const circleMarkerState = reactive({
+    visible: true,
+    radius: 14,
+    fillColor: '#14b8a6',
+    strokeColor: '#0f766e',
+  })
+
+  const elasticMarkerState = reactive({
+    visible: true,
+  })
+
+  const labelsLayerState = reactive({
+    visible: true,
+    collision: true,
+    allowCollision: false,
+  })
+
+  const markerClusterState = reactive({
+    visible: true,
+    gridSize: 80,
+  })
+
   const infoWindowState = reactive({
     isOpen: true,
     title: 'Playground ready',
@@ -60,6 +88,28 @@ export function usePlaygroundState() {
     fillOpacity: 0.18,
   })
 
+  const rectangleState = reactive({
+    visible: true,
+    strokeColor: '#0891b2',
+    fillColor: '#22d3ee',
+    fillOpacity: 0.16,
+  })
+
+  const ellipseState = reactive({
+    visible: true,
+    radiusX: 900,
+    radiusY: 420,
+    strokeColor: '#7c3aed',
+    fillColor: '#a78bfa',
+    fillOpacity: 0.18,
+  })
+
+  const bezierCurveState = reactive({
+    visible: true,
+    strokeColor: '#db2777',
+    strokeWeight: 5,
+  })
+
   const tileLayerState = reactive({
     visible: true,
     opacity: 0.65,
@@ -81,6 +131,29 @@ export function usePlaygroundState() {
   const roadNetState = reactive({
     visible: true,
     opacity: 1,
+  })
+
+  const imageLayerState = reactive({
+    visible: true,
+    opacity: 0.72,
+  })
+
+  const districtLayerState = reactive({
+    visible: true,
+    opacity: 0.65,
+    adcode: '110000',
+  })
+
+  const geoJSONLayerState = reactive({
+    visible: true,
+    fillOpacity: 0.22,
+  })
+
+  const heatMapState = reactive({
+    visible: true,
+    radius: 28,
+    opacityStart: 0.25,
+    opacityEnd: 0.88,
   })
 
   const toolBarState = reactive({
@@ -166,6 +239,60 @@ export function usePlaygroundState() {
     fillOpacity: circleState.fillOpacity,
   }))
 
+  const textOptions = computed(() => ({
+    draggable: true,
+    style: {
+      padding: '6px 10px',
+      borderRadius: '4px',
+      border: '1px solid rgba(15, 23, 42, 0.2)',
+      background: 'rgba(255, 255, 255, 0.94)',
+      color: textState.color,
+      boxShadow: '0 8px 22px rgba(15, 23, 42, 0.16)',
+    },
+  }))
+
+  const circleMarkerOptions = computed(() => ({
+    strokeColor: circleMarkerState.strokeColor,
+    strokeWeight: 2,
+    fillColor: circleMarkerState.fillColor,
+    fillOpacity: 0.72,
+  }))
+
+  const rectangleBounds = computed(() => {
+    const [lng, lat] = center.value
+    return [
+      [Number((lng - 0.018).toFixed(6)), Number((lat - 0.01).toFixed(6))],
+      [Number((lng + 0.018).toFixed(6)), Number((lat + 0.01).toFixed(6))],
+    ] as [LngLatTuple, LngLatTuple]
+  })
+
+  const rectangleOptions = computed(() => ({
+    strokeColor: rectangleState.strokeColor,
+    strokeWeight: 2,
+    fillColor: rectangleState.fillColor,
+    fillOpacity: rectangleState.fillOpacity,
+  }))
+
+  const ellipseRadius = computed(() => [ellipseState.radiusX, ellipseState.radiusY] as [number, number])
+
+  const ellipseOptions = computed(() => ({
+    strokeColor: ellipseState.strokeColor,
+    strokeWeight: 2,
+    fillColor: ellipseState.fillColor,
+    fillOpacity: ellipseState.fillOpacity,
+  }))
+
+  const bezierCurveOptions = computed(() => ({
+    strokeColor: bezierCurveState.strokeColor,
+    strokeWeight: bezierCurveState.strokeWeight,
+    strokeOpacity: 0.92,
+  }))
+
+  const heatMapOpacity = computed(() => [
+    Math.min(heatMapState.opacityStart, heatMapState.opacityEnd),
+    Math.max(heatMapState.opacityStart, heatMapState.opacityEnd),
+  ] as [number, number])
+
   const toolBarOffset = computed(() => [toolBarState.offsetX, toolBarState.offsetY] as [number, number])
   const scaleOffset = computed(() => [scaleState.offsetX, scaleState.offsetY] as [number, number])
   const controlBarOffset = computed(() => [controlBarState.offsetX, controlBarState.offsetY] as [number, number])
@@ -204,14 +331,26 @@ export function usePlaygroundState() {
     activePanel,
 
     markerState,
+    textState,
+    circleMarkerState,
+    elasticMarkerState,
+    labelsLayerState,
+    markerClusterState,
     infoWindowState,
     polylineState,
     polygonState,
     circleState,
+    rectangleState,
+    ellipseState,
+    bezierCurveState,
     tileLayerState,
     trafficState,
     satelliteState,
     roadNetState,
+    imageLayerState,
+    districtLayerState,
+    geoJSONLayerState,
+    heatMapState,
     toolBarState,
     scaleState,
     controlBarState,
@@ -226,6 +365,14 @@ export function usePlaygroundState() {
     polylineOptions,
     polygonOptions,
     circleOptions,
+    textOptions,
+    circleMarkerOptions,
+    rectangleBounds,
+    rectangleOptions,
+    ellipseRadius,
+    ellipseOptions,
+    bezierCurveOptions,
+    heatMapOpacity,
     toolBarOffset,
     scaleOffset,
     controlBarOffset,

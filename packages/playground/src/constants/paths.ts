@@ -13,3 +13,12 @@ export const polygonPath: LngLatTuple[] = [
   [116.411302, 39.909955],
   [116.403112, 39.90399],
 ]
+
+export const bezierCurvePath: LngLatTuple[][] = [
+  [
+    [116.35, 39.9],
+    [116.36, 39.93],
+    [116.39, 39.95],
+    [116.43, 39.92],
+  ],
+]

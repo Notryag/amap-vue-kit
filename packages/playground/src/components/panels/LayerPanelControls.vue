@@ -5,7 +5,17 @@ const props = defineProps<{
   state: ReturnType<typeof usePlaygroundState>
 }>()
 
-const { activePanel, tileLayerState, trafficState, satelliteState, roadNetState } = props.state
+const {
+  activePanel,
+  tileLayerState,
+  trafficState,
+  satelliteState,
+  roadNetState,
+  imageLayerState,
+  districtLayerState,
+  geoJSONLayerState,
+  heatMapState,
+} = props.state
 </script>
 
 <template>
@@ -81,6 +91,88 @@ const { activePanel, tileLayerState, trafficState, satelliteState, roadNetState 
       <div class="slider-control">
         <input v-model.number="roadNetState.opacity" type="range" min="0" max="1" step="0.05">
         <span>{{ Math.round(roadNetState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'imageLayer'" class="panel-body">
+    <label class="toggle">
+      <input v-model="imageLayerState.visible" type="checkbox">
+      <span>Show image layer</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="imageLayerState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(imageLayerState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'districtLayer'" class="panel-body">
+    <label class="toggle">
+      <input v-model="districtLayerState.visible" type="checkbox">
+      <span>Show district layer</span>
+    </label>
+
+    <label class="form-field">
+      <span>Adcode</span>
+      <input v-model="districtLayerState.adcode" type="text" spellcheck="false">
+      <small class="field-hint">Example: 110000 for Beijing.</small>
+    </label>
+
+    <label class="form-field slider">
+      <span>Opacity</span>
+      <div class="slider-control">
+        <input v-model.number="districtLayerState.opacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(districtLayerState.opacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'geoJSONLayer'" class="panel-body">
+    <label class="toggle">
+      <input v-model="geoJSONLayerState.visible" type="checkbox">
+      <span>Show GeoJSON layer</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Fill opacity</span>
+      <div class="slider-control">
+        <input v-model.number="geoJSONLayerState.fillOpacity" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(geoJSONLayerState.fillOpacity * 100) }}%</span>
+      </div>
+    </label>
+  </div>
+
+  <div v-else-if="activePanel === 'heatMap'" class="panel-body">
+    <label class="toggle">
+      <input v-model="heatMapState.visible" type="checkbox">
+      <span>Show heat map</span>
+    </label>
+
+    <label class="form-field slider">
+      <span>Radius</span>
+      <div class="slider-control">
+        <input v-model.number="heatMapState.radius" type="range" min="10" max="60" step="2">
+        <span>{{ heatMapState.radius }} px</span>
+      </div>
+    </label>
+
+    <label class="form-field slider">
+      <span>Min opacity</span>
+      <div class="slider-control">
+        <input v-model.number="heatMapState.opacityStart" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(heatMapState.opacityStart * 100) }}%</span>
+      </div>
+    </label>
+
+    <label class="form-field slider">
+      <span>Max opacity</span>
+      <div class="slider-control">
+        <input v-model.number="heatMapState.opacityEnd" type="range" min="0" max="1" step="0.05">
+        <span>{{ Math.round(heatMapState.opacityEnd * 100) }}%</span>
       </div>
     </label>
   </div>

@@ -5,6 +5,10 @@ const props = defineProps<{
   state: ReturnType<typeof usePlaygroundState>
 }>()
 
+defineEmits<{
+  locateGeojson: []
+}>()
+
 const {
   activePanel,
   tileLayerState,
@@ -132,6 +136,12 @@ const {
   </div>
 
   <div v-else-if="activePanel === 'geoJSONLayer'" class="panel-body">
+    <div class="button-row">
+      <button type="button" @click="$emit('locateGeojson')">
+        Locate GeoJSON
+      </button>
+    </div>
+
     <label class="toggle">
       <input v-model="geoJSONLayerState.visible" type="checkbox">
       <span>Show GeoJSON layer</span>

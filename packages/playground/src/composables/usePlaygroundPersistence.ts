@@ -47,18 +47,22 @@ export function usePlaygroundPersistence(ctx: {
     catch {
       // Ignore storage quota or availability issues
     }
+  }
+
+  function clearStateHash() {
+    if (typeof window === 'undefined' || !window.location.hash)
+      return
 
     const params = new URLSearchParams(window.location.hash.slice(1))
-    params.set(PLAYGROUND_HASH_KEY, serialized)
 
-    const newHash = params.toString()
-    const currentHash = window.location.hash.slice(1)
+    if (!params.has(PLAYGROUND_HASH_KEY))
+      return
 
-    if (currentHash !== newHash) {
-      const base = `${window.location.pathname}${window.location.search}`
-      const hashString = newHash ? `#${newHash}` : ''
-      window.history.replaceState(null, '', `${base}${hashString}`)
-    }
+    params.delete(PLAYGROUND_HASH_KEY)
+
+    const nextHash = params.toString()
+    const base = `${window.location.pathname}${window.location.search}`
+    window.history.replaceState(null, '', nextHash ? `${base}#${nextHash}` : base)
   }
 
   function restoreStateFromHash(): Partial<PlaygroundState> | undefined {
@@ -134,8 +138,11 @@ export function usePlaygroundPersistence(ctx: {
 
     if (hashState) {
       applyPlaygroundState(hashState, 'hash')
+      clearStateHash()
       return
     }
+
+    clearStateHash()
 
     const storedState = restoreStateFromStorage()
 

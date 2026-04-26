@@ -26,6 +26,7 @@ defineEmits<{
   stepZoom: [delta: number]
   nudge: [lngDelta: number, latDelta: number]
   locateShape: []
+  locateGeojson: []
   applyRuntimeKey: []
   clearRuntimeKey: []
 }>()
@@ -99,6 +100,7 @@ const groupedPanels = computed(() => {
             || activePanel === 'markerCluster'
         "
         :state="state"
+        @locate-geojson="$emit('locateGeojson')"
       />
       <InfoWindowPanelControls v-else-if="activePanel === 'infoWindow'" :state="state" />
       <ShapePanelControls

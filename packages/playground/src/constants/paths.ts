@@ -22,3 +22,11 @@ export const bezierCurvePath: LngLatTuple[][] = [
     [116.43, 39.92],
   ],
 ]
+
+export const geoJsonPolygonPath: LngLatTuple[] = [
+  [116.372, 39.898],
+  [116.398, 39.928],
+  [116.426, 39.902],
+  [116.396, 39.888],
+  [116.372, 39.898],
+]

@@ -2,9 +2,9 @@
 import type { usePerformanceMarks } from '../composables/usePerformanceMarks'
 import type { usePlaygroundState } from '../composables/usePlaygroundState'
 import type { LngLatTuple } from '../types'
-import { bezierCurvePath } from '../constants/paths'
+import { bezierCurvePath, geoJsonPolygonPath } from '../constants/paths'
 
-defineProps<{
+const props = defineProps<{
   state: ReturnType<typeof usePlaygroundState>
   performance: ReturnType<typeof usePerformanceMarks>
   hasKey: boolean
@@ -57,13 +57,7 @@ const geoJsonData = {
       properties: { name: 'Playground polygon' },
       geometry: {
         type: 'Polygon',
-        coordinates: [[
-          [116.372, 39.898],
-          [116.398, 39.928],
-          [116.426, 39.902],
-          [116.396, 39.888],
-          [116.372, 39.898],
-        ]],
+        coordinates: [geoJsonPolygonPath],
       },
     },
   ],
@@ -73,6 +67,21 @@ const elasticMarkerStyles = {
   1: { icon: { img: markerIcon, size: [32, 45], anchor: [16, 45] } },
 }
 const elasticMarkerZoomStyleMapping = { 3: 0, 13: 1 }
+
+function createGeoJsonPolygon(_feature: unknown, path: unknown) {
+  const AMapInstance = globalThis.AMap
+  if (!AMapInstance?.Polygon)
+    return undefined
+
+  return new AMapInstance.Polygon({
+    path: path as any,
+    strokeColor: '#166534',
+    strokeWeight: 3,
+    strokeOpacity: 0.95,
+    fillColor: '#22c55e',
+    fillOpacity: props.state.geoJSONLayerState.fillOpacity,
+  })
+}
 </script>
 
 <template>
@@ -243,16 +252,10 @@ const elasticMarkerZoomStyleMapping = { 3: 0, 13: 1 }
     />
     <AmapGeoJSONLayer
       v-if="state.activePanel.value === 'geoJSONLayer'"
+      :key="state.geoJSONLayerState.fillOpacity"
       :data="geoJsonData"
       :visible="state.geoJSONLayerState.visible"
-      :options="{
-        getPolygon: () => ({
-          strokeColor: '#166534',
-          strokeWeight: 2,
-          fillColor: '#22c55e',
-          fillOpacity: state.geoJSONLayerState.fillOpacity,
-        }),
-      }"
+      :options="{ getPolygon: createGeoJsonPolygon }"
     />
     <AmapHeatMap
       v-if="state.activePanel.value === 'heatMap'"

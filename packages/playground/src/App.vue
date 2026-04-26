@@ -12,7 +12,7 @@ import { createApplyStateValues, usePlaygroundPersistence } from './composables/
 import { usePlaygroundState } from './composables/usePlaygroundState'
 import { useSnippetCopy } from './composables/useSnippetCopy'
 import { panels } from './config/panels'
-import { bezierCurvePath, polygonPath, polylinePath } from './constants/paths'
+import { bezierCurvePath, geoJsonPolygonPath, polygonPath, polylinePath } from './constants/paths'
 
 const EVENT_LOG_LIMIT = 12
 const OFFICIAL_MASS_VIEW = {
@@ -404,6 +404,11 @@ function locateActiveShape() {
   }
 }
 
+function locateGeojsonLayer() {
+  activePanel.value = 'geoJSONLayer'
+  applyShapeView(getPathCenter(geoJsonPolygonPath), 13)
+}
+
 function handleMapReady(map: AMap.Map) {
   inspector.setMapInstance(map)
   performance.ensureMassMarkerStyles()
@@ -501,6 +506,7 @@ onBeforeUnmount(() => {
       @step-zoom="stepZoom"
       @nudge="nudge"
       @locate-shape="locateActiveShape"
+      @locate-geojson="locateGeojsonLayer"
       @apply-runtime-key="applyRuntimeKey"
       @clear-runtime-key="clearRuntimeKey"
     />

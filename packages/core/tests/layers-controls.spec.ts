@@ -4,6 +4,9 @@ import { describe, expect, it } from 'vitest'
 import AmapControlBar from '../src/components/AmapControlBar.vue'
 import AmapImageLayer from '../src/components/AmapImageLayer.vue'
 import AmapMap from '../src/components/AmapMap.vue'
+import AmapMapType from '../src/components/AmapMapType.vue'
+import AmapRoadNetLayer from '../src/components/AmapRoadNetLayer.vue'
+import AmapSatelliteLayer from '../src/components/AmapSatelliteLayer.vue'
 import AmapTileLayer from '../src/components/AmapTileLayer.vue'
 import AmapToolBar from '../src/components/AmapToolBar.vue'
 import AmapTrafficLayer from '../src/components/AmapTrafficLayer.vue'
@@ -112,6 +115,36 @@ describe('layers', () => {
     expect(layer.options.visible).toBe(false)
     expect(layer.options.opacity).toBe(0.8)
   })
+
+  it('removes official tile layers when components unmount', async () => {
+    const wrapper = mount({
+      components: { AmapMap, AmapRoadNetLayer, AmapSatelliteLayer },
+      data: () => ({ active: 'satellite', map: null as AMap.Map | null }),
+      template: `
+        <AmapMap :center="[0, 0]" :zoom="12" @ready="map = $event">
+          <AmapSatelliteLayer v-if="active === 'satellite'" />
+          <AmapRoadNetLayer v-if="active === 'roadNet'" />
+        </AmapMap>
+      `,
+    })
+
+    await waitForMap()
+
+    const map = wrapper.vm.map as any
+    expect(map.getLayers()).toHaveLength(1)
+    expect(map.getLayers()[0].constructor.name).toBe('SatelliteTileLayer')
+
+    wrapper.vm.active = 'roadNet'
+    await waitForMap()
+
+    expect(map.getLayers()).toHaveLength(1)
+    expect(map.getLayers()[0].constructor.name).toBe('RoadNetTileLayer')
+
+    wrapper.vm.active = 'none'
+    await waitForMap()
+
+    expect(map.getLayers()).toHaveLength(0)
+  })
 })
 
 describe('controls', () => {
@@ -162,5 +195,41 @@ describe('controls', () => {
     await waitForMap()
     expect(control.options.showZoomBar).toBe(false)
     expect(control.options.showControlButton).toBe(false)
+  })
+
+  it('recreates map type control when default type changes', async () => {
+    const wrapper = mount({
+      components: { AmapMap, AmapMapType },
+      data: () => ({ defaultType: 0, showMapType: true, map: null as AMap.Map | null }),
+      template: `
+        <AmapMap :center="[0, 0]" :zoom="12" @ready="map = $event">
+          <AmapMapType v-if="showMapType" :default-type="defaultType" />
+        </AmapMap>
+      `,
+    })
+
+    await waitForMap()
+
+    const controlComponent = wrapper.findComponent(AmapMapType)
+    const firstControl = (controlComponent.vm as any).control
+    const map = wrapper.vm.map as any
+    expect(firstControl).toBeTruthy()
+    expect(firstControl.options.defaultType).toBe(0)
+    expect(map.getLayers()).toHaveLength(4)
+
+    wrapper.vm.defaultType = 1
+    await waitForMap()
+
+    const secondControl = (wrapper.findComponent(AmapMapType).vm as any).control
+    expect(secondControl).toBeTruthy()
+    expect(secondControl).not.toBe(firstControl)
+    expect(secondControl.options.defaultType).toBe(1)
+    expect(firstControl.map).toBeNull()
+    expect(map.getLayers()).toHaveLength(4)
+
+    wrapper.vm.showMapType = false
+    await waitForMap()
+
+    expect(map.getLayers()).toHaveLength(0)
   })
 })

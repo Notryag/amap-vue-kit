@@ -58,7 +58,7 @@ import ControlsDemo from '../examples/ControlsDemo.vue'
 ### Component-specific props
 
 - **`<AmapControlBar>`** — Accepts `showZoomBar` and `showControlButton` to fine-tune the zoom slider and rotation/tilt switch. Provide extra ControlBar options (such as `liteStyle`) through `options: Partial<UseControlBarOptions>`.
-- **`<AmapMapType>`** — Supports `defaultType` (0 = standard, 1 = satellite), `showTraffic`, and `showRoad` to expose quick toggles on the control. Additional MapType options (like custom layer lists) can also be passed via `options: Partial<UseMapTypeOptions>`.
+- **`<AmapMapType>`** — Supports `defaultType` (0 = standard, 1 = satellite), `showTraffic`, and `showRoad` to expose quick toggles on the control. When these init-only options change reactively, the wrapper recreates the JSAPI control so the current map type updates. Additional MapType options (like custom layer lists) can also be passed via `options: Partial<UseMapTypeOptions>`.
 
 ### Positioning tips
 

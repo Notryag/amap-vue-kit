@@ -34,8 +34,8 @@ defineProps<{
     <div class="inspector-section">
       <h3>Layers ({{ inspector.inspectorLayers.value.length }})</h3>
       <ul v-if="inspector.inspectorLayers.value.length" class="inspector-list">
-        <li v-for="layer in inspector.inspectorLayers.value" :key="layer">
-          {{ layer }}
+        <li v-for="layer in inspector.inspectorLayers.value" :key="layer.key">
+          {{ layer.label }}
         </li>
       </ul>
       <p v-else class="inspector-empty">

@@ -5,6 +5,9 @@ import { isClient, loader, toPixel, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export interface ControlLike {
+  addTo?: (map: AMap.Map) => void
+  remove?: () => void
+  removeFrom?: () => void
   show?: () => void
   hide?: () => void
   setMap?: (map: AMap.Map | null) => void
@@ -28,6 +31,12 @@ export interface UseControlReturn<TControl extends ControlLike> {
   setOffset: (offset: PixelLike | undefined) => void
   setOptions: (options: Record<string, any>) => void
   destroy: () => void
+}
+
+interface CreateControlHookOptions<TOptions extends UseControlOptions> {
+  plugin?: string
+  cleanupAddedLayers?: boolean
+  shouldRecreate?: (previous: TOptions, next: TOptions) => boolean
 }
 
 function applyControlOptions(control: ControlLike, options: UseControlOptions) {
@@ -55,30 +64,35 @@ function applyControlOptions(control: ControlLike, options: UseControlOptions) {
 
 function createControlHook<TControl extends ControlLike, TOptions extends UseControlOptions>(
   factory: (context: { AMap: typeof AMap, options: TOptions }) => TControl,
-  plugin?: string,
+  config: string | CreateControlHookOptions<TOptions> = {},
 ) {
+  const hookOptions = typeof config === 'string' ? { plugin: config } : config
+
   return function useSpecificControl(
     mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     options: MaybeRefOrGetter<TOptions>,
   ): UseControlReturn<TControl> {
-    const control = shallowRef<TControl | null>(null)
+    const control = shallowRef(null) as ShallowRef<TControl | null>
     const optionsRef = computed<TOptions>(() => ({
       ...(toValue(options) as TOptions | undefined ?? {}),
-    }))
+    }) as TOptions)
     let attachedMap: AMap.Map | null = null
+    let trackedAddedLayers = new Set<any>()
+    let previousOptions = { ...optionsRef.value } as TOptions
 
     async function ensureControl(mapInstance: AMap.Map | null | undefined) {
       if (!isClient || control.value || !mapInstance)
         return
 
       try {
-        const loadOptions = plugin ? { plugins: [plugin] } : undefined
+        const loadOptions = hookOptions.plugin ? { plugins: [hookOptions.plugin] } : undefined
         const AMapInstance = await loader.load(loadOptions)
         const { visible: _ignoredVisible, map: _ignoredMap, ...rest } = optionsRef.value as TOptions & { map?: AMap.Map }
         const instance = factory({ AMap: AMapInstance, options: rest as TOptions })
         control.value = instance
         attachToMap(mapInstance, instance)
         applyControlOptions(instance, optionsRef.value)
+        previousOptions = { ...optionsRef.value } as TOptions
       }
       catch (error) {
         warn(error instanceof Error ? error.message : String(error))
@@ -89,17 +103,88 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
       if (attachedMap && attachedMap !== mapInstance)
         detachFromMap()
 
-      mapInstance.addControl(instance as any)
-      instance.setMap?.(mapInstance)
+      const previousLayers = hookOptions.cleanupAddedLayers ? getLayerSet(mapInstance) : null
+
+      if (typeof instance.addTo === 'function')
+        instance.addTo(mapInstance)
+      else if (typeof mapInstance.addControl === 'function')
+        mapInstance.addControl(instance as any)
+      else
+        instance.setMap?.(mapInstance)
+
       attachedMap = mapInstance
+
+      if (previousLayers) {
+        trackAddedLayers(mapInstance, previousLayers)
+        scheduleLayerTracking(mapInstance, previousLayers)
+      }
     }
 
     function detachFromMap() {
-      if (control.value && attachedMap) {
-        attachedMap.removeControl(control.value as any)
-        control.value.setMap?.(null)
+      const mapInstance = attachedMap
+
+      if (control.value && mapInstance) {
+        if (typeof control.value.remove === 'function')
+          control.value.remove()
+        else if (typeof control.value.removeFrom === 'function')
+          control.value.removeFrom()
+        else if (typeof mapInstance.removeControl === 'function')
+          mapInstance.removeControl(control.value as any)
+        else
+          control.value.setMap?.(null)
+
+        cleanupTrackedLayers(mapInstance)
       }
       attachedMap = null
+    }
+
+    function getLayers(mapInstance: AMap.Map): any[] {
+      const layers = (mapInstance as any).getLayers?.()
+      return Array.isArray(layers) ? layers : []
+    }
+
+    function getLayerSet(mapInstance: AMap.Map): Set<any> {
+      return new Set(getLayers(mapInstance))
+    }
+
+    function trackAddedLayers(mapInstance: AMap.Map, previousLayers: Set<any>) {
+      if (!hookOptions.cleanupAddedLayers)
+        return
+
+      for (const layer of getLayers(mapInstance)) {
+        if (!previousLayers.has(layer))
+          trackedAddedLayers.add(layer)
+      }
+    }
+
+    function scheduleLayerTracking(mapInstance: AMap.Map, previousLayers: Set<any>) {
+      if (typeof window === 'undefined' || typeof window.requestAnimationFrame !== 'function')
+        return
+
+      window.requestAnimationFrame(() => {
+        if (attachedMap === mapInstance)
+          trackAddedLayers(mapInstance, previousLayers)
+      })
+    }
+
+    function cleanupTrackedLayers(mapInstance: AMap.Map) {
+      if (!trackedAddedLayers.size)
+        return
+
+      const currentLayers = getLayerSet(mapInstance)
+      for (const layer of trackedAddedLayers) {
+        if (!currentLayers.has(layer))
+          continue
+
+        if (typeof (mapInstance as any).removeLayer === 'function')
+          (mapInstance as any).removeLayer(layer)
+        else if (typeof (mapInstance as any).remove === 'function')
+          (mapInstance as any).remove(layer)
+        else
+          layer?.setMap?.(null)
+      }
+
+      trackedAddedLayers = new Set()
     }
 
     watch(() => toValue(mapRef), (mapInstance) => {
@@ -115,8 +200,20 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
     }, { immediate: true })
 
     watch(optionsRef, (value) => {
-      if (control.value)
-        applyControlOptions(control.value, value)
+      if (!control.value)
+        return
+
+      if (hookOptions.shouldRecreate?.(previousOptions, value)) {
+        const mapInstance = attachedMap
+        destroy()
+        if (mapInstance)
+          void ensureControl(mapInstance)
+        previousOptions = { ...value } as TOptions
+        return
+      }
+
+      applyControlOptions(control.value, value)
+      previousOptions = { ...value } as TOptions
     }, { deep: true })
 
     onBeforeUnmount(() => {
@@ -154,10 +251,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
     function destroy() {
       if (control.value) {
         control.value.hide?.()
-        control.value.destroy?.()
-        control.value.setMap?.(null)
       }
       detachFromMap()
+      control.value?.destroy?.()
       control.value = null
     }
 
@@ -211,12 +307,18 @@ export function useControlBar(
 
 export interface UseMapTypeOptions extends UseControlOptions {}
 
+const MAP_TYPE_RECREATE_OPTIONS = ['defaultType', 'showTraffic', 'showRoad', 'layers'] as const
+
 export function useMapType(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   options: MaybeRefOrGetter<UseMapTypeOptions>,
 ): UseControlReturn<ControlLike> {
   return createControlHook<ControlLike, UseMapTypeOptions>(
     ({ AMap, options: controlOptions }) => new (AMap as any).MapType(controlOptions),
-    'AMap.MapType',
+    {
+      plugin: 'AMap.MapType',
+      cleanupAddedLayers: true,
+      shouldRecreate: (previous, next) => MAP_TYPE_RECREATE_OPTIONS.some(key => previous[key] !== next[key]),
+    },
   )(mapRef, options)
 }

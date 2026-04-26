@@ -74,6 +74,7 @@ class Map extends EventTarget {
   public status: Record<string, any> = {}
   public destroyed = false
   public controls = new Set<any>()
+  public layers = new Set<any>()
 
   constructor(public container: HTMLElement, options: any = {}) {
     super()
@@ -121,6 +122,32 @@ class Map extends EventTarget {
       this.controls.delete(control)
       control.setMap?.(null)
     }
+  }
+
+  addLayer(layer: any) {
+    this.layers.add(layer)
+    layer.setMap?.(this)
+  }
+
+  removeLayer(layer: any) {
+    if (this.layers.has(layer)) {
+      this.layers.delete(layer)
+      layer.setMap?.(null)
+    }
+  }
+
+  add(feature: any) {
+    const features = Array.isArray(feature) ? feature : [feature]
+    features.forEach(item => this.addLayer(item))
+  }
+
+  remove(feature: any) {
+    const features = Array.isArray(feature) ? feature : [feature]
+    features.forEach(item => this.removeLayer(item))
+  }
+
+  getLayers() {
+    return Array.from(this.layers)
   }
 
   destroy() {
@@ -891,15 +918,24 @@ class ControlBar extends ToolBar {}
 class MapTypeControl extends EventTarget {
   public map: Map | null = null
   public options: any
+  public internalLayers: any[]
 
   constructor(options: any = {}) {
     super()
     this.options = { visible: true, ...options }
     this.map = options.map ?? null
+    this.internalLayers = [
+      new TileLayer(),
+      new TileLayer(),
+      new TileLayer.Satellite(),
+      new TileLayer.RoadNet(),
+    ]
   }
 
   setMap(map: Map | null) {
     this.map = map
+    if (map)
+      map.add(this.internalLayers)
   }
 
   setOptions(options: any) {

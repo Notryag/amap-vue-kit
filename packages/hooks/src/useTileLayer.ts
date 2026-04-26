@@ -51,21 +51,38 @@ function createTileLayerHook<TLayer extends AMap.TileLayer, TOptions extends Use
   ): UseTileLayerReturn<TLayer> {
     const optionsRef = computed<TOptions>(() => ({
       ...(toValue(options) as TOptions | undefined ?? {}),
-    }))
+    }) as TOptions)
 
     const overlay = useOverlay(
       mapRef,
       optionsRef,
-      ({ AMap, map, options: layerOptions }) => {
+      ({ AMap, options: layerOptions }) => {
         const { visible: _ignoredVisible, map: _ignoredMap, ...rest } = layerOptions as TOptions & { map?: AMap.Map }
         const instance = factory({ AMap, options: rest as TOptions })
-        instance.setMap(map)
         return instance
       },
       (layer, nextOptions) => {
         applyTileLayerOptions(layer, nextOptions)
       },
       plugin ? () => ({ plugins: [plugin] }) : undefined,
+      {
+        attach(map, layer) {
+          if (typeof (map as any).addLayer === 'function')
+            (map as any).addLayer(layer)
+          else if (typeof (map as any).add === 'function')
+            (map as any).add(layer)
+          else
+            layer.setMap(map)
+        },
+        detach(map, layer) {
+          if (typeof (map as any).removeLayer === 'function')
+            (map as any).removeLayer(layer)
+          else if (typeof (map as any).remove === 'function')
+            (map as any).remove(layer)
+          else
+            layer.setMap(null)
+        },
+      },
     )
 
     function show() {

@@ -6,6 +6,11 @@ interface BoundsSnapshot {
   northEast: LngLatTuple
 }
 
+interface InspectorLayerSnapshot {
+  key: string
+  label: string
+}
+
 function describeLayer(layer: any): string {
   if (layer && typeof layer.CLASS_NAME === 'string')
     return layer.CLASS_NAME.replace(/^AMap\./, '')
@@ -48,10 +53,12 @@ function collectOverlayArray(raw: unknown): object[] {
 export function useMapInspector(hasKey: { value: boolean }) {
   const mapInstance = shallowRef<AMap.Map | null>(null)
   const mapBounds = shallowRef<BoundsSnapshot | null>(null)
-  const inspectorLayers = ref<string[]>([])
+  const inspectorLayers = ref<InspectorLayerSnapshot[]>([])
   const overlayStats = reactive({ total: 0, added: 0, removed: 0 })
 
   const overlayRegistry = new Set<object>()
+  const layerKeys = new WeakMap<object, string>()
+  let layerKeyId = 0
   let inspectorRefreshHandle: number | null = null
 
   const boundsText = computed(() => {
@@ -114,7 +121,31 @@ export function useMapInspector(hasKey: { value: boolean }) {
       return
     }
 
-    inspectorLayers.value = layers.map(layer => describeLayer(layer))
+    const keyCounts = new Map<string, number>()
+
+    inspectorLayers.value = layers.map((layer, index) => {
+      const label = describeLayer(layer)
+
+      if (layer && typeof layer === 'object') {
+        let baseKey = layerKeys.get(layer)
+
+        if (!baseKey) {
+          layerKeyId += 1
+          baseKey = `layer-${layerKeyId}`
+          layerKeys.set(layer, baseKey)
+        }
+
+        const count = (keyCounts.get(baseKey) ?? 0) + 1
+        keyCounts.set(baseKey, count)
+
+        return {
+          key: count === 1 ? baseKey : `${baseKey}-${count}`,
+          label,
+        }
+      }
+
+      return { key: `${label}-${index}`, label }
+    })
   }
 
   function refreshOverlayStats(map: AMap.Map) {

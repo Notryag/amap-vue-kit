@@ -47,13 +47,26 @@ describe('amap loader timeouts', () => {
     if (!script)
       throw new Error('Loader did not append the JSAPI script tag')
 
-    const fakeAMap = { Map: class {} } as any
+    class Adaptor {}
+    const fakeAMap = {
+      Map: class {},
+      plugin(plugin: string, callback: () => void) {
+        if (plugin === 'AMap.Adaptor') {
+          const amap = this as any
+          amap.Adaptor = Adaptor
+        }
+        callback()
+      },
+    } as any
     ;(window as any).AMap = fakeAMap
 
     script.dispatchEvent(new window.Event('load'))
 
     await expect(promise).resolves.toBe(fakeAMap)
     expect(vi.getTimerCount()).toBe(0)
+
+    await expect(localLoader.load({ key: 'timeout-key', plugins: ['AMap.Adaptor'] })).resolves.toBe(fakeAMap)
+    expect(fakeAMap.Adaptor).toBe(Adaptor)
 
     script.remove()
   })

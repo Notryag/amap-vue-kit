@@ -5,7 +5,7 @@ import { loader } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.MassMarks'] })
+const { hasKey } = useDemoLoader({ plugins: ['AMap.Adaptor'] })
 
 const center: [number, number] = [116.397, 39.908]
 const map = shallowRef<AMap.Map | null>(null)

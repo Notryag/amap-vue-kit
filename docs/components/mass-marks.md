@@ -7,7 +7,8 @@ Render tens of thousands of lightweight markers using the JSAPI `MassMarks` plug
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `data` | `{ lnglat: [number, number], style?: number }[]` | `[]` | Array of plain items with `lnglat` coordinates and optional style index. |
-| `style` | `AMap.MassMarkersStyleOptions \| AMap.MassMarkersStyleOptions[] \| undefined` | – | Style definition(s) passed to the JSAPI instance. |
+| `styles` | `AMap.MassMarkersStyleOptions \| AMap.MassMarkersStyleOptions[] \| undefined` | – | Style definition(s) passed to the JSAPI instance. Prefer this prop in templates because Vue reserves `style` for DOM styling. |
+| `style` | `AMap.MassMarkersStyleOptions \| AMap.MassMarkersStyleOptions[] \| undefined` | – | Deprecated compatibility alias. Avoid it in templates. |
 | `options` | `Partial<AMap.MassMarkersOptions> \| undefined` | – | Additional JSAPI options such as `zooms` or `opacity`. |
 | `visible` | `boolean` | `true` | Toggle marker visibility without destroying the instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader configuration forwarded to `loader.load`. |
@@ -25,11 +26,11 @@ Render tens of thousands of lightweight markers using the JSAPI `MassMarks` plug
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="11" class="map-shell">
-  <AmapMassMarks :data="points" :style="style" :options="{ zooms: [3, 19] }" />
+  <AmapMassMarks :data="points" :styles="styles" :options="{ zooms: [3, 19] }" />
 </AmapMap>
 ```
 
-The component automatically loads `AMap.MassMarks`, watches the `data` array for deep changes, and re-applies styles or options when their reactive sources update.
+The component automatically loads the JSAPI compatibility plugin needed by `AMap.MassMarks`, watches the `data` array for deep changes, and re-applies styles or options when their reactive sources update.
 
 <ClientOnly>
   <MassMarksComponentDemo />
@@ -44,6 +45,7 @@ import MassMarksComponentDemo from '../examples/MassMarksComponentDemo.vue'
 ```ts
 export interface MassMarksProps {
   data?: Array<{ lnglat: [number, number], style?: number }>
+  styles?: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]
   style?: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]
   options?: Partial<AMap.MassMarkersOptions>
   visible?: boolean
@@ -54,6 +56,7 @@ export interface MassMarksProps {
 ### Common pitfalls
 
 - Provide a limited set of styles and reference them using the `style` index in each item to minimise GC pressure.
+- Use the component prop `styles`, not `style`, in Vue templates. The `style` name is reserved by Vue for DOM/CSS styling and can be swallowed before it reaches the component.
 - Prefer `ref`/`reactive` collections instead of rebuilding the array on every tick when streaming new data.
 - When mixing `MassMarks` with other overlays, adjust `options.zIndex` to ensure the desired stacking order.
 

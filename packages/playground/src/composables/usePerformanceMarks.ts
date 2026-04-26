@@ -4,18 +4,95 @@ import { computed, ref, shallowRef, watch } from 'vue'
 import { performanceDatasets } from '../data/performance-datasets'
 
 const MASS_CHUNK_SIZE = 800
+const MASS_MARK_ICON_URLS = [
+  'https://webapi.amap.com/images/mass/mass0.png',
+  'https://webapi.amap.com/images/mass/mass1.png',
+  'https://webapi.amap.com/images/mass/mass2.png',
+]
+const MASS_MARKER_STYLES: AMap.MassMarkersStyleOptions[] = [
+  {
+    url: MASS_MARK_ICON_URLS[0],
+    size: [11, 11],
+    anchor: [6, 6],
+    zIndex: 3,
+  },
+  {
+    url: MASS_MARK_ICON_URLS[1],
+    size: [7, 7],
+    anchor: [4, 4],
+    zIndex: 2,
+  },
+  {
+    url: MASS_MARK_ICON_URLS[2],
+    size: [5, 5],
+    anchor: [3, 3],
+    zIndex: 1,
+  },
+]
 
 export function usePerformanceMarks(logEvent: (source: 'Dataset', summary: string, detail?: string) => void) {
-  const performanceDatasetId = ref<PerformanceDatasetId>('small')
+  const performanceDatasetId = ref<PerformanceDatasetId>('official')
   const performanceRenderMode = ref<PerformanceRenderMode>('immediate')
 
-  const performanceDatasetOptions = performanceDatasets.map(dataset => ({
-    label: dataset.label,
-    value: dataset.id,
-  }))
+  function getOfficialCitys() {
+    if (typeof window === 'undefined')
+      return []
+
+    const globalCitys = (window as typeof window & { citys?: PlaygroundMassData[] }).citys
+    return Array.isArray(globalCitys) ? globalCitys : []
+  }
+
+  const officialCitys = shallowRef<PlaygroundMassData[]>(getOfficialCitys())
+
+  const performanceDatasetOptions = computed(() => [
+    {
+      label: `Official citys (${officialCitys.value.length.toLocaleString()} points)`,
+      value: 'official' as const,
+    },
+    ...performanceDatasets.map(dataset => ({
+      label: dataset.label,
+      value: dataset.id,
+    })),
+  ])
+
+  const officialDataset = computed(() => {
+    const data = officialCitys.value
+    const lngValues = data.map(point => point.lnglat[0])
+    const latValues = data.map(point => point.lnglat[1])
+    const hasData = data.length > 0
+
+    return {
+      id: 'official' as const,
+      label: `Official citys (${data.length.toLocaleString()} points)`,
+      description: 'Official AMap MassMarks demo dataset loaded from citys.js.',
+      size: data.length,
+      mass: data,
+      heat: [],
+      summary: {
+        bounds: {
+          minLng: hasData ? Math.min(...lngValues) : 0,
+          minLat: hasData ? Math.min(...latValues) : 0,
+          maxLng: hasData ? Math.max(...lngValues) : 0,
+          maxLat: hasData ? Math.max(...latValues) : 0,
+        },
+        averages: {
+          weight: 0,
+        },
+        medianWeight: 0,
+      },
+      samples: data.slice(0, 5).map(point => ({
+        clusterId: point.style,
+        lng: point.lnglat[0],
+        lat: point.lnglat[1],
+        weight: 0,
+      })),
+    }
+  })
 
   const performanceDataset = computed(() =>
-    performanceDatasets.find(dataset => dataset.id === performanceDatasetId.value) ?? performanceDatasets[0],
+    performanceDatasetId.value === 'official'
+      ? officialDataset.value
+      : performanceDatasets.find(dataset => dataset.id === performanceDatasetId.value) ?? performanceDatasets[0],
   )
 
   const performanceMetrics = computed(() => {
@@ -36,7 +113,7 @@ export function usePerformanceMarks(logEvent: (source: 'Dataset', summary: strin
   const performanceDescription = computed(() => performanceDataset.value.description)
 
   const performanceMassRenderData = shallowRef<PlaygroundMassData[]>(performanceMassData.value)
-  const massMarkerStyles = ref<AMap.MassMarkersStyleOptions[]>([])
+  const massMarkerStyles = ref<AMap.MassMarkersStyleOptions[]>(MASS_MARKER_STYLES)
 
   let massRenderFrame: number | null = null
 
@@ -101,38 +178,12 @@ export function usePerformanceMarks(logEvent: (source: 'Dataset', summary: strin
     return `${percentage}% · ${loaded.toLocaleString()} / ${total.toLocaleString()} points`
   })
 
-  function createMassStyle(amap: typeof AMap, color: string): AMap.MassMarkersStyleOptions {
-    const size = new amap.Size(10, 10)
-    const anchor = new amap.Pixel(5, 5)
-
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="${color}" fill-opacity="0.9"/><circle cx="6" cy="6" r="2.5" fill="#ffffff" fill-opacity="0.55"/></svg>`
-
-    return {
-      url: `data:image/svg+xml,${encodeURIComponent(svg)}`,
-      size,
-      anchor,
-      rotation: 0,
-    }
-  }
-
   function ensureMassMarkerStyles() {
-    if (massMarkerStyles.value.length > 0 || typeof window === 'undefined')
-      return
-
-    const AMapGlobal = (window as typeof window & { AMap?: typeof AMap }).AMap
-
-    if (!AMapGlobal)
-      return
-
-    massMarkerStyles.value = [
-      createMassStyle(AMapGlobal, '#2563eb'),
-      createMassStyle(AMapGlobal, '#f97316'),
-      createMassStyle(AMapGlobal, '#16a34a'),
-    ]
+    massMarkerStyles.value = MASS_MARKER_STYLES
   }
 
-  watch(performanceDatasetId, (datasetId) => {
-    const dataset = performanceDatasets.find(item => item.id === datasetId)
+  watch(performanceDatasetId, () => {
+    const dataset = performanceDataset.value
 
     if (dataset)
       logEvent('Dataset', 'switch', `${dataset.label} · ${dataset.size.toLocaleString()} points`)

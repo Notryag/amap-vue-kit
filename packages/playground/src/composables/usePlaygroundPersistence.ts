@@ -286,7 +286,8 @@ export function createApplyStateValues(ctx: any) {
     })
 
     if (state.performanceDatasetId && typeof state.performanceDatasetId === 'string') {
-      const datasetExists = performanceDatasets.some(dataset => dataset.id === state.performanceDatasetId)
+      const datasetExists = state.performanceDatasetId === 'official'
+        || performanceDatasets.some(dataset => dataset.id === state.performanceDatasetId)
 
       if (datasetExists) {
         ctx.performanceDatasetId.value = state.performanceDatasetId

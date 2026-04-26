@@ -20,6 +20,10 @@ const props = defineProps({
     type: [Object, Array] as PropType<AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[] | undefined>,
     default: undefined,
   },
+  styles: {
+    type: [Object, Array] as PropType<AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[] | undefined>,
+    default: undefined,
+  },
   options: {
     type: Object as PropType<Partial<AMap.MassMarkersOptions> | undefined>,
     default: undefined,
@@ -48,7 +52,7 @@ if (!mapContext)
 
 const massOptions = computed<UseMassMarkersOptions>(() => ({
   data: props.data,
-  style: props.style,
+  style: props.styles ?? props.style,
   options: props.options,
   visible: props.visible,
   loadOptions: props.loadOptions,

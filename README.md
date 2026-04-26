@@ -22,6 +22,16 @@ pnpm test
 pnpm run build:all
 ```
 
+### Component prop naming
+
+Do not use Vue reserved/fallthrough attribute names such as `style`, `class`, `key`, or `ref` for public component props. Vue may treat them as DOM attributes before they reach the component, especially in templates. When wrapping JSAPI options named `style`, expose a semantic alias instead:
+
+- Use `styles` for multi-style overlay configuration, such as `<AmapMassMarks>`.
+- Use `textStyle` for CSS-like text overlay styling, such as `<AmapText>`.
+- Use `layerStyle` for Loca layer visual configuration.
+
+Keep lower-level composables aligned with the JSAPI naming where useful; this rule is specifically for Vue component props and docs/examples that users copy into templates.
+
 ### Docs
 
 ```bash

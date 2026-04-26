@@ -9,6 +9,7 @@ interface HeatmapLayerProps {
   data: HeatmapLike[]
   valueField?: string
   style?: LocaLayerStyle<HeatmapLike>
+  layerStyle?: LocaLayerStyle<HeatmapLike>
   options?: LocaHeatmapLayerOptions
   autoRender?: boolean
 }
@@ -60,7 +61,7 @@ watch(
 )
 
 watch(
-  () => props.style,
+  () => props.layerStyle ?? props.style,
   (value) => {
     if (value) {
       layerApi.setStyle(value)

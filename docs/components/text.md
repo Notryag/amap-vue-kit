@@ -8,7 +8,8 @@
 | --- | --- | --- |
 | `position` | `LngLatLike` | Coordinates of the text overlay. |
 | `text` | `string` | Text content to display. |
-| `style` | `Record<string, any>` | Inline CSS styles applied to the text element. |
+| `textStyle` | `Record<string, any>` | Inline CSS styles applied to the text element. Prefer this prop in templates because Vue reserves `style` for DOM styling. |
+| `style` | `Record<string, any>` | Deprecated compatibility alias. Avoid it in templates. |
 | `offset` | `AMap.Pixel \| [number, number]` | Pixel offset relative to the anchor. |
 | `anchor` | `AMap.MarkerAnchor` | Anchor alignment for the text element. |
 | `zIndex` | `number` | Overlay z-index. |
@@ -33,7 +34,7 @@
   <AmapText
     :position="[116.397, 39.908]"
     text="Chaoyang District"
-    :style="{ padding: '6px 10px', borderRadius: '12px', background: 'rgba(22, 119, 255, 0.92)', color: '#fff' }"
+    :text-style="{ padding: '6px 10px', borderRadius: '12px', background: 'rgba(22, 119, 255, 0.92)', color: '#fff' }"
     :offset="[0, -26]"
     anchor="bottom-center"
   />

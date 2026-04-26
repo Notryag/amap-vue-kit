@@ -168,5 +168,5 @@ export const performanceDatasets: PerformanceDataset[] = [
   createDataset('large', 10000, 9001),
 ]
 
-export type PerformanceDatasetId = PerformanceDataset['id']
+export type PerformanceDatasetId = PerformanceDataset['id'] | 'official'
 export type PerformanceDatasetSample = RawPoint

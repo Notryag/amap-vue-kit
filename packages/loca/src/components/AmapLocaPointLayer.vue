@@ -10,6 +10,7 @@ interface PointLayerProps {
   lngKey?: string
   latKey?: string
   style?: LocaLayerStyle<PointLike>
+  layerStyle?: LocaLayerStyle<PointLike>
   options?: UseLocaPointLayerOptions
   autoRender?: boolean
 }
@@ -53,7 +54,7 @@ watch(
 )
 
 watch(
-  () => props.style,
+  () => props.layerStyle ?? props.style,
   (value) => {
     if (value) {
       layerApi.setStyle(value)

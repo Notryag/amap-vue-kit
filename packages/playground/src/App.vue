@@ -15,6 +15,11 @@ import { panels } from './config/panels'
 import { polygonPath, polylinePath } from './constants/paths'
 
 const EVENT_LOG_LIMIT = 12
+const OFFICIAL_MASS_VIEW = {
+  center: [102.342785, 35.312316] as LngLatTuple,
+  zoom: 4,
+  pitch: 0,
+}
 
 const state = usePlaygroundState()
 const {
@@ -226,6 +231,18 @@ watch(activePanel, (panel, previousPanel) => {
   if (previousPanel && panel !== previousPanel)
     logEvent('Panel', 'switch', `Viewing ${panel} panel`)
 })
+
+function applyOfficialMassView() {
+  if (activePanel.value !== 'performance' || performanceDatasetId.value !== 'official')
+    return
+
+  center.value = [...OFFICIAL_MASS_VIEW.center] as LngLatTuple
+  zoom.value = OFFICIAL_MASS_VIEW.zoom
+  pitch.value = OFFICIAL_MASS_VIEW.pitch
+  viewMode.value = '3D'
+}
+
+watch([activePanel, performanceDatasetId], applyOfficialMassView, { immediate: true })
 
 watch(hasKey, (value) => {
   if (!value)

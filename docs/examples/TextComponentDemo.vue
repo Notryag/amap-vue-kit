@@ -30,7 +30,7 @@ const textStyle = computed(() => ({
           <AmapText
             :position="center"
             :text="message"
-            :style="textStyle"
+            :text-style="textStyle"
             :offset="[0, -26]"
             anchor="bottom-center"
           />

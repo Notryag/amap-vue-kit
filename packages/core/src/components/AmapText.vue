@@ -17,6 +17,7 @@ const props = defineProps({
   },
   text: String,
   style: Object as PropType<Record<string, any> | undefined>,
+  textStyle: Object as PropType<Record<string, any> | undefined>,
   offset: [Array, Object] as PropType<AMap.Pixel | [number, number]>,
   anchor: String as PropType<AMap.MarkerAnchor | undefined>,
   zIndex: Number,
@@ -47,7 +48,7 @@ if (!context)
 const textOptions = computed(() => ({
   position: props.position,
   text: props.text,
-  style: props.style,
+  style: props.textStyle ?? props.style,
   offset: props.offset,
   anchor: props.anchor,
   zIndex: props.zIndex,

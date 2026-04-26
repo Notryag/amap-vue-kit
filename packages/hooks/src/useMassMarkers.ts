@@ -50,16 +50,27 @@ export function useMassMarkers(
     try {
       const { data, style, options: massOptions, visible } = optionsRef.value
       const loaderOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.MassMarks'] })
+      const AMapInstance = await loader.load({
+        ...(loaderOptions ?? {}),
+        plugins: Array.from(new Set([...(loaderOptions?.plugins ?? []), 'AMap.Adaptor'])),
+      })
       if (!currentMap) {
         creating = false
         return
       }
-      const instance = new (AMapInstance as any).MassMarks(data ?? [], {
+      const MassMarks = (AMapInstance as any).MassMarks
+      if (typeof MassMarks !== 'function')
+        throw new Error('AMap.MassMarks is unavailable. Ensure the AMap.Adaptor plugin is loaded for JSAPI 2.0 MassMarks.')
+
+      const initialOptions: Partial<AMap.MassMarkersOptions> = {
         ...(massOptions ?? {}),
-        map: visible === false ? null : mapInstance,
-        style,
-      }) as AMap.MassMarks
+      }
+      if (style)
+        initialOptions.style = style
+
+      const instance = new MassMarks(data ?? [], initialOptions) as AMap.MassMarks
+      if (visible !== false)
+        instance.setMap(mapInstance)
       mass.value = instance
       bindListeners(instance)
     }
@@ -179,7 +190,8 @@ export function useMassMarkers(
     if (instance) {
       unbindListeners(instance)
       instance.setMap(null)
-      instance.destroy?.()
+      const massInstance = instance as any
+      massInstance.destroy?.()
     }
     mass.value = null
   }

@@ -155,7 +155,7 @@ describe('amap loca components', () => {
       },
       template: `
         <AmapLocaProvider :map="map">
-          <AmapLocaPolygonLayer :source="source" :events="events" :style="style" />
+          <AmapLocaPolygonLayer :source="source" :events="events" :layer-style="style" />
         </AmapLocaProvider>
       `,
     })
@@ -163,6 +163,6 @@ describe('amap loca components', () => {
     mount(Root)
     await nextTick()
 
-    expect(onClick).toHaveBeenCalled()
+    expect(createdLayers[0].on).toHaveBeenCalledWith('click', onClick)
   })
 })

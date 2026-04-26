@@ -3,13 +3,13 @@ import { AmapMap, AmapMassMarks } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.MassMarks'] })
+const { hasKey } = useDemoLoader({ plugins: ['AMap.Adaptor'] })
 
 const center: [number, number] = [116.397, 39.908]
 const count = ref(800)
 const data = ref(createData(count.value))
 
-const style = [
+const styles = [
   {
     url: 'https://a.amap.com/jsapi_demos/static/images/mass0.png',
     anchor: [6, 6],
@@ -29,7 +29,7 @@ function createData(total: number) {
     const lat = center[1] + (Math.random() - 0.5) * 1.2
     items.push({
       lnglat: [Number(lng.toFixed(6)), Number(lat.toFixed(6))],
-      style: index % style.length,
+      style: index % styles.length,
     })
   }
   return items
@@ -48,7 +48,7 @@ function regenerate() {
     <template v-else>
       <div class="amap-demo__map">
         <AmapMap :center="center" :zoom="11">
-          <AmapMassMarks :data="data" :style="style" :options="{ zooms: [3, 19] }" />
+          <AmapMassMarks :data="data" :styles="styles" :options="{ zooms: [3, 19] }" />
         </AmapMap>
       </div>
       <div class="amap-demo__toolbar">

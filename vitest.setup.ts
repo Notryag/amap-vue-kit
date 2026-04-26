@@ -1597,6 +1597,10 @@ Object.assign(globalThis, {
     Bounds,
     ElasticMarker,
     MarkerCluster,
+    Adaptor: class Adaptor {},
+    plugin(_plugin: string, callback: () => void) {
+      callback()
+    },
   },
 })
 

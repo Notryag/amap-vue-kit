@@ -138,7 +138,13 @@ defineEmits<{
     <AmapMassMarks
       v-if="showPerformanceMassMarks"
       :data="performance.performanceMassRenderData.value"
-      :style="performance.massMarkerStyles.value"
+      :styles="performance.massMarkerStyles.value"
+      :options="{
+        opacity: 0.8,
+        zIndex: 111,
+        cursor: 'pointer',
+        zooms: [3, 20],
+      }"
     />
   </AmapMap>
 </template>

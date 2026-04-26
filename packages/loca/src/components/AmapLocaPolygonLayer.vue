@@ -12,6 +12,7 @@ import { useLocaPolygonLayer } from '../composables/useLocaPolygonLayer'
 interface PolygonLayerProps {
   source: PolygonSource
   style?: LocaLayerStyle
+  layerStyle?: LocaLayerStyle
   options?: LocaPolygonLayerOptions
   events?: Record<string, (event: any) => void>
   autoRender?: boolean
@@ -54,7 +55,7 @@ watch(
 )
 
 watch(
-  () => props.style,
+  () => props.layerStyle ?? props.style,
   (value) => {
     if (value) {
       layerApi.setStyle(value)

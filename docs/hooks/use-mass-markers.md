@@ -36,7 +36,7 @@ watch(points, value => mass.setData(value))
 
 ### Notes
 
-- The hook automatically loads the `AMap.MassMarks` plugin; ensure your loader key is authorised for it.
+- The hook automatically loads the JSAPI 2.0 compatibility plugin required by `AMap.MassMarks`.
 - When the map reference becomes `null` the mass markers detach from the map and reattach once the map is back online.
 - Use lightweight point data objects (no large payloads in `extData`) to keep updates cheap.
 

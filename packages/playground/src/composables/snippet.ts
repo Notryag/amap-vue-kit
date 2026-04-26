@@ -421,7 +421,7 @@ export function createSnippetGenerators(ctx: SnippetContext): Record<PanelId, ()
       const child = [
         '<AmapMassMarks',
         '  :data="points"',
-        '  :style="styles"',
+        '  :styles="styles"',
         '/>',
       ].join('\n')
 

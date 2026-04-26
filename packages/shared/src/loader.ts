@@ -9,11 +9,15 @@ interface LoaderState {
   locaPromise: Promise<void> | null
   script?: HTMLScriptElement
   config?: LoaderOptions
+  loadedPlugins: Set<string>
+  pluginPromises: Map<string, Promise<void>>
 }
 
 const state: LoaderState = {
   promise: null,
   locaPromise: null,
+  loadedPlugins: new Set(),
+  pluginPromises: new Map(),
 }
 
 let defaults: Partial<LoaderOptions> = {}
@@ -28,6 +32,81 @@ function buildScriptUrl(options: LoaderOptions): string {
   if (options.serviceHost)
     params.set('serviceHost', options.serviceHost)
   return `${base}?${params.toString()}`
+}
+
+function normalizePlugins(plugins?: string[]) {
+  return Array.from(new Set((plugins ?? []).filter(Boolean)))
+}
+
+function isPluginReady(AMapInstance: typeof AMap, plugin: string) {
+  if (!plugin.startsWith('AMap.'))
+    return state.loadedPlugins.has(plugin)
+
+  const path = plugin.slice('AMap.'.length).split('.')
+  let current: any = AMapInstance
+
+  for (const segment of path) {
+    current = current?.[segment]
+    if (current == null)
+      return false
+  }
+
+  return true
+}
+
+async function loadPlugins(AMapInstance: typeof AMap, plugins?: string[]) {
+  const requested = normalizePlugins(plugins)
+  if (!requested.length)
+    return
+
+  const promises = requested.map((plugin) => {
+    if (state.loadedPlugins.has(plugin) || isPluginReady(AMapInstance, plugin)) {
+      state.loadedPlugins.add(plugin)
+      return Promise.resolve()
+    }
+
+    const pending = state.pluginPromises.get(plugin)
+    if (pending)
+      return pending
+
+    const pluginLoader = (AMapInstance as any).plugin
+    if (typeof pluginLoader !== 'function')
+      return Promise.reject(new Error(`AMap plugin loader is unavailable. Cannot load ${plugin}.`))
+
+    const promise = new Promise<void>((resolve) => {
+      pluginLoader.call(AMapInstance, plugin, () => {
+        state.loadedPlugins.add(plugin)
+        resolve()
+      })
+    }).finally(() => {
+      state.pluginPromises.delete(plugin)
+    })
+
+    state.pluginPromises.set(plugin, promise)
+    return promise
+  })
+
+  await Promise.all(promises)
+}
+
+function mergeConfig(previous: LoaderOptions | undefined, next: LoaderOptions): LoaderOptions {
+  if (!previous) {
+    return {
+      ...next,
+      plugins: normalizePlugins(next.plugins),
+    }
+  }
+
+  return {
+    ...previous,
+    ...next,
+    key: previous.key,
+    version: previous.version,
+    plugins: normalizePlugins([
+      ...(previous.plugins ?? []),
+      ...(next.plugins ?? []),
+    ]),
+  }
 }
 
 async function loadLoca(options: LoaderOptions) {
@@ -88,7 +167,7 @@ async function loadLoca(options: LoaderOptions) {
     script.src = url
     script.async = true
     script.dataset.amapLoca = 'true'
-    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    let timeoutId: number | undefined
 
     const cleanup = () => {
       script.onload = null
@@ -155,7 +234,7 @@ function createLoadPromise(options: LoaderOptions) {
   if (state.script) {
     return new Promise<typeof AMap>((resolve, reject) => {
       const script = state.script!
-      let timeoutId: ReturnType<typeof setTimeout> | undefined
+      let timeoutId: number | undefined
 
       const clearTimer = () => {
         if (timeoutId != null) {
@@ -211,7 +290,7 @@ function createLoadPromise(options: LoaderOptions) {
     script.dataset.amapLoader = 'true'
     script.src = buildScriptUrl(options)
 
-    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    let timeoutId: number | undefined
     const clearTimer = () => {
       if (timeoutId != null) {
         clearTimeout(timeoutId)
@@ -295,12 +374,18 @@ export function createLoader() {
           }
         }
 
-        return state.promise
+        return state.promise.then(async (AMapInstance) => {
+          await loadPlugins(AMapInstance, resolved.plugins)
+          await loadLoca(resolved)
+          state.config = mergeConfig(state.config, resolved)
+          return AMapInstance
+        })
       }
 
       const promise = createLoadPromise(resolved)
         .then(async (AMapInstance) => {
-          state.config = resolved
+          await loadPlugins(AMapInstance, resolved.plugins)
+          state.config = mergeConfig(state.config, resolved)
           await loadLoca(resolved)
           return AMapInstance
         })

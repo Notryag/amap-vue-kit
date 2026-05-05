@@ -7,6 +7,8 @@ import { useGeocoder } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 
 type GeocodeMode = 'forward' | 'reverse'
+type GeocoderOptions = AMap.Geocoder.Options
+type GeocoderResult = AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReGeocodeResult | AMap.Geocoder.BatchReGeocodeResult
 
 defineOptions({
   name: 'AmapReverseGeocodePanel',
@@ -26,7 +28,7 @@ const props = defineProps({
     default: true,
   },
   geocoderOptions: {
-    type: Object as PropType<Partial<AMap.GeocoderOptions>>,
+    type: Object as PropType<Partial<GeocoderOptions>>,
     default: () => ({}),
   },
   loadOptions: {
@@ -37,7 +39,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   ready: [geocoder: AMap.Geocoder]
-  result: [payload: { mode: GeocodeMode, result: AMap.GeocoderResult | null }]
+  result: [payload: { mode: GeocodeMode, result: GeocoderResult | null }]
   error: [message: string]
 }>()
 
@@ -51,7 +53,7 @@ const geocoder = geocoderApi.geocoder
 
 const loading = ref(false)
 const mode = ref<GeocodeMode | null>(null)
-const result = shallowRef<AMap.GeocoderResult | null>(null)
+const result = shallowRef<GeocoderResult | null>(null)
 const errorMessage = ref<string | null>(null)
 
 let readyEmitted = false
@@ -126,6 +128,22 @@ function clear() {
   mode.value = null
 }
 
+function displayAddress(value: GeocoderResult) {
+  if ('regeocode' in value)
+    return value.regeocode.formattedAddress
+  if ('geocodes' in value)
+    return value.geocodes[0]?.formattedAddress ?? ''
+  return ''
+}
+
+function reGeocode(value: GeocoderResult) {
+  return 'regeocode' in value ? value.regeocode : null
+}
+
+function reGeocodePois(value: GeocoderResult) {
+  return reGeocode(value)?.pois ?? []
+}
+
 onBeforeUnmount(() => {
   geocoderApi.destroy()
 })
@@ -139,6 +157,9 @@ defineExpose({
   search,
   reverse,
   clear,
+  displayAddress,
+  reGeocode,
+  reGeocodePois,
 })
 </script>
 
@@ -162,25 +183,25 @@ defineExpose({
         </p>
         <template v-else-if="result">
           <header class="amap-geocode-panel__header">
-            <strong>{{ result.formattedAddress }}</strong>
+            <strong>{{ displayAddress(result) }}</strong>
             <small v-if="mode">({{ mode === 'reverse' ? '逆地理' : '正向地理' }})</small>
           </header>
-          <dl v-if="result.regeocode?.addressComponent" class="amap-geocode-panel__details">
+          <dl v-if="reGeocode(result)?.addressComponent" class="amap-geocode-panel__details">
             <div>
               <dt>省市</dt>
-              <dd>{{ result.regeocode.addressComponent.province }}{{ result.regeocode.addressComponent.city }}</dd>
+              <dd>{{ reGeocode(result)?.addressComponent.province }}{{ reGeocode(result)?.addressComponent.city }}</dd>
             </div>
             <div>
               <dt>区县</dt>
-              <dd>{{ result.regeocode.addressComponent.district }}</dd>
+              <dd>{{ reGeocode(result)?.addressComponent.district }}</dd>
             </div>
             <div>
               <dt>街道</dt>
-              <dd>{{ result.regeocode.addressComponent.streetNumber?.street }}</dd>
+              <dd>{{ reGeocode(result)?.addressComponent.streetNumber }}</dd>
             </div>
           </dl>
-          <ul v-if="Array.isArray(result.regeocode?.pois) && result.regeocode.pois.length" class="amap-geocode-panel__pois">
-            <li v-for="poi in result.regeocode.pois" :key="poi.id">
+          <ul v-if="reGeocodePois(result).length" class="amap-geocode-panel__pois">
+            <li v-for="poi in reGeocodePois(result)" :key="poi.id">
               {{ poi.name }}
             </li>
           </ul>

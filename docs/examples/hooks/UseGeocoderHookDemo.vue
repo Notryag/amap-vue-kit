@@ -13,11 +13,14 @@ const lng = ref(116.397)
 const lat = ref(39.909)
 const loading = ref(false)
 const error = ref<string | null>(null)
-const locationResult = shallowRef<AMap.GeocoderResult | null>(null)
-const reverseResult = shallowRef<AMap.GeocoderResult | null>(null)
+const locationResult = shallowRef<AMap.Geocoder.GeocodeResult | null>(null)
+const reverseResult = shallowRef<AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReGeocodeResult | AMap.Geocoder.BatchReGeocodeResult | null>(null)
 
 const locationEntry = computed(() => locationResult.value?.geocodes?.[0] ?? null)
-const reverseEntry = computed(() => reverseResult.value?.regeocode ?? null)
+const reverseEntry = computed(() => {
+  const value = reverseResult.value
+  return value && 'regeocode' in value ? value.regeocode : null
+})
 
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)

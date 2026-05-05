@@ -1,19 +1,46 @@
 {
   "name": "@amap-vue/core",
+  "description": "Declarative Vue 3 components for AMap JSAPI 2.x.",
   "type": "module",
   "version": "0.0.0",
   "private": false,
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "amap",
+    "gaode",
+    "map",
+    "components"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Notryag/amap-vue-kit.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
+  "bugs": {
+    "url": "https://github.com/Notryag/amap-vue-kit/issues"
+  },
+  "sideEffects": [
+    "*.css",
+    "**/*.css"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./style.css": "./dist/core.css"
   },
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist temp",

@@ -6,6 +6,9 @@ import type { MaybeRefOrGetter, PropType } from 'vue'
 import { useRiding } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 
+type RidingOptions = AMap.Riding.Options
+type RidingResult = AMap.Riding.SearchResult
+
 defineOptions({
   name: 'AmapRiding',
 })
@@ -28,7 +31,7 @@ const props = defineProps({
     default: true,
   },
   options: {
-    type: Object as PropType<Partial<AMap.RidingOptions>>,
+    type: Object as PropType<Partial<RidingOptions>>,
     default: () => ({}),
   },
   map: {
@@ -43,7 +46,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   ready: [riding: AMap.Riding]
-  search: [payload: { origin: RidingEndpoint, destination: RidingEndpoint, result: AMap.RidingResult | null }]
+  search: [payload: { origin: RidingEndpoint, destination: RidingEndpoint, result: RidingResult | null }]
   error: [message: string]
 }>()
 
@@ -70,7 +73,7 @@ const destinationInput = ref(typeof props.destination === 'string' ? props.desti
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
-const result = shallowRef<AMap.RidingResult | null>(null)
+const result = shallowRef<RidingResult | null>(null)
 
 let readyEmitted = false
 

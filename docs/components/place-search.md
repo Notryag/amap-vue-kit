@@ -14,7 +14,7 @@ Search points of interest with pagination, optional nearby/bounds modes, and a r
 | `auto` | `boolean` | `true` | Trigger searches automatically when inputs change. |
 | `debounce` | `number` | `300` | Debounce interval (ms) before firing a search. |
 | `placeholder` | `string` | `'搜索地点、地址或兴趣点'` | Placeholder text for the built-in input. |
-| `options` | `Partial<AMap.PlaceSearchOptions>` | `{}` | Native PlaceSearch options like `city`, `type`, `pageSize`, etc. |
+| `options` | `Partial<AMap.PlaceSearch.Options>` | `{}` | Native PlaceSearch options like `city`, `type`, `pageSize`, etc. |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Associate the search results with an existing `<AmapMap>` instance (for automatic markers). |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration. |
 
@@ -24,8 +24,8 @@ Search points of interest with pagination, optional nearby/bounds modes, and a r
 | --- | --- | --- |
 | `update:modelValue` | `string` | Emitted whenever the keyword changes. |
 | `ready` | `AMap.PlaceSearch` | Fires once after the PlaceSearch instance is created. |
-| `search` | `{ keyword: string, result: AMap.PlaceSearchResult \| null }` | Fired after each search (including empty or failed responses). |
-| `select` | `AMap.PlaceSearchPoi` | Fired when a POI is clicked in the default template. |
+| `search` | `{ keyword: string, result: AMap.PlaceSearch.SearchResult \| null }` | Fired after each search (including empty or failed responses). |
+| `select` | `AMap.PlaceSearch.Poi` | Fired when a POI is clicked in the default template. |
 | `error` | `string` | Emitted whenever the JSAPI reports an error. |
 
 ## Usage
@@ -54,7 +54,7 @@ export interface AmapPlaceSearchProps {
   auto?: boolean
   debounce?: number
   placeholder?: string
-  options?: Partial<AMap.PlaceSearchOptions>
+  options?: Partial<AMap.PlaceSearch.Options>
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }

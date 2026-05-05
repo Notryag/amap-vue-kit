@@ -1,8 +1,28 @@
 {
   "name": "@amap-vue/hooks",
+  "description": "Composable Vue 3 hooks for AMap JSAPI 2.x overlays, services, and map state.",
   "type": "module",
   "version": "0.0.0",
   "private": false,
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "amap",
+    "gaode",
+    "map",
+    "composables"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Notryag/amap-vue-kit.git",
+    "directory": "packages/hooks"
+  },
+  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
+  "bugs": {
+    "url": "https://github.com/Notryag/amap-vue-kit/issues"
+  },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -14,6 +34,9 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist temp"

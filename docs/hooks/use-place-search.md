@@ -14,7 +14,7 @@ console.log(result?.poiList?.pois)
 
 | Key | Type | Description |
 | --- | --- | --- |
-| ...`AMap.PlaceSearchOptions` | `Partial<AMap.PlaceSearchOptions>` | Native options including `city`, `type`, `pageSize`, etc. |
+| ...`AMap.PlaceSearch.Options` | `Partial<AMap.PlaceSearch.Options>` | Native options including `city`, `type`, `pageSize`, etc. |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | Bind the search service to an existing map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Forwarded to `loader.load` for custom keys or plugins. |
 

@@ -4,25 +4,28 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toBounds, toLngLat, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
-export interface UsePlaceSearchOptions extends Partial<AMap.PlaceSearchOptions> {
+type PlaceSearchOptions = AMap.PlaceSearch.Options
+type PlaceSearchResult = AMap.PlaceSearch.SearchResult
+
+export interface UsePlaceSearchOptions extends Omit<Partial<PlaceSearchOptions>, 'map'> {
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
 
 export interface UsePlaceSearchReturn {
   placeSearch: ShallowRef<AMap.PlaceSearch | null>
-  search: (keyword: string) => Promise<AMap.PlaceSearchResult | null>
+  search: (keyword: string) => Promise<PlaceSearchResult | null>
   searchNearBy: (
     keyword: string,
     center: AMap.LngLat | [number, number],
     radius: number,
-  ) => Promise<AMap.PlaceSearchResult | null>
+  ) => Promise<PlaceSearchResult | null>
   searchInBounds: (
     keyword: string,
     bounds: AMap.Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]],
-  ) => Promise<AMap.PlaceSearchResult | null>
-  getDetails: (poiId: string) => Promise<{ info: string, poiList?: AMap.PlaceSearchPoiList | null } | null>
-  setOptions: (options: Partial<AMap.PlaceSearchOptions>) => void
+  ) => Promise<PlaceSearchResult | null>
+  getDetails: (poiId: string) => Promise<PlaceSearchResult | null>
+  setOptions: (options: Partial<PlaceSearchOptions>) => void
   setCity: (city: string) => void
   setType: (type: string) => void
   setPageIndex: (pageIndex: number) => void
@@ -72,7 +75,7 @@ export function usePlaceSearch(
     }
   }
 
-  function applyOptions(instance: AMap.PlaceSearch, next: Partial<AMap.PlaceSearchOptions>) {
+  function applyOptions(instance: AMap.PlaceSearch, next: Partial<PlaceSearchOptions>) {
     if ('city' in next && next.city != null)
       instance.setCity?.(next.city)
     if ('type' in next && next.type != null)
@@ -87,7 +90,7 @@ export function usePlaceSearch(
     delete clone.type
     delete clone.pageIndex
     delete clone.pageSize
-    delete clone.map
+    delete (clone as Partial<PlaceSearchOptions>).map
 
     if (Object.keys(clone).length)
       (instance as any).setOptions?.(clone)
@@ -98,7 +101,7 @@ export function usePlaceSearch(
       return
     const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = value
     if (mapMaybe !== undefined)
-      placeSearch.value.setMap?.(toValue(mapMaybe) ?? null)
+      (placeSearch.value as any).setMap?.(toValue(mapMaybe) ?? null)
     applyOptions(placeSearch.value, rest)
   }, { deep: true })
 
@@ -106,7 +109,7 @@ export function usePlaceSearch(
     destroy()
   })
 
-  async function search(keyword: string): Promise<AMap.PlaceSearchResult | null> {
+  async function search(keyword: string): Promise<PlaceSearchResult | null> {
     const query = keyword?.trim()
     if (!query)
       return null
@@ -114,8 +117,8 @@ export function usePlaceSearch(
     if (!instance)
       return null
     return new Promise((resolve) => {
-      instance.search(query, (status: string, result: AMap.PlaceSearchResult) => {
-        if (status === 'complete' || status === 'no_data')
+      instance.search(query, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
+        if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -127,7 +130,7 @@ export function usePlaceSearch(
     keyword: string,
     center: AMap.LngLat | [number, number],
     radius: number,
-  ): Promise<AMap.PlaceSearchResult | null> {
+  ): Promise<PlaceSearchResult | null> {
     const query = keyword?.trim()
     if (!query)
       return null
@@ -137,8 +140,8 @@ export function usePlaceSearch(
     const mapInstance = loader.get()
     const location = mapInstance ? toLngLat(mapInstance, center) ?? center : center
     return new Promise((resolve) => {
-      instance.searchNearBy(query, location as any, radius, (status: string, result: AMap.PlaceSearchResult) => {
-        if (status === 'complete' || status === 'no_data')
+      instance.searchNearBy(query, location as any, radius, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
+        if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -149,7 +152,7 @@ export function usePlaceSearch(
   async function searchInBounds(
     keyword: string,
     bounds: AMap.Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]],
-  ): Promise<AMap.PlaceSearchResult | null> {
+  ): Promise<PlaceSearchResult | null> {
     const query = keyword?.trim()
     if (!query)
       return null
@@ -159,8 +162,8 @@ export function usePlaceSearch(
     const mapInstance = loader.get()
     const area = mapInstance ? toBounds(mapInstance, bounds) ?? bounds : bounds
     return new Promise((resolve) => {
-      instance.searchInBounds(query, area as any, (status: string, result: AMap.PlaceSearchResult) => {
-        if (status === 'complete' || status === 'no_data')
+      instance.searchInBounds(query, area as any, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
+        if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -168,7 +171,7 @@ export function usePlaceSearch(
     })
   }
 
-  async function getDetails(poiId: string) {
+  async function getDetails(poiId: string): Promise<PlaceSearchResult | null> {
     const id = poiId?.trim()
     if (!id)
       return null
@@ -176,8 +179,8 @@ export function usePlaceSearch(
     if (!instance)
       return null
     return new Promise((resolve) => {
-      instance.getDetails(id, (status: string, result: { info: string, poiList?: AMap.PlaceSearchPoiList | null }) => {
-        if (status === 'complete' || status === 'no_data')
+      instance.getDetails(id, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
+        if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -185,7 +188,7 @@ export function usePlaceSearch(
     })
   }
 
-  function setOptions(options: Partial<AMap.PlaceSearchOptions>) {
+  function setOptions(options: Partial<PlaceSearchOptions>) {
     if (!options)
       return
     const instance = placeSearch.value
@@ -211,7 +214,8 @@ export function usePlaceSearch(
   }
 
   function setMap(map: AMap.Map | null | undefined) {
-    placeSearch.value?.setMap?.(map ?? null)
+    const instance = placeSearch.value as any
+    instance?.setMap?.(map ?? null)
   }
 
   function clear() {
@@ -220,7 +224,8 @@ export function usePlaceSearch(
 
   function destroy() {
     placeSearch.value?.clear?.()
-    placeSearch.value?.setMap?.(null)
+    const instance = placeSearch.value as any
+    instance?.setMap?.(null)
     placeSearch.value = null
   }
 

@@ -5,7 +5,8 @@
     "noEmit": true,
     "types": [
       "vitepress/client",
-      "node"
+      "node",
+      "@amap/amap-jsapi-types"
     ]
   },
   "include": [

@@ -6,8 +6,8 @@ import { useDemoLoader } from './useDemoLoader'
 const { hasKey } = useDemoLoader({ plugins: ['AMap.PlaceSearch'] })
 
 const keyword = ref('美食')
-const pois = shallowRef<AMap.PlaceSearchPoi[]>([])
-const selected = shallowRef<AMap.PlaceSearchPoi | null>(null)
+const pois = shallowRef<AMap.PlaceSearch.Poi[]>([])
+const selected = shallowRef<AMap.PlaceSearch.Poi | null>(null)
 
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)
@@ -25,17 +25,21 @@ const mapCenter = computed<[number, number]>(() => normaliseLngLat(selected.valu
 const markerPois = computed(() =>
   pois.value
     .map(poi => ({ poi, position: normaliseLngLat(poi.location) as [number, number] | null }))
-    .filter((entry): entry is { poi: AMap.PlaceSearchPoi, position: [number, number] } => Array.isArray(entry.position)),
+    .filter((entry): entry is { poi: AMap.PlaceSearch.Poi, position: [number, number] } => Array.isArray(entry.position)),
 )
 
-function handleSearch(payload: { result: AMap.PlaceSearchResult | null }) {
+function handleSearch(payload: { result: AMap.PlaceSearch.SearchResult | null }) {
   pois.value = payload.result?.poiList?.pois ?? []
   if (pois.value.length && !selected.value)
     selected.value = pois.value[0] ?? null
 }
 
-function handleSelect(poi: AMap.PlaceSearchPoi) {
+function handleSelect(poi: AMap.PlaceSearch.Poi) {
   selected.value = poi
+}
+
+function poiDistrict(poi: AMap.PlaceSearch.Poi | null) {
+  return poi && 'district' in poi ? poi.district : ''
 }
 </script>
 
@@ -63,7 +67,7 @@ function handleSelect(poi: AMap.PlaceSearchPoi) {
             {{ selected?.name }}
           </p>
           <p class="amap-demo__muted">
-            {{ [selected?.district, selected?.address].filter(Boolean).join(' · ') || '—' }}
+            {{ [poiDistrict(selected), selected?.address].filter(Boolean).join(' · ') || '—' }}
           </p>
         </section>
       </div>

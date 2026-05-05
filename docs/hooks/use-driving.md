@@ -13,7 +13,7 @@ const result = await driving.search('天安门', '故宫')
 
 | Key | Type | Description |
 | --- | --- | --- |
-| ...`AMap.DrivingOptions` | `Partial<AMap.DrivingOptions>` | Native driving options such as `policy`, `ferry`, `hideMarkers`, etc. |
+| ...`AMap.Driving.Options` | `Partial<AMap.Driving.Options>` | Native driving options such as `policy`, `ferry`, `hideMarkers`, etc. |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | Bind the driving service to an existing map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Forwarded to `loader.load` for custom keys or plugins. |
 
@@ -41,7 +41,7 @@ import UseDrivingHookDemo from '../examples/hooks/UseDrivingHookDemo.vue'
 ### Notes
 
 - Provide `map` if you want the JSAPI to draw route polylines automatically.
-- You can pass a custom `panel` element via `AMap.DrivingOptions` if you need a summary list.
+- You can pass a custom `panel` element via `AMap.Driving.Options` if you need a summary list.
 - Route planning returns `null` when the JSAPI responds with `no_data` or an error.
 
 ### StackBlitz

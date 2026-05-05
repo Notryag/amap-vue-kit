@@ -1,8 +1,28 @@
 {
   "name": "@amap-vue/shared",
+  "description": "Shared AMap JSAPI loader, types, and utilities for amap-vue-kit packages.",
   "type": "module",
   "version": "0.0.0",
   "private": false,
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "vue3",
+    "amap",
+    "gaode",
+    "map",
+    "loader"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Notryag/amap-vue-kit.git",
+    "directory": "packages/shared"
+  },
+  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
+  "bugs": {
+    "url": "https://github.com/Notryag/amap-vue-kit/issues"
+  },
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -14,9 +34,23 @@
   "files": [
     "dist"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "vite build",
     "clean": "rm -rf dist temp"
+  },
+  "dependencies": {
+    "@amap/amap-jsapi-types": "^0.0.15",
+    "@types/amap-js-api-autocomplete": "^1.4.4",
+    "@types/amap-js-api-district-search": "^1.4.4",
+    "@types/amap-js-api-driving": "^1.4.4",
+    "@types/amap-js-api-geocoder": "^1.4.4",
+    "@types/amap-js-api-geolocation": "^1.4.4",
+    "@types/amap-js-api-place-search": "^1.4.4",
+    "@types/amap-js-api-riding": "^1.4.4",
+    "@types/amap-js-api-transfer": "^1.4.4"
   },
   "peerDependencies": {
     "vue": "^3.4.0"

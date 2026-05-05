@@ -14,7 +14,7 @@ console.log(result?.tips)
 
 | Key | Type | Description |
 | --- | --- | --- |
-| ...`AMap.AutoCompleteOptions` | `Partial<AMap.AutoCompleteOptions>` | Native options such as `city`, `type`, or `datatype`. |
+| ...`AMap.Autocomplete.Options` | `Partial<AMap.Autocomplete.Options>` | Native options such as `city`, `type`, or `datatype`. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Forwarded to `loader.load` for custom API keys or plugins. |
 
 ## Return value
@@ -22,7 +22,7 @@ console.log(result?.tips)
 | Key | Description |
 | --- | --- |
 | `autoComplete` | `ShallowRef<AMap.AutoComplete \| null>` exposing the underlying instance. |
-| `search(keyword)` | Promise that resolves to `AMap.AutoCompleteResult` (or `null` when the service fails). |
+| `search(keyword)` | Promise that resolves to `AMap.Autocomplete.SearchResult` (or `null` when the service fails). |
 | `setOptions(options)` | Patch native options after initialisation. |
 | `setCity(city)` | Shortcut for `setOptions({ city })`. |
 | `setType(type)` | Shortcut for `setOptions({ type })`. |

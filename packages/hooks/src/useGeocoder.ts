@@ -4,15 +4,18 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
-export interface UseGeocoderOptions extends Partial<AMap.GeocoderOptions> {
+type GeocoderOptions = AMap.Geocoder.Options
+type GeocoderResult = AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReGeocodeResult | AMap.Geocoder.BatchReGeocodeResult
+
+export interface UseGeocoderOptions extends Partial<GeocoderOptions> {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
 
 export interface UseGeocoderReturn {
   geocoder: ShallowRef<AMap.Geocoder | null>
-  getLocation: (address: string, city?: string) => Promise<AMap.GeocoderResult | null>
-  getAddress: (position: AMap.LngLat | [number, number]) => Promise<AMap.GeocoderResult | null>
-  setOptions: (options: Partial<AMap.GeocoderOptions>) => void
+  getLocation: (address: string, city?: string) => Promise<AMap.Geocoder.GeocodeResult | null>
+  getAddress: (position: AMap.LngLat | [number, number]) => Promise<GeocoderResult | null>
+  setOptions: (options: Partial<GeocoderOptions>) => void
   destroy: () => void
 }
 
@@ -53,7 +56,7 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
   watch(optionsRef, (value) => {
     const { loadOptions: _loadOptions, ...rest } = value
     if (geocoder.value)
-      geocoder.value.setOptions?.(rest)
+      (geocoder.value as any).setOptions?.(rest)
   }, { deep: true })
 
   onBeforeUnmount(() => {
@@ -71,30 +74,17 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
     return position
   }
 
-  async function getLocation(address: string, city?: string): Promise<AMap.GeocoderResult | null> {
+  async function getLocation(address: string, city?: string): Promise<AMap.Geocoder.GeocodeResult | null> {
     if (!address)
       return null
     const instance = await ensureGeocoder()
     if (!instance)
       return null
+    if (city)
+      instance.setCity(city)
     return new Promise((resolve) => {
-      instance.getLocation(address, (status: string, result: AMap.GeocoderResult) => {
-        if (status === 'complete')
-          resolve(result)
-        else
-          resolve(null)
-      }, city)
-    })
-  }
-
-  async function getAddress(position: AMap.LngLat | [number, number]): Promise<AMap.GeocoderResult | null> {
-    const instance = await ensureGeocoder()
-    if (!instance)
-      return null
-    const lngLat = await resolveLngLat(position)
-    return new Promise((resolve) => {
-      instance.getAddress(lngLat, (status: string, result: AMap.GeocoderResult) => {
-        if (status === 'complete')
+      instance.getLocation(address, (status: AMap.Geocoder.SearchStatus, result: string | AMap.Geocoder.GeocodeResult) => {
+        if (status === 'complete' && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -102,10 +92,25 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
     })
   }
 
-  function setOptions(next: Partial<AMap.GeocoderOptions>) {
+  async function getAddress(position: AMap.LngLat | [number, number]): Promise<GeocoderResult | null> {
+    const instance = await ensureGeocoder()
+    if (!instance)
+      return null
+    const lngLat = await resolveLngLat(position)
+    return new Promise((resolve) => {
+      instance.getAddress(lngLat, (status: AMap.Geocoder.SearchStatus, result: string | GeocoderResult) => {
+        if (status === 'complete' && typeof result !== 'string')
+          resolve(result)
+        else
+          resolve(null)
+      })
+    })
+  }
+
+  function setOptions(next: Partial<GeocoderOptions>) {
     if (!next)
       return
-    geocoder.value?.setOptions?.(next)
+    (geocoder.value as any)?.setOptions?.(next)
   }
 
   function destroy() {

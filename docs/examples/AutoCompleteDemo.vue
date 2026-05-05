@@ -6,14 +6,14 @@ import { useDemoLoader } from './useDemoLoader'
 const { hasKey } = useDemoLoader({ plugins: ['AMap.AutoComplete'] })
 
 const keyword = ref('咖啡')
-const tips = shallowRef<AMap.AutoCompleteTip[]>([])
-const selected = shallowRef<AMap.AutoCompleteTip | null>(null)
+const tips = shallowRef<AMap.Autocomplete.Tip[]>([])
+const selected = shallowRef<AMap.Autocomplete.Tip | null>(null)
 
-function handleSearch(payload: { tips: AMap.AutoCompleteTip[] }) {
+function handleSearch(payload: { tips: AMap.Autocomplete.Tip[] }) {
   tips.value = payload.tips
 }
 
-function handleSelect(tip: AMap.AutoCompleteTip) {
+function handleSelect(tip: AMap.Autocomplete.Tip) {
   selected.value = tip
 }
 </script>

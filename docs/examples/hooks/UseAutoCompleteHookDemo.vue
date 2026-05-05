@@ -7,7 +7,7 @@ const { hasKey } = useDemoLoader({ plugins: ['AMap.AutoComplete'] })
 
 const autoComplete = useAutoComplete({ city: '北京' })
 const keyword = ref('咖啡')
-const suggestions = shallowRef<AMap.AutoCompleteTip[]>([])
+const suggestions = shallowRef<AMap.Autocomplete.Tip[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 

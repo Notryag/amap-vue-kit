@@ -6,6 +6,9 @@ import type { MaybeRefOrGetter, PropType } from 'vue'
 import { useDriving } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 
+type DrivingOptions = AMap.Driving.Options
+type DrivingResult = AMap.Driving.SearchResult
+
 defineOptions({
   name: 'AmapDriving',
 })
@@ -28,7 +31,7 @@ const props = defineProps({
     default: true,
   },
   options: {
-    type: Object as PropType<Partial<AMap.DrivingOptions>>,
+    type: Object as PropType<Partial<DrivingOptions>>,
     default: () => ({}),
   },
   map: {
@@ -43,7 +46,7 @@ const props = defineProps({
 
 const emit = defineEmits<{
   ready: [driving: AMap.Driving]
-  search: [payload: { origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.DrivingResult | null }]
+  search: [payload: { origin: DrivingEndpoint, destination: DrivingEndpoint, result: DrivingResult | null }]
   error: [message: string]
 }>()
 
@@ -70,7 +73,7 @@ const destinationInput = ref(typeof props.destination === 'string' ? props.desti
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
-const result = shallowRef<AMap.DrivingResult | null>(null)
+const result = shallowRef<DrivingResult | null>(null)
 
 let readyEmitted = false
 

@@ -19,7 +19,7 @@ if (result)
 | Key | Type | Description |
 | --- | --- | --- |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Extra loader configuration (key, security code, plugins). |
-| ...`AMap.GeocoderOptions` | `Partial<AMap.GeocoderOptions>` | All native geocoder options such as `batch`, `extensions`, or default `city`. |
+| ...`AMap.Geocoder.Options` | `Partial<AMap.Geocoder.Options>` | All native geocoder options such as `batch`, `extensions`, or default `city`. |
 
 ## Return value
 

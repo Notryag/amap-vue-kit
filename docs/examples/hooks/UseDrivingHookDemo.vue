@@ -7,7 +7,7 @@ const origin = ref('天安门')
 const destination = ref('故宫')
 const loading = ref(false)
 const error = ref<string | null>(null)
-const result = shallowRef<AMap.DrivingResult | null>(null)
+const result = shallowRef<AMap.Driving.SearchResult | null>(null)
 
 const panelRef = ref<HTMLDivElement | null>(null)
 

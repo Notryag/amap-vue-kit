@@ -6,7 +6,10 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export type DrivingEndpoint = LngLatLike | string
 
-export interface UseDrivingOptions extends Partial<AMap.DrivingOptions> {
+type DrivingOptions = AMap.Driving.Options
+type DrivingResult = AMap.Driving.SearchResult
+
+export interface UseDrivingOptions extends Omit<Partial<DrivingOptions>, 'map'> {
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
@@ -17,8 +20,8 @@ export interface UseDrivingReturn {
     origin: DrivingEndpoint,
     destination: DrivingEndpoint,
     options?: Record<string, any>,
-  ) => Promise<AMap.DrivingResult | null>
-  setOptions: (options: Partial<AMap.DrivingOptions>) => void
+  ) => Promise<DrivingResult | null>
+  setOptions: (options: Partial<DrivingOptions>) => void
   setMap: (map: AMap.Map | null | undefined) => void
   clear: () => void
   destroy: () => void
@@ -75,8 +78,8 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
       return
     const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = value
     if (mapMaybe !== undefined)
-      driving.value.setMap?.(toValue(mapMaybe) ?? null)
-    driving.value.setOptions?.(rest)
+      (driving.value as any).setMap?.(toValue(mapMaybe) ?? null)
+    (driving.value as any).setOptions?.(rest)
   }, { deep: true })
 
   onBeforeUnmount(() => {
@@ -87,7 +90,7 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
     origin: DrivingEndpoint,
     destination: DrivingEndpoint,
     searchOptions?: Record<string, any>,
-  ): Promise<AMap.DrivingResult | null> {
+  ): Promise<DrivingResult | null> {
     const instance = await ensureDriving()
     if (!instance)
       return null
@@ -96,8 +99,8 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
     const originValue = normalizeEndpoint(AMapInstance, origin)
     const destinationValue = normalizeEndpoint(AMapInstance, destination)
     return new Promise((resolve) => {
-      const callback = (status: string, result: AMap.DrivingResult) => {
-        if (status === 'complete')
+      const callback = (status: AMap.Driving.SearchStatus, result: string | DrivingResult) => {
+        if (status === 'complete' && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -109,14 +112,16 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
     })
   }
 
-  function setOptions(next: Partial<AMap.DrivingOptions>) {
+  function setOptions(next: Partial<DrivingOptions>) {
     if (!next)
       return
-    driving.value?.setOptions?.(next)
+    const instance = driving.value as any
+    instance?.setOptions?.(next)
   }
 
   function setMap(map: AMap.Map | null | undefined) {
-    driving.value?.setMap?.(map ?? null)
+    const instance = driving.value as any
+    instance?.setMap?.(map ?? null)
   }
 
   function clear() {
@@ -125,7 +130,8 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
 
   function destroy() {
     clear()
-    driving.value?.setMap?.(null)
+    const instance = driving.value as any
+    instance?.setMap?.(null)
     driving.value = null
   }
 

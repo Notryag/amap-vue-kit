@@ -17,7 +17,7 @@ if (result)
 | Key | Type | Description |
 | --- | --- | --- |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Loader configuration for custom keys, plugins, or security codes. |
-| ...`AMap.GeolocationOptions` | `Partial<AMap.GeolocationOptions>` | All native options such as `timeout`, `zoomToAccuracy`, or `GeoLocationFirst`. |
+| ...`AMap.Geolocation.Options` | `Partial<AMap.Geolocation.Options>` | All native options such as `timeout`, `zoomToAccuracy`, or `GeoLocationFirst`. |
 
 ## Return value
 

@@ -6,15 +6,18 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export type RidingEndpoint = LngLatLike | string
 
-export interface UseRidingOptions extends Partial<AMap.RidingOptions> {
+type RidingOptions = AMap.Riding.Options
+type RidingResult = AMap.Riding.SearchResult
+
+export interface UseRidingOptions extends Omit<Partial<RidingOptions>, 'map'> {
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
 
 export interface UseRidingReturn {
   riding: ShallowRef<AMap.Riding | null>
-  search: (origin: RidingEndpoint, destination: RidingEndpoint) => Promise<AMap.RidingResult | null>
-  setOptions: (options: Partial<AMap.RidingOptions>) => void
+  search: (origin: RidingEndpoint, destination: RidingEndpoint) => Promise<RidingResult | null>
+  setOptions: (options: Partial<RidingOptions>) => void
   setMap: (map: AMap.Map | null | undefined) => void
   clear: () => void
   destroy: () => void
@@ -71,15 +74,15 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
       return
     const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = value
     if (mapMaybe !== undefined)
-      riding.value.setMap?.(toValue(mapMaybe) ?? null)
-    riding.value.setOptions?.(rest)
+      (riding.value as any).setMap?.(toValue(mapMaybe) ?? null)
+    (riding.value as any).setOptions?.(rest)
   }, { deep: true })
 
   onBeforeUnmount(() => {
     destroy()
   })
 
-  async function search(origin: RidingEndpoint, destination: RidingEndpoint): Promise<AMap.RidingResult | null> {
+  async function search(origin: RidingEndpoint, destination: RidingEndpoint): Promise<RidingResult | null> {
     const instance = await ensureRiding()
     if (!instance)
       return null
@@ -88,8 +91,8 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
     const originValue = normalizeEndpoint(AMapInstance, origin)
     const destinationValue = normalizeEndpoint(AMapInstance, destination)
     return new Promise((resolve) => {
-      instance.search(originValue as any, destinationValue as any, (status: string, result: AMap.RidingResult) => {
-        if (status === 'complete')
+      instance.search(originValue as any, destinationValue as any, (status: AMap.Riding.SearchStatus, result: string | RidingResult) => {
+        if (status === 'complete' && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -97,14 +100,16 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
     })
   }
 
-  function setOptions(next: Partial<AMap.RidingOptions>) {
+  function setOptions(next: Partial<RidingOptions>) {
     if (!next)
       return
-    riding.value?.setOptions?.(next)
+    const instance = riding.value as any
+    instance?.setOptions?.(next)
   }
 
   function setMap(map: AMap.Map | null | undefined) {
-    riding.value?.setMap?.(map ?? null)
+    const instance = riding.value as any
+    instance?.setMap?.(map ?? null)
   }
 
   function clear() {
@@ -113,7 +118,8 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
 
   function destroy() {
     clear()
-    riding.value?.setMap?.(null)
+    const instance = riding.value as any
+    instance?.setMap?.(null)
     riding.value = null
   }
 

@@ -6,9 +6,9 @@ import { useDemoLoader } from '../useDemoLoader'
 const { hasKey } = useDemoLoader({ plugins: ['AMap.Geolocation'] })
 
 const geolocation = useGeolocation()
-const current = shallowRef<AMap.GeolocationResult | null>(null)
-const cityInfo = shallowRef<AMap.GeolocationCityInfo | null>(null)
-const watchId = ref<number | null>(null)
+const current = shallowRef<AMap.Geolocation.GeolocationResult | null>(null)
+const cityInfo = shallowRef<AMap.Geolocation.CityResult | null>(null)
+const watchId = ref<string | null>(null)
 const log = ref<string[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
@@ -34,7 +34,7 @@ function formatLngLat(value: any) {
   return `${coords[0].toFixed(6)}, ${coords[1].toFixed(6)}`
 }
 
-function pushLog(result: AMap.GeolocationResult, label: string) {
+function pushLog(result: AMap.Geolocation.GeolocationResult, label: string) {
   const coords = formatLngLat(result.position)
   const timestamp = new Date().toLocaleTimeString()
   log.value = [`${timestamp} · ${label}：${coords}`, ...log.value].slice(0, 5)
@@ -69,7 +69,7 @@ async function startWatch() {
       current.value = result
       pushLog(result, '持续定位')
     })
-    if (typeof id === 'number')
+    if (typeof id === 'string')
       watchId.value = id
     else
       error.value = '无法启动持续定位。'

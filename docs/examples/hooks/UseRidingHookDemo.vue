@@ -7,7 +7,7 @@ const origin = ref('天安门')
 const destination = ref('北海公园')
 const loading = ref(false)
 const error = ref<string | null>(null)
-const result = shallowRef<AMap.RidingResult | null>(null)
+const result = shallowRef<AMap.Riding.SearchResult | null>(null)
 
 const panelRef = ref<HTMLDivElement | null>(null)
 

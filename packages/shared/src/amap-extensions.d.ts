@@ -401,92 +401,6 @@ declare global {
       class District extends DistrictLayer {}
     }
 
-    interface GeocoderOptions {
-      city?: string
-      radius?: number
-      batch?: boolean
-      extensions?: 'base' | 'all'
-      [key: string]: any
-    }
-
-    interface GeocoderAddressComponent {
-      province?: string
-      city?: string | string[]
-      district?: string
-      township?: string
-      streetNumber?: { street?: string, number?: string }
-      [key: string]: any
-    }
-
-    interface GeocoderPoi {
-      id?: string
-      name?: string
-      location?: AMap.LngLat
-      address?: string
-      distance?: number
-      [key: string]: any
-    }
-
-    interface GeocoderRegeocode {
-      formattedAddress?: string
-      addressComponent?: GeocoderAddressComponent
-      pois?: GeocoderPoi[]
-      roads?: any[]
-      [key: string]: any
-    }
-
-    interface GeocoderResult {
-      info?: string
-      geocodes?: Array<{ formattedAddress?: string, location?: AMap.LngLat | [number, number], [key: string]: any }>
-      regeocode?: GeocoderRegeocode
-      [key: string]: any
-    }
-
-    class Geocoder {
-      constructor(options?: GeocoderOptions)
-      setOptions(options: Partial<GeocoderOptions>): void
-      getLocation(address: string, callback: (status: string, result: GeocoderResult) => void, city?: string): void
-      getAddress(lngLat: AMap.LngLat | [number, number], callback: (status: string, result: GeocoderResult) => void): void
-    }
-
-    interface GeolocationOptions {
-      enableHighAccuracy?: boolean
-      timeout?: number
-      maximumAge?: number
-      convert?: boolean
-      showButton?: boolean
-      buttonPosition?: string
-      buttonOffset?: AMap.Pixel | [number, number]
-      showMarker?: boolean
-      showCircle?: boolean
-      panToLocation?: boolean
-      zoomToAccuracy?: boolean
-      [key: string]: any
-    }
-
-    interface GeolocationResult {
-      position: AMap.LngLat
-      accuracy?: number
-      info?: string
-      [key: string]: any
-    }
-
-    interface GeolocationCityInfo {
-      city?: string
-      province?: string
-      citycode?: string
-      [key: string]: any
-    }
-
-    class Geolocation {
-      constructor(options?: GeolocationOptions)
-      setOptions(options: Partial<GeolocationOptions>): void
-      getCurrentPosition(callback: (status: string, result: GeolocationResult) => void): void
-      watchPosition(callback: (status: string, result: GeolocationResult) => void): number
-      clearWatch(id: number): void
-      getCityInfo(callback: (status: string, result: GeolocationCityInfo) => void): void
-    }
-
     interface WeatherLiveResult {
       city?: string
       province?: string
@@ -635,130 +549,31 @@ declare global {
       destroy(): void
     }
 
-    interface AutoCompleteOptions {
-      city?: string
-      citylimit?: boolean
-      datatype?: string
-      type?: string
-      lang?: string
-      [key: string]: any
-    }
+    type RouteEndpoint = AMap.LngLat | [number, number] | string
 
-    interface AutoCompleteTip {
-      id?: string
-      name?: string
-      district?: string
-      adcode?: string
-      address?: string
-      location?: AMap.LngLat | [number, number]
-      typecode?: string
-      [key: string]: any
-    }
-
-    interface AutoCompleteResult {
-      info: string
-      tips: AutoCompleteTip[]
-      count?: number
-      [key: string]: any
-    }
-
-    class AutoComplete {
-      constructor(options?: AutoCompleteOptions)
-      search(keyword: string, callback: (status: string, result: AutoCompleteResult) => void): void
-      setCity(city: string): void
-      setType(type: string): void
-      setCityLimit(citylimit: boolean): void
-      setLanguage(lang: string): void
-      setDataType(datatype: string): void
-      setOptions(options: Partial<AutoCompleteOptions>): void
-      on(event: string, handler: (event: any) => void): void
-      off(event: string, handler: (event: any) => void): void
-    }
-
-    interface PlaceSearchOptions {
-      city?: string
-      citylimit?: boolean
-      type?: string
-      pageSize?: number
-      pageIndex?: number
-      extensions?: 'base' | 'all'
+    interface WalkingOptions {
       map?: Map | null
       panel?: string | HTMLElement
+      hideMarkers?: boolean
       [key: string]: any
     }
 
-    interface PlaceSearchCityInfo {
-      name: string
-      citycode: string
-      adcode: string
-      count: number
-    }
-
-    interface PlaceSearchSuggestion {
-      keywords?: Array<{ keyword: string, adcode: string }>
-      cities?: PlaceSearchCityInfo[]
-    }
-
-    interface PlaceSearchPoi {
-      id?: string
-      name?: string
-      type?: string
-      typecode?: string
-      address?: string
-      tel?: string
-      district?: string
-      citycode?: string
-      adcode?: string
-      location?: AMap.LngLat | [number, number]
+    interface WalkingResult {
+      info?: string
+      count?: number
+      routes?: any[]
+      plans?: any[]
       [key: string]: any
     }
 
-    interface PlaceSearchPoiList {
-      count: number
-      pageIndex: number
-      pageSize: number
-      pois: PlaceSearchPoi[]
-    }
-
-    interface PlaceSearchResult {
-      info: string
-      cityList?: PlaceSearchCityInfo[]
-      suggestion?: PlaceSearchSuggestion
-      poiList?: PlaceSearchPoiList
-      [key: string]: any
-    }
-
-    class PlaceSearch {
-      constructor(options?: PlaceSearchOptions)
-      search(keyword: string, callback: (status: string, result: PlaceSearchResult) => void): void
-      searchNearBy(
-        keyword: string,
-        center: AMap.LngLat | [number, number],
-        radius: number,
-        callback: (status: string, result: PlaceSearchResult) => void,
-      ): void
-      searchInBounds(
-        keyword: string,
-        bounds: AMap.Bounds | [AMap.LngLat | [number, number], AMap.LngLat | [number, number]],
-        callback: (status: string, result: PlaceSearchResult) => void,
-      ): void
-      getDetails(
-        poiId: string,
-        callback: (
-          status: string,
-          result: { info: string, poiList?: PlaceSearchPoiList | null },
-        ) => void,
-      ): void
-      setCity(city: string): void
-      setType(type: string): void
-      setPageIndex(pageIndex: number): void
-      setPageSize(pageSize: number): void
+    class Walking {
+      constructor(options?: WalkingOptions)
+      search(origin: RouteEndpoint, destination: RouteEndpoint, callback: (status: string, result: WalkingResult) => void): void
+      setOptions(options: Partial<WalkingOptions>): void
       setMap(map: Map | null): void
       clear(): void
-      setOptions(options: Partial<PlaceSearchOptions>): void
-      on(event: string, handler: (event: any) => void): void
-      off(event: string, handler: (event: any) => void): void
     }
+
   }
 }
 

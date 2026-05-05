@@ -1294,9 +1294,18 @@ class DistrictLayerMain extends DistrictLayerBase {}
 ;(DistrictLayerMain as any).City = DistrictLayerCity
 ;(DistrictLayerMain as any).District = DistrictLayerDistrict
 
+class GLCustomLayer extends EventTarget {
+  public map: Map | null = null
+
+  setMap(map: Map | null) {
+    this.map = map
+  }
+}
+
 class GeoJSON extends OverlayGroup {
   public options: any
   public data: any
+  public internalLayers: GLCustomLayer[] = []
 
   constructor(options: any = {}) {
     super()
@@ -1304,8 +1313,23 @@ class GeoJSON extends OverlayGroup {
     this.data = options.geoJSON ?? null
   }
 
+  setMap(map: Map | null) {
+    super.setMap(map)
+    if (!map)
+      return
+
+    const layer = new GLCustomLayer()
+    this.internalLayers.push(layer)
+    map.addLayer(layer)
+  }
+
   importData(data: any) {
     this.data = data
+    if (this.map) {
+      const layer = new GLCustomLayer()
+      this.internalLayers.push(layer)
+      this.map.addLayer(layer)
+    }
   }
 
   toGeoJSON() {
@@ -1314,6 +1338,56 @@ class GeoJSON extends OverlayGroup {
     if (this.data)
       return [this.data]
     return []
+  }
+}
+
+class HeatMap extends EventTarget {
+  public map: Map | null = null
+  public options: any
+  public dataSet: any = null
+  public dataPoints: any[] = []
+  public internalLayers: GLCustomLayer[] = []
+  public destroyed = false
+  public visible = true
+
+  constructor(map: Map, options: any = {}) {
+    super()
+    this.options = { ...options }
+    this.setMap(map)
+  }
+
+  setMap(map: Map | null) {
+    this.map = map
+    if (!map)
+      return
+
+    const layer = new GLCustomLayer()
+    this.internalLayers.push(layer)
+    map.addLayer(layer)
+  }
+
+  setOptions(options: any) {
+    this.options = { ...this.options, ...options }
+  }
+
+  setDataSet(dataSet: any) {
+    this.dataSet = dataSet
+  }
+
+  addDataPoint(lng: number, lat: number, count: number) {
+    this.dataPoints.push({ lng, lat, count })
+  }
+
+  show() {
+    this.visible = true
+  }
+
+  hide() {
+    this.visible = false
+  }
+
+  destroy() {
+    this.destroyed = true
   }
 }
 
@@ -1623,6 +1697,7 @@ Object.assign(globalThis, {
     PolygonEditor,
     DistrictLayer: DistrictLayerMain,
     GeoJSON,
+    HeatMap,
     Geocoder,
     Geolocation,
     Weather,

@@ -8,7 +8,7 @@ const { hasKey } = useDemoLoader({ plugins: ['AMap.PlaceSearch'] })
 const placeSearch = usePlaceSearch({ city: '北京', pageSize: 5 })
 const keyword = ref('美食')
 const pageIndex = ref(1)
-const result = shallowRef<AMap.PlaceSearchResult | null>(null)
+const result = shallowRef<AMap.PlaceSearch.SearchResult | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
 
@@ -20,6 +20,10 @@ const totalPages = computed(() => {
     return 1
   return list.pageSize > 0 ? Math.max(1, Math.ceil((list.count ?? 0) / list.pageSize)) : 1
 })
+
+function poiDistrict(poi: AMap.PlaceSearch.Poi) {
+  return 'district' in poi ? poi.district : ''
+}
 
 async function runSearch() {
   if (!keyword.value) {
@@ -97,7 +101,7 @@ runSearch()
           <li v-for="poi in pois" :key="poi.id ?? poi.name">
             <strong>{{ poi.name }}</strong>
             <small>
-              {{ [poi.district, poi.address].filter(Boolean).join(' · ') || '—' }}
+              {{ [poiDistrict(poi), poi.address].filter(Boolean).join(' · ') || '—' }}
             </small>
           </li>
         </ul>

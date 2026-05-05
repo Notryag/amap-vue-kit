@@ -20,16 +20,40 @@ importers:
       '@types/amap-js-api':
         specifier: ^1.4.16
         version: 1.4.16
+      '@types/amap-js-api-autocomplete':
+        specifier: ^1.4.4
+        version: 1.4.4
       '@types/amap-js-api-control-bar':
         specifier: ^1.4.4
         version: 1.4.4
+      '@types/amap-js-api-district-search':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-driving':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-geocoder':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-geolocation':
+        specifier: ^1.4.4
+        version: 1.4.4
       '@types/amap-js-api-map-type':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-place-search':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-riding':
         specifier: ^1.4.4
         version: 1.4.4
       '@types/amap-js-api-scale':
         specifier: ^1.4.5
         version: 1.4.5
       '@types/amap-js-api-tool-bar':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-transfer':
         specifier: ^1.4.4
         version: 1.4.4
       '@types/node':
@@ -163,6 +187,33 @@ importers:
 
   packages/shared:
     dependencies:
+      '@amap/amap-jsapi-types':
+        specifier: ^0.0.15
+        version: 0.0.15
+      '@types/amap-js-api-autocomplete':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-district-search':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-driving':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-geocoder':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-geolocation':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-place-search':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-riding':
+        specifier: ^1.4.4
+        version: 1.4.4
+      '@types/amap-js-api-transfer':
+        specifier: ^1.4.4
+        version: 1.4.4
       vue:
         specifier: ^3.4.0
         version: 3.5.21(typescript@5.9.3)
@@ -377,7 +428,6 @@ packages:
 
   /@amap/amap-jsapi-types@0.0.15:
     resolution: {integrity: sha512-oqyRqHpVDZh5bUe2mAJh41ZsziSj0eUzwcfIbiaBNB0eiTJnZNhKsTdk77VOklOjwuwNfsblpKW9LjmWNpeQ7A==}
-    dev: true
 
   /@antfu/eslint-config@5.4.1(@vue/compiler-sfc@3.5.22)(eslint@9.37.0)(typescript@5.9.3)(vitest@3.2.4):
     resolution: {integrity: sha512-x7BiNkxJRlXXs8tIvg0CgMuNo5IZVWkGLMJotCtCtzWUHW78Pmm8PvtXhvLBbTc8683GGBK616MMztWLh4RNjA==}
@@ -2391,17 +2441,55 @@ packages:
       picomatch: 4.0.3
     dev: true
 
+  /@types/amap-js-api-autocomplete@1.4.4:
+    resolution: {integrity: sha512-WJpF2/udyBmJ70czisbawAmgAao8if74eW0LLBwDy0iuRxJvXC7jRzonokyfA37TtnwMXSVuf8mv407Q5JbTjA==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+
   /@types/amap-js-api-control-bar@1.4.4:
     resolution: {integrity: sha512-Nv82KxOQsSf0EYmkK5P2sNBNRmyG/ADwe/DtNkx8Rp0BZ64JANFRgxPuOExpsDK+OCblgdo3uPc1ZM68z9bfsA==}
     dependencies:
       '@types/amap-js-api': 1.4.16
     dev: true
 
+  /@types/amap-js-api-district-search@1.4.4:
+    resolution: {integrity: sha512-iFiA4WShChvWWcwJTFESTCTKozklQO0a4ypLZ9W+38hXQbzputIy7HjRyr9SywOk7Gm2d9Gk40+HSE2pmLXE5g==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+
+  /@types/amap-js-api-driving@1.4.4:
+    resolution: {integrity: sha512-Mt/CSj91QeVNy43nEkYGO4wm1vdhGEcDxxMCIJc1zlSR6tiPSjxWd5WjS3ov2kNse3Qk3B3CcX6vDsIitSpA8g==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+      '@types/amap-js-api-place-search': 1.4.4
+
+  /@types/amap-js-api-geocoder@1.4.4:
+    resolution: {integrity: sha512-BH3bAHxiw3uZTAsHCRGB337TOggSYB4u0pVLTqrM5/ZX4Zu9o+SbAa8tLkQ9o+NJp35Q7PxCLX6jBaTcdhnCJg==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+
+  /@types/amap-js-api-geolocation@1.4.4:
+    resolution: {integrity: sha512-hNixlVmgcJeSpoG2aVk1fiQaRC8aIJDI5AdPg+MIH3yid9RhSkpaGlviO2Kp9M2JRWgj4140fDLGbF/0pu5Pug==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+      '@types/amap-js-api-geocoder': 1.4.4
+
   /@types/amap-js-api-map-type@1.4.4:
     resolution: {integrity: sha512-Ged7t6pjmgNBqdPVb+ufZuNglH2iLMqVohuwZiwYHiCYbLkFZvfeCFR7pWyZAL7JyXfI8xpt24TnnF3RnRjT+g==}
     dependencies:
       '@types/amap-js-api': 1.4.16
     dev: true
+
+  /@types/amap-js-api-place-search@1.4.4:
+    resolution: {integrity: sha512-k+zWTEOLnjWGfwYmOWJv9zgZwVq+fMnpRrCTcPtWTgocDIJ/YWeWckdVl9+9zFN8Jxm47GReck/KO0qIuJv5wQ==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+
+  /@types/amap-js-api-riding@1.4.4:
+    resolution: {integrity: sha512-IjyxWfI6u5zgfXOZfT3m/ExTIbvU3eyBWmEA08W/QMn1SYtQgj4iqu5mn5UY8sl63iWLRqv6NnFYAF0coSX7PA==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+      '@types/amap-js-api-place-search': 1.4.4
 
   /@types/amap-js-api-scale@1.4.5:
     resolution: {integrity: sha512-5r2ohxGUQG+KiyzGmPceWMe8ZYRtBeitlliTizhsjm49KrZfDQ9kbjl4HR9va6qu4joHXj/K1O8YosjAAgrJhA==}
@@ -2415,9 +2503,14 @@ packages:
       '@types/amap-js-api': 1.4.16
     dev: true
 
+  /@types/amap-js-api-transfer@1.4.4:
+    resolution: {integrity: sha512-8CU/g8pZjweyNq6caSRqcqUFCZUS21DN2ovPUuKat9FMssGccKuKwdfxAR6gPoL9LUGG9X/4tU5Qw9O4OftI9A==}
+    dependencies:
+      '@types/amap-js-api': 1.4.16
+      '@types/amap-js-api-place-search': 1.4.4
+
   /@types/amap-js-api@1.4.16:
     resolution: {integrity: sha512-gfcEswuU4GNRdGAh74FhxfLlU6qxmVIJYPf3HV0uKucCWQ9iSr8TonDhqBvHVmmQEY60K+UAeIh0YLwKo/jpFQ==}
-    dev: true
 
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}

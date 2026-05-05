@@ -6,6 +6,10 @@ import type { MaybeRefOrGetter, PropType } from 'vue'
 import { useAutoComplete } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 
+type AutoCompleteOptions = AMap.Autocomplete.Options
+type AutoCompleteResult = AMap.Autocomplete.SearchResult
+type AutoCompleteTip = AMap.Autocomplete.Tip
+
 defineOptions({
   name: 'AmapAutoComplete',
 })
@@ -28,7 +32,7 @@ const props = defineProps({
     default: '搜索地点',
   },
   options: {
-    type: Object as PropType<Partial<AMap.AutoCompleteOptions>>,
+    type: Object as PropType<Partial<AutoCompleteOptions>>,
     default: () => ({}),
   },
   loadOptions: {
@@ -39,14 +43,14 @@ const props = defineProps({
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
-  'ready': [autoComplete: AMap.AutoComplete]
-  'search': [payload: { keyword: string, tips: AMap.AutoCompleteTip[], result: AMap.AutoCompleteResult | null }]
-  'select': [tip: AMap.AutoCompleteTip]
+  'ready': [autoComplete: AMap.Autocomplete]
+  'search': [payload: { keyword: string, tips: AutoCompleteTip[], result: AutoCompleteResult | null }]
+  'select': [tip: AutoCompleteTip]
   'error': [message: string]
 }>()
 
 const keyword = ref(props.modelValue)
-const tips = shallowRef<AMap.AutoCompleteTip[]>([])
+const tips = shallowRef<AutoCompleteTip[]>([])
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
 
@@ -68,7 +72,7 @@ watch(() => props.modelValue, (value) => {
     keyword.value = value
 })
 
-let debounceTimer: ReturnType<typeof setTimeout> | null = null
+let debounceTimer: number | null = null
 
 watch(keyword, (value, oldValue) => {
   if (value === oldValue)
@@ -118,7 +122,7 @@ async function runSearch(value: string = keyword.value) {
     return
   }
   const suggestions = Array.isArray(result.tips)
-    ? result.tips.filter(tip => tip && (tip.name || tip.id))
+    ? result.tips.filter((tip: AutoCompleteTip) => tip && (tip.name || tip.id))
     : []
   tips.value = suggestions
   if (!suggestions.length)
@@ -131,7 +135,7 @@ function handleError(message: string) {
   emit('error', message)
 }
 
-function selectTip(tip: AMap.AutoCompleteTip) {
+function selectTip(tip: AutoCompleteTip) {
   emit('select', tip)
   if (tip?.name)
     keyword.value = tip.name

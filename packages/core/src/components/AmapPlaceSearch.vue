@@ -6,6 +6,10 @@ import type { MaybeRefOrGetter, PropType } from 'vue'
 import { usePlaceSearch } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 
+type PlaceSearchOptions = AMap.PlaceSearch.Options
+type PlaceSearchResult = AMap.PlaceSearch.SearchResult
+type PlaceSearchPoi = AMap.PlaceSearch.Poi
+
 defineOptions({
   name: 'AmapPlaceSearch',
 })
@@ -44,7 +48,7 @@ const props = defineProps({
     default: '搜索地点、地址或兴趣点',
   },
   options: {
-    type: Object as PropType<Partial<AMap.PlaceSearchOptions>>,
+    type: Object as PropType<Partial<PlaceSearchOptions>>,
     default: () => ({}),
   },
   map: {
@@ -60,13 +64,13 @@ const props = defineProps({
 const emit = defineEmits<{
   'update:modelValue': [value: string]
   'ready': [placeSearch: AMap.PlaceSearch]
-  'search': [payload: { keyword: string, result: AMap.PlaceSearchResult | null }]
-  'select': [poi: AMap.PlaceSearchPoi]
+  'search': [payload: { keyword: string, result: PlaceSearchResult | null }]
+  'select': [poi: PlaceSearchPoi]
   'error': [message: string]
 }>()
 
 const keyword = ref(props.modelValue)
-const result = shallowRef<AMap.PlaceSearchResult | null>(null)
+const result = shallowRef<PlaceSearchResult | null>(null)
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
 
@@ -89,7 +93,7 @@ watch(() => props.modelValue, (value) => {
     keyword.value = value
 })
 
-let debounceTimer: ReturnType<typeof setTimeout> | null = null
+let debounceTimer: number | null = null
 
 watch(keyword, (value, oldValue) => {
   if (value === oldValue)
@@ -147,7 +151,7 @@ async function runSearch(value: string = keyword.value) {
   loading.value = true
   errorMessage.value = null
 
-  let response: AMap.PlaceSearchResult | null = null
+  let response: PlaceSearchResult | null = null
   if (props.mode === 'nearby' && props.location)
     response = await placeSearchApi.searchNearBy(query, props.location as any, props.radius)
   else if (props.mode === 'bounds' && props.bounds)
@@ -175,8 +179,12 @@ function handleError(message: string) {
   emit('error', message)
 }
 
-function selectPoi(poi: AMap.PlaceSearchPoi) {
+function selectPoi(poi: PlaceSearchPoi) {
   emit('select', poi)
+}
+
+function poiDistrict(poi: PlaceSearchPoi) {
+  return 'district' in poi ? poi.district : ''
 }
 
 async function goToPage(page: number) {
@@ -268,13 +276,13 @@ defineExpose({
       <ul v-else-if="pois.length" class="amap-place-search__list">
         <li
           v-for="poi in pois"
-          :key="poi.id ?? poi.name ?? `${poi.district}-${poi.address}`"
+          :key="poi.id ?? poi.name ?? `${poiDistrict(poi)}-${poi.address}`"
           class="amap-place-search__item"
           @click="selectPoi(poi)"
         >
           <strong>{{ poi.name || '未知地点' }}</strong>
           <small>
-            {{ [poi.district, poi.address].filter(Boolean).join(' · ') }}
+            {{ [poiDistrict(poi), poi.address].filter(Boolean).join(' · ') }}
           </small>
         </li>
       </ul>

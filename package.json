@@ -4,6 +4,15 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@8.15.4",
+  "license": "MIT",
+  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Notryag/amap-vue-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Notryag/amap-vue-kit/issues"
+  },
   "scripts": {
     "build": "pnpm -r --filter ./packages/* run build",
     "build:all": "pnpm run build && pnpm --filter docs run build && pnpm --filter examples/basic run build",
@@ -24,10 +33,18 @@
     "@antfu/eslint-config": "^5.4.1",
     "@changesets/cli": "^2.29.7",
     "@types/amap-js-api": "^1.4.16",
+    "@types/amap-js-api-autocomplete": "^1.4.4",
     "@types/amap-js-api-control-bar": "^1.4.4",
+    "@types/amap-js-api-district-search": "^1.4.4",
+    "@types/amap-js-api-driving": "^1.4.4",
+    "@types/amap-js-api-geocoder": "^1.4.4",
+    "@types/amap-js-api-geolocation": "^1.4.4",
     "@types/amap-js-api-map-type": "^1.4.4",
+    "@types/amap-js-api-place-search": "^1.4.4",
+    "@types/amap-js-api-riding": "^1.4.4",
     "@types/amap-js-api-scale": "^1.4.5",
     "@types/amap-js-api-tool-bar": "^1.4.4",
+    "@types/amap-js-api-transfer": "^1.4.4",
     "@types/node": "^24.7.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/test-utils": "^2.4.6",

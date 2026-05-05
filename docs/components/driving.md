@@ -10,7 +10,7 @@ Plan driving routes with a built-in form and optional result panel. `<AmapDrivin
 | `destination` | `DrivingEndpoint` | `undefined` | End point (address string or `LngLatLike`). |
 | `auto` | `boolean` | `true` | Automatically trigger routing whenever origin/destination changes. |
 | `panel` | `boolean` | `true` | Render the native Driving result panel. |
-| `options` | `Partial<AMap.DrivingOptions>` | `{}` | Extra JSAPI driving options such as `policy`, `ferry`, etc. |
+| `options` | `Partial<AMap.Driving.Options>` | `{}` | Extra JSAPI driving options such as `policy`, `ferry`, etc. |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
 
@@ -19,7 +19,7 @@ Plan driving routes with a built-in form and optional result panel. `<AmapDrivin
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.Driving` | Fired once the Driving service is created. |
-| `search` | `{ origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.DrivingResult \| null }` | Fired after each routing request. |
+| `search` | `{ origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.Driving.SearchResult \| null }` | Fired after each routing request. |
 | `error` | `string` | Emitted when the component cannot compute a route. |
 
 ## Usage
@@ -46,7 +46,7 @@ export interface AmapDrivingProps {
   destination?: DrivingEndpoint
   auto?: boolean
   panel?: boolean
-  options?: Partial<AMap.DrivingOptions>
+  options?: Partial<AMap.Driving.Options>
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }

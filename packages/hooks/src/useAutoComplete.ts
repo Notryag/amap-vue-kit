@@ -4,14 +4,17 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
-export interface UseAutoCompleteOptions extends Partial<AMap.AutoCompleteOptions> {
+type AutoCompleteOptions = AMap.Autocomplete.Options
+type AutoCompleteResult = AMap.Autocomplete.SearchResult
+
+export interface UseAutoCompleteOptions extends Partial<AutoCompleteOptions> {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
 
 export interface UseAutoCompleteReturn {
-  autoComplete: ShallowRef<AMap.AutoComplete | null>
-  search: (keyword: string) => Promise<AMap.AutoCompleteResult | null>
-  setOptions: (options: Partial<AMap.AutoCompleteOptions>) => void
+  autoComplete: ShallowRef<AMap.Autocomplete | null>
+  search: (keyword: string) => Promise<AutoCompleteResult | null>
+  setOptions: (options: Partial<AutoCompleteOptions>) => void
   setCity: (city: string) => void
   setType: (type: string) => void
   destroy: () => void
@@ -20,7 +23,7 @@ export interface UseAutoCompleteReturn {
 export function useAutoComplete(
   options: MaybeRefOrGetter<UseAutoCompleteOptions | undefined> = {},
 ): UseAutoCompleteReturn {
-  const autoComplete = shallowRef<AMap.AutoComplete | null>(null)
+  const autoComplete = shallowRef<AMap.Autocomplete | null>(null)
   const optionsRef = computed<UseAutoCompleteOptions>(() => ({
     ...(toValue(options) as UseAutoCompleteOptions | undefined ?? {}),
   }))
@@ -40,7 +43,8 @@ export function useAutoComplete(
       const { loadOptions: loadOptionsMaybe, ...rest } = optionsRef.value
       const loaderOptions = loadOptionsMaybe ? toValue(loadOptionsMaybe) : undefined
       const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.AutoComplete'] })
-      const instance = new (AMapInstance as any).AutoComplete(rest)
+      const AutoCompleteCtor = (AMapInstance as any).AutoComplete ?? (AMapInstance as any).Autocomplete
+      const instance = new AutoCompleteCtor(rest)
       autoComplete.value = instance
       return instance
     }
@@ -53,7 +57,7 @@ export function useAutoComplete(
     }
   }
 
-  function applyOptions(instance: AMap.AutoComplete, next: Partial<AMap.AutoCompleteOptions>) {
+  function applyOptions(instance: AMap.Autocomplete, next: Partial<AutoCompleteOptions>) {
     if ('city' in next && next.city != null)
       instance.setCity?.(next.city)
     if ('type' in next && next.type != null)
@@ -64,7 +68,7 @@ export function useAutoComplete(
         setCityLimit.call(instance, next.citylimit)
     }
     if ('lang' in next && next.lang != null)
-      (instance as any).setLanguage?.(next.lang)
+      instance.setLang?.(next.lang)
     if ('datatype' in next && next.datatype != null)
       (instance as any).setDataType?.(next.datatype)
 
@@ -90,7 +94,7 @@ export function useAutoComplete(
     destroy()
   })
 
-  async function search(keyword: string): Promise<AMap.AutoCompleteResult | null> {
+  async function search(keyword: string): Promise<AutoCompleteResult | null> {
     const query = keyword?.trim()
     if (!query)
       return null
@@ -98,8 +102,8 @@ export function useAutoComplete(
     if (!instance)
       return null
     return new Promise((resolve) => {
-      instance.search(query, (status: string, result: AMap.AutoCompleteResult) => {
-        if (status === 'complete' || status === 'no_data')
+      instance.search(query, (status: AMap.Autocomplete.SearchStatus, result: string | AutoCompleteResult) => {
+        if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
           resolve(result)
         else
           resolve(null)
@@ -107,7 +111,7 @@ export function useAutoComplete(
     })
   }
 
-  function setOptions(options: Partial<AMap.AutoCompleteOptions>) {
+  function setOptions(options: Partial<AutoCompleteOptions>) {
     if (!options)
       return
     const instance = autoComplete.value

@@ -10,7 +10,7 @@ Plan cycling routes with a built-in form and optional JSAPI panel. `<AmapRiding>
 | `destination` | `RidingEndpoint` | `undefined` | End point (address string or `LngLatLike`). |
 | `auto` | `boolean` | `true` | Automatically trigger routing whenever origin/destination changes. |
 | `panel` | `boolean` | `true` | Render the native Riding result panel. |
-| `options` | `Partial<AMap.RidingOptions>` | `{}` | Extra JSAPI riding options such as `policy`, `hideMarkers`, etc. |
+| `options` | `Partial<AMap.Riding.Options>` | `{}` | Extra JSAPI riding options such as `policy`, `hideMarkers`, etc. |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
 
@@ -19,7 +19,7 @@ Plan cycling routes with a built-in form and optional JSAPI panel. `<AmapRiding>
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.Riding` | Fired once the Riding service is created. |
-| `search` | `{ origin: RidingEndpoint, destination: RidingEndpoint, result: AMap.RidingResult \| null }` | Fired after each routing request. |
+| `search` | `{ origin: RidingEndpoint, destination: RidingEndpoint, result: AMap.Riding.SearchResult \| null }` | Fired after each routing request. |
 | `error` | `string` | Emitted when the component cannot compute a route. |
 
 ## Usage
@@ -46,7 +46,7 @@ export interface AmapRidingProps {
   destination?: RidingEndpoint
   auto?: boolean
   panel?: boolean
-  options?: Partial<AMap.RidingOptions>
+  options?: Partial<AMap.Riding.Options>
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }

@@ -10,7 +10,7 @@ Provide instant search suggestions backed by the AMap AutoComplete service. The 
 | `auto` | `boolean` | `true` | Automatically trigger search when the keyword changes. |
 | `debounce` | `number` | `250` | Debounce interval (ms) applied before firing a search. |
 | `placeholder` | `string` | `'搜索地点'` | Placeholder text for the built-in input. |
-| `options` | `Partial<AMap.AutoCompleteOptions>` | `{}` | Native AutoComplete options such as `city`, `type`, or `datatype`. |
+| `options` | `Partial<AMap.Autocomplete.Options>` | `{}` | Native AutoComplete options such as `city`, `type`, or `datatype`. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration passed to `loader.load`. |
 
 ## Events
@@ -19,8 +19,8 @@ Provide instant search suggestions backed by the AMap AutoComplete service. The 
 | --- | --- | --- |
 | `update:modelValue` | `string` | Emitted whenever the keyword changes. |
 | `ready` | `AMap.AutoComplete` | Fires once after the service is initialised. |
-| `search` | `{ keyword: string, tips: AMap.AutoCompleteTip[], result: AMap.AutoCompleteResult \| null }` | Emitted after each search (including empty results). |
-| `select` | `AMap.AutoCompleteTip` | Fired when a suggestion is clicked in the default slot. |
+| `search` | `{ keyword: string, tips: AMap.Autocomplete.Tip[], result: AMap.Autocomplete.SearchResult \| null }` | Emitted after each search (including empty results). |
+| `select` | `AMap.Autocomplete.Tip` | Fired when a suggestion is clicked in the default slot. |
 | `error` | `string` | Emitted when the service reports a failure. |
 
 ## Usage
@@ -54,7 +54,7 @@ export interface AmapAutoCompleteProps {
   auto?: boolean
   debounce?: number
   placeholder?: string
-  options?: Partial<AMap.AutoCompleteOptions>
+  options?: Partial<AMap.Autocomplete.Options>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }
 ```

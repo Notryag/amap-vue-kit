@@ -68,6 +68,17 @@ export function warn(message: string) {
     console.warn(`[amap-vue] ${message}`)
 }
 
+export function debug(scope: string, message: string, details?: unknown) {
+  if (!isDevEnvironment())
+    return
+
+  const prefix = `[amap-vue][${scope}] ${message}`
+  if (details === undefined)
+    console.warn(prefix)
+  else
+    console.warn(prefix, details)
+}
+
 export function invariant(condition: unknown, message: string): asserts condition {
   if (!condition)
     throw new Error(`[amap-vue] ${message}`)

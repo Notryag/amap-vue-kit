@@ -2,6 +2,8 @@ import type { Ref } from 'vue'
 
 import type { UseCircleOptions } from '../src/useCircle'
 import type { UseEllipseOptions } from '../src/useEllipse'
+import type { UseGeoJSONLayerOptions } from '../src/useGeoJSONLayer'
+import type { UseHeatMapOptions } from '../src/useHeatMap'
 import type { UseInfoWindowOptions } from '../src/useInfoWindow'
 import type { UsePolygonOptions } from '../src/usePolygon'
 import type { UsePolylineOptions } from '../src/usePolyline'
@@ -13,6 +15,8 @@ import { defineComponent, nextTick, ref } from 'vue'
 
 import { useCircle } from '../src/useCircle'
 import { useEllipse } from '../src/useEllipse'
+import { useGeoJSONLayer } from '../src/useGeoJSONLayer'
+import { useHeatMap } from '../src/useHeatMap'
 import { useInfoWindow } from '../src/useInfoWindow'
 import { usePolygon } from '../src/usePolygon'
 import { usePolyline } from '../src/usePolyline'
@@ -463,6 +467,95 @@ describe('useEllipse', () => {
     harness.hook.destroy()
     expect(harness.hook.overlay.value).toBeNull()
     expect(instance.map).toBeNull()
+    harness.cleanup()
+  })
+})
+
+describe('useGeoJSONLayer', () => {
+  it('loads and manages a GeoJSON overlay group', async () => {
+    const data = {
+      type: 'FeatureCollection',
+      features: [
+        {
+          type: 'Feature',
+          properties: { name: 'test' },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [[
+              [116.38, 39.9],
+              [116.4, 39.92],
+              [116.42, 39.9],
+              [116.38, 39.9],
+            ]],
+          },
+        },
+      ],
+    }
+
+    const harness = mountHookWithMap<UseGeoJSONLayerOptions, ReturnType<typeof useGeoJSONLayer>>(
+      (mapRef, options) => useGeoJSONLayer(mapRef, options),
+      {
+        data: data as any,
+        visible: true,
+      },
+    )
+
+    const instance = await waitForInstance(() => harness.hook.overlay.value)
+    if (!instance)
+      throw new Error('GeoJSON instance was not created')
+
+    expect(instance).toBeInstanceOf((AMap as any).GeoJSON)
+    expect((instance as any).data).toEqual(data)
+    harness.hook.addOverlays([new AMap.Marker({ position: [116.39, 39.91] })])
+    expect(harness.hook.getOverlays()).toHaveLength(1)
+
+    harness.options.value = {
+      ...harness.options.value,
+      data: {
+        ...data,
+        features: [],
+      } as any,
+      visible: false,
+    }
+    await flushReactivity()
+
+    expect((instance as any).data).toEqual({ ...data, features: [] })
+
+    harness.hook.destroy()
+    expect(instance.getOverlays()).toHaveLength(0)
+    expect((instance as any).map).toBeNull()
+    expect(harness.hook.overlay.value).toBeNull()
+    harness.cleanup()
+  })
+})
+
+describe('useHeatMap', () => {
+  it('cleans up internal heat map layers on destroy', async () => {
+    const harness = mountHookWithMap<UseHeatMapOptions, ReturnType<typeof useHeatMap>>(
+      (mapRef, options) => useHeatMap(mapRef, options),
+      {
+        data: [
+          { lng: 116.39, lat: 39.91, count: 80 },
+        ],
+        radius: 28,
+        visible: true,
+      },
+    )
+
+    const instance = await waitForInstance(() => harness.hook.overlay.value)
+    if (!instance)
+      throw new Error('HeatMap instance was not created')
+
+    expect(instance).toBeInstanceOf((AMap as any).HeatMap)
+    expect((instance as any).dataSet).toEqual({
+      data: [{ lng: 116.39, lat: 39.91, count: 80 }],
+    })
+    expect(harness.map.getLayers()).toHaveLength(1)
+
+    harness.hook.destroy()
+    expect(instance.map).toBeNull()
+    expect(harness.map.getLayers()).toHaveLength(0)
+    expect(harness.hook.overlay.value).toBeNull()
     harness.cleanup()
   })
 })

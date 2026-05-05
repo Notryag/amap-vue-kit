@@ -62,6 +62,17 @@ export function useGeoJSONLayer(
     (instance, nextOptions) => {
       applyGeoJSONOptions(instance, nextOptions)
     },
+    () => ({ plugins: ['AMap.GeoJSON'] }),
+    {
+      detach(_map, instance) {
+        instance.clearOverlays?.()
+        instance.setMap?.(null)
+      },
+      destroy(instance) {
+        instance.clearOverlays?.()
+        instance.setMap?.(null)
+      },
+    },
   )
 
   function setData(data: AMap.GeoJSON.GeoJSONObject | AMap.GeoJSON.GeoJSONObject[]) {

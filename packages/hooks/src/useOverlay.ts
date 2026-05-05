@@ -16,6 +16,7 @@ export type OverlayUpdater<TOverlay, TOptions> = (overlay: TOverlay, options: TO
 export interface OverlayAttachOptions<TOverlay> {
   attach?: (map: AMap.Map, overlay: TOverlay) => void
   detach?: (map: AMap.Map, overlay: TOverlay) => void
+  destroy?: (overlay: TOverlay) => void
 }
 
 export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => void }, TOptions extends Record<string, any>>(
@@ -137,6 +138,7 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
     if (instance) {
       unbindListeners(instance)
       detachOverlay(instance)
+      attachOptions.destroy?.(instance)
       instance.destroy?.()
     }
     overlay.value = null

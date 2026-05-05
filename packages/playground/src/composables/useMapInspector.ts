@@ -1,4 +1,5 @@
 import type { LngLatTuple } from '../types'
+import { debug } from '@amap-vue/shared'
 import { computed, reactive, ref, shallowRef } from 'vue'
 
 interface BoundsSnapshot {
@@ -60,6 +61,7 @@ export function useMapInspector(hasKey: { value: boolean }) {
   const layerKeys = new WeakMap<object, string>()
   let layerKeyId = 0
   let inspectorRefreshHandle: number | null = null
+  let lastLayerSignature = ''
 
   const boundsText = computed(() => {
     const bounds = mapBounds.value
@@ -146,6 +148,18 @@ export function useMapInspector(hasKey: { value: boolean }) {
 
       return { key: `${label}-${index}`, label }
     })
+
+    const signature = inspectorLayers.value.map(layer => `${layer.key}:${layer.label}`).join('|')
+    if (signature !== lastLayerSignature) {
+      lastLayerSignature = signature
+      debug('Inspector', 'layers changed', {
+        count: inspectorLayers.value.length,
+        layers: inspectorLayers.value.map(layer => ({
+          key: layer.key,
+          label: layer.label,
+        })),
+      })
+    }
   }
 
   function refreshOverlayStats(map: AMap.Map) {
@@ -208,6 +222,7 @@ export function useMapInspector(hasKey: { value: boolean }) {
     mapInstance.value = null
     mapBounds.value = null
     inspectorLayers.value = []
+    lastLayerSignature = ''
     overlayRegistry.clear()
 
     overlayStats.total = 0

@@ -86,6 +86,43 @@ export function useHeatMap(
   if (hasOwn(initialOptions, 'visible'))
     state.visible = initialOptions.visible
 
+  let heatMapLayers = new Set<any>()
+
+  function getLayers(mapInstance: AMap.Map): any[] {
+    const layers = (mapInstance as any).getLayers?.()
+    return Array.isArray(layers) ? layers : []
+  }
+
+  function trackAddedLayers(mapInstance: AMap.Map, previousLayers: any[]) {
+    for (const layer of getLayers(mapInstance)) {
+      if (!previousLayers.includes(layer))
+        heatMapLayers.add(layer)
+    }
+  }
+
+  function removeLayer(mapInstance: AMap.Map, layer: any) {
+    if (typeof (mapInstance as any).removeLayer === 'function')
+      (mapInstance as any).removeLayer(layer)
+    else if (typeof (mapInstance as any).remove === 'function')
+      (mapInstance as any).remove(layer)
+    else
+      layer?.setMap?.(null)
+  }
+
+  function cleanupHeatMapLayers(mapInstance: AMap.Map) {
+    if (!heatMapLayers.size)
+      return
+
+    const currentLayers = getLayers(mapInstance)
+
+    for (const layer of heatMapLayers) {
+      if (currentLayers.includes(layer))
+        removeLayer(mapInstance, layer)
+    }
+
+    heatMapLayers = new Set()
+  }
+
   const overlay = useOverlay(
     mapRef,
     optionsRef,
@@ -99,7 +136,9 @@ export function useHeatMap(
       if (hasOwn(heatMapOptions, 'visible'))
         state.visible = visible
 
+      const previousLayers = getLayers(map)
       const instance = new (AMap as any).HeatMap(map, rest)
+      trackAddedLayers(map, previousLayers)
       const dataset = buildDataSet(state.data, state.max)
       if (dataset)
         (instance as any).setDataSet?.(dataset)
@@ -111,6 +150,21 @@ export function useHeatMap(
       applyHeatMapOptions(instance, nextOptions, state)
     },
     () => ({ plugins: ['AMap.HeatMap'] }),
+    {
+      attach(map, instance) {
+        const previousLayers = getLayers(map)
+        if ((instance as any).map !== map)
+          instance.setMap?.(map)
+        trackAddedLayers(map, previousLayers)
+      },
+      detach(map, instance) {
+        instance.setMap?.(null)
+        cleanupHeatMapLayers(map)
+      },
+      destroy(instance) {
+        instance.setMap?.(null)
+      },
+    },
   )
 
   function show() {

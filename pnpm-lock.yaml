@@ -94,10 +94,10 @@ importers:
   packages/core:
     dependencies:
       '@amap-vue/hooks':
-        specifier: ^0.0.0
+        specifier: ^0.1.0
         version: link:../hooks
       '@amap-vue/shared':
-        specifier: ^0.0.0
+        specifier: ^0.1.0
         version: link:../shared
       vue:
         specifier: ^3.4.0
@@ -106,7 +106,7 @@ importers:
   packages/hooks:
     dependencies:
       '@amap-vue/shared':
-        specifier: ^0.0.0
+        specifier: ^0.1.0
         version: link:../shared
       vue:
         specifier: ^3.4.0
@@ -115,7 +115,7 @@ importers:
   packages/loca:
     dependencies:
       '@amap-vue/shared':
-        specifier: ^0.0.0
+        specifier: ^0.1.0
         version: link:../shared
       vue:
         specifier: ^3.4.0

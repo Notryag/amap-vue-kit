@@ -1,7 +1,7 @@
 {
   "name": "@amap-vue/core",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "Declarative Vue 3 components for AMap JSAPI 2.x.",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@amap-vue/hooks": "^0.0.0",
-    "@amap-vue/shared": "^0.0.0"
+    "@amap-vue/hooks": "^0.1.0",
+    "@amap-vue/shared": "^0.1.0"
   }
 }

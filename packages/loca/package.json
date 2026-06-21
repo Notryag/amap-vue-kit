@@ -1,7 +1,7 @@
 {
   "name": "@amap-vue/loca",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": false,
   "description": "Vue 3 components and composables for AMap Loca 2.0 visualizations.",
   "license": "MIT",
@@ -46,6 +46,6 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@amap-vue/shared": "^0.0.0"
+    "@amap-vue/shared": "^0.1.0"
   }
 }

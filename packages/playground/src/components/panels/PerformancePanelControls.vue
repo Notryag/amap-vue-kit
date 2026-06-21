@@ -21,7 +21,7 @@ const {
 <template>
   <div class="panel-body">
     <label class="form-field">
-      <span>Dataset size</span>
+      <span>数据集大小</span>
       <select v-model="performanceDatasetId">
         <option v-for="option in performanceDatasetOptions" :key="option.value" :value="option.value">
           {{ option.label }}
@@ -30,7 +30,7 @@ const {
     </label>
 
     <label class="form-field">
-      <span>Render mode</span>
+      <span>渲染模式</span>
       <select v-model="performanceRenderMode">
         <option v-for="option in performanceRenderModeOptions" :key="option.value" :value="option.value">
           {{ option.label }}
@@ -39,7 +39,7 @@ const {
     </label>
 
     <div v-if="performanceRenderMode === 'chunked'" class="chunk-progress">
-      <progress :value="chunkProgress" max="1" aria-label="Chunked load progress" />
+      <progress :value="chunkProgress" max="1" aria-label="分块加载进度" />
       <span>{{ chunkProgressLabel }}</span>
     </div>
 
@@ -49,32 +49,32 @@ const {
 
     <dl class="metrics metrics-wide">
       <div>
-        <dt>Points</dt>
+        <dt>点数</dt>
         <dd>{{ performanceMetrics.pointCount }}</dd>
       </div>
       <div>
-        <dt>Lng span</dt>
+        <dt>经度跨度</dt>
         <dd>{{ performanceMetrics.lngSpan }}°</dd>
       </div>
       <div>
-        <dt>Lat span</dt>
+        <dt>纬度跨度</dt>
         <dd>{{ performanceMetrics.latSpan }}°</dd>
       </div>
       <div>
-        <dt>Avg weight</dt>
+        <dt>平均权重</dt>
         <dd>{{ performanceMetrics.averageWeight }}</dd>
       </div>
       <div>
-        <dt>Median weight</dt>
+        <dt>权重中位数</dt>
         <dd>{{ performanceMetrics.medianWeight }}</dd>
       </div>
     </dl>
 
     <div class="dataset-sample">
       <header>
-        <h3>Sample points</h3>
+        <h3>样本点</h3>
         <p>
-          First five entries for quick inspection.
+          前五条数据用于快速检查。
         </p>
       </header>
       <ul>
@@ -84,14 +84,13 @@ const {
         >
           <span class="sample-index">#{{ index + 1 }}</span>
           <code>{{ sample.lng.toFixed(6) }}, {{ sample.lat.toFixed(6) }}</code>
-          <span class="sample-meta">Cluster {{ sample.clusterId + 1 }} · weight {{ sample.weight.toFixed(2) }}</span>
+          <span class="sample-meta">簇 {{ sample.clusterId + 1 }} · 权重 {{ sample.weight.toFixed(2) }}</span>
         </li>
       </ul>
     </div>
 
     <p class="dataset-hint">
-      Use the selected dataset with mass markers or heat maps to measure FPS and render latency. Swap sizes to compare
-      batching throughput.
+      将所选数据集用于海量点或热力图，可测量 FPS 与渲染延迟。切换规模可比较批处理吞吐量。
     </p>
   </div>
 </template>

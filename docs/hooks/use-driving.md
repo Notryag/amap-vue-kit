@@ -1,6 +1,6 @@
 # `useDriving`
 
-Use the AMap Driving service programmatically. The composable loads the driving plugin on demand, supports map binding, and exposes helpers for searching and clearing routes.
+以编程方式使用高德驾车路线服务。该组合式函数按需加载驾车插件，支持绑定地图，并暴露路线搜索与清理方法。
 
 ```ts
 import { useDriving } from '@amap-vue/hooks'
@@ -11,22 +11,22 @@ const result = await driving.search('天安门', '故宫')
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| ...`AMap.Driving.Options` | `Partial<AMap.Driving.Options>` | Native driving options such as `policy`, `ferry`, `hideMarkers`, etc. |
+| ...`AMap.Driving.Options` | `Partial<AMap.Driving.Options>` | 原生驾车路线配置，例如 `policy`、`ferry`、`hideMarkers` 等。 |
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | Bind the driving service to an existing map instance. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Forwarded to `loader.load` for custom keys or plugins. |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 传给 `loader.load` 的自定义 Key 或插件配置。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
 | `driving` | `ShallowRef<AMap.Driving \| null>` exposing the underlying service. |
 | `search(origin, destination, options?)` | Compute a driving route between two endpoints. |
 | `setOptions(options)` | Update native driving options. |
 | `setMap(map)` | Rebind the service to a different map instance. |
-| `clear()` | Clear the rendered route and panel. |
-| `destroy()` | Dispose the service and detach it from the map. |
+| `clear()` | 清空已渲染路线和面板。 |
+| `destroy()` | 销毁服务实例并从地图解绑。 |
 
 ## 在线示例
 
@@ -40,10 +40,10 @@ import UseDrivingHookDemo from '../examples/hooks/UseDrivingHookDemo.vue'
 
 ### 说明
 
-- Provide `map` if you want the JSAPI to draw route polylines automatically.
+- 如果希望 JSAPI 自动绘制路线折线，请传入 `map`。
 - You can pass a custom `panel` element via `AMap.Driving.Options` if you need a summary list.
 - Route planning returns `null` when the JSAPI responds with `no_data` or an error.
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

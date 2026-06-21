@@ -1,29 +1,29 @@
 # `useCircleMarker`
 
-Imperatively manage JSAPI circle markers, ideal for rendering large numbers of simple points.
+以命令式方式管理 JSAPI 圆点标记，适合渲染大量简单点位。
 
 ```ts
 const circle = useCircleMarker(() => map.value, () => ({
   center: [116.397, 39.908],
   radius: 10,
   options: {
-    stroke颜色: '#1677ff',
-    fill颜色: 'rgba(22, 119, 255, 0.45)',
+    strokeColor: '#1677ff',
+    fillColor: 'rgba(22, 119, 255, 0.45)',
   },
 }))
 
-circle.on('click', () => console.log('Circle marker clicked'))
+circle.on('click', () => console.log('点击圆点标记'))
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.CircleMarker \| null>` referencing the marker. |
-| `setCenter`, `setRadius`, `setOptions`, `setExtData` | Imperative setters mirroring JSAPI methods. |
-| `show` / `hide` | Toggle visibility. |
-| `on` / `off` | Subscribe to marker events. |
-| `destroy` | Remove the marker from the map. |
+| `overlay` | `ShallowRef<AMap.CircleMarker \| null>`，指向标记实例。 |
+| `setCenter`, `setRadius`, `setOptions`, `setExtData` | 对应 JSAPI 方法的命令式 setter。 |
+| `show` / `hide` | 切换可见性。 |
+| `on` / `off` | 订阅标记事件。 |
+| `destroy` | 从地图上移除标记。 |
 
 ## 在线示例
 
@@ -35,6 +35,6 @@ circle.on('click', () => console.log('Circle marker clicked'))
 import UseCircleMarkerHookDemo from '../examples/hooks/UseCircleMarkerHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

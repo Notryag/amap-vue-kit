@@ -1,6 +1,6 @@
 # `useOverlayGroup`
 
-Group and manage batches of overlays with a single composable. `useOverlayGroup` wraps `AMap.OverlayGroup`, queues updates when the overlays array changes, and gives you imperative helpers for high-volume operations.
+用一个组合式函数分组并批量管理覆盖物。`useOverlayGroup` 封装 `AMap.OverlayGroup`，在覆盖物数组变化时排队更新，并为高频操作提供命令式辅助方法。
 
 ```ts
 const overlayGroup = useOverlayGroup(() => map.value, () => ({
@@ -15,31 +15,31 @@ overlayGroup.clearOverlays()
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `overlays` | `any[]` | Array of JSAPI overlays managed by the group. |
-| `visible` | `boolean` | Show or hide the group without destroying it. |
-| `extData` | `any` | Arbitrary metadata forwarded to the JSAPI group. |
-| `…options` | `Record<string, any>` | Additional constructor options passed straight through. |
+| `overlays` | `any[]` | 由分组管理的 JSAPI 覆盖物数组。 |
+| `visible` | `boolean` | 显示或隐藏分组但不销毁实例。 |
+| `extData` | `any` | 透传给 JSAPI 分组的任意元数据。 |
+| `…options` | `Record<string, any>` | 直接透传的额外构造选项。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.OverlayGroup \| null>` referencing the overlay group instance. |
-| `show()` / `hide()` | Toggle group visibility. |
-| `addOverlay(overlay)` / `addOverlays(overlays)` | Append overlays to the group. |
-| `removeOverlay(overlay)` / `removeOverlays(overlays)` | Remove specific overlays from the group. |
-| `clearOverlays()` | Remove every overlay the group manages. |
-| `getOverlays()` | Snapshot of the current overlays array. |
-| `setExtData(extData)` | Update the group's metadata. |
-| `destroy()` | Dispose of the overlay group and detach listeners. |
+| `overlay` | `ShallowRef<AMap.OverlayGroup \| null>`，指向覆盖物分组实例。 |
+| `show()` / `hide()` | 切换分组可见性。 |
+| `addOverlay(overlay)` / `addOverlays(overlays)` | 向分组追加覆盖物。 |
+| `removeOverlay(overlay)` / `removeOverlays(overlays)` | 从分组中移除指定覆盖物。 |
+| `clearOverlays()` | 移除分组管理的全部覆盖物。 |
+| `getOverlays()` | 获取当前覆盖物数组快照。 |
+| `setExtData(extData)` | 更新分组元数据。 |
+| `destroy()` | 销毁覆盖物分组并解绑监听器。 |
 
 ### 说明
 
-- The hook clears and readds overlays when the reactive `overlays` array changes, ensuring the JSAPI group stays in sync.
-- Combine the hook with the loader helpers to instantiate overlays lazily after the JSAPI bundle is ready.
-- Call `destroy()` or `clearOverlays()` when tearing down large datasets to avoid leaving detached markers on the map.
+- 响应式 `overlays` 数组变化时，hook 会清空并重新加入覆盖物，确保 JSAPI 分组保持同步。
+- 可以配合加载器辅助方法，在 JSAPI 包就绪后再懒创建覆盖物。
+- 拆除大数据集时调用 `destroy()` 或 `clearOverlays()`，避免地图上残留已解绑的标记。
 
 ## 在线示例
 
@@ -51,6 +51,6 @@ overlayGroup.clearOverlays()
 import UseOverlayGroupHookDemo from '../examples/hooks/UseOverlayGroupHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

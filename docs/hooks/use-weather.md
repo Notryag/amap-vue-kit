@@ -1,6 +1,6 @@
 # `useWeather`
 
-Query live and forecast weather information for a city from the JSAPI weather service. The composable handles plugin loading and exposes typed helpers for synchronous UIs or background refresh tasks.
+通过 JSAPI 天气服务查询城市实况与预报。该组合式函数会处理插件加载，并为同步 UI 或后台刷新任务暴露带类型的辅助方法。
 
 ```ts
 import { useWeather } from '@amap-vue/hooks'
@@ -13,24 +13,24 @@ const forecast = await weather.getForecast('北京')
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Loader configuration (key, securityJsCode, plugin list). |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 加载器配置（Key、securityJsCode、插件列表）。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `weather` | `ShallowRef<AMap.Weather \| null>` exposing the JSAPI instance. |
-| `getLive(city)` | Fetch real-time weather conditions for the given city. |
-| `getForecast(city)` | Fetch the 3-4 day forecast for the given city. |
-| `destroy()` | Release the plugin instance and cached references. |
+| `weather` | `ShallowRef<AMap.Weather \| null>`，暴露 JSAPI 实例。 |
+| `getLive(city)` | 获取指定城市的实时天气。 |
+| `getForecast(city)` | 获取指定城市 3-4 天预报。 |
+| `destroy()` | 释放插件实例和缓存引用。 |
 
 ### 说明
 
-- Both helpers return `null` if the JSAPI returns `no_data`; handle fallbacks in your UI.
-- Batch multiple requests using `Promise.all` when displaying live and forecast data together.
-- Pair with [`<AmapWeatherPanel>`](/components/weather-panel) for a prebuilt city selector and presentation layer.
+- 如果 JSAPI 返回 `no_data`，两个辅助方法都会返回 `null`；请在 UI 中处理兜底展示。
+- 同时展示实况与预报时，可以用 `Promise.all` 批量请求。
+- 可搭配 [`<AmapWeatherPanel>`](/components/weather-panel) 使用内置城市选择和展示层。
 
 ## 在线示例
 
@@ -42,6 +42,6 @@ const forecast = await weather.getForecast('北京')
 import UseWeatherHookDemo from '../examples/hooks/UseWeatherHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

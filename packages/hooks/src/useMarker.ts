@@ -2,7 +2,8 @@ import type { LngLatLike } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
 
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface UseMarkerOptions extends Omit<Partial<AMap.MarkerOptions>, 'position' | 'offset' | 'content' | 'anchor' | 'label' | 'icon'> {
   position?: LngLatLike
@@ -116,7 +117,7 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
       hide()
   })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

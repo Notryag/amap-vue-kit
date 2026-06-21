@@ -1,6 +1,6 @@
 # `useMarker`
 
-Create and manage JSAPI markers imperatively.
+以命令式方式创建和管理 JSAPI 标记。
 
 ```ts
 const markerApi = useMarker(() => map.value, () => ({
@@ -10,23 +10,23 @@ const markerApi = useMarker(() => map.value, () => ({
 }))
 
 markerApi.on('click', (event) => {
-  console.log('marker clicked', event)
+  console.log('点击标记', event)
 })
 ```
 
 `useMarker` mirrors the props exposed by `<AmapMarker>` so you can switch between declarative and imperative code paths as needed.
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `marker` | `ShallowRef<AMap.Marker \| null>` referencing the marker instance. |
-| `setPosition`, `setIcon`, `setLabel`, `setExtData`, `setDraggable`, `setZIndex`, `setOffset`, `setContent`, `setAnchor`, `setIsCustom` | Imperative setters mirroring JSAPI methods. |
-| `show` / `hide` | Toggle marker visibility. |
-| `on` / `off` | Subscribe to marker events. |
-| `destroy` | Remove the marker from the map. |
+| `marker` | `ShallowRef<AMap.Marker \| null>`，指向标记实例。 |
+| `setPosition`, `setIcon`, `setLabel`, `setExtData`, `setDraggable`, `setZIndex`, `setOffset`, `setContent`, `setAnchor`, `setIsCustom` | 对应 JSAPI 方法的命令式 setter。 |
+| `show` / `hide` | 切换标记可见性。 |
+| `on` / `off` | 订阅标记事件。 |
+| `destroy` | 从地图上移除标记。 |
 
-When the map reference becomes `null` (e.g. during unmount) the marker is automatically removed and destroyed.
+当地图引用变为 `null`（例如组件卸载）时，标记会自动移除并销毁。
 
 ## 在线示例
 
@@ -38,6 +38,6 @@ When the map reference becomes `null` (e.g. during unmount) the marker is automa
 import UseMarkerHookDemo from '../examples/hooks/UseMarkerHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

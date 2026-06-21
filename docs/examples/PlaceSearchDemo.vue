@@ -7,7 +7,7 @@ const { hasKey } = useDemoLoader({ plugins: ['AMap.PlaceSearch'] })
 
 const keyword = ref('美食')
 const pois = shallowRef<AMap.PlaceSearch.Poi[]>([])
-const selected = shallowRef<AMap.PlaceSearch.Poi | null>(null)
+const selected = shallowRef<AMap.PlaceSearch.Poi | null>()
 
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)

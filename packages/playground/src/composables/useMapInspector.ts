@@ -75,7 +75,7 @@ export function useMapInspector(hasKey: { value: boolean }) {
 
   const mapInspectorStatusLabel = computed(() => {
     if (!hasKey.value)
-      return 'No key'
+      return '无 Key'
     if (mapInstance.value)
       return 'Connected'
     return 'Waiting'

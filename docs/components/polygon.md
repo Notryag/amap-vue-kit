@@ -1,24 +1,24 @@
 # `<AmapPolygon>`
 
-Render filled polygons with optional holes. Accepts both single-ring and multi-ring paths.
+渲染可带洞的填充多边形，支持单环和多环路径。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `path` | `LngLatLike[] \| LngLatLike[][]` | Polygon coordinates. |
-| `options` | `Partial<AMap.PolygonOptions>` | Extra JSAPI options (stroke color, fill opacity, etc.). |
-| `visible` | `boolean` | Toggles visibility. |
-| `extData` | `any` | Arbitrary metadata. |
+| `path` | `LngLatLike[] \| LngLatLike[][]` | 多边形坐标。 |
+| `options` | `Partial<AMap.PolygonOptions>` | 额外 JSAPI 配置，例如描边颜色、填充透明度等。 |
+| `visible` | `boolean` | 切换可见性。 |
+| `extData` | `any` | 任意元数据。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Polygon` | Fired after creation. |
-| `click` | `any` | Click events. |
-| `mouseover` | `any` | Pointer enter events. |
-| `mouseout` | `any` | Pointer leave events. |
+| `ready` | `AMap.Polygon` | 创建完成后触发。 |
+| `click` | `any` | 点击事件。 |
+| `mouseover` | `any` | 指针移入事件。 |
+| `mouseout` | `any` | 指针移出事件。 |
 
 ## 用法
 
@@ -30,7 +30,7 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
     [116.42, 39.92],
     [116.39, 39.92]
   ]"
-  :options="{ fill颜色: 'rgba(75,139,255,0.25)', stroke颜色: '#4b8bff' }"
+  :options="{ fillColor: 'rgba(75,139,255,0.25)', strokeColor: '#4b8bff' }"
 />
 ```
 
@@ -44,6 +44,6 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
 import PolygonComponentDemo from '../examples/PolygonComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

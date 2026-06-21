@@ -21,10 +21,10 @@ export function useAmapKey() {
 
   const keyStatusDetail = computed(() => {
     if (usingEnvKey.value)
-      return 'Using key from .env.local. Restart the dev server after changing it.'
+      return '正在使用 .env.local 中的 Key。修改后请重启开发服务器。'
     if (usingRuntimeKey.value)
-      return 'Using runtime key stored in this browser.'
-    return 'Set VITE_AMAP_KEY in .env.local or paste a temporary key in the sidebar to load the JSAPI.'
+      return '正在使用保存在当前浏览器中的临时 Key。'
+    return '在 .env.local 中设置 VITE_AMAP_KEY，或在侧栏粘贴临时 Key 后加载 JSAPI。'
   })
 
   const canApplyRuntimeKey = computed(() => {

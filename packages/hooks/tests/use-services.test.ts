@@ -7,6 +7,26 @@ import { usePlaceSearch } from '../src/usePlaceSearch'
 import { useWeather } from '../src/useWeather'
 
 describe('service hooks', () => {
+  it('can be created outside component setup without lifecycle warnings', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    const hooks = [
+      useGeocoder(),
+      useGeolocation(),
+      useWeather(),
+      useAutoComplete(),
+      usePlaceSearch(),
+    ]
+
+    hooks.forEach(hook => hook.destroy())
+
+    expect(warn).not.toHaveBeenCalledWith(
+      expect.stringContaining('onBeforeUnmount is called when there is no active component instance'),
+    )
+
+    warn.mockRestore()
+  })
+
   it('geocoder resolves location and address', async () => {
     const geocoder = useGeocoder()
     const locationResult = await geocoder.getLocation('天安门')

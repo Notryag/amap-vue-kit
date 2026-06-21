@@ -1,6 +1,6 @@
 # `useGeolocation`
 
-Access the JSAPI geolocation service with a Composition API friendly wrapper. The hook loads `AMap.Geolocation` on demand, exposes promise utilities, and keeps watcher IDs manageable for you.
+通过适配 Composition API 的封装访问 JSAPI 定位服务。该 hook 会按需加载 `AMap.Geolocation`，暴露 Promise 风格工具，并帮你管理连续定位的 watcher ID。
 
 ```ts
 import { useGeolocation } from '@amap-vue/hooks'
@@ -14,28 +14,28 @@ if (result)
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Loader configuration for custom keys, plugins, or security codes. |
-| ...`AMap.Geolocation.Options` | `Partial<AMap.Geolocation.Options>` | All native options such as `timeout`, `zoomToAccuracy`, or `GeoLocationFirst`. |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 自定义 Key、插件或安全密钥时使用的加载器配置。 |
+| ...`AMap.Geolocation.Options` | `Partial<AMap.Geolocation.Options>` | 原生选项，例如 `timeout`、`zoomToAccuracy`、`GeoLocationFirst`。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `geolocation` | `ShallowRef<AMap.Geolocation \| null>` with the instantiated plugin. |
-| `getCurrentPosition()` | Promise that resolves with a single geolocation snapshot. |
-| `watchPosition(handler)` | Start continuous tracking; resolves with a numeric watch ID or `null`. |
-| `clearWatch(id?)` | Stop one watcher or all of them when no ID is provided. |
-| `getCityInfo()` | Fetch the current province/city metadata. |
-| `setOptions(options)` | Update plugin configuration without re-instantiating. |
-| `destroy()` | Clear watchers and release the plugin instance. |
+| `geolocation` | `ShallowRef<AMap.Geolocation \| null>`，指向已创建的插件实例。 |
+| `getCurrentPosition()` | 返回一次定位快照的 Promise。 |
+| `watchPosition(handler)` | 开始连续定位，解析为数字 watcher ID 或 `null`。 |
+| `clearWatch(id?)` | 停止指定 watcher；不传 ID 时停止全部 watcher。 |
+| `getCityInfo()` | 获取当前省市信息。 |
+| `setOptions(options)` | 不重建实例即可更新插件配置。 |
+| `destroy()` | 清空 watcher 并释放插件实例。 |
 
 ### 说明
 
-- Always call `clearWatch`/`destroy` when a component unmounts to prevent background timers.
-- Combine with `<AmapWeatherPanel>` or custom overlays by reacting to the resolved coordinates.
-- Some browsers require HTTPS and explicit user consent before geolocation results are available.
+- 组件卸载时始终调用 `clearWatch` / `destroy`，避免后台计时器残留。
+- 可以监听解析后的坐标，并与 `<AmapWeatherPanel>` 或自定义覆盖物组合使用。
+- 部分浏览器要求 HTTPS 与明确的用户授权后才会返回定位结果。
 
 ## 在线示例
 
@@ -47,6 +47,6 @@ if (result)
 import UseGeolocationHookDemo from '../examples/hooks/UseGeolocationHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

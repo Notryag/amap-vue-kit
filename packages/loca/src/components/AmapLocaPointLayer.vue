@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { ShallowRef } from 'vue'
 import type { PointLike, UseLocaPointLayerOptions } from '../composables/useLocaPointLayer'
+import type { RenderScheduleHandle } from '../render-scheduler'
 import type { LocaContainer, LocaLayerStyle } from '../types'
 import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaPointLayer } from '../composables/useLocaPointLayer'
+import { cancelRenderFrame, scheduleRenderFrame } from '../render-scheduler'
 
 interface PointLayerProps {
   data: PointLike[]
@@ -14,6 +16,10 @@ interface PointLayerProps {
   options?: UseLocaPointLayerOptions
   autoRender?: boolean
 }
+
+defineOptions({
+  name: 'AmapLocaPointLayer',
+})
 
 const props = withDefaults(defineProps<PointLayerProps>(), {
   lngKey: 'lng',
@@ -27,18 +33,14 @@ if (!containerRef)
 
 const layerApi = useLocaPointLayer(() => containerRef.value ?? null, props.options)
 
-let pendingRender: number | null = null
-const raf = typeof requestAnimationFrame !== 'undefined'
-  ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
-const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
+let pendingRender: RenderScheduleHandle | null = null
 
 function scheduleRender() {
   if (!props.autoRender)
     return
   if (pendingRender != null)
-    caf(pendingRender)
-  pendingRender = raf(() => {
+    cancelRenderFrame(pendingRender)
+  pendingRender = scheduleRenderFrame(() => {
     pendingRender = null
     layerApi.render()
   })
@@ -84,7 +86,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (pendingRender != null)
-    caf(pendingRender)
+    cancelRenderFrame(pendingRender)
   layerApi.destroy()
 })
 </script>

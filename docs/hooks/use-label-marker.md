@@ -1,6 +1,6 @@
 # `useLabelMarker`
 
-Create high-performance label markers in Composition API code. The composable shares the same lifecycle guarantees as the compo
+在组合式 API 中创建高性能标签标记。该组合式函数与组件层共享同样的生命周期保证。
 nent: markers are lazily created once the layer is ready, listeners are rebound after option changes, and everything is cleaned
 up on unmount.
 
@@ -14,29 +14,29 @@ const marker = useLabelMarker(layer, () => ({
   text: { content: 'HQ', direction: 'top' },
 }))
 
-marker.on('click', () => console.log('label clicked'))
+marker.on('click', () => console.log('点击标签标记'))
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `marker` | `ShallowRef<AMap.LabelMarker \| null>` referencing the marker instance. |
+| `marker` | `ShallowRef<AMap.LabelMarker \| null>`，指向标记实例。 |
 | `setPosition` | Update the marker position with `LngLatLike` data. |
-| `setText` | Apply text configuration including offsets and styles. |
+| `setText` | 应用包含偏移和样式的文本配置。 |
 | `setIcon` | Change the icon sprite. |
 | `setZooms` | Restrict the zoom range. |
-| `set透明度` / `setZIndex` | Adjust visual properties without recreating the marker. |
-| `setExtData` | Attach arbitrary metadata. |
-| `show` / `hide` | Toggle visibility imperatively. |
-| `on` / `off` | Subscribe to and unsubscribe from marker events. |
-| `destroy` | Remove the marker from its parent layer and tear down listeners. |
+| `setOpacity` / `setZIndex` | 不重建标记即可调整视觉属性。 |
+| `setExtData` | 附加任意元数据。 |
+| `show` / `hide` | 以命令式方式切换可见性。 |
+| `on` / `off` | 订阅或取消订阅标记事件。 |
+| `destroy` | 从父图层移除标记并清理监听器。 |
 
 ### 说明
 
-- The composable automatically reattaches the marker if the labels layer instance changes.
+- 当标签图层实例变化时，该组合式函数会自动重新挂载标记。
 - `text.offset` accepts tuples such as `[0, -12]`; they are converted to `AMap.Pixel` behind the scenes when the JSAPI is available.
-- When the supplied layer reference is `null`, the marker detaches itself and waits until a layer becomes available again.
+- 传入的图层引用为 `null` 时，标记会自动解绑，并等待图层再次可用。
 - You can pass a raw `LabelsLayer` instance, the object returned by `useLabelsLayer`, or the `<AmapLabelsLayer>` injection context—the hook queues and attaches markers appropriately in each scenario.
 
 ## 在线示例
@@ -49,6 +49,6 @@ marker.on('click', () => console.log('label clicked'))
 import UseLabelMarkerHookDemo from '../examples/hooks/UseLabelMarkerHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

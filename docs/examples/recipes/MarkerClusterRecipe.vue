@@ -17,7 +17,7 @@ ready(async (mapInstance) => {
   const points = Array.from({ length: 200 }, () => new AMapInstance.Marker({
     position: [116.35 + Math.random() * 0.1, 39.87 + Math.random() * 0.1],
   }))
-  mapInstance.plugin(['AMap.MarkerClusterer'], () => {
+  ;(mapInstance as any).plugin?.(['AMap.MarkerClusterer'], () => {
     cluster.value = new (AMapInstance as any).MarkerClusterer(mapInstance, points, {
       gridSize: gridSize.value,
       averageCenter: averageCenter.value,
@@ -29,7 +29,7 @@ watch([gridSize, averageCenter], () => {
   const instance = cluster.value
   if (!instance)
     return
-  instance.setGridSize(gridSize.value)
+  instance.setGridSize?.(gridSize.value)
   instance.setAverageCenter?.(averageCenter.value)
 })
 
@@ -42,7 +42,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 marker clustering.
+      配置 <code>VITE_AMAP_KEY</code> 后预览点聚合。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

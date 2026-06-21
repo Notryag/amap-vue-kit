@@ -1,29 +1,29 @@
 # `useBezierCurve`
 
-Imperatively manage bezier curves.
+以命令式方式管理贝塞尔曲线。
 
 ```ts
 const curve = useBezierCurve(() => map.value, () => ({
   path: [
     [[116.35, 39.9], [116.36, 39.94], [116.38, 39.96], [116.41, 39.97]],
   ],
-  stroke颜色: '#13c2c2',
+  strokeColor: '#13c2c2',
 }))
 
 curve.on('click', (event) => {
-  console.log('Bezier curve clicked', event)
+  console.log('点击贝塞尔曲线', event)
 })
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.BezierCurve \| null>` referencing the curve. |
-| `setPath`, `setOptions`, `setExtData` | Imperative setters. |
-| `show` / `hide` | Toggle visibility. |
-| `on` / `off` | Listen to curve events. |
-| `destroy` | Remove the overlay. |
+| `overlay` | `ShallowRef<AMap.BezierCurve \| null>`，指向曲线实例。 |
+| `setPath`, `setOptions`, `setExtData` | 命令式 setter。 |
+| `show` / `hide` | 切换可见性。 |
+| `on` / `off` | 监听曲线事件。 |
+| `destroy` | 移除覆盖物。 |
 
 ## 在线示例
 
@@ -35,6 +35,6 @@ curve.on('click', (event) => {
 import UseBezierCurveHookDemo from '../examples/hooks/UseBezierCurveHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

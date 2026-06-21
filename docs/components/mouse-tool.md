@@ -1,23 +1,23 @@
 # `<AmapMouseTool>`
 
-Create interactive drawing experiences with the JSAPI `MouseTool`. The component coordinates tool lifecycle with the surrounding `<AmapMap>` and exposes a simple `mode` prop plus renderless slot utilities.
+使用 JSAPI `MouseTool` 创建交互式绘制体验。组件会与外层 `<AmapMap>` 协调工具生命周期，并提供简单的 `mode` prop 与无渲染插槽工具。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `mode` | `'none' \| 'circle' \| 'rectangle' \| 'polygon' \| 'polyline' \| 'bezierCurve' \| 'ellipse'` | `'none'` | Current drawing mode. When set to `'none'` the tool closes. |
-| `autoClose` | `boolean` | `true` | Close the tool and emit `update:mode="'none'"` after each draw. |
-| `drawOptions` | `Partial<AMap.CircleOptions> & ...` | `{}` | Optional per-shape options keyed by mode (`circle`, `polygon`, etc.). |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader config forwarded to `loader.load`. |
+| `mode` | `'none' \| 'circle' \| 'rectangle' \| 'polygon' \| 'polyline' \| 'bezierCurve' \| 'ellipse'` | `'none'` | 当前绘制模式。设为 `'none'` 时工具关闭。 |
+| `autoClose` | `boolean` | `true` | 每次绘制后关闭工具，并触发 `update:mode="'none'"`。 |
+| `drawOptions` | `Partial<AMap.CircleOptions> & ...` | `{}` | 按模式区分的可选图形配置，例如 `circle`、`polygon`。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | 透传给 `loader.load` 的加载配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.MouseTool` | Emitted once when the tool instance is created. |
-| `draw` | `any` | Fired after an overlay is drawn. The payload contains the newly created overlay (`event.obj`). |
-| `update:mode` | `DrawMode` | Emitted whenever the component requests a mode change (used for `v-model:mode`). |
+| `ready` | `AMap.MouseTool` | 工具实例创建后触发一次。 |
+| `draw` | `any` | 覆盖物绘制完成后触发，载荷包含新创建的覆盖物（`event.obj`）。 |
+| `update:mode` | `DrawMode` | 组件请求切换模式时触发，用于 `v-model:mode`。 |
 
 ## 用法
 
@@ -27,7 +27,7 @@ Create interactive drawing experiences with the JSAPI `MouseTool`. The component
 </AmapMap>
 ```
 
-The component provides a default slot with helper functions (`drawCircle`, `activate`, `close`) if you prefer to render custom controls inside the map.
+如果希望在地图内渲染自定义控件，组件默认插槽会提供辅助函数（`drawCircle`、`activate`、`close`）。
 
 <ClientOnly>
   <MouseToolComponentDemo />
@@ -37,7 +37,7 @@ The component provides a default slot with helper functions (`drawCircle`, `acti
 import MouseToolComponentDemo from '../examples/MouseToolComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface MouseToolProps {
@@ -55,12 +55,12 @@ export interface MouseToolProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- When driving the component via `v-model:mode`, remember to reset the mode back to `'none'` once the desired overlay is drawn.
-- Combine `autoClose=false` with the exposed `close()` method if you need to draw multiple shapes of the same type in a row.
-- The `draw` event exposes the raw overlay via `event.obj`; store references if you plan to edit or remove them later.
+- 通过 `v-model:mode` 驱动组件时，绘制完成后记得把模式重置为 `'none'`。
+- 如果需要连续绘制多个同类型图形，可以将 `autoClose=false` 与暴露的 `close()` 方法搭配使用。
+- `draw` 事件会通过 `event.obj` 暴露原始覆盖物；后续需要编辑或移除时请保存引用。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

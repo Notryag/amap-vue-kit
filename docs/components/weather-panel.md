@@ -1,23 +1,23 @@
 # `<AmapWeatherPanel>`
 
-Display live and forecast weather with an opinionated panel that wraps `useWeather`. The component ships with a dropdown selector, refresh button, and exposes imperative methods for deeper integrations.
+通过封装 `useWeather` 的面板展示实时天气和天气预报。组件内置城市下拉选择、刷新按钮，并暴露命令式方法，便于更深度集成。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `modelValue` | `string` | `''` | Currently selected city. Works with `v-model`. |
-| `cities` | `string[]` | `['北京', '上海', '广州', '深圳']` | Preset list of selectable cities shown in the dropdown. |
-| `auto` | `boolean` | `true` | Automatically fetch weather data when the component mounts or the city changes. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Custom loader configuration passed to `useWeather`. |
+| `modelValue` | `string` | `''` | 当前选中的城市，支持 `v-model`。 |
+| `cities` | `string[]` | `['北京', '上海', '广州', '深圳']` | 下拉框中展示的可选城市列表。 |
+| `auto` | `boolean` | `true` | 组件挂载或城市变化时自动获取天气数据。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 传给 `useWeather` 的自定义加载配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `update:modelValue` | `string` | Emitted when the user picks a different city. |
-| `ready` | `AMap.Weather` | Fires once after the weather service is initialised. |
-| `error` | `string` | Emitted whenever a fetch request fails or returns empty data. |
+| `update:modelValue` | `string` | 用户选择其他城市时触发。 |
+| `ready` | `AMap.Weather` | 天气服务初始化后触发一次。 |
+| `error` | `string` | 请求失败或返回空数据时触发。 |
 
 ## 用法
 
@@ -25,7 +25,7 @@ Display live and forecast weather with an opinionated panel that wraps `useWeath
 <AmapWeatherPanel v-model="city" :cities="['北京', '上海', '深圳']" @error="handleError" />
 ```
 
-The component exposes `weather`, `live`, `forecast`, `loading`, `error`, and `refresh` via `ref`. Pair it with [`useWeather`](/hooks/use-weather) if you need fine-grained control or background refreshes.
+组件会通过 `ref` 暴露 `weather`、`live`、`forecast`、`loading`、`error` 和 `refresh`。如果需要更细粒度控制或后台刷新，可以直接搭配 [`useWeather`](/hooks/use-weather) 使用。
 
 <ClientOnly>
   <WeatherPanelDemo />
@@ -35,7 +35,7 @@ The component exposes `weather`, `live`, `forecast`, `loading`, `error`, and `re
 import WeatherPanelDemo from '../examples/WeatherPanelDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface WeatherPanelProps {
@@ -46,12 +46,12 @@ export interface WeatherPanelProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide your `VITE_AMAP_KEY` and enable the `AMap.Weather` plugin before mounting the panel; otherwise no data will load.
-- Use the `error` event to surface network or quota issues to users and consider retry strategies.
-- When `auto` is `false`, call the exposed `refresh(city)` method manually after updating `modelValue`.
+- 面板挂载前请提供 `VITE_AMAP_KEY` 并启用 `AMap.Weather` 插件，否则不会加载数据。
+- 监听 `error` 事件，将网络或配额问题反馈给用户，并考虑重试策略。
+- `auto` 为 `false` 时，更新 `modelValue` 后需要手动调用暴露的 `refresh(city)` 方法。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

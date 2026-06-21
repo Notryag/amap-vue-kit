@@ -21,32 +21,32 @@ const {
 
 <template>
   <section class="card notice">
-    <h2>API key</h2>
+    <h2>API Key</h2>
     <template v-if="usingEnvKey">
       <p>
-        Using key from <code>.env.local</code>. Restart the dev server after changing it.
+        正在使用 <code>.env.local</code> 中的 Key。修改后请重启开发服务器。
       </p>
     </template>
     <template v-else>
       <p v-if="usingRuntimeKey">
-        Using a runtime key stored in this browser. Clear it below to switch back to the placeholder map.
+        正在使用保存在当前浏览器中的临时 Key。清除后会切回占位地图。
       </p>
       <p v-else>
-        Paste a JSAPI key to load the live map. The key is saved to local storage for convenience.
+        粘贴 JSAPI Key 后即可加载真实地图。为方便调试，该 Key 会保存在本地存储中。
       </p>
       <label class="form-field">
-        <span>Temporary key</span>
+        <span>临时 Key</span>
         <input
           v-model="runtimeKeyDraft"
           type="text"
-          placeholder="Paste your AMap JSAPI key"
+          placeholder="粘贴你的高德 JSAPI Key"
           autocomplete="off"
           spellcheck="false"
         >
       </label>
       <div class="button-row key-actions">
         <button type="button" :disabled="!canApplyRuntimeKey" @click="$emit('applyRuntimeKey')">
-          Apply key
+          应用 Key
         </button>
         <button
           v-if="usingRuntimeKey"
@@ -54,11 +54,11 @@ const {
           class="secondary"
           @click="$emit('clearRuntimeKey')"
         >
-          Clear key
+          清除 Key
         </button>
       </div>
       <p class="field-hint">
-        Stored locally as <code>{{ PLAYGROUND_KEY_STORAGE_KEY }}</code>. Never committed to the repository.
+        本地存储键名为 <code>{{ PLAYGROUND_KEY_STORAGE_KEY }}</code>，不会提交到仓库。
       </p>
     </template>
   </section>

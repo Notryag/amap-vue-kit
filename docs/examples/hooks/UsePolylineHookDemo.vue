@@ -41,7 +41,7 @@ const distance = computed(() => path.value.length - 1)
         </label>
         <label>
           <input v-model="showDirection" type="checkbox">
-          Show direction arrows
+          显示方向箭头
         </label>
         <div>Segments: {{ distance }}</div>
       </div>

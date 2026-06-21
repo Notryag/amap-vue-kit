@@ -29,7 +29,7 @@ useTileLayer(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 custom tile switching.
+      配置 <code>VITE_AMAP_KEY</code> 后预览自定义瓦片切换。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

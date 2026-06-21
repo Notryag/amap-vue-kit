@@ -39,20 +39,9 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist temp"
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true});fs.rmSync('temp',{recursive:true,force:true})\""
   },
   "peerDependencies": {
     "vue": "^3.4.0"
-  },
-  "dependencies": {
-    "@amap/amap-jsapi-types": "^0.0.15",
-    "@types/amap-js-api-autocomplete": "^1.4.4",
-    "@types/amap-js-api-district-search": "^1.4.4",
-    "@types/amap-js-api-driving": "^1.4.4",
-    "@types/amap-js-api-geocoder": "^1.4.4",
-    "@types/amap-js-api-geolocation": "^1.4.4",
-    "@types/amap-js-api-place-search": "^1.4.4",
-    "@types/amap-js-api-riding": "^1.4.4",
-    "@types/amap-js-api-transfer": "^1.4.4"
   }
 }

@@ -1,6 +1,6 @@
-# Mass Markers
+# 海量点
 
-Mass markers allow you to render tens of thousands of points efficiently by delegating rendering to the JSAPI.
+海量点适合一次渲染成千上万的点位。它把绘制工作交给 JSAPI 内部批处理，比逐个创建普通 Marker 更轻量。
 
 ```ts
 import { useMassMarkers } from '@amap-vue/hooks'
@@ -15,7 +15,7 @@ const mass = useMassMarkers(() => map.value, () => ({
 }))
 ```
 
-Use the composable inside `ready` handlers to ensure the map exists before instantiation. Mass markers share the loader so additional plugins are only requested once.
+建议在地图 ready 后再创建海量点，确保地图实例已经存在。`useMassMarkers` 会复用共享 loader，额外插件只会请求一次。
 
 ## 在线示例
 
@@ -23,9 +23,9 @@ Use the composable inside `ready` handlers to ensure the map exists before insta
   <UseMassMarkersHookDemo />
 </ClientOnly>
 
-## Mass markers vs labels layer
+## 海量点与标签图层对比
 
-Switch between high-density mass markers and rich label markers using the same dataset.
+同一份数据可以在高密度海量点和更丰富的 LabelMarker 标签图层之间切换，按场景选择性能或展示能力。
 
 <ClientOnly>
   <MassMarksComparisonDemo />
@@ -36,12 +36,12 @@ import UseMassMarkersHookDemo from '../examples/hooks/UseMassMarkersHookDemo.vue
 import MassMarksComparisonDemo from '../examples/MassMarksComparisonDemo.vue'
 </script>
 
-### Tips
+### 说明
 
-- Use multiple style entries to support conditional colouring via the data `style` index.
-- Keep `extData` payloads tiny—mass markers shine when each row is a few numbers rather than complex objects.
-- Call `setData` with a new array when streaming updates from the server; the plugin reuses internal buffers.
+- 可以配置多组 `style`，再通过数据项里的 `style` 索引实现条件配色。
+- `extData` 尽量保持精简；海量点最适合每条数据只有坐标、分类、数值这类轻量字段的场景。
+- 服务端持续推送点位时，用新数组调用 `setData`；插件会复用内部缓冲区。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

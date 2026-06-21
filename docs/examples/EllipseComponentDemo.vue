@@ -22,7 +22,7 @@ const options = computed(() => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the ellipse overlay.
+      配置 <code>VITE_AMAP_KEY</code> 后预览椭圆覆盖物。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -44,7 +44,7 @@ const options = computed(() => ({
           <input v-model="strokeColor" type="color">
         </label>
         <label>
-          Fill opacity
+          填充透明度
           <input v-model.number="fillOpacity" type="range" min="0" max="0.8" step="0.05">
         </label>
       </div>

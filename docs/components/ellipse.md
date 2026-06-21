@@ -1,25 +1,25 @@
 # `<AmapEllipse>`
 
-`<AmapEllipse>` renders JSAPI ellipses with reactive control over center, radii, styling, and visibility. Use it to highlight coverage areas or uncertainty regions without imperatively managing the overlay.
+`<AmapEllipse>` 以响应式方式控制中心点、半径、样式和可见性，用于渲染 JSAPI 椭圆。适合高亮覆盖范围或不确定区域，无需手动管理覆盖物。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `center` | `LngLatLike` | – | Geographical center of the ellipse. |
-| `radius` | `[number, number]` | – | Horizontal and vertical radii in meters. |
-| `options` | `Partial<AMap.EllipseOptions>` | `{}` | Additional JSAPI options such as stroke/fill styles or cursor. |
-| `visible` | `boolean` | `true` | Toggle display without destroying the overlay. |
-| `extData` | `any` | – | Metadata stored on the ellipse instance. |
+| `center` | `LngLatLike` | – | 椭圆地理中心点。 |
+| `radius` | `[number, number]` | – | 水平和垂直半径，单位为米。 |
+| `options` | `Partial<AMap.EllipseOptions>` | `{}` | 额外 JSAPI 选项，例如描边、填充样式或光标。 |
+| `visible` | `boolean` | `true` | 切换显示状态但不销毁覆盖物。 |
+| `extData` | `any` | – | 存储在椭圆实例上的元数据。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Ellipse` | Fired when the ellipse instance is created. |
-| `click` | `any` | Pointer click on the ellipse. |
-| `mouseover` | `any` | Pointer enters the ellipse. |
-| `mouseout` | `any` | Pointer leaves the ellipse. |
+| `ready` | `AMap.Ellipse` | 椭圆实例创建后触发。 |
+| `click` | `any` | 指针点击椭圆时触发。 |
+| `mouseover` | `any` | 指针进入椭圆时触发。 |
+| `mouseout` | `any` | 指针离开椭圆时触发。 |
 
 ## 用法
 
@@ -28,7 +28,7 @@
   <AmapEllipse
     :center="[116.406, 39.912]"
     :radius="[900, 500]"
-    :options="{ stroke颜色: '#fd7e14', strokeWeight: 2, fill颜色: 'rgba(253, 126, 20, 0.3)' }"
+    :options="{ strokeColor: '#fd7e14', strokeWeight: 2, fillColor: 'rgba(253, 126, 20, 0.3)' }"
   />
 </AmapMap>
 ```
@@ -43,7 +43,7 @@
 import EllipseComponentDemo from '../examples/EllipseComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface EllipseProps {
@@ -55,12 +55,12 @@ export interface EllipseProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Radius values are distances in meters; convert from degrees if you start with geographic deltas.
-- Provide stable array references for `radius` and `center` updates to ensure Vue reactivity propagates.
-- Use `extData` to store identifiers that editor hooks or mouse tools can later resolve.
+- `radius` 使用米作为距离单位；如果来源是经纬度差值，请先换算。
+- 更新 `radius` 和 `center` 时尽量提供稳定数组引用，确保 Vue 响应式能正确传播。
+- 使用 `extData` 存储标识，便于编辑器 hooks 或鼠标工具后续解析。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

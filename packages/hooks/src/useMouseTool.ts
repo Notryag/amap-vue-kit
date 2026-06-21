@@ -2,7 +2,8 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface UseMouseToolOptions {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
@@ -141,7 +142,7 @@ export function useMouseTool(
     void ensureTool()
   }, { immediate: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

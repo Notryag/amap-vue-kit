@@ -28,7 +28,7 @@ function updateRegion(next: string) {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 administrative layers.
+      配置 <code>VITE_AMAP_KEY</code> 后预览行政区图层。
     </div>
     <template v-else>
       <div class="amap-demo__map">

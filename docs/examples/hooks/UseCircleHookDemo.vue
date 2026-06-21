@@ -40,18 +40,18 @@ function decreaseRadius() {
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <button type="button" @click="decreaseRadius">
-          − Radius
+          − 半径
         </button>
-        <div>Radius: {{ radius }} m</div>
+        <div>半径：{{ radius }} m</div>
         <button type="button" @click="increaseRadius">
-          + Radius
+          + 半径
         </button>
         <label>
-          Stroke
+          描边
           <input v-model="strokeColor" type="color">
         </label>
         <label>
-          Fill opacity
+          填充透明度
           <input v-model.number="fillOpacity" type="range" min="0" max="0.8" step="0.05">
         </label>
       </div>

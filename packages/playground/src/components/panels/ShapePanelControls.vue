@@ -24,17 +24,17 @@ const {
   <div v-if="activePanel === 'polyline'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="polylineState.visible" type="checkbox">
-      <span>Show polyline</span>
+      <span>显示折线</span>
     </label>
 
     <label class="form-field slider">
-      <span>Stroke weight</span>
+      <span>描边宽度</span>
       <div class="slider-control">
         <input v-model.number="polylineState.strokeWeight" type="range" min="1" max="12" step="1">
         <span>{{ polylineState.strokeWeight }} px</span>
@@ -42,7 +42,7 @@ const {
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="polylineState.strokeColor" type="color">
     </label>
   </div>
@@ -50,27 +50,27 @@ const {
   <div v-else-if="activePanel === 'polygon'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="polygonState.visible" type="checkbox">
-      <span>Show polygon</span>
+      <span>显示多边形</span>
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="polygonState.strokeColor" type="color">
     </label>
 
     <label class="form-field">
-      <span>Fill colour</span>
+      <span>填充颜色</span>
       <input v-model="polygonState.fillColor" type="color">
     </label>
 
     <label class="form-field slider">
-      <span>Fill opacity</span>
+      <span>填充透明度</span>
       <div class="slider-control">
         <input v-model.number="polygonState.fillOpacity" type="range" min="0" max="1" step="0.05">
         <span>{{ Math.round(polygonState.fillOpacity * 100) }}%</span>
@@ -81,17 +81,17 @@ const {
   <div v-else-if="activePanel === 'circle'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="circleState.visible" type="checkbox">
-      <span>Show circle</span>
+      <span>显示圆形</span>
     </label>
 
     <label class="form-field slider">
-      <span>Radius</span>
+      <span>半径</span>
       <div class="slider-control">
         <input v-model.number="circleState.radius" type="range" min="100" max="2000" step="50">
         <span>{{ circleState.radius }} m</span>
@@ -99,17 +99,17 @@ const {
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="circleState.strokeColor" type="color">
     </label>
 
     <label class="form-field">
-      <span>Fill colour</span>
+      <span>填充颜色</span>
       <input v-model="circleState.fillColor" type="color">
     </label>
 
     <label class="form-field slider">
-      <span>Fill opacity</span>
+      <span>填充透明度</span>
       <div class="slider-control">
         <input v-model.number="circleState.fillOpacity" type="range" min="0" max="1" step="0.05">
         <span>{{ Math.round(circleState.fillOpacity * 100) }}%</span>
@@ -120,27 +120,27 @@ const {
   <div v-else-if="activePanel === 'rectangle'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="rectangleState.visible" type="checkbox">
-      <span>Show rectangle</span>
+      <span>显示矩形</span>
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="rectangleState.strokeColor" type="color">
     </label>
 
     <label class="form-field">
-      <span>Fill colour</span>
+      <span>填充颜色</span>
       <input v-model="rectangleState.fillColor" type="color">
     </label>
 
     <label class="form-field slider">
-      <span>Fill opacity</span>
+      <span>填充透明度</span>
       <div class="slider-control">
         <input v-model.number="rectangleState.fillOpacity" type="range" min="0" max="1" step="0.05">
         <span>{{ Math.round(rectangleState.fillOpacity * 100) }}%</span>
@@ -151,17 +151,17 @@ const {
   <div v-else-if="activePanel === 'ellipse'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="ellipseState.visible" type="checkbox">
-      <span>Show ellipse</span>
+      <span>显示椭圆</span>
     </label>
 
     <label class="form-field slider">
-      <span>Horizontal radius</span>
+      <span>水平半径</span>
       <div class="slider-control">
         <input v-model.number="ellipseState.radiusX" type="range" min="200" max="1800" step="50">
         <span>{{ ellipseState.radiusX }} m</span>
@@ -169,7 +169,7 @@ const {
     </label>
 
     <label class="form-field slider">
-      <span>Vertical radius</span>
+      <span>垂直半径</span>
       <div class="slider-control">
         <input v-model.number="ellipseState.radiusY" type="range" min="200" max="1200" step="50">
         <span>{{ ellipseState.radiusY }} m</span>
@@ -177,17 +177,17 @@ const {
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="ellipseState.strokeColor" type="color">
     </label>
 
     <label class="form-field">
-      <span>Fill colour</span>
+      <span>填充颜色</span>
       <input v-model="ellipseState.fillColor" type="color">
     </label>
 
     <label class="form-field slider">
-      <span>Fill opacity</span>
+      <span>填充透明度</span>
       <div class="slider-control">
         <input v-model.number="ellipseState.fillOpacity" type="range" min="0" max="1" step="0.05">
         <span>{{ Math.round(ellipseState.fillOpacity * 100) }}%</span>
@@ -198,17 +198,17 @@ const {
   <div v-else-if="activePanel === 'bezierCurve'" class="panel-body">
     <div class="button-row">
       <button type="button" @click="$emit('locate')">
-        Locate shape
+        定位图形
       </button>
     </div>
 
     <label class="toggle">
       <input v-model="bezierCurveState.visible" type="checkbox">
-      <span>Show bezier curve</span>
+      <span>显示贝塞尔曲线</span>
     </label>
 
     <label class="form-field slider">
-      <span>Stroke weight</span>
+      <span>描边宽度</span>
       <div class="slider-control">
         <input v-model.number="bezierCurveState.strokeWeight" type="range" min="1" max="12" step="1">
         <span>{{ bezierCurveState.strokeWeight }} px</span>
@@ -216,7 +216,7 @@ const {
     </label>
 
     <label class="form-field">
-      <span>Stroke colour</span>
+      <span>描边颜色</span>
       <input v-model="bezierCurveState.strokeColor" type="color">
     </label>
   </div>

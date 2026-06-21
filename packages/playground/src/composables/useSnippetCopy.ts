@@ -17,25 +17,25 @@ export function useSnippetCopy(options: {
 
   const copyButtonLabel = computed(() => {
     if (copyStatus.value === 'copied')
-      return 'Copied!'
+      return '已复制'
 
     if (copyStatus.value === 'error')
-      return 'Retry copy'
+      return '重试复制'
 
-    return 'Copy snippet'
+    return '复制代码片段'
   })
 
   const copyStatusMessage = computed(() => {
     if (!hasSnippet.value)
-      return 'Snippet is unavailable for the current panel.'
+      return '当前面板没有可用代码片段。'
 
     if (copyStatus.value === 'copied')
-      return `${options.activePanelLabel.value} snippet copied to the clipboard.`
+      return `${options.activePanelLabel.value} 代码片段已复制到剪贴板。`
 
     if (copyStatus.value === 'error')
-      return copyErrorMessage.value || 'Clipboard copy failed. Try copying manually.'
+      return copyErrorMessage.value || '剪贴板复制失败，请手动复制。'
 
-    return `Copy the ${options.activePanelLabel.value} panel as a ready-to-use <script setup> snippet.`
+    return `将 ${options.activePanelLabel.value} 面板复制为可直接使用的 <script setup> 代码片段。`
   })
 
   const copyButtonStateClass = computed(() => (
@@ -97,7 +97,7 @@ export function useSnippetCopy(options: {
   async function copySnippet() {
     if (!hasSnippet.value) {
       copyStatus.value = 'error'
-      copyErrorMessage.value = 'No snippet available for this panel.'
+      copyErrorMessage.value = '当前面板没有可用代码片段。'
       scheduleCopyReset('error')
       return
     }
@@ -112,7 +112,7 @@ export function useSnippetCopy(options: {
     }
     else {
       copyStatus.value = 'error'
-      copyErrorMessage.value = 'Clipboard copy is not supported in this environment.'
+      copyErrorMessage.value = '当前环境不支持剪贴板复制。'
       scheduleCopyReset('error')
     }
   }

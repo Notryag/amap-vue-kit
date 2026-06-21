@@ -87,7 +87,7 @@ function moveNorth() {
           显示
         </label>
         <button type="button" @click="moveNorth">
-          Move north
+          向北移动
         </button>
       </div>
     </template>

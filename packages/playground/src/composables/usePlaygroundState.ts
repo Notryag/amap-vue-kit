@@ -23,7 +23,7 @@ export function usePlaygroundState() {
   const markerState = reactive({
     draggable: true,
     showLabel: true,
-    labelText: 'Drag me around',
+    labelText: '拖动我',
     labelDirection: 'top' as MarkerLabelDirection,
     offsetX: 0,
     offsetY: -10,
@@ -31,7 +31,7 @@ export function usePlaygroundState() {
 
   const textState = reactive({
     visible: true,
-    text: 'Text overlay',
+    text: '文本覆盖物',
     color: '#0f172a',
   })
 
@@ -59,8 +59,8 @@ export function usePlaygroundState() {
 
   const infoWindowState = reactive({
     isOpen: true,
-    title: 'Playground ready',
-    body: 'Drag the marker or adjust controls to explore component props.',
+    title: '演练场已就绪',
+    body: '拖动标记或调整控件以探索组件 props。',
     anchor: 'bottom-center' as InfoWindowAnchor,
     offsetX: 0,
     offsetY: 0,

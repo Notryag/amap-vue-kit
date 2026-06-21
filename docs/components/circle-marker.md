@@ -1,25 +1,25 @@
 # `<AmapCircleMarker>`
 
-`<AmapCircleMarker>` wraps the lightweight JSAPI circle marker overlay which renders as a scalable vector circle anchored to map coordinates.
+`<AmapCircleMarker>` 封装轻量 JSAPI 圆点覆盖物，用于在地图坐标上渲染可缩放的矢量圆。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `center` | `LngLatLike` | Marker center coordinates. |
-| `radius` | `number` | Radius in pixels. |
-| `visible` | `boolean` | Controls marker visibility. |
-| `extData` | `any` | Arbitrary metadata attached to the marker. |
-| `options` | `Partial<AMap.CircleMarkerOptions>` | Additional JSAPI options such as colors or cursor. |
+| `center` | `LngLatLike` | 标记中心坐标。 |
+| `radius` | `number` | 半径，单位为像素。 |
+| `visible` | `boolean` | 控制标记可见性。 |
+| `extData` | `any` | 附加到标记的任意元数据。 |
+| `options` | `Partial<AMap.CircleMarkerOptions>` | 额外 JSAPI 选项，例如颜色或光标。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.CircleMarker` | Fired when the marker instance is ready. |
-| `click` | `any` | Click events on the circle marker. |
-| `mouseover` | `any` | Hover enter events. |
-| `mouseout` | `any` | Hover leave events. |
+| `ready` | `AMap.CircleMarker` | 标记实例就绪后触发。 |
+| `click` | `any` | 圆点标记点击事件。 |
+| `mouseover` | `any` | 鼠标移入事件。 |
+| `mouseout` | `any` | 鼠标移出事件。 |
 
 ## 用法
 
@@ -28,7 +28,7 @@
   <AmapCircleMarker
     :center="[116.397, 39.908]"
     :radius="16"
-    :options="{ fill颜色: 'rgba(22, 119, 255, 0.45)', stroke颜色: '#1677ff' }"
+    :options="{ fillColor: 'rgba(22, 119, 255, 0.45)', strokeColor: '#1677ff' }"
   />
 </AmapMap>
 ```
@@ -43,6 +43,6 @@
 import CircleMarkerComponentDemo from '../examples/CircleMarkerComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

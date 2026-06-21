@@ -27,7 +27,7 @@ const options = computed(() => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the polygon.
+      配置 <code>VITE_AMAP_KEY</code> 后预览多边形。
     </div>
     <template v-else>
       <div class="amap-demo__map">

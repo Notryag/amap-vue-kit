@@ -1,6 +1,6 @@
-# Linked Info Windows
+# 列表联动信息窗体
 
-Synchronize a POI list with markers and info windows so hovering or clicking highlights a single location. The pattern relies on reactive state instead of imperative DOM queries, which keeps the UI in sync on both desktop and mobile.
+这个场景演示如何让 POI 列表、Marker 和 InfoWindow 保持同步。用户悬停列表项、点击 Marker 或键盘聚焦时，只需要更新一个响应式 `activeId`，地图覆盖物会跟着刷新。
 
 ```vue
 <script setup lang="ts">
@@ -15,9 +15,9 @@ interface Place {
 }
 
 const places: Place[] = [
-  { id: 1, name: 'North Gate Café', address: '12 Chaoyangmen W St', position: [116.396923, 39.90816] },
-  { id: 2, name: 'Library', address: '88 Workers Stadium Rd', position: [116.40021, 39.90986] },
-  { id: 3, name: 'Rooftop Garden', address: '22 Jinbao St', position: [116.40137, 39.90745] },
+  { id: 1, name: '北门咖啡馆', address: '朝阳门西街 12 号', position: [116.396923, 39.90816] },
+  { id: 2, name: '图书馆', address: '工人体育场路 88 号', position: [116.40021, 39.90986] },
+  { id: 3, name: '屋顶花园', address: '金宝街 22 号', position: [116.40137, 39.90745] },
 ]
 
 const container = ref<HTMLDivElement | null>(null)
@@ -124,17 +124,17 @@ ready(() => {
 </style>
 ```
 
-The watcher keeps the info window and marker in sync regardless of whether the user hovers over the list, taps a marker, or navigates with keyboard focus. Remember to call `infoWindow.close()` when the selection becomes `null` to hide the overlay.
+示例中的 watcher 负责把当前选中项同步到信息窗体。无论交互来自列表 hover、Marker click，还是键盘 focus，都走同一条状态更新链路。选中项变成 `null` 时记得调用 `infoWindow.close()` 隐藏浮窗。
 
-## Tips
+## 说明
 
-- Store additional metadata in `extData` so clicking the marker can update other UI such as detail panels.
-- Debounce `focusPlace` when syncing with fast-moving inputs (like list scrolling) to avoid spamming info window updates.
-- On mobile, trigger `focusPlace` on `click` or `touchstart` instead of hover-only events so the interaction works without a mouse.
+- 可以把业务元数据放进 `extData`，点击 Marker 时同步更新详情面板、表格高亮等 UI。
+- 如果列表滚动或搜索输入会频繁触发选中变化，可以给 `focusPlace` 加 debounce，减少信息窗体反复更新。
+- 移动端没有 hover，建议同时绑定 `click` 或 `touchstart`，保证触屏设备也能触发联动。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
 
 ## 在线示例
 

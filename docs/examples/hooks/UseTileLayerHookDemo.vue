@@ -22,26 +22,26 @@ useSatelliteLayer(() => map.value, () => ({ visible: showSatellite.value }))
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 tile layer hooks.
+      配置 <code>VITE_AMAP_KEY</code> 后预览瓦片图层 hooks。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="showBase" type="checkbox">
-          Base tiles
+          基础瓦片
         </label>
         <label>
           <input v-model="showTraffic" type="checkbox">
-          Traffic
+          实时路况
         </label>
         <label>
           <input v-model="showRoadNet" type="checkbox">
-          Road net
+          路网
         </label>
         <label>
           <input v-model="showSatellite" type="checkbox">
-          Satellite
+          卫星影像
         </label>
       </div>
     </template>

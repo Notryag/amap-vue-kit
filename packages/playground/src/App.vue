@@ -70,7 +70,7 @@ const { eventLog, logEvent } = useEventLog()
 
 logEvent(
   'Map',
-  hasKey.value ? 'API key ready' : 'API key missing',
+  hasKey.value ? 'API Key 已就绪' : '缺少 API Key',
   keyStatusDetail.value,
 )
 
@@ -339,7 +339,7 @@ function applyRuntimeKey() {
   key.applyRuntimeKey()
 
   if (runtimeKey.value.trim() !== previous)
-    logEvent('Map', 'api-key', 'Runtime key applied. Reloading JSAPI with live data.')
+    logEvent('Map', 'api-key', '已应用临时 Key，正在用真实数据重新加载 JSAPI。')
 }
 
 function clearRuntimeKey() {
@@ -347,7 +347,7 @@ function clearRuntimeKey() {
     return
 
   key.clearRuntimeKey()
-  logEvent('Map', 'api-key', 'Runtime key cleared. Using placeholder map instead.')
+  logEvent('Map', 'api-key', '已清除临时 Key，切换为占位地图。')
 }
 
 function resetView() {
@@ -412,7 +412,7 @@ function locateGeojsonLayer() {
 function handleMapReady(map: AMap.Map) {
   inspector.setMapInstance(map)
   performance.ensureMassMarkerStyles()
-  logEvent('Map', 'ready', 'Map initialised and controls are interactive.')
+  logEvent('Map', 'ready', '地图已初始化，控件可交互。')
   inspector.scheduleInspectorRefresh()
 }
 
@@ -445,7 +445,7 @@ function handleMapMoveend(event: any) {
   if (typeof currentRotation === 'number')
     rotation.value = Math.round(currentRotation)
 
-  logEvent('Map', 'moveend', `Center ${centerText.value} · zoom ${zoom.value}`)
+  logEvent('Map', 'moveend', `中心点 ${centerText.value} · 缩放 ${zoom.value}`)
   scheduleInspectorRefresh()
 }
 
@@ -465,7 +465,7 @@ function handleMarkerClick() {
   if (activePanel.value === 'infoWindow')
     infoWindowState.isOpen = true
 
-  logEvent('Marker', 'click', 'Marker clicked')
+  logEvent('Marker', 'click', '点击标记')
 }
 
 function handleMapClick(event: any) {
@@ -474,17 +474,17 @@ function handleMapClick(event: any) {
   if (lnglat)
     logEvent('Map', 'click', `${lnglat.lng.toFixed(6)}, ${lnglat.lat.toFixed(6)}`)
   else
-    logEvent('Map', 'click', 'Click event received')
+    logEvent('Map', 'click', '已收到点击事件')
 }
 
 function handleInfoWindowOpen() {
   infoWindowState.isOpen = true
-  logEvent('InfoWindow', 'open', 'Info window opened')
+  logEvent('InfoWindow', 'open', '信息窗体已打开')
 }
 
 function handleInfoWindowClose() {
   infoWindowState.isOpen = false
-  logEvent('InfoWindow', 'close', 'Info window closed')
+  logEvent('InfoWindow', 'close', '信息窗体已关闭')
 }
 
 onBeforeUnmount(() => {

@@ -1,26 +1,26 @@
 # `<AmapDriving>`
 
-Plan driving routes with a built-in form and optional result panel. `<AmapDriving>` wraps [`useDriving`](/hooks/use-driving), handles user input, and renders the JSAPI Driving panel when enabled.
+通过内置表单和可选结果面板规划驾车路线。`<AmapDriving>` 封装 [`useDriving`](/hooks/use-driving)，处理用户输入，并在启用时渲染 JSAPI 驾车结果面板。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `origin` | `DrivingEndpoint` | `undefined` | Start point (address string or `LngLatLike`). |
-| `destination` | `DrivingEndpoint` | `undefined` | End point (address string or `LngLatLike`). |
-| `auto` | `boolean` | `true` | Automatically trigger routing whenever origin/destination changes. |
-| `panel` | `boolean` | `true` | Render the native Driving result panel. |
-| `options` | `Partial<AMap.Driving.Options>` | `{}` | Extra JSAPI driving options such as `policy`, `ferry`, etc. |
-| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
+| `origin` | `DrivingEndpoint` | `undefined` | 起点，支持地址字符串或 `LngLatLike`。 |
+| `destination` | `DrivingEndpoint` | `undefined` | 终点，支持地址字符串或 `LngLatLike`。 |
+| `auto` | `boolean` | `true` | 起点或终点变化时自动触发路线规划。 |
+| `panel` | `boolean` | `true` | 渲染原生驾车结果面板。 |
+| `options` | `Partial<AMap.Driving.Options>` | `{}` | 额外 JSAPI 驾车配置，例如 `policy`、`ferry` 等。 |
+| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | 将路线渲染绑定到地图实例。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | 自定义 Key 或插件的加载器配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Driving` | Fired once the Driving service is created. |
-| `search` | `{ origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.Driving.SearchResult \| null }` | Fired after each routing request. |
-| `error` | `string` | Emitted when the component cannot compute a route. |
+| `ready` | `AMap.Driving` | 驾车服务创建完成后触发。 |
+| `search` | `{ origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.Driving.SearchResult \| null }` | 每次路线请求结束后触发。 |
+| `error` | `string` | 组件无法计算路线时触发。 |
 
 ## 用法
 
@@ -38,7 +38,7 @@ Plan driving routes with a built-in form and optional result panel. `<AmapDrivin
 import DrivingComponentDemo from '../examples/DrivingComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface AmapDrivingProps {
@@ -52,12 +52,12 @@ export interface AmapDrivingProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide the `map` prop if you want the route line rendered on an existing `<AmapMap>` instance.
-- Set `auto=false` when you need manual control and call the exposed `search` method.
-- Disable `panel` and supply your own slot layout if you want to render a custom result panel.
+- 如果希望在已有 `<AmapMap>` 实例上渲染路线，请传入 `map` prop。
+- 需要手动控制时设置 `auto=false`，并调用暴露的 `search` 方法。
+- 如需自定义结果面板，请禁用 `panel` 并提供自己的插槽布局。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

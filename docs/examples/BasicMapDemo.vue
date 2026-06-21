@@ -14,7 +14,7 @@ const hasKey = computed(() => Boolean(key))
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to see the live demo.
+      配置 <code>VITE_AMAP_KEY</code> 后查看在线示例。
     </div>
     <div v-else class="amap-demo__map">
       <AmapMap :center="center" :zoom="zoom">

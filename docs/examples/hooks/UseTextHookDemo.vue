@@ -5,7 +5,7 @@ import { useHookDemoMap } from './useHookDemoMap'
 
 const { container, hasKey, map } = useHookDemoMap()
 
-const message = ref('Editable label')
+const message = ref('可编辑文本')
 const visible = ref(true)
 const highlight = ref(false)
 
@@ -42,7 +42,7 @@ overlay.on('click', () => {
       <div class="amap-demo__toolbar">
         <label>
           Message
-          <input v-model="message" type="text" placeholder="Editable label">
+          <input v-model="message" type="text" placeholder="输入文本">
         </label>
         <label>
           <input v-model="visible" type="checkbox">

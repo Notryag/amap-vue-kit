@@ -28,7 +28,7 @@ on('complete', () => {
     setTheme('amap://styles/dark')
 })
 
-const themeLabel = computed(() => theme.value === 'default' ? 'Default' : 'Dark (night)')
+const themeLabel = computed(() => theme.value === 'default' ? '默认' : '深色（夜间）')
 
 function flyTo(point: [number, number], nextZoom: number) {
   center.value = point
@@ -54,16 +54,16 @@ function toggleViewMode() {
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
-        <div>Center: {{ center[0].toFixed(3) }}, {{ center[1].toFixed(3) }}</div>
-        <div>Zoom: {{ zoom }}</div>
+        <div>中心点：{{ center[0].toFixed(3) }}, {{ center[1].toFixed(3) }}</div>
+        <div>缩放：{{ zoom }}</div>
         <button type="button" @click="() => flyTo([116.397, 39.918], 14)">
-          Fly to Jingshan Park
+          飞到景山公园
         </button>
         <button type="button" @click="toggleTheme">
-          Theme: {{ themeLabel }}
+          主题：{{ themeLabel }}
         </button>
         <button type="button" @click="toggleViewMode">
-          View mode: {{ viewMode }}
+          视图模式：{{ viewMode }}
         </button>
       </div>
     </template>

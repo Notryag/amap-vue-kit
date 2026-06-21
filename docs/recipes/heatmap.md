@@ -1,6 +1,6 @@
-# Heatmap
+# 热力图
 
-Heatmaps provide an at-a-glance view of density. Load the `Heatmap` plugin via the shared loader.
+热力图可以快速呈现密度分布。请通过共享 loader 加载 `Heatmap` 插件。
 
 ```ts
 ready((map) => {
@@ -21,7 +21,7 @@ ready((map) => {
 })
 ```
 
-Wrap the heatmap instance in a composable to react to prop changes if you plan to update the dataset frequently.
+如果需要频繁更新数据集，建议把热力图实例封装到 composable 中，以便响应 props 变化。
 
 ## 在线示例
 

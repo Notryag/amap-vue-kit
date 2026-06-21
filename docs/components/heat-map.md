@@ -1,25 +1,25 @@
 # `<AmapHeatMap>`
 
-Visualise density-based metrics using the JSAPI heat map plugin. The component keeps the dataset in sync with Vue state and
+使用 JSAPI 热力图插件可视化密度类指标。组件会让数据集与 Vue 状态保持同步，并
 exposes helpers to push incremental updates.
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `data` | `AMap.HeatMapDataPoint[]` | `[]` | Collection of points with `lng`, `lat`, and `count`. |
 | `max` | `number \| undefined` | – | Optional maximum value used to normalise the gradient. |
-| `radius` | `number \| undefined` | – | Radius of influence for each point (in pixels). |
+| `radius` | `number \| undefined` | – | 每个点的影响半径，单位为像素。 |
 | `gradient` | `Record<string, string> \| undefined` | – | Custom colour stops mapping ratios (`'0.5'`) to CSS colours. |
 | `opacity` | `[number, number] \| undefined` | – | Min/max opacity bounds passed to the JSAPI plugin. |
-| `visible` | `boolean` | `true` | Toggle the heat map without destroying it. |
-| `options` | `Partial<AMap.HeatMapOptions>` | `{}` | Additional JSAPI options such as `zoomFactor` or `unit`. |
+| `visible` | `boolean` | `true` | 切换热力图可见性但不销毁实例。 |
+| `options` | `Partial<AMap.HeatMapOptions>` | `{}` | 额外 JSAPI 选项，例如 `zoomFactor` 或 `unit`。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.HeatMap` | Emitted when the plugin instance is created. |
+| `ready` | `AMap.HeatMap` | 插件实例创建完成时触发。 |
 
 ## 用法
 
@@ -29,7 +29,7 @@ exposes helpers to push incremental updates.
 </AmapMap>
 ```
 
-The component requests the `AMap.HeatMap` plugin on demand and automatically reapplies options when `data`, `radius`, or the grad
+组件会按需请求 `AMap.HeatMap` 插件，并在 `data`、`radius` 或渐变配置变化时自动重新应用配置。
 ient change.
 
 <ClientOnly>
@@ -40,7 +40,7 @@ ient change.
 import HeatMapDemo from '../examples/HeatMapDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface HeatMapProps {
@@ -54,12 +54,12 @@ export interface HeatMapProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
 - Large datasets benefit from pre-aggregating values on the server to reduce payload size.
 - The heat map uses pixel radii. Increase the radius at low zoom levels to avoid sparse visuals.
-- When mixing heat maps with other WebGL overlays, prefer the same `zIndex` ordering to avoid flickering artefacts.
+- 热力图与其他 WebGL 覆盖物混用时，建议统一 `zIndex` 顺序，避免闪烁伪影。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

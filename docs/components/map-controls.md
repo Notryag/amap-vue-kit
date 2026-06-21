@@ -1,21 +1,21 @@
 # `<AmapToolBar>`, `<AmapScale>`, `<AmapControlBar>`, `<AmapMapType>`
 
-These wrapper components expose the built-in JSAPI map controls so you can toggle navigation chrome without writing imperative code. Each control automatically loads the required plugin, attaches itself to the nearest `<AmapMap>`, and tears down on unmount.
+这些封装组件暴露 JSAPI 内置地图控件，让你无需编写命令式代码即可切换导航控件。每个控件都会自动加载所需插件，挂载到最近的 `<AmapMap>`，并在卸载时清理。
 
-## Shared props
+## 共享属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `visible` | `boolean` | `true` | Shows or hides the control without destroying it. |
-| `position` | `'LT' \| 'RT' \| 'LB' \| 'RB' \| undefined` | – | Corner of the map to anchor to (Left/Right × Top/Bottom). |
-| `offset` | `PixelLike \| undefined` | – | Pixel offset from the anchor corner. Accepts `[x, y]` arrays or `AMap.Pixel`. |
-| `options` | `Partial<UseToolBarOptions \| UseScaleOptions \| UseControlBarOptions \| UseMapTypeOptions>` | `{}` | Extra JSAPI options passed to the control. Each component narrows this union to its concrete hook type (see below). |
+| `visible` | `boolean` | `true` | 显示或隐藏控件但不销毁实例。 |
+| `position` | `'LT' \| 'RT' \| 'LB' \| 'RB' \| undefined` | – | 控件锚定到地图的角落（Left/Right × Top/Bottom）。 |
+| `offset` | `PixelLike \| undefined` | – | 相对锚点角落的像素偏移，支持 `[x, y]` 数组或 `AMap.Pixel`。 |
+| `options` | `Partial<UseToolBarOptions \| UseScaleOptions \| UseControlBarOptions \| UseMapTypeOptions>` | `{}` | 传给控件的额外 JSAPI 配置。每个组件会把该联合类型收窄为自己的 hook 类型（见下文）。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.ToolBar \| AMap.Scale \| AMap.ControlBar \| AMap.MapType` | Emits once the control is created and added to the map. |
+| `ready` | `AMap.ToolBar \| AMap.Scale \| AMap.ControlBar \| AMap.MapType` | 控件创建并添加到地图后触发一次。 |
 
 ## 用法
 
@@ -45,7 +45,7 @@ const mapTypeDefaultType = ref<0 | 1>(0)
 </template>
 ```
 
-Toggle the props reactively to reposition the controls, reveal advanced toggles, or hide them without destroying the underlying JSAPI instance.
+响应式切换 props 可以重新定位控件、展示高级开关，或在不销毁底层 JSAPI 实例的情况下隐藏控件。
 
 <ClientOnly>
   <ControlsDemo />
@@ -57,22 +57,22 @@ import ControlsDemo from '../examples/ControlsDemo.vue'
 
 ### 组件专属参数
 
-- **`<AmapControlBar>`** — Accepts `showZoomBar` and `showControlButton` to fine-tune the zoom slider and rotation/tilt switch. Provide extra ControlBar options (such as `liteStyle`) through `options: Partial<UseControlBarOptions>`.
-- **`<AmapMapType>`** — Supports `defaultType` (0 = standard, 1 = satellite), `showTraffic`, and `showRoad` to expose quick toggles on the control. When these init-only options change reactively, the wrapper recreates the JSAPI control so the current map type updates. Additional MapType options (like custom layer lists) can also be passed via `options: Partial<UseMapTypeOptions>`.
+- **`<AmapControlBar>`**：支持 `showZoomBar` 和 `showControlButton`，用于微调缩放滑杆与旋转/倾斜开关。额外 ControlBar 配置（如 `liteStyle`）可通过 `options: Partial<UseControlBarOptions>` 传入。
+- **`<AmapMapType>`**：支持 `defaultType`（0 为标准图，1 为卫星图）、`showTraffic` 和 `showRoad`，用于展示快捷开关。由于这些是初始化配置，响应式变化时封装层会重建 JSAPI 控件，从而更新当前地图类型。其他 MapType 配置（如自定义图层列表）也可通过 `options: Partial<UseMapTypeOptions>` 传入。
 
-### Positioning tips
+### 定位提示
 
-- Align multiple controls by reusing the same `position` and staggering them with incremental `offset` values.
-- The offset `[x, y]` values are measured in CSS pixels from the anchor corner. Use positive `y` values to push controls downward when anchored at the top.
-- Controls can be mixed and matched—e.g. keep `<AmapToolBar>` on `RT` while anchoring `<AmapScale>` to `LB` to avoid overlapping overlays.
+- 多个控件可复用同一个 `position`，再用递增的 `offset` 错开位置。
+- `[x, y]` 偏移值以锚点角落为基准，单位为 CSS 像素。控件锚定在顶部时，使用正 `y` 值可向下移动。
+- 控件可以混合摆放，例如将 `<AmapToolBar>` 放在 `RT`，同时把 `<AmapScale>` 锚定到 `LB`，避免遮挡覆盖物。
 
-### Common pitfalls
+### 常见错误
 
-- Controls must live within `<AmapMap>` so they can access the injected map context. A warning is emitted in development when the context is missing.
-- Loading the same control twice in one corner without adjusting `offset` will stack them. Offset each instance or hide duplicates based on breakpoints.
-- When pairing `<AmapMapType>` with `<AmapTrafficLayer>`, prefer the control's built-in traffic toggle (`showTraffic`) to avoid conflicting state.
+- 控件必须放在 `<AmapMap>` 内部，才能访问注入的地图上下文。开发环境缺少上下文时会给出 warning。
+- 同一个角落重复加载同类控件且不调整 `offset` 会发生重叠。请为每个实例设置偏移，或按断点隐藏重复控件。
+- 将 `<AmapMapType>` 与 `<AmapTrafficLayer>` 搭配使用时，优先使用控件内置交通开关（`showTraffic`），避免状态冲突。
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface ToolBarProps {
@@ -111,8 +111,8 @@ export interface MapTypeProps {
 type ControlReadyPayload = AMap.ToolBar | AMap.Scale | AMap.ControlBar | AMap.MapType
 ```
 
-These interfaces reuse the shared `PixelLike` type from `@amap-vue/shared` and hook option types exported by `@amap-vue/hooks`.
+这些接口复用了 `@amap-vue/shared` 中的 `PixelLike` 类型，以及 `@amap-vue/hooks` 导出的 hook 配置类型。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

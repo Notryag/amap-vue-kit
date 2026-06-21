@@ -1,4 +1,3 @@
-/// <reference types="@amap/amap-jsapi-types" />
 /// <reference path="./amap-extensions.d.ts" />
 
 export type { AmapVueSharedTypesLoaded } from './amap-global'

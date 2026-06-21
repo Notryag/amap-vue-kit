@@ -1,6 +1,6 @@
-# Custom Tiles
+# 自定义瓦片
 
-AMap supports custom tile layers for offline or domain-specific datasets. Use the map instance obtained from `ready` to add tile layers manually.
+高德地图支持自定义瓦片图层，适合离线底图、行业专题图或自有瓦片服务。可以在 `ready` 回调里拿到地图实例后手动添加瓦片图层。
 
 ```ts
 ready((map) => {
@@ -12,7 +12,7 @@ ready((map) => {
 })
 ```
 
-Combine tile layers with Vue reactivity by storing references in `shallowRef` instances and updating options inside watchers.
+如果瓦片地址、透明度或显示状态需要响应式切换，可以把图层实例放进 `shallowRef`，再在 watcher 中更新对应参数。
 
 ## 在线示例
 
@@ -24,8 +24,8 @@ Combine tile layers with Vue reactivity by storing references in `shallowRef` in
 import CustomTilesDemo from '../examples/advanced/CustomTilesDemo.vue'
 </script>
 
-### Tips
+### 说明
 
-- Keep custom tiles on their own layer so you can fade between them and native AMap imagery.
-- When pointing to third-party servers, ensure CORS headers allow the JSAPI to fetch PNG/JPG resources.
-- Use `useTileLayer` with a computed `tileUrl` when switching providers without recreating the map.
+- 自定义瓦片建议单独放在一个图层里，方便和高德默认底图做淡入淡出或显隐切换。
+- 使用第三方瓦片服务时，确认服务器允许 JSAPI 请求 PNG/JPG 资源，避免 CORS 问题。
+- 如果只是切换瓦片服务商，可以配合 `useTileLayer` 和 computed `tileUrl`，无需重建地图。

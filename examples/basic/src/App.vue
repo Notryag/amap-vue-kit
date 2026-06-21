@@ -13,18 +13,18 @@ function toggleInfo() {
 
 <template>
   <main class="app">
-    <h1>AMap Vue Kit Example</h1>
-    <p>Interact with the map to explore the declarative API.</p>
+    <h1>AMap Vue Kit 最小示例</h1>
+    <p>使用声明式组件渲染高德地图、点标记和信息窗体。</p>
     <div class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
-        Set <code>VITE_AMAP_KEY</code> in `.env.local` to load the live JSAPI map.
+        在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。
       </div>
       <AmapMap v-else :center="center" :zoom="zoom" class="map">
         <AmapMarker :position="center" @click="toggleInfo" />
         <AmapInfoWindow :position="center" :is-open="infoOpen">
           <div class="info">
-            <h4>Welcome!</h4>
-            <p>The marker toggles this info window.</p>
+            <h4>北京天安门</h4>
+            <p>点击标记可以切换这个信息窗体。</p>
           </div>
         </AmapInfoWindow>
       </AmapMap>

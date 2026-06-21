@@ -47,18 +47,18 @@ useHeatMap(() => map.value, () => ({
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
-          Radius
+          半径
           <input v-model.number="radius" type="range" min="12" max="60">
         </label>
         <label>
-          Intensity
+          强度
           <input v-model.number="intensity" type="range" min="0.5" max="1.5" step="0.1">
         </label>
         <label>
           配色
           <select v-model="palette">
-            <option value="warm">Warm</option>
-            <option value="cool">Cool</option>
+            <option value="warm">暖色</option>
+            <option value="cool">冷色</option>
           </select>
         </label>
       </div>

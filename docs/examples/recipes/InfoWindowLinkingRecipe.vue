@@ -11,9 +11,9 @@ interface Place {
 }
 
 const places: Place[] = [
-  { id: 1, name: 'North Gate Café', address: '12 Chaoyangmen W St', position: [116.396923, 39.90816] },
-  { id: 2, name: 'Library', address: '88 Workers Stadium Rd', position: [116.40021, 39.90986] },
-  { id: 3, name: 'Rooftop Garden', address: '22 Jinbao St', position: [116.40137, 39.90745] },
+  { id: 1, name: '北门咖啡馆', address: '朝阳门西街 12 号', position: [116.396923, 39.90816] },
+  { id: 2, name: '图书馆', address: '工人体育场路 88 号', position: [116.40021, 39.90986] },
+  { id: 3, name: '屋顶花园', address: '金宝街 22 号', position: [116.40137, 39.90745] },
 ]
 
 const activeId = ref<number | null>(places[0]?.id ?? null)
@@ -60,7 +60,7 @@ function clearSelection() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the linked info windows recipe.
+      配置 <code>VITE_AMAP_KEY</code> 后预览联动信息窗体方案。
     </div>
     <template v-else>
       <div class="poi-layout">
@@ -80,10 +80,10 @@ function clearSelection() {
       </div>
       <div class="amap-demo__toolbar">
         <div v-if="activePlace">
-          Active: {{ activePlace.name }}
+          当前选中：{{ activePlace.name }}
         </div>
         <button type="button" :disabled="!activePlace" @click="clearSelection">
-          Clear selection
+          清空选择
         </button>
       </div>
     </template>

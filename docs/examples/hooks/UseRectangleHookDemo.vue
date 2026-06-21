@@ -54,7 +54,7 @@ useRectangle(() => map.value, () => ({
           <input v-model="strokeColor" type="color">
         </label>
         <label>
-          Fill opacity
+          填充透明度
           <input v-model.number="fillOpacity" type="range" min="0" max="0.8" step="0.05">
         </label>
       </div>

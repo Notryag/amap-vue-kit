@@ -8,6 +8,10 @@ interface ProviderProps {
   options?: Partial<LocaContainerOptions>
 }
 
+defineOptions({
+  name: 'AmapLocaProvider',
+})
+
 const props = defineProps<ProviderProps>()
 
 const container = useLocaContainer({

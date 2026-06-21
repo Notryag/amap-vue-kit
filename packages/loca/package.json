@@ -39,13 +39,13 @@
   },
   "scripts": {
     "build": "vite build",
-    "clean": "rm -rf dist",
+    "clean": "node -e \"fs.rmSync('dist',{recursive:true,force:true})\"",
     "test": "vitest --config ../../vitest.config.ts"
   },
   "peerDependencies": {
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@amap-vue/shared": "workspace:*"
+    "@amap-vue/shared": "^0.0.0"
   }
 }

@@ -1,22 +1,21 @@
 # `<AmapOverlayGroup>`
 
-Batch-manage large collections of overlays without juggling individual lifecycle hooks. The component wraps `AMap.OverlayGroup`,
-allowing you to swap datasets, hide or show the whole group, and call imperative helpers through `ref`.
+批量管理大量覆盖物，无需逐个处理生命周期 hook。组件封装了 `AMap.OverlayGroup`，支持切换数据集、整体显示/隐藏分组，并通过 `ref` 调用命令式辅助方法。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `overlays` | `any[]` | `[]` | Array of JSAPI overlay instances to manage. Each item should be created with `new AMap.Marker(...)`, `new AMap.Circle(...)`, etc. |
-| `visible` | `boolean` | `true` | Show or hide the entire group without rebuilding its contents. |
-| `extData` | `any` | – | Arbitrary metadata forwarded to the underlying overlay group. |
-| `options` | `Record<string, any>` | `{}` | Additional options passed to the JSAPI constructor. |
+| `overlays` | `any[]` | `[]` | 要管理的 JSAPI 覆盖物实例数组。每一项应由 `new AMap.Marker(...)`、`new AMap.Circle(...)` 等创建。 |
+| `visible` | `boolean` | `true` | 显示或隐藏整个分组，但不重建内容。 |
+| `extData` | `any` | – | 透传给底层覆盖物分组的任意元数据。 |
+| `options` | `Record<string, any>` | `{}` | 传给 JSAPI 构造函数的额外配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.OverlayGroup` | Fired once the group instance is created and attached to the map. |
+| `ready` | `AMap.OverlayGroup` | 分组实例创建并挂载到地图后触发一次。 |
 
 ## 用法
 
@@ -38,12 +37,12 @@ function clearGroup() {
     <AmapOverlayGroup ref="groupRef" :overlays="overlays" :visible="showGroup" />
   </AmapMap>
   <button type="button" @click="clearGroup">
-    Clear overlays
+    清空覆盖物
   </button>
 </template>
 ```
 
-Call the exposed methods on the component ref to mutate the group imperatively:
+可以通过组件 ref 调用暴露方法，以命令式方式修改分组：
 
 ```ts
 const api = groupRef.value
@@ -60,17 +59,17 @@ api?.hide()
 import OverlayGroupDemo from '../examples/OverlayGroupDemo.vue'
 </script>
 
-### Exposed helpers
+### 暴露方法
 
-`<AmapOverlayGroup>` exposes the overlay group ref plus utility methods via `defineExpose`:
+`<AmapOverlayGroup>` 通过 `defineExpose` 暴露覆盖物分组引用和工具方法：
 
-- `group` – shallow ref of the underlying `AMap.OverlayGroup`.
-- `addOverlay(overlay)`, `addOverlays(overlays)` – append overlays in bulk.
-- `removeOverlay(overlay)`, `removeOverlays(overlays)` – detach overlays from the group.
-- `clearOverlays()` – remove every overlay managed by the group.
-- `getOverlays()` – snapshot of the current overlay list.
+- `group`：底层 `AMap.OverlayGroup` 的 shallow ref。
+- `addOverlay(overlay)`、`addOverlays(overlays)`：批量追加覆盖物。
+- `removeOverlay(overlay)`、`removeOverlays(overlays)`：从分组中移除覆盖物。
+- `clearOverlays()`：移除分组管理的全部覆盖物。
+- `getOverlays()`：获取当前覆盖物列表快照。
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface OverlayGroupProps {
@@ -83,12 +82,12 @@ export interface OverlayGroupProps {
 type OverlayGroupReadyPayload = AMap.OverlayGroup
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Overlays must be instantiated before passing them to the component. When swapping datasets, dispose of the previous array (e.g. call `setMap(null)` on markers) to avoid leaks.
-- The component does not render child content. Render interactive UIs elsewhere and mutate the `overlays` prop reactively.
-- If you need per-overlay reactivity, combine `<AmapOverlayGroup>` with watchers that rebuild the overlays array whenever your data changes.
+- 传入组件前覆盖物必须已完成实例化。切换数据集时，请释放旧数组（例如对标记调用 `setMap(null)`）以避免泄漏。
+- 该组件不会渲染子内容。请在其他位置渲染交互 UI，并响应式修改 `overlays` prop。
+- 如果需要单个覆盖物级别的响应式，可结合 watcher 在数据变化时重建 `overlays` 数组。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

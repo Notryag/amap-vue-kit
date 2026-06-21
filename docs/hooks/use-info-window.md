@@ -1,6 +1,6 @@
 # `useInfoWindow`
 
-Imperatively manage JSAPI info windows with Vue reactivity. The composable delays instantiation until both the map and loader are ready, keeps the open state in sync, and cleans up automatically on unmount.
+以命令式方式结合 Vue 响应式管理 JSAPI 信息窗体。该组合式函数会等地图和 loader 就绪后再创建实例，同步打开状态，并在卸载时自动清理。
 
 ```ts
 import { useInfoWindow } from '@amap-vue/hooks'
@@ -8,7 +8,7 @@ import { ref } from 'vue'
 
 const options = ref({
   position: [116.397, 39.908],
-  content: 'Hello AMap',
+  content: '你好，高德地图',
   open: true,
   offset: [12, 16],
 })
@@ -22,21 +22,21 @@ infoWindowApi.on('open', () => {
 
 `useInfoWindow` powers `<AmapInfoWindow>` behind the scenes, so you can graduate from declarative slots to fully custom content strings or DOM nodes whenever necessary.
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `infoWindow` | `ShallowRef<AMap.InfoWindow \| null>` referencing the underlying instance. |
-| `open` / `close` | Programmatically toggle visibility while keeping the reactive `open` flag in sync. |
+| `infoWindow` | `ShallowRef<AMap.InfoWindow \| null>`，指向底层实例。 |
+| `open` / `close` | 以编程方式切换可见性，并保持响应式 `open` 标记同步。 |
 | `setPosition`, `setOffset`, `setAnchor`, `setIsCustom`, `setContent` | Typed helpers that proxy to the matching JSAPI methods and accept Vue-friendly inputs (`LngLatLike`, `PixelLike`). |
-| `setOptions` | Batch update any other option via `InfoWindow#setOptions`. |
-| `on` / `off` | Subscribe to and remove JSAPI event listeners. |
-| `destroy` | Dispose the info window and clear internal state. |
+| `setOptions` | 通过 `InfoWindow#setOptions` 批量更新其他配置。 |
+| `on` / `off` | 订阅或移除 JSAPI 事件监听器。 |
+| `destroy` | 销毁信息窗体并清理内部状态。 |
 
 ### 说明
 
 - Passing reactive `open`, `position`, or `content` options keeps the JSAPI instance in sync without manual watchers.
-- When the provided map reference becomes `null`, the info window closes itself and reattaches once a map is available again.
+- 当传入的地图引用变为 `null` 时，信息窗体会自动关闭；地图再次可用后会重新挂载。
 
 ## 在线示例
 
@@ -48,6 +48,6 @@ infoWindowApi.on('open', () => {
 import UseInfoWindowHookDemo from '../examples/hooks/UseInfoWindowHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

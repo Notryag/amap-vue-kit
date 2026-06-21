@@ -1,22 +1,22 @@
 # `<AmapCircleEditor>`, `<AmapRectangleEditor>`, `<AmapEllipseEditor>`, `<AmapPolylineEditor>`, `<AmapBezierCurveEditor>`, `<AmapPolygonEditor>`
 
-Enable interactive editing for common geometries without wiring plugins manually. These lightweight components wrap their respective JSAPI editors, watch the `active` flag, and let you pass either overlay instances or string identifiers.
+为常见几何图形启用交互编辑，无需手动装配插件。这些轻量组件封装对应的 JSAPI 编辑器，监听 `active` 状态，并支持传入覆盖物实例或字符串标识。
 
-## Shared props
+## 共享 props
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `target` | `AMap.Circle \| AMap.Rectangle \| AMap.Ellipse \| AMap.Polyline \| AMap.BezierCurve \| AMap.Polygon \| string \| null \| undefined` | – | Overlay instance (or identifier) to edit. Strings resolve against `overlay.getId()`, `overlay.getExtData().id`, or `overlay.id`. |
-| `active` | `boolean` | `false` | Whether the editor should be open. Toggle reactively to start/stop editing. |
-| `options` | `Partial<AMap.CircleEditorOptions>` / `Partial<AMap.RectangleEditorOptions>` / `Partial<AMap.EllipseEditorOptions>` / `Partial<AMap.PolylineEditorOptions>` / `Partial<AMap.BezierCurveEditorOptions>` / `Partial<AMap.PolygonEditorOptions>` | `{}` | Extra plugin options forwarded on creation. Each component narrows the union to the correct type. |
+| `target` | `AMap.Circle \| AMap.Rectangle \| AMap.Ellipse \| AMap.Polyline \| AMap.BezierCurve \| AMap.Polygon \| string \| null \| undefined` | – | 要编辑的覆盖物实例或标识。字符串会按 `overlay.getId()`、`overlay.getExtData().id`、`overlay.id` 依次解析。 |
+| `active` | `boolean` | `false` | 编辑器是否打开。响应式切换即可开始或停止编辑。 |
+| `options` | `Partial<AMap.CircleEditorOptions>` / `Partial<AMap.RectangleEditorOptions>` / `Partial<AMap.EllipseEditorOptions>` / `Partial<AMap.PolylineEditorOptions>` / `Partial<AMap.BezierCurveEditorOptions>` / `Partial<AMap.PolygonEditorOptions>` | `{}` | 创建时透传给插件的额外选项。每个组件会收窄到对应的编辑器类型。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.CircleEditor \| AMap.RectangleEditor \| AMap.EllipseEditor \| AMap.PolylineEditor \| AMap.BezierCurveEditor \| AMap.PolygonEditor` | Fired once the editor instance is instantiated. |
-| `adjust` | `any` | Mirrors the JSAPI `adjust` event emitted while dragging control points. |
-| `end` | `any` | Emitted after editing finishes (`mouseup`). |
+| `ready` | `AMap.CircleEditor \| AMap.RectangleEditor \| AMap.EllipseEditor \| AMap.PolylineEditor \| AMap.BezierCurveEditor \| AMap.PolygonEditor` | 编辑器实例创建完成后触发。 |
+| `adjust` | `any` | 透传拖拽控制点时触发的 JSAPI `adjust` 事件。 |
+| `end` | `any` | 编辑结束后触发（`mouseup`）。 |
 
 ## 用法
 
@@ -45,8 +45,8 @@ async function handleReady(instance: AMap.Map) {
 
   const rect = new AMap.Rectangle({
     bounds: new AMap.Bounds([116.36, 39.9], [116.41, 39.94]),
-    stroke颜色: '#20c997',
-    fill颜色: 'rgba(32, 201, 151, 0.3)',
+    strokeColor: '#20c997',
+    fillColor: 'rgba(32, 201, 151, 0.3)',
     extData: { id: 'demo-rectangle' },
   })
   rect.setMap(instance)
@@ -55,8 +55,8 @@ async function handleReady(instance: AMap.Map) {
   const ell = new AMap.Ellipse({
     center: [116.406, 39.912],
     radius: [900, 420],
-    stroke颜色: '#fd7e14',
-    fill颜色: 'rgba(253, 126, 20, 0.25)',
+    strokeColor: '#fd7e14',
+    fillColor: 'rgba(253, 126, 20, 0.25)',
     extData: { id: 'demo-ellipse' },
   })
   ell.setMap(instance)
@@ -68,7 +68,7 @@ async function handleReady(instance: AMap.Map) {
       [116.38, 39.92],
       [116.41, 39.91],
     ],
-    stroke颜色: '#722ed1',
+    strokeColor: '#722ed1',
     strokeWeight: 4,
   })
   line.setMap(instance)
@@ -83,7 +83,7 @@ async function handleReady(instance: AMap.Map) {
         [116.42, 39.91],
       ],
     ],
-    stroke颜色: '#13c2c2',
+    strokeColor: '#13c2c2',
     strokeWeight: 4,
   }) as AMap.BezierCurve
   curve.setMap(instance)
@@ -96,8 +96,8 @@ async function handleReady(instance: AMap.Map) {
       [116.42, 39.93],
       [116.38, 39.94],
     ],
-    stroke颜色: '#fa8c16',
-    fill颜色: 'rgba(250, 140, 22, 0.25)',
+    strokeColor: '#fa8c16',
+    fillColor: 'rgba(250, 140, 22, 0.25)',
   })
   polygonOverlay.setMap(instance)
   polygon.value = polygonOverlay
@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
       :center="[116.397, 39.908]"
       :radius="600"
       :ext-data="{ id: 'demo-circle' }"
-      :options="{ stroke颜色: '#4b8bff', fill颜色: 'rgba(75, 139, 255, 0.2)' }"
+      :options="{ strokeColor: '#4b8bff', fillColor: 'rgba(75, 139, 255, 0.2)' }"
     />
 
     <AmapCircleEditor target="demo-circle" :active="circleEditing" />
@@ -131,7 +131,7 @@ onBeforeUnmount(() => {
 </template>
 ```
 
-Use the controls in the live demo to toggle each editor, switch between string identifiers and direct overlay references, and listen to the emitted `adjust`/`end` events.
+在在线示例中可以切换每个编辑器，比较字符串标识与直接覆盖物引用两种写法，并监听 `adjust` / `end` 事件。
 
 <ClientOnly>
   <ShapeEditorsDemo />
@@ -141,7 +141,7 @@ Use the controls in the live demo to toggle each editor, switch between string i
 import ShapeEditorsDemo from '../examples/ShapeEditorsDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface CircleEditorProps {
@@ -188,12 +188,12 @@ type EditorReadyPayload = AMap.CircleEditor
   | AMap.PolygonEditor
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide a stable way to resolve the target overlay—either pass the overlay instance directly or set `extData.id`/`id` so string lookups succeed.
-- Editors request their corresponding plugins lazily (`AMap.CircleEditor`, `AMap.BezierCurveEditor`, etc.); ensure your loader key has permission to access them.
-- When destroying overlays manually, also set the editor `active` flag to `false` to avoid the plugin holding stale references.
+- 为目标覆盖物提供稳定的解析方式：直接传实例，或设置 `extData.id` / `id` 让字符串查找成功。
+- 编辑器会懒加载对应插件（`AMap.CircleEditor`、`AMap.BezierCurveEditor` 等）；请确认当前 Key 有权限访问这些插件。
+- 手动销毁覆盖物时，也要把编辑器的 `active` 设为 `false`，避免插件继续持有失效引用。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

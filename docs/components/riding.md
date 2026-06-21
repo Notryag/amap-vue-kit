@@ -1,26 +1,26 @@
 # `<AmapRiding>`
 
-Plan cycling routes with a built-in form and optional JSAPI panel. `<AmapRiding>` wraps [`useRiding`](/hooks/use-riding), handles search state, and reports routing results.
+使用内置表单和可选 JSAPI 面板规划骑行路线。`<AmapRiding>` 封装 [`useRiding`](/hooks/use-riding)，负责搜索状态并上报路线结果。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `origin` | `RidingEndpoint` | `undefined` | Start point (address string or `LngLatLike`). |
-| `destination` | `RidingEndpoint` | `undefined` | End point (address string or `LngLatLike`). |
-| `auto` | `boolean` | `true` | Automatically trigger routing whenever origin/destination changes. |
-| `panel` | `boolean` | `true` | Render the native Riding result panel. |
-| `options` | `Partial<AMap.Riding.Options>` | `{}` | Extra JSAPI riding options such as `policy`, `hideMarkers`, etc. |
-| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
+| `origin` | `RidingEndpoint` | `undefined` | 起点，支持地址字符串或 `LngLatLike`。 |
+| `destination` | `RidingEndpoint` | `undefined` | 终点，支持地址字符串或 `LngLatLike`。 |
+| `auto` | `boolean` | `true` | 起点或终点变化时自动触发路线规划。 |
+| `panel` | `boolean` | `true` | 渲染原生骑行结果面板。 |
+| `options` | `Partial<AMap.Riding.Options>` | `{}` | 额外 JSAPI 骑行配置，例如 `policy`、`hideMarkers` 等。 |
+| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | 将路线渲染绑定到地图实例。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | 自定义 key 或插件的 loader 配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Riding` | Fired once the Riding service is created. |
-| `search` | `{ origin: RidingEndpoint, destination: RidingEndpoint, result: AMap.Riding.SearchResult \| null }` | Fired after each routing request. |
-| `error` | `string` | Emitted when the component cannot compute a route. |
+| `ready` | `AMap.Riding` | Riding 服务创建后触发一次。 |
+| `search` | `{ origin: RidingEndpoint, destination: RidingEndpoint, result: AMap.Riding.SearchResult \| null }` | 每次路线请求后触发。 |
+| `error` | `string` | 组件无法计算路线时触发。 |
 
 ## 用法
 
@@ -38,7 +38,7 @@ Plan cycling routes with a built-in form and optional JSAPI panel. `<AmapRiding>
 import RidingComponentDemo from '../examples/RidingComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface AmapRidingProps {
@@ -52,12 +52,12 @@ export interface AmapRidingProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide the `map` prop if you want the cycling path rendered on the map.
-- Set `auto=false` to disable automatic routing and call `search` manually.
-- Disable `panel` when you plan to build a custom panel UI.
+- 如果希望在地图上渲染骑行路线，请传入 `map` prop。
+- 设置 `auto=false` 可关闭自动规划，并改为手动调用 `search`。
+- 计划自定义面板 UI 时可以关闭 `panel`。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

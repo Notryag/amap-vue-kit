@@ -94,7 +94,7 @@ async function handleReady(map: AMap.Map) {
   curve.setMap(map)
   bezier.value = curve
 
-  const polygonOverlay = new AMapInstance.Polygon({
+  const polygonOverlay = new (AMapInstance.Polygon as any)({
     path: [
       [116.37, 39.9],
       [116.41, 39.9],

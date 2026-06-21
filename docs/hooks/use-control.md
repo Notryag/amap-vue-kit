@@ -1,7 +1,7 @@
 # `useControl`, `useToolBar`, `useScale`, `useControlBar`, `useMapType`
 
-Drive JSAPI map controls from Vue state. The base `useControl` helper powers the specialised hooks exported by the kit, letting
-components react to prop changes and giving you direct access when you need custom behaviour.
+通过 Vue 状态驱动 JSAPI 地图控件。底层 `useControl` 是各类控件 hooks 的基础，支持
+组件响应属性变化，并在需要自定义行为时直接访问控件实例。
 
 ```ts
 import { useToolBar } from '@amap-vue/hooks'
@@ -18,30 +18,30 @@ control.setOptions({ liteStyle: true })
 
 ## 参数
 
-The hooks accept the corresponding JSAPI options (for example `ToolBarOptions`) plus the shared keys below:
+这些 hooks 接收对应的 JSAPI 选项（例如 `ToolBarOptions`），并额外支持下列通用字段：
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `visible` | `boolean` | Toggles the control without destroying it. |
-| `position` | `any` | Corner to anchor to (`'LT'`, `'RT'`, etc.). Passed through to the JSAPI control. |
-| `offset` | `PixelLike` | Pixel offset from the anchor corner. Arrays are converted to `AMap.Pixel`. |
+| `visible` | `boolean` | 切换控件可见性但不销毁实例。 |
+| `position` | `any` | 锚定角落（`'LT'`、`'RT'` 等），会透传给 JSAPI 控件。 |
+| `offset` | `PixelLike` | 相对锚点的像素偏移，数组会转换为 `AMap.Pixel`。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `control` | `ShallowRef<TControl \| null>` referencing the control instance. |
-| `show()` / `hide()` | Imperatively toggle visibility. |
-| `setPosition(position)` | Move the control to another corner. |
-| `setOffset(offset)` | Update the offset (accepts `PixelLike`). |
-| `setOptions(options)` | Forward arbitrary options to the JSAPI control. |
-| `destroy()` | Remove the control from the map and clean up listeners. |
+| `control` | `ShallowRef<TControl \| null>`，指向控件实例。 |
+| `show()` / `hide()` | 以命令式方式切换可见性。 |
+| `setPosition(position)` | 将控件移动到另一个角落。 |
+| `setOffset(offset)` | 更新偏移量（支持 `PixelLike`）。 |
+| `setOptions(options)` | 将任意选项转发给 JSAPI 控件。 |
+| `destroy()` | 从地图上移除控件并清理监听器。 |
 
 ### 说明
 
-- The hook lazily loads the required plugin (`AMap.ToolBar`, `AMap.Scale`, etc.) the first time it runs. No manual `loader.config` call is required.
-- Controls automatically reattach themselves if the map reference changes (for example, when remounting `<AmapMap>`).
-- Prefer toggling the reactive `visible` option over conditional rendering so the control instance can be reused.
+- hook 首次运行时会懒加载所需插件（`AMap.ToolBar`、`AMap.Scale` 等），无需手动调用 `loader.config`。
+- 地图引用变化时（例如重新挂载 `<AmapMap>`），控件会自动重新挂载。
+- 优先切换响应式 `visible` 选项，而不是条件渲染组件，这样可以复用同一个控件实例。
 
 ## 在线示例
 
@@ -53,6 +53,6 @@ The hooks accept the corresponding JSAPI options (for example `ToolBarOptions`) 
 import UseControlHookDemo from '../examples/hooks/UseControlHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

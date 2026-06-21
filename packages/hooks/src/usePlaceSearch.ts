@@ -2,7 +2,8 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toBounds, toLngLat, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 type PlaceSearchOptions = AMap.PlaceSearch.Options
 type PlaceSearchResult = AMap.PlaceSearch.SearchResult
@@ -105,7 +106,7 @@ export function usePlaceSearch(
     applyOptions(placeSearch.value, rest)
   }, { deep: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

@@ -1,11 +1,11 @@
 # `useText`
 
-Imperatively create and manage `AMap.Text` overlays.
+以命令式方式创建并管理 `AMap.Text` 覆盖物。
 
 ```ts
 const textOverlay = useText(() => map.value, () => ({
   position: [116.397, 39.908],
-  text: 'Hello Beijing',
+  text: '你好，北京',
   style: {
     padding: '6px 10px',
     borderRadius: '12px',
@@ -17,19 +17,19 @@ const textOverlay = useText(() => map.value, () => ({
 }))
 
 textOverlay.on('click', () => {
-  console.log('Text clicked')
+  console.log('点击文本')
 })
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.Text \| null>` referencing the text overlay. |
-| `setPosition`, `setOffset`, `setText`, `setStyle`, `setZIndex`, `setExtData`, `setOptions` | Imperative setters mirroring JSAPI methods. |
-| `show` / `hide` | Toggle visibility. |
-| `on` / `off` | Subscribe to events. |
-| `destroy` | Remove the overlay. |
+| `overlay` | `ShallowRef<AMap.Text \| null>`，指向文本覆盖物。 |
+| `setPosition`, `setOffset`, `setText`, `setStyle`, `setZIndex`, `setExtData`, `setOptions` | 对应 JSAPI 方法的命令式 setter。 |
+| `show` / `hide` | 切换可见性。 |
+| `on` / `off` | 订阅或取消订阅事件。 |
+| `destroy` | 移除覆盖物。 |
 
 ## 在线示例
 
@@ -41,6 +41,6 @@ textOverlay.on('click', () => {
 import UseTextHookDemo from '../examples/hooks/UseTextHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

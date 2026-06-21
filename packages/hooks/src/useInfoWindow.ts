@@ -2,7 +2,8 @@ import type { LngLatLike, PixelLike } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface UseInfoWindowOptions extends Record<string, any> {
   position?: LngLatLike
@@ -146,7 +147,7 @@ export function useInfoWindow(
       instance.setOptions(rest)
   }, { deep: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

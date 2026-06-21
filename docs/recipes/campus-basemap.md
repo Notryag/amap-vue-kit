@@ -1,6 +1,6 @@
-# Campus Basemap
+# 园区底图
 
-Large campuses or parks often rely on a custom illustrated plan instead of the default tiles. Combine a neutral map style with an image layer so visitors keep the familiar JSAPI gestures while navigating a bespoke base map.
+大型园区、公园或展馆经常会使用自绘平面图，而不是默认地图瓦片。可以把高德地图切到更克制的底图样式，再叠加一张 ImageLayer，让用户保留缩放、拖拽等熟悉交互，同时看到定制底图。
 
 ```vue
 <script setup lang="ts">
@@ -17,7 +17,7 @@ const { map, ready } = useMap(() => ({
   mapStyle: 'amap://styles/whitesmoke',
 }))
 
-// Hide the default base tiles so the plan is unobstructed.
+// 隐藏默认底图，避免干扰园区平面图。
 useTileLayer(() => map.value, {
   visible: false,
 })
@@ -49,17 +49,17 @@ ready(() => {
 </style>
 ```
 
-Adjust the `bounds` to match the coordinates that enclose your artwork. Hosting the PNG or SVG under `public/` works well in Vite-based projects—swap the URL for `new URL('../assets/campus-plan.png', import.meta.url).href` when bundling locally.
+`bounds` 要和图片四角对应的经纬度范围一致。Vite 项目里可以把 PNG 或 SVG 放到 `public/`，如果需要作为源码资源打包，也可以改成 `new URL('../assets/campus-plan.png', import.meta.url).href`。
 
-## Tips
+## 说明
 
-- Keep the original base map available in UI so users can switch back to satellite or vector tiles for orientation.
-- Because image layers do not reproject, ensure your plan uses the GCJ-02 coordinate system to avoid drifting from overlays.
-- Pair the plan with vector overlays (buildings, navigation paths) rendered by standard components so they stay interactive.
+- 建议在 UI 里保留切回卫星图或默认矢量图的入口，方便用户确认方位。
+- ImageLayer 不会自动重投影，底图标定时要使用 GCJ-02 坐标，避免和 Marker、Polygon 等覆盖物错位。
+- 建筑、导航路线、围栏等交互元素可以继续用标准组件绘制在图片之上。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
 
 ## 在线示例
 

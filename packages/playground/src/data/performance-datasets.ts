@@ -139,17 +139,17 @@ function createDataset(id: PerformanceDataset['id'], size: number, seed: number)
 
   return {
     id,
-    label: id === 'small' ? 'Small (100 points)' : id === 'medium' ? 'Medium (3k points)' : 'Large (10k points)',
+    label: id === 'small' ? '小型（100 个点）' : id === 'medium' ? '中型（3k 个点）' : '大型（10k 个点）',
     description:
       id === 'small'
-        ? 'Handy for quick smoke tests or validating prop updates.'
+        ? '适合快速冒烟测试或验证 prop 更新。'
         : id === 'medium'
-          ? 'Represents a moderate load when exploring layer styling.'
-          : 'Stresses batching logic to profile FPS on powerful devices.',
+          ? '适合在探索图层样式时模拟中等负载。'
+          : '用于压测批处理逻辑，并在高性能设备上分析 FPS。',
     size,
     mass: points.map((point, index) => ({
       lnglat: [point.lng, point.lat],
-      name: `Point ${index + 1}`,
+      name: `点 ${index + 1}`,
       style: point.clusterId,
     })),
     heat: points.map(point => ({

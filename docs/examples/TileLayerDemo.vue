@@ -17,7 +17,7 @@ const hasKey = computed(() => Boolean(key))
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to see the live demo.
+      配置 <code>VITE_AMAP_KEY</code> 后查看在线示例。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -30,15 +30,15 @@ const hasKey = computed(() => Boolean(key))
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="showTraffic" type="checkbox">
-          Traffic
+          实时路况
         </label>
         <label>
           <input v-model="showRoadNet" type="checkbox">
-          Road net
+          路网
         </label>
         <label>
           <input v-model="showSatellite" type="checkbox">
-          Satellite
+          卫星影像
         </label>
       </div>
     </template>

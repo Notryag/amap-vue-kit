@@ -1,24 +1,24 @@
 # `<AmapBezierCurve>`
 
-Render bezier polylines using the JSAPI plugin.
+使用 JSAPI 插件渲染贝塞尔折线。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `path` | `BezierCurvePath` | Array of bezier segments. Each segment is a four-point array `[start, ctrl1, ctrl2, end]`. |
-| `visible` | `boolean` | Controls visibility. |
-| `extData` | `any` | Custom metadata. |
-| `options` | `Partial<AMap.BezierCurveOptions>` | Additional JSAPI options. |
+| `path` | `BezierCurvePath` | 贝塞尔曲线片段数组，每段为 `[start, ctrl1, ctrl2, end]` 四点数组。 |
+| `visible` | `boolean` | 控制可见性。 |
+| `extData` | `any` | 自定义元数据。 |
+| `options` | `Partial<AMap.BezierCurveOptions>` | 额外 JSAPI 选项。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.BezierCurve` | Fired when the curve is created. |
-| `click` | `any` | Click events. |
-| `mouseover` | `any` | Hover enter events. |
-| `mouseout` | `any` | Hover leave events. |
+| `ready` | `AMap.BezierCurve` | 曲线创建完成后触发。 |
+| `click` | `any` | 点击事件。 |
+| `mouseover` | `any` | 鼠标移入事件。 |
+| `mouseout` | `any` | 鼠标移出事件。 |
 
 ## 用法
 
@@ -29,7 +29,7 @@ Render bezier polylines using the JSAPI plugin.
       [[116.35, 39.9], [116.36, 39.94], [116.38, 39.96], [116.41, 39.97]],
       [[116.41, 39.97], [116.43, 39.96], [116.45, 39.92], [116.46, 39.9]]
     ]"
-    :options="{ stroke颜色: '#722ed1', strokeWeight: 4 }"
+    :options="{ strokeColor: '#722ed1', strokeWeight: 4 }"
   />
 </AmapMap>
 ```
@@ -44,6 +44,6 @@ Render bezier polylines using the JSAPI plugin.
 import BezierCurveComponentDemo from '../examples/BezierCurveComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

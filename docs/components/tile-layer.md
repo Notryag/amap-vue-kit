@@ -1,23 +1,23 @@
-# `<AmapTileLayer>` & friends
+# `<AmapTileLayer>` 与相关组件
 
-`<AmapTileLayer>` wraps the JSAPI tile layer so you can stack additional imagery on top of the base map. It also powers the convenience components `<AmapTrafficLayer>`, `<AmapRoadNetLayer>`, and `<AmapSatelliteLayer>`.
+`<AmapTileLayer>` 封装 JSAPI 瓦片图层，让你可以在底图上叠加额外影像。它也是 `<AmapTrafficLayer>`、`<AmapRoadNetLayer>`、`<AmapSatelliteLayer>` 这些便捷组件的基础。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `visible` | `boolean` | `true` | Controls whether the layer is added to the map. |
-| `opacity` | `number \| undefined` | – | Blends the layer against the base map. |
-| `zIndex` | `number \| undefined` | – | Rendering order between layers. |
-| `tileUrl` | `string \| ((x: number, y: number, level: number) => string)` | – | Custom tile URL template. Mutually exclusive with `getTileUrl`. |
-| `getTileUrl` | `(x: number, y: number, level: number) => string` | – | Imperative URL resolver. |
-| `options` | `Partial<AMap.TileLayerOptions>` | `{}` | Additional JSAPI options such as `zooms` or `tileSize`. Forward variant-specific values (like traffic refresh intervals) via each component's dedicated `options` prop. |
+| `visible` | `boolean` | `true` | 控制图层是否添加到地图。 |
+| `opacity` | `number \| undefined` | – | 图层相对底图的透明度。 |
+| `zIndex` | `number \| undefined` | – | 图层之间的渲染顺序。 |
+| `tileUrl` | `string \| ((x: number, y: number, level: number) => string)` | – | 自定义瓦片 URL 模板，与 `getTileUrl` 互斥。 |
+| `getTileUrl` | `(x: number, y: number, level: number) => string` | – | 命令式 URL 解析函数。 |
+| `options` | `Partial<AMap.TileLayerOptions>` | `{}` | 额外 JSAPI 选项，例如 `zooms` 或 `tileSize`。特定变体的值（如交通图刷新间隔）通过对应组件专用的 `options` prop 传入。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.TileLayer` | Fires once the layer instance is created and added to the map. |
+| `ready` | `AMap.TileLayer` | 图层实例创建并添加到地图后触发。 |
 
 ## 用法
 
@@ -39,7 +39,7 @@ const showSatellite = ref(false)
 </template>
 ```
 
-Toggle the reactive flags to add or remove each overlay. The components automatically dispose their instances when unmounted.
+切换响应式标记即可添加或移除各图层。组件卸载时会自动销毁实例。
 
 <ClientOnly>
   <TileLayerDemo />
@@ -49,17 +49,17 @@ Toggle the reactive flags to add or remove each overlay. The components automati
 import TileLayerDemo from '../examples/TileLayerDemo.vue'
 </script>
 
-### Variants
+### 变体
 
-- **`<AmapTrafficLayer>`** – renders live congestion information. Use the `auto-refresh` and `interval` props for periodic updates.
-- **`<AmapRoadNetLayer>`** – displays road grid lines on top of the base map. Useful when the underlying theme omits boundaries.
-- **`<AmapSatelliteLayer>`** – swaps the imagery tiles to satellite photos while keeping vector overlays intact.
+- **`<AmapTrafficLayer>`**：渲染实时交通拥堵信息，可使用 `auto-refresh` 与 `interval` 定期刷新。
+- **`<AmapRoadNetLayer>`**：在底图上叠加路网线，适合底图样式隐藏道路边界的场景。
+- **`<AmapSatelliteLayer>`**：切换为卫星影像瓦片，同时保留矢量覆盖物。
 
-All variants accept the shared `visible`, `opacity`, `zIndex`, and `options` props. Their `ready` event emits the concrete JSAPI layer (`AMap.TileLayer.Traffic`, `AMap.TileLayer.RoadNet`, etc.).
+所有变体都接收通用的 `visible`、`opacity`、`zIndex`、`options` 属性。它们的 `ready` 事件会返回具体 JSAPI 图层（`AMap.TileLayer.Traffic`、`AMap.TileLayer.RoadNet` 等）。
 
-### Custom sources
+### 自定义数据源
 
-Provide a `tileUrl` template to connect to custom raster services:
+提供 `tileUrl` 模板即可接入自定义栅格服务：
 
 ```vue
 <AmapTileLayer
@@ -68,9 +68,9 @@ Provide a `tileUrl` template to connect to custom raster services:
 />
 ```
 
-When the URL depends on complex logic (authentication headers, signed URLs) prefer the `getTileUrl` callback instead.
+当 URL 依赖复杂逻辑（鉴权头、签名 URL 等）时，优先使用 `getTileUrl` 回调。
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface TileLayerProps {
@@ -99,14 +99,14 @@ export interface SatelliteLayerProps extends TileLayerProps {
 type TileLayerReadyPayload = AMap.TileLayer | AMap.TileLayer.Traffic | AMap.TileLayer.RoadNet | AMap.TileLayer.Satellite
 ```
 
-The prop interfaces and ready payload types mirror the component exports and reuse hook typings from `@amap-vue/hooks`.
+属性接口和 `ready` 载荷类型与组件导出保持一致，并复用 `@amap-vue/hooks` 的 hook 类型。
 
-### Common pitfalls
+### 常见错误
 
-- Ensure `<AmapTileLayer>` (and its variants) live inside `<AmapMap>` so they can access the injected map context.
-- Do not configure conflicting loaders per map. Call `loader.config` once to share plugin configuration.
-- `auto-refresh` triggers network requests every few seconds; disable it when the layer is outside the viewport to conserve quota.
+- 确保 `<AmapTileLayer>` 及其变体位于 `<AmapMap>` 内部，以访问注入的地图上下文。
+- 不要为同一张地图配置互相冲突的加载器；调用一次 `loader.config` 共享插件配置即可。
+- `auto-refresh` 会每隔几秒发起网络请求；图层不在可视区域时建议禁用以节省配额。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

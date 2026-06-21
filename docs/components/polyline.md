@@ -1,24 +1,24 @@
 # `<AmapPolyline>`
 
-Draw polylines representing paths or routes. The component consumes the map context and updates reactively as props change.
+绘制表示路径或路线的折线。组件会消费地图上下文，并在属性变化时响应式更新。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `path` | `LngLatLike[]` | Ordered list of coordinates. |
-| `options` | `Partial<AMap.PolylineOptions>` | Additional JSAPI options. |
-| `visible` | `boolean` | Toggles visibility. |
-| `extData` | `any` | Custom metadata. |
+| `path` | `LngLatLike[]` | 按顺序排列的坐标列表。 |
+| `options` | `Partial<AMap.PolylineOptions>` | 额外 JSAPI 选项。 |
+| `visible` | `boolean` | 切换可见性。 |
+| `extData` | `any` | 自定义元数据。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Polyline` | Fired after creation. |
-| `click` | `any` | Click events along the line. |
-| `mouseover` | `any` | Pointer enter events. |
-| `mouseout` | `any` | Pointer leave events. |
+| `ready` | `AMap.Polyline` | 创建完成后触发。 |
+| `click` | `any` | 折线上的点击事件。 |
+| `mouseover` | `any` | 指针移入事件。 |
+| `mouseout` | `any` | 指针移出事件。 |
 
 ## 用法
 
@@ -29,7 +29,7 @@ Draw polylines representing paths or routes. The component consumes the map cont
     [116.427, 39.903],
     [116.45, 39.92]
   ]"
-  :options="{ stroke颜色: '#4b8bff', strokeWeight: 4 }"
+  :options="{ strokeColor: '#4b8bff', strokeWeight: 4 }"
 />
 ```
 
@@ -43,6 +43,6 @@ Draw polylines representing paths or routes. The component consumes the map cont
 import PolylineComponentDemo from '../examples/PolylineComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

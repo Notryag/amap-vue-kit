@@ -35,12 +35,12 @@ marker.on('click', () => {
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
-          Radius
+          半径
           <input v-model.number="radius" type="range" min="6" max="30">
         </label>
         <label>
           <input v-model="highlight" type="checkbox">
-          Highlight
+          高亮
         </label>
       </div>
     </template>

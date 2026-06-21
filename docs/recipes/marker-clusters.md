@@ -1,6 +1,6 @@
-# Marker Clusters
+# 点聚合
 
-AMap exposes `AMap.MarkerClusterer` to cluster dense marker sets.
+AMap 暴露了 `AMap.MarkerClusterer`，用于对密集标记集合进行聚合。
 
 ```ts
 ready((map) => {
@@ -10,13 +10,13 @@ ready((map) => {
       maxZoom: 16
     })
     cluster.on('click', (event) => {
-      console.log('Cluster clicked', event)
+      console.log('点击聚合点', event)
     })
   })
 })
 ```
 
-Use Vue refs to store the cluster instance and call `setMarkers` or `addMarkers` when your reactive data changes.
+使用 Vue ref 保存聚合实例，并在响应式数据变化时调用 `setMarkers` 或 `addMarkers`。
 
 ## 在线示例
 

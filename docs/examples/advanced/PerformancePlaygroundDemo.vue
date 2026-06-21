@@ -40,7 +40,7 @@ function clear() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to explore the performance tuning tips.
+      配置 <code>VITE_AMAP_KEY</code> 后体验性能调优示例。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -51,7 +51,7 @@ function clear() {
         </label>
         <div>Total markers: {{ overlays.length }}</div>
         <button type="button" @click="clear">
-          Clear overlays
+          清空覆盖物
         </button>
       </div>
     </template>

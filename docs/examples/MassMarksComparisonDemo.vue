@@ -82,7 +82,10 @@ watch([mode, map, () => mass.mass.value], ([value, mapInstance]) => {
   if (!instance)
     return
   const shouldShow = value === 'mass' || value === 'both'
-  instance.setMap(shouldShow ? mapInstance ?? null : null)
+  if (shouldShow && mapInstance)
+    instance.setMap(mapInstance)
+  else
+    instance.setMap(null as any)
 }, { immediate: true })
 
 onBeforeUnmount(() => {
@@ -100,7 +103,7 @@ function handleReady(instance: AMap.Map) {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to compare mass markers with labels.
+      配置 <code>VITE_AMAP_KEY</code> 后对比海量点和标签图层。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -121,15 +124,15 @@ function handleReady(instance: AMap.Map) {
           <input v-model.number="count" type="range" min="200" max="2000" step="100">
         </label>
         <label>
-          Render mode
+          渲染模式
           <select v-model="mode">
             <option value="mass">Mass markers</option>
             <option value="labels">Labels layer</option>
-            <option value="both">Show both</option>
+            <option value="both">同时显示</option>
           </select>
         </label>
         <p class="muted">
-          Labels layer renders up to 400 sampled points for readability; mass markers always draw the full dataset.
+          标签图层最多渲染 400 个采样点以保持可读性；海量点会绘制完整数据集。
         </p>
       </div>
     </template>

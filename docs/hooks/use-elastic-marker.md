@@ -12,18 +12,18 @@ const marker = useElasticMarker(() => map.value, () => ({
   zoomStyleMapping: { 10: 0, 13: 1 },
 }))
 
-marker.on('click', () => console.log('Elastic marker clicked'))
+marker.on('click', () => console.log('点击灵活点标记'))
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.ElasticMarker \| null>` referencing the marker instance. |
-| `setPosition`, `setStyles`, `setZoomStyleMapping`, `setExtData`, `setOptions` | Imperative setters mirroring JSAPI methods. |
-| `show` / `hide` | Toggle marker visibility. |
-| `on` / `off` | Subscribe to ElasticMarker events. |
-| `destroy` | Remove the marker from the map. |
+| `overlay` | `ShallowRef<AMap.ElasticMarker \| null>`，指向标记实例。 |
+| `setPosition`, `setStyles`, `setZoomStyleMapping`, `setExtData`, `setOptions` | 对应 JSAPI 方法的命令式 setter。 |
+| `show` / `hide` | 切换标记可见性。 |
+| `on` / `off` | 订阅 ElasticMarker 事件。 |
+| `destroy` | 从地图上移除标记。 |
 
 ## 在线示例
 
@@ -35,6 +35,6 @@ marker.on('click', () => console.log('Elastic marker clicked'))
 import UseElasticMarkerHookDemo from '../examples/hooks/UseElasticMarkerHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

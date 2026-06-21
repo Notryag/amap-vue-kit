@@ -28,7 +28,7 @@ import App from './App.vue'
 loader.config({
   key: import.meta.env.VITE_AMAP_KEY,
   version: '2.0',
-  securityJsCode: import.meta.env.VITE_AMAP_SECURITY, // 可选
+  securityJsCode: import.meta.env.VITE_AMAP_SECURITY_CODE, // 可选
 })
 
 createApp(App).mount('#app')
@@ -64,9 +64,9 @@ const center = [116.397, 39.908]
 
 `<AmapMap>` 接收与 `new AMap.Map()` 类似的配置，并会抛出 `ready`、`moveend`、`click`、`complete`、`error` 等原生事件。嵌套的 Marker、Polyline、InfoWindow 等覆盖物会自动使用最近的 `<AmapMap>` 实例。
 
-### StackBlitz
+### 在线示例
 
-[打开最小示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[打开最小示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
 
 ## 容器尺寸
 

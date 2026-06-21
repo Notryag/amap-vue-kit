@@ -1,6 +1,6 @@
 # `useMarkerClusterer`
 
-Imperatively manage point clustering.
+以命令式方式管理点聚合。
 
 ```ts
 const cluster = useMarkerClusterer(() => map.value, () => ({
@@ -12,19 +12,19 @@ const cluster = useMarkerClusterer(() => map.value, () => ({
 }))
 
 cluster.on('click', (event) => {
-  console.log('Cluster clicked', event)
+  console.log('点击聚合点', event)
 })
 ```
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `cluster` | `ShallowRef<AMap.MarkerCluster \| null>` referencing the clusterer instance. |
-| `set点位`, `setMarkers`, `setOptions` | Imperative setters. |
-| `show` / `hide` | Toggle visibility. |
-| `on` / `off` | Subscribe to cluster events. |
-| `destroy` | Clear markers and dispose the cluster. |
+| `cluster` | `ShallowRef<AMap.MarkerCluster \| null>`，指向聚合实例。 |
+| `set点位`, `setMarkers`, `setOptions` | 命令式 setter。 |
+| `show` / `hide` | 切换可见性。 |
+| `on` / `off` | 订阅聚合事件。 |
+| `destroy` | 清空标记并销毁聚合实例。 |
 
 ## 在线示例
 
@@ -36,6 +36,6 @@ cluster.on('click', (event) => {
 import UseMarkerClustererHookDemo from '../examples/hooks/UseMarkerClustererHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

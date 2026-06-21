@@ -2,7 +2,8 @@ import type { LngLatLike } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { loader, toLngLat } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface MarkerClusterPoint {
   position: LngLatLike
@@ -143,7 +144,7 @@ export function useMarkerClusterer(
       cluster.value.setOptions(rest)
   }, { deep: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

@@ -4,7 +4,7 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, PropType } from 'vue'
 
 import { useWeather } from '@amap-vue/hooks'
-import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue'
 
 defineOptions({
   name: 'AmapWeatherPanel',
@@ -54,8 +54,6 @@ watch(weather, (value) => {
   if (value && !readyEmitted) {
     readyEmitted = true
     emit('ready', value)
-    if (props.auto && currentCity.value)
-      void refresh(currentCity.value)
   }
 }, { immediate: true })
 
@@ -98,6 +96,11 @@ async function refresh(city: string = currentCity.value) {
     loading.value = false
   }
 }
+
+onMounted(() => {
+  if (props.auto && currentCity.value)
+    void refresh(currentCity.value)
+})
 
 function handleError(message: string) {
   errorMessage.value = message

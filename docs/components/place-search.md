@@ -1,32 +1,32 @@
 # `<AmapPlaceSearch>`
 
-Search points of interest with pagination, optional nearby/bounds modes, and a ready-to-use panel UI. Internally it orchestrates [`usePlaceSearch`](/hooks/use-place-search), handles debouncing, and exposes renderless slots for custom rendering.
+搜索兴趣点，支持分页、附近/范围模式，以及开箱即用的面板 UI。组件内部组合了 [`usePlaceSearch`](/hooks/use-place-search)，处理防抖，并通过无渲染插槽支持自定义渲染。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `modelValue` | `string` | `''` | Current keyword. Works with `v-model`. |
-| `mode` | `'keyword' \| 'nearby' \| 'bounds'` | `'keyword'` | Select the search strategy: regular keyword search, nearby by `location + radius`, or bounds search. |
-| `location` | `LngLatLike` | `undefined` | Centre point used when `mode="nearby"`. |
-| `radius` | `number` | `1000` | Search radius in metres for nearby mode. |
-| `bounds` | `BoundsLike` | `undefined` | Rectangular bounds used when `mode="bounds"`. |
-| `auto` | `boolean` | `true` | Trigger searches automatically when inputs change. |
-| `debounce` | `number` | `300` | Debounce interval (ms) before firing a search. |
-| `placeholder` | `string` | `'搜索地点、地址或兴趣点'` | Placeholder text for the built-in input. |
-| `options` | `Partial<AMap.PlaceSearch.Options>` | `{}` | Native PlaceSearch options like `city`, `type`, `pageSize`, etc. |
-| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Associate the search results with an existing `<AmapMap>` instance (for automatic markers). |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration. |
+| `modelValue` | `string` | `''` | 当前关键词，支持 `v-model`。 |
+| `mode` | `'keyword' \| 'nearby' \| 'bounds'` | `'keyword'` | 选择搜索策略：普通关键词搜索、基于 `location + radius` 的附近搜索，或范围搜索。 |
+| `location` | `LngLatLike` | `undefined` | `mode="nearby"` 时使用的中心点。 |
+| `radius` | `number` | `1000` | 附近搜索半径，单位米。 |
+| `bounds` | `BoundsLike` | `undefined` | `mode="bounds"` 时使用的矩形范围。 |
+| `auto` | `boolean` | `true` | 输入变化时自动触发搜索。 |
+| `debounce` | `number` | `300` | 触发搜索前的防抖间隔，单位毫秒。 |
+| `placeholder` | `string` | `'搜索地点、地址或兴趣点'` | 内置输入框的占位文本。 |
+| `options` | `Partial<AMap.PlaceSearch.Options>` | `{}` | 原生 PlaceSearch 配置，例如 `city`、`type`、`pageSize` 等。 |
+| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | 将搜索结果关联到已有 `<AmapMap>` 实例，用于自动渲染标记。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | 额外加载配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `update:modelValue` | `string` | Emitted whenever the keyword changes. |
-| `ready` | `AMap.PlaceSearch` | Fires once after the PlaceSearch instance is created. |
-| `search` | `{ keyword: string, result: AMap.PlaceSearch.SearchResult \| null }` | Fired after each search (including empty or failed responses). |
-| `select` | `AMap.PlaceSearch.Poi` | Fired when a POI is clicked in the default template. |
-| `error` | `string` | Emitted whenever the JSAPI reports an error. |
+| `update:modelValue` | `string` | 关键词变化时触发。 |
+| `ready` | `AMap.PlaceSearch` | PlaceSearch 实例创建后触发一次。 |
+| `search` | `{ keyword: string, result: AMap.PlaceSearch.SearchResult \| null }` | 每次搜索后触发，包括空结果或失败响应。 |
+| `select` | `AMap.PlaceSearch.Poi` | 默认模板中的 POI 被点击时触发。 |
+| `error` | `string` | JSAPI 报错时触发。 |
 
 ## 用法
 
@@ -42,7 +42,7 @@ Search points of interest with pagination, optional nearby/bounds modes, and a r
 import PlaceSearchDemo from '../examples/PlaceSearchDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface AmapPlaceSearchProps {
@@ -60,12 +60,12 @@ export interface AmapPlaceSearchProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- When using `mode="nearby"`, keep the `radius` reasonable (≤ 3000m) to avoid slow responses.
-- Provide the `map` prop if you want native PlaceSearch to render POI markers automatically; otherwise, handle results through slots.
-- Call the exposed `goToPage(page)` method to implement custom pagination controls.
+- 使用 `mode="nearby"` 时，保持合理半径（建议不超过 3000m），避免响应变慢。
+- 如果希望原生 PlaceSearch 自动渲染 POI 标记，请传入 `map` prop；否则通过插槽自行处理结果。
+- 调用暴露的 `goToPage(page)` 方法可以实现自定义分页控件。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

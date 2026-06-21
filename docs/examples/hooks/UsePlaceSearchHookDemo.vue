@@ -18,7 +18,8 @@ const totalPages = computed(() => {
   const list = poiList.value
   if (!list)
     return 1
-  return list.pageSize > 0 ? Math.max(1, Math.ceil((list.count ?? 0) / list.pageSize)) : 1
+  const pageSize = list.pageSize ?? 5
+  return pageSize > 0 ? Math.max(1, Math.ceil((list.count ?? 0) / pageSize)) : 1
 })
 
 function poiDistrict(poi: AMap.PlaceSearch.Poi) {

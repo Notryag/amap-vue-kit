@@ -7,14 +7,47 @@
 ## 安装
 
 ```bash
-pnpm add @amap-vue/core @amap-vue/hooks @amap-vue/shared vue
+pnpm add @amap-vue/core @amap-vue/shared vue
 ```
 
-## 使用
+## 配置
 
 ```ts
-import { AmapMap, AmapMarker } from '@amap-vue/core'
+import AmapVue from '@amap-vue/core'
+import { loader } from '@amap-vue/shared'
+import { createApp } from 'vue'
+import App from './App.vue'
 import '@amap-vue/core/style.css'
+
+loader.config({
+  key: import.meta.env.VITE_AMAP_KEY,
+  version: '2.0',
+  securityJsCode: import.meta.env.VITE_AMAP_SECURITY_CODE,
+})
+
+createApp(App).use(AmapVue).mount('#app')
 ```
 
-更多指南和可运行示例见文档站。
+## 最小示例
+
+```vue
+<script setup lang="ts">
+const center: [number, number] = [116.397428, 39.90923]
+</script>
+
+<template>
+  <AmapMap :center="center" :zoom="12" style="height: 360px">
+    <AmapToolBar />
+    <AmapScale />
+    <AmapMarker :position="center" label="北京天安门" />
+  </AmapMap>
+</template>
+```
+
+## 常见问题
+
+- 地图空白：确认地图容器有明确高度。
+- 缺少 Key：在渲染地图前调用 `loader.config({ key })`。
+- 安全密钥报错：如果高德控制台启用了安全密钥，请传入 `securityJsCode`，生产环境建议使用 `serviceHost` 代理方式。
+
+更多指南和可运行示例见文档站与仓库 README。

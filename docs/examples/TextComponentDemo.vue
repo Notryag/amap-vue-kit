@@ -39,7 +39,7 @@ const textStyle = computed(() => ({
       <div class="amap-demo__toolbar">
         <label>
           Message
-          <input v-model="message" type="text" placeholder="Enter text">
+          <input v-model="message" type="text" placeholder="输入文本">
         </label>
         <label>
           <input v-model="showShadow" type="checkbox">

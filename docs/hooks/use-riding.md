@@ -1,6 +1,6 @@
 # `useRiding`
 
-Use the AMap Riding service programmatically. The composable loads the riding plugin on demand, supports map binding, and exposes helpers for searching and clearing routes.
+以编程方式使用 AMap 骑行路线服务。该组合式函数会按需加载骑行插件，支持绑定地图，并暴露搜索与清空路线的辅助方法。
 
 ```ts
 import { useRiding } from '@amap-vue/hooks'
@@ -11,22 +11,22 @@ const result = await riding.search('天安门', '北海公园')
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| ...`AMap.Riding.Options` | `Partial<AMap.Riding.Options>` | Native riding options such as `policy`, `hideMarkers`, etc. |
-| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | Bind the riding service to an existing map instance. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Forwarded to `loader.load` for custom keys or plugins. |
+| ...`AMap.Riding.Options` | `Partial<AMap.Riding.Options>` | 原生骑行配置，例如 `policy`、`hideMarkers` 等。 |
+| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | 将骑行服务绑定到已有地图实例。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 传给 `loader.load` 的自定义 Key 或插件配置。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `riding` | `ShallowRef<AMap.Riding \| null>` exposing the underlying service. |
-| `search(origin, destination)` | Compute a riding route between two endpoints. |
-| `setOptions(options)` | Update native riding options. |
-| `setMap(map)` | Rebind the service to a different map instance. |
-| `clear()` | Clear the rendered route and panel. |
-| `destroy()` | Dispose the service and detach it from the map. |
+| `riding` | `ShallowRef<AMap.Riding \| null>`，暴露底层服务实例。 |
+| `search(origin, destination)` | 计算两个端点之间的骑行路线。 |
+| `setOptions(options)` | 更新原生骑行选项。 |
+| `setMap(map)` | 将服务重新绑定到其他地图实例。 |
+| `clear()` | 清空已渲染的路线和面板。 |
+| `destroy()` | 销毁服务实例并从地图解绑。 |
 
 ## 在线示例
 
@@ -40,10 +40,10 @@ import UseRidingHookDemo from '../examples/hooks/UseRidingHookDemo.vue'
 
 ### 说明
 
-- Provide `map` to render cycling routes on the map.
-- Supply a custom `panel` element via `AMap.Riding.Options` if you want result summaries.
-- The hook resolves `null` when no route is found.
+- 提供 `map` 后，骑行路线会直接渲染到地图上。
+- 如需展示结果摘要，可以通过 `AMap.Riding.Options` 传入自定义 `panel` 元素。
+- 未找到路线时，hook 会解析为 `null`。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

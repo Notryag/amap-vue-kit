@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { ShallowRef } from 'vue'
 import type { PolygonSource } from '../composables/useLocaPolygonLayer'
+import type { RenderScheduleHandle } from '../render-scheduler'
 import type {
   LocaContainer,
   LocaLayerStyle,
@@ -8,6 +9,7 @@ import type {
 } from '../types'
 import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaPolygonLayer } from '../composables/useLocaPolygonLayer'
+import { cancelRenderFrame, scheduleRenderFrame } from '../render-scheduler'
 
 interface PolygonLayerProps {
   source: PolygonSource
@@ -17,6 +19,10 @@ interface PolygonLayerProps {
   events?: Record<string, (event: any) => void>
   autoRender?: boolean
 }
+
+defineOptions({
+  name: 'AmapLocaPolygonLayer',
+})
 
 const props = withDefaults(defineProps<PolygonLayerProps>(), {
   autoRender: true,
@@ -28,18 +34,14 @@ if (!containerRef)
 
 const layerApi = useLocaPolygonLayer(() => containerRef.value ?? null, props.options)
 
-let pendingRender: number | null = null
-const raf = typeof requestAnimationFrame !== 'undefined'
-  ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
-const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
+let pendingRender: RenderScheduleHandle | null = null
 
 function scheduleRender() {
   if (!props.autoRender)
     return
   if (pendingRender != null)
-    caf(pendingRender)
-  pendingRender = raf(() => {
+    cancelRenderFrame(pendingRender)
+  pendingRender = scheduleRenderFrame(() => {
     pendingRender = null
     layerApi.render()
   })
@@ -117,7 +119,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (pendingRender != null)
-    caf(pendingRender)
+    cancelRenderFrame(pendingRender)
   registeredEvents.forEach((handler, type) => {
     layerApi.off(type, handler)
   })

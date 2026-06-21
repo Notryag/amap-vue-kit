@@ -47,11 +47,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Run unit tests
+        run: pnpm test -- --run
+
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Build packages
-        run: pnpm run build
+      - name: Build packages, docs and examples
+        run: pnpm run build:all
+
+      - name: Verify packed npm artifacts
+        run: pnpm run verify:pack
 
       - name: Create release PR or publish
         uses: changesets/action@v1
@@ -85,11 +94,20 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Run unit tests
+        run: pnpm test -- --run
+
       - name: Type check
         run: pnpm run typecheck
 
-      - name: Build packages
-        run: pnpm run build
+      - name: Build packages, docs and examples
+        run: pnpm run build:all
+
+      - name: Verify packed npm artifacts
+        run: pnpm run verify:pack
 
       - name: Publish canary snapshot
         run: pnpm run release:canary

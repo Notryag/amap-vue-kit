@@ -22,7 +22,7 @@ useMapType(() => map.value, () => ({ visible: showMapType.value }))
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 control hooks.
+      配置 <code>VITE_AMAP_KEY</code> 后预览控件 hooks。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

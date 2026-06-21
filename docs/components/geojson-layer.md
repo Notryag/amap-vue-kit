@@ -1,20 +1,20 @@
 # `<AmapGeoJSONLayer>`
 
-Load and display GeoJSON data without manually instantiating overlays. The component manages visibility, incremental data updates, and exposes helper methods for interacting with the underlying `AMap.GeoJSON` instance.
+加载并展示 GeoJSON 数据，无需手动创建覆盖物。组件负责可见性、增量数据更新，并暴露方法与底层 `AMap.GeoJSON` 实例交互。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
 | `data` | `GeoJSON.FeatureCollection \| GeoJSON.Feature \| undefined` | – | Feature collection or single feature to import into the layer. |
-| `visible` | `boolean` | `true` | Toggle layer visibility while keeping the instance alive. |
+| `visible` | `boolean` | `true` | 切换图层可见性并保留实例。 |
 | `options` | `Partial<AMap.GeoJSON.Options>` | `{}` | Custom JSAPI options such as `getMarker` / `getPolygon` factories. |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.GeoJSON` | Emitted when the GeoJSON layer has been created. |
+| `ready` | `AMap.GeoJSON` | GeoJSON 图层创建完成时触发。 |
 | `click` | `any` | Forwarded from the underlying overlay. |
 | `mouseover` | `any` | Forwarded from the underlying overlay. |
 | `mouseout` | `any` | Forwarded from the underlying overlay. |
@@ -37,7 +37,7 @@ Load and display GeoJSON data without manually instantiating overlays. The compo
 import GeoJSONLayerComponentDemo from '../examples/GeoJSONLayerComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface GeoJSONLayerProps {
@@ -47,12 +47,12 @@ export interface GeoJSONLayerProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
 - Supply `getPolygon`, `getPolyline`, or `getMarker` functions to customise the overlays generated from your features.
-- When streaming data, clone the feature collection to trigger Vue change detection (`{ ...collection, features: [...collection.features] }`).
-- Use `visible` rather than removing the component to avoid re-importing large datasets.
+- 流式更新数据时，请克隆 feature collection 以触发 Vue 变更检测（`{ ...collection, features: [...collection.features] }`）。
+- 切换大数据集时优先使用 `visible`，避免移除组件后重复导入大数据。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

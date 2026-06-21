@@ -1,26 +1,26 @@
 # `<AmapWalking>`
 
-Plan walking routes with a built-in form and optional JSAPI panel. `<AmapWalking>` wraps [`useWalking`](/hooks/use-walking) and keeps the routing form reactive.
+使用内置表单和可选 JSAPI 面板规划步行路线。`<AmapWalking>` 封装 [`useWalking`](/hooks/use-walking)，并保持路线表单响应式。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `origin` | `WalkingEndpoint` | `undefined` | Start point (address string or `LngLatLike`). |
-| `destination` | `WalkingEndpoint` | `undefined` | End point (address string or `LngLatLike`). |
-| `auto` | `boolean` | `true` | Automatically trigger routing whenever origin/destination changes. |
-| `panel` | `boolean` | `true` | Render the native Walking result panel. |
-| `options` | `Partial<AMap.WalkingOptions>` | `{}` | Extra JSAPI walking options such as `isOutline`, `hideMarkers`, etc. |
-| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
+| `origin` | `WalkingEndpoint` | `undefined` | 起点，支持地址字符串或 `LngLatLike`。 |
+| `destination` | `WalkingEndpoint` | `undefined` | 终点，支持地址字符串或 `LngLatLike`。 |
+| `auto` | `boolean` | `true` | 起点或终点变化时自动触发路线规划。 |
+| `panel` | `boolean` | `true` | 渲染原生步行结果面板。 |
+| `options` | `Partial<AMap.WalkingOptions>` | `{}` | 额外 JSAPI 步行配置，例如 `isOutline`、`hideMarkers` 等。 |
+| `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | 将路线渲染绑定到地图实例。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | 自定义 key 或插件的 loader 配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Walking` | Fired once the Walking service is created. |
-| `search` | `{ origin: WalkingEndpoint, destination: WalkingEndpoint, result: AMap.WalkingResult \| null }` | Fired after each routing request. |
-| `error` | `string` | Emitted when the component cannot compute a route. |
+| `ready` | `AMap.Walking` | Walking 服务创建后触发一次。 |
+| `search` | `{ origin: WalkingEndpoint, destination: WalkingEndpoint, result: AMap.WalkingResult \| null }` | 每次路线请求后触发。 |
+| `error` | `string` | 组件无法计算路线时触发。 |
 
 ## 用法
 
@@ -38,7 +38,7 @@ Plan walking routes with a built-in form and optional JSAPI panel. `<AmapWalking
 import WalkingComponentDemo from '../examples/WalkingComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface AmapWalkingProps {
@@ -52,12 +52,12 @@ export interface AmapWalkingProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide the `map` prop to render walking paths on the map.
-- Set `auto=false` and call the exposed `search` method if you want a custom trigger.
-- Disable `panel` when rendering your own result list or summary.
+- 传入 `map` prop 可在地图上渲染步行路线。
+- 如需自定义触发时机，设置 `auto=false` 并调用暴露的 `search` 方法。
+- 自行渲染结果列表或摘要时可以关闭 `panel`。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

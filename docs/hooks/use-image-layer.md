@@ -1,7 +1,7 @@
 # `useImageLayer`
 
-Create and control `AMap.ImageLayer` overlays from the Composition API. The hook watches reactive options, converts `BoundsLike`
-inputs, and exposes imperative setters for fine-grained tweaks.
+在组合式 API 中创建并控制 `AMap.ImageLayer` 覆盖物。该 hook 会监听响应式配置，并转换 `BoundsLike`
+输入，同时暴露命令式 setter 便于精细调整。
 
 ```ts
 import { useImageLayer } from '@amap-vue/hooks'
@@ -21,33 +21,33 @@ watch(currentOverlay, (next) => {
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `url` | `string` | Image URL to display. |
-| `bounds` | `BoundsLike` | Geographic bounds of the image. Arrays are converted to `AMap.Bounds`. |
-| `visible` | `boolean` | Show or hide the overlay. |
-| `opacity` | `number` | Blend the image against the base map. |
-| `zIndex` | `number` | Rendering order. |
-| `…options` | `Partial<AMap.ImageLayerOptions>` | Additional JSAPI options forwarded during creation. |
+| `url` | `string` | 要显示的图片 URL。 |
+| `bounds` | `BoundsLike` | 图片地理范围，数组会转换为 `AMap.Bounds`。 |
+| `visible` | `boolean` | 显示或隐藏覆盖物。 |
+| `opacity` | `number` | 图片相对底图的透明度。 |
+| `zIndex` | `number` | 渲染顺序。 |
+| `…options` | `Partial<AMap.ImageLayerOptions>` | 创建时透传的额外 JSAPI 选项。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<AMap.ImageLayer \| null>` referencing the image layer instance. |
-| `show()` / `hide()` | Toggle visibility without recreating the layer. |
-| `setImageUrl(url)` | Swap the image URL at runtime. |
-| `setBounds(bounds)` | Update the geographic bounds (`BoundsLike` accepted). |
-| `set透明度(opacity)` | Adjust opacity dynamically. |
-| `setzIndex(zIndex)` | Raise or lower the layer relative to others. |
-| `setOptions(options)` | Forward arbitrary options to the JSAPI instance. |
-| `destroy()` | Remove the layer from the map and release references. |
+| `overlay` | `ShallowRef<AMap.ImageLayer \| null>`，指向图片图层实例。 |
+| `show()` / `hide()` | 切换可见性但不重建图层。 |
+| `setImageUrl(url)` | 运行时切换图片 URL。 |
+| `setBounds(bounds)` | 更新地理范围（支持 `BoundsLike`）。 |
+| `setOpacity(opacity)` | 动态调整透明度。 |
+| `setzIndex(zIndex)` | 调整图层相对其他图层的层级。 |
+| `setOptions(options)` | 将任意选项转发给 JSAPI 实例。 |
+| `destroy()` | 从地图上移除图层并释放引用。 |
 
 ### 说明
 
-- The hook automatically requests the `AMap.ImageLayer` plugin the first time it runs.
-- When the map reference becomes `null` the layer detaches itself and reattaches once a new map instance is provided.
-- Bounds and offsets are normalised via the shared helpers from `@amap-vue/shared`, so you can safely pass array shorthand values.
+- hook 首次运行时会自动请求 `AMap.ImageLayer` 插件。
+- 地图引用变为 `null` 时，图层会自动解绑；新的地图实例传入后会重新挂载。
+- 范围与偏移会通过 `@amap-vue/shared` 的共享工具规范化，因此可以安全传入数组简写。
 
 ## 在线示例
 
@@ -59,6 +59,6 @@ watch(currentOverlay, (next) => {
 import UseImageLayerHookDemo from '../examples/hooks/UseImageLayerHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

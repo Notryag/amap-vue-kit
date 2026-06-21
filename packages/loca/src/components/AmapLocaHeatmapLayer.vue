@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import type { ShallowRef } from 'vue'
 import type { HeatmapLike } from '../composables/useLocaHeatmapLayer'
+import type { RenderScheduleHandle } from '../render-scheduler'
 import type { LocaContainer, LocaHeatmapLayerOptions, LocaLayerStyle } from '../types'
 import { inject, onBeforeUnmount, onMounted, watch } from 'vue'
 import { useLocaHeatmapLayer } from '../composables/useLocaHeatmapLayer'
+import { cancelRenderFrame, scheduleRenderFrame } from '../render-scheduler'
 
 interface HeatmapLayerProps {
   data: HeatmapLike[]
@@ -13,6 +15,10 @@ interface HeatmapLayerProps {
   options?: LocaHeatmapLayerOptions
   autoRender?: boolean
 }
+
+defineOptions({
+  name: 'AmapLocaHeatmapLayer',
+})
 
 const props = withDefaults(defineProps<HeatmapLayerProps>(), {
   valueField: 'value',
@@ -25,18 +31,14 @@ if (!containerRef)
 
 const layerApi = useLocaHeatmapLayer(() => containerRef.value ?? null, props.options)
 
-let pendingRender: number | null = null
-const raf = typeof requestAnimationFrame !== 'undefined'
-  ? (cb: FrameRequestCallback) => requestAnimationFrame(cb)
-  : (cb: FrameRequestCallback) => window.setTimeout(() => cb(Date.now()), 16)
-const caf = typeof cancelAnimationFrame !== 'undefined' ? cancelAnimationFrame : clearTimeout
+let pendingRender: RenderScheduleHandle | null = null
 
 function scheduleRender() {
   if (!props.autoRender)
     return
   if (pendingRender != null)
-    caf(pendingRender)
-  pendingRender = raf(() => {
+    cancelRenderFrame(pendingRender)
+  pendingRender = scheduleRenderFrame(() => {
     pendingRender = null
     layerApi.render()
   })
@@ -91,7 +93,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (pendingRender != null)
-    caf(pendingRender)
+    cancelRenderFrame(pendingRender)
   layerApi.destroy()
 })
 </script>

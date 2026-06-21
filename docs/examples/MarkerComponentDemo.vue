@@ -37,7 +37,7 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the live marker.
+      配置 <code>VITE_AMAP_KEY</code> 后预览动态标注。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -46,7 +46,7 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
             :position="markerPosition"
             :draggable="draggable"
             :label="showLabel && !useCustomContent
-              ? { content: 'Drag me', direction: 'top', offset: [0, -20] }
+              ? { content: '拖动我', direction: 'top', offset: [0, -20] }
               : undefined"
             :anchor="markerAnchor"
             :offset="markerOffset"
@@ -56,7 +56,7 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
             <div v-if="useCustomContent" class="marker-demo__card">
               <span class="marker-demo__icon">📍</span>
               <div class="marker-demo__body">
-                <strong>Custom marker</strong>
+                <strong>自定义标记</strong>
                 <small>{{ markerPosition[0].toFixed(3) }}, {{ markerPosition[1].toFixed(3) }}</small>
               </div>
             </div>
@@ -68,7 +68,7 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
             anchor="bottom-center"
           >
             <div style="min-width: 160px">
-              <strong>Marker position</strong>
+              <strong>标记位置</strong>
               <div>{{ markerPosition[0].toFixed(4) }}, {{ markerPosition[1].toFixed(4) }}</div>
             </div>
           </AmapInfoWindow>
@@ -77,21 +77,21 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="draggable" type="checkbox">
-          Draggable
+          可拖拽
         </label>
         <label>
           <input v-model="showLabel" type="checkbox">
-          Label
+          标签
         </label>
         <label>
           <input v-model="useCustomContent" type="checkbox">
-          Custom HTML
+          自定义 HTML
         </label>
         <button type="button" @click="showInfo = !showInfo">
-          Toggle info window
+          切换信息窗体
         </button>
         <button type="button" @click="resetMarker">
-          Reset position
+          重置位置
         </button>
       </div>
     </template>

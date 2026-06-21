@@ -2,7 +2,8 @@ import type { LngLatLike, LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toLngLat } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface ContextMenuItem {
   text: string
@@ -156,7 +157,7 @@ export function useContextMenu(
     }
   }, { deep: true, immediate: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

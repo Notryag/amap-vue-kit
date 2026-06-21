@@ -10,11 +10,11 @@ const map = shallowRef<AMap.Map | null>(null)
 
 const menuItems = computed(() => [
   {
-    text: 'Zoom in',
+    text: '放大',
     handler: () => map.value?.zoomIn?.(),
   },
   {
-    text: 'Zoom out',
+    text: '缩小',
     handler: () => map.value?.zoomOut?.(),
   },
   {
@@ -41,7 +41,7 @@ function openAtCenter() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the context menu.
+      配置 <code>VITE_AMAP_KEY</code> 后预览右键菜单。
     </div>
     <template v-else>
       <div class="amap-demo__map">

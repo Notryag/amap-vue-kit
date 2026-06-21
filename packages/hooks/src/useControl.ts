@@ -2,7 +2,8 @@ import type { PixelLike } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toPixel, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface ControlLike {
   addTo?: (map: AMap.Map) => void
@@ -216,7 +217,7 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
       previousOptions = { ...value } as TOptions
     }, { deep: true })
 
-    onBeforeUnmount(() => {
+    tryOnBeforeUnmount(() => {
       destroy()
     })
 

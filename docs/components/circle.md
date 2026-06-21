@@ -1,25 +1,25 @@
 # `<AmapCircle>`
 
-Render geofenced regions or coverage areas using circles.
+使用圆形渲染地理围栏或覆盖范围。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `center` | `LngLatLike` | Circle center. |
-| `radius` | `number` | Radius in meters. |
-| `options` | `Partial<AMap.CircleOptions>` | Extra JSAPI options. |
-| `visible` | `boolean` | Controls visibility. |
-| `extData` | `any` | Arbitrary metadata. |
+| `center` | `LngLatLike` | 圆心坐标。 |
+| `radius` | `number` | 半径，单位为米。 |
+| `options` | `Partial<AMap.CircleOptions>` | 额外 JSAPI 配置。 |
+| `visible` | `boolean` | 控制可见性。 |
+| `extData` | `any` | 任意元数据。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Circle` | Fired when the circle is created. |
-| `click` | `any` | Click events. |
-| `mouseover` | `any` | Pointer enter events. |
-| `mouseout` | `any` | Pointer leave events. |
+| `ready` | `AMap.Circle` | 圆形创建完成后触发。 |
+| `click` | `any` | 点击事件。 |
+| `mouseover` | `any` | 指针移入事件。 |
+| `mouseout` | `any` | 指针移出事件。 |
 
 ## 用法
 
@@ -27,7 +27,7 @@ Render geofenced regions or coverage areas using circles.
 <AmapCircle
   :center="[116.397, 39.908]"
   :radius="500"
-  :options="{ stroke颜色: '#ff6a00', fill颜色: 'rgba(255,106,0,0.1)' }"
+  :options="{ strokeColor: '#ff6a00', fillColor: 'rgba(255,106,0,0.1)' }"
 />
 ```
 
@@ -41,6 +41,6 @@ Render geofenced regions or coverage areas using circles.
 import CircleComponentDemo from '../examples/CircleComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

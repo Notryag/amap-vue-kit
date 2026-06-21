@@ -42,7 +42,7 @@ useImageLayer(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the campus basemap recipe.
+      配置 <code>VITE_AMAP_KEY</code> 后预览园区底图方案。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -60,7 +60,7 @@ useImageLayer(() => map.value, () => ({
         </label>
         <label>
           <input v-model="showBaseTiles" type="checkbox">
-          Show base tiles
+          显示底图瓦片
         </label>
       </div>
     </template>

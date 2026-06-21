@@ -11,7 +11,7 @@ interface DemoLoaderConfig {
 
 export function useDemoLoader(config?: DemoLoaderConfig) {
   const key = (import.meta as any).env?.VITE_AMAP_KEY as string | undefined
-  const security = (import.meta as any).env?.VITE_AMAP_SECURITY as string | undefined
+  const security = (import.meta as any).env?.VITE_AMAP_SECURITY_CODE as string | undefined
 
   if (key) {
     const existing = loader.getConfig?.() as Partial<LoaderOptions> | undefined

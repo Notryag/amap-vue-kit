@@ -13,7 +13,7 @@ const marker = useMarker(() => map.value, () => ({
   position: markerPosition.value,
   draggable: draggable.value,
   label: showLabel.value
-    ? { content: 'Drag me', direction: 'top', offset: [0, -20] }
+    ? { content: '拖动我', direction: 'top', offset: [0, -20] }
     : undefined,
 }))
 
@@ -40,17 +40,17 @@ function resetMarker() {
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
-        <div>Marker: {{ markerCoords }}</div>
+        <div>标记：{{ markerCoords }}</div>
         <label>
           <input v-model="draggable" type="checkbox">
-          Draggable
+          可拖拽
         </label>
         <label>
           <input v-model="showLabel" type="checkbox">
-          Label
+          标签
         </label>
         <button type="button" @click="resetMarker">
-          Reset
+          重置
         </button>
       </div>
     </template>

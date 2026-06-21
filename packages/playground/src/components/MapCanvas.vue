@@ -86,10 +86,9 @@ function createGeoJsonPolygon(_feature: unknown, path: unknown) {
 
 <template>
   <div v-if="!hasKey" class="map-placeholder">
-    <strong>No API key detected.</strong>
+    <strong>未检测到 API Key。</strong>
     <p>
-      Set <code>VITE_AMAP_KEY</code> or paste a temporary key in the sidebar to explore the live map. The controls on the
-      left stay interactive even without the JSAPI.
+      设置 <code>VITE_AMAP_KEY</code>，或在侧栏粘贴临时 Key，即可加载真实地图。即使没有 JSAPI，左侧控件仍可交互。
     </p>
   </div>
   <AmapMap

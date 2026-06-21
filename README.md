@@ -1,6 +1,6 @@
 # AMap Vue Kit
 
-![AMap Vue Kit demo](docs/public/hero.gif)
+![AMap Vue Kit demo](docs/public/hero.svg)
 
 面向 Vue 3 的高德地图 JSAPI 2.x 工具箱：把地图、标注、图层、控件、搜索、路线规划、编辑器和 Loca 可视化封装成类型友好的 Vue 组件与 Composables。
 
@@ -161,6 +161,8 @@ pnpm install
 pnpm lint
 pnpm test
 pnpm run build:all
+pnpm run verify:pack
+pnpm run verify:npm-names
 ```
 
 启动文档：
@@ -206,8 +208,11 @@ VITE_AMAP_SECURITY_CODE=你的安全密钥
 pnpm changeset
 pnpm changeset version
 pnpm install
-pnpm changeset publish
+pnpm run release:stable
 ```
+
+`verify:pack` 会用 `npm pack` 生成实际发布包，并在临时 Vue/Vite 项目中安装、类型检查和构建，避免发布前才发现入口、类型或样式导出问题。
+首次发布前建议再运行 `verify:npm-names`，确认 `@amap-vue/*` 包名在 npm registry 中仍未被占用。
 
 ## License
 

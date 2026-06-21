@@ -36,7 +36,7 @@ const geojson = ref<any>({
 })
 
 const options = computed(() => ({
-  getPolygon: (_feature: any, path: AMap.LngLat[]) => new AMap.Polygon({
+  getPolygon: (_feature: any, path: AMap.LngLat[]) => new (AMap.Polygon as any)({
     path,
     strokeColor: '#10b981',
     strokeWeight: 2,
@@ -44,7 +44,7 @@ const options = computed(() => ({
   }),
   getMarker: (_feature: any, position: AMap.LngLat) => new AMap.Marker({
     position,
-    label: { content: 'POI', direction: 'top' },
+    label: { content: 'POI', direction: 'top', offset: new AMap.Pixel(0, -24) },
   }),
 }))
 

@@ -4,8 +4,7 @@
     "baseUrl": "./",
     "types": [
       "vitepress/client",
-      "node",
-      "@amap/amap-jsapi-types"
+      "node"
     ],
     "noEmit": true
   },

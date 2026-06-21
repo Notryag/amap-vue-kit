@@ -10,6 +10,7 @@
   "dependencies": {
     "@amap-vue/core": "workspace:*",
     "@amap-vue/hooks": "workspace:*",
+    "@amap-vue/loca": "workspace:*",
     "@amap-vue/shared": "workspace:*",
     "vitepress": "^1.1.0",
     "vue": "^3.4.15"

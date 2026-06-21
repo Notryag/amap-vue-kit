@@ -1,24 +1,24 @@
 # `<AmapRectangle>`
 
-Draw axis-aligned rectangles by wrapping the JSAPI `AMap.Rectangle` overlay in a declarative component. The rectangle reacts to prop changes so you can animate bounds, styles, or visibility from Vue state.
+通过声明式组件封装 JSAPI `AMap.Rectangle` 覆盖物，用于绘制轴对齐矩形。矩形会响应属性变化，因此可以用 Vue 状态驱动范围、样式或可见性变化。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `bounds` | `BoundsLike` | – | Southwest and northeast coordinates that define the rectangle. |
-| `options` | `Partial<AMap.RectangleOptions>` | `{}` | Additional JSAPI options such as stroke/fill styles or `draggable`. |
-| `visible` | `boolean` | `true` | Toggles the rectangle without recreating the instance. |
-| `extData` | `any` | – | Arbitrary metadata forwarded to the overlay. |
+| `bounds` | `BoundsLike` | – | 定义矩形的西南角与东北角坐标。 |
+| `options` | `Partial<AMap.RectangleOptions>` | `{}` | 额外 JSAPI 选项，例如描边、填充样式或 `draggable`。 |
+| `visible` | `boolean` | `true` | 切换矩形可见性但不重建实例。 |
+| `extData` | `any` | – | 透传给覆盖物的任意元数据。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Rectangle` | Fired once the rectangle is created and attached to the map. |
-| `click` | `any` | Pointer click on the rectangle surface. |
-| `mouseover` | `any` | Pointer enters the rectangle. |
-| `mouseout` | `any` | Pointer leaves the rectangle. |
+| `ready` | `AMap.Rectangle` | 矩形创建并挂载到地图后触发。 |
+| `click` | `any` | 指针点击矩形表面时触发。 |
+| `mouseover` | `any` | 指针进入矩形时触发。 |
+| `mouseout` | `any` | 指针离开矩形时触发。 |
 
 ## 用法
 
@@ -26,7 +26,7 @@ Draw axis-aligned rectangles by wrapping the JSAPI `AMap.Rectangle` overlay in a
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell">
   <AmapRectangle
     :bounds="[[116.35, 39.88], [116.44, 39.94]]"
-    :options="{ stroke颜色: '#20c997', strokeWeight: 2, fill颜色: 'rgba(32, 201, 151, 0.35)' }"
+    :options="{ strokeColor: '#20c997', strokeWeight: 2, fillColor: 'rgba(32, 201, 151, 0.35)' }"
   />
 </AmapMap>
 ```
@@ -41,7 +41,7 @@ Draw axis-aligned rectangles by wrapping the JSAPI `AMap.Rectangle` overlay in a
 import RectangleComponentDemo from '../examples/RectangleComponentDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface RectangleProps {
@@ -52,12 +52,12 @@ export interface RectangleProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Ensure the component is nested inside `<AmapMap>` so the injected map instance is available.
-- When computing bounds reactively, return a brand-new array to trigger updates (avoid mutating the same reference).
-- Use `extData` (or `setExtData`) to attach identifiers that editor hooks can resolve later.
+- 确保组件嵌套在 `<AmapMap>` 内部，以便获取注入的地图实例。
+- 响应式计算 `bounds` 时返回全新的数组，避免原地修改同一引用导致无法触发更新。
+- 使用 `extData`（或 `setExtData`）附加标识，便于编辑器 hooks 后续解析。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

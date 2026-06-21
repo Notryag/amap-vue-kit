@@ -26,7 +26,7 @@ function cycleAnchor() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the info window.
+      配置 <code>VITE_AMAP_KEY</code> 后预览信息窗体。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -39,7 +39,7 @@ function cycleAnchor() {
             :is-custom="isCustom"
           >
             <div class="info-window">
-              <h4>Forbidden City</h4>
+              <h4>故宫</h4>
               <p style="margin: 0">
                 Imperial palace complex in central Beijing.
               </p>

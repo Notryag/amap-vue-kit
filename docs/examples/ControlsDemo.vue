@@ -25,7 +25,7 @@ const showControlButton = ref(true)
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to see the live demo.
+      配置 <code>VITE_AMAP_KEY</code> 后查看在线示例。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -59,54 +59,54 @@ const showControlButton = ref(true)
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="showToolBar" type="checkbox">
-          ToolBar
+          工具条
         </label>
         <label>
           <input v-model="showScale" type="checkbox">
-          Scale
+          比例尺
         </label>
         <label>
           <input v-model="showControlBar" type="checkbox">
-          ControlBar
+          控制条
         </label>
         <label>
           <input v-model="showMapType" type="checkbox">
-          MapType
+          地图类型
         </label>
         <label>
-          Position
+          位置
           <select v-model="controlPosition">
-            <option value="LT">Left · Top</option>
-            <option value="RT">Right · Top</option>
-            <option value="LB">Left · Bottom</option>
-            <option value="RB">Right · Bottom</option>
+            <option value="LT">左上</option>
+            <option value="RT">右上</option>
+            <option value="LB">左下</option>
+            <option value="RB">右下</option>
           </select>
         </label>
         <template v-if="showControlBar">
           <label>
             <input v-model="showZoomBar" type="checkbox">
-            Zoom bar
+            缩放条
           </label>
           <label>
             <input v-model="showControlButton" type="checkbox">
-            Rotate/tilt button
+            旋转/俯仰按钮
           </label>
         </template>
         <template v-if="showMapType">
           <label>
-            Default layer
+            默认图层
             <select v-model.number="mapTypeDefaultType">
-              <option :value="0">Standard</option>
-              <option :value="1">Satellite</option>
+              <option :value="0">标准</option>
+              <option :value="1">卫星</option>
             </select>
           </label>
           <label>
             <input v-model="mapTypeShowTraffic" type="checkbox">
-            Toggle traffic
+            显示路况
           </label>
           <label>
             <input v-model="mapTypeShowRoad" type="checkbox">
-            Toggle road net
+            显示路网
           </label>
         </template>
       </div>

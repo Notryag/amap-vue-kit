@@ -2,7 +2,8 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue } from 'vue'
+import { computed, shallowRef, toValue } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface UseWeatherOptions {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
@@ -47,7 +48,7 @@ export function useWeather(options: MaybeRefOrGetter<UseWeatherOptions | undefin
     }
   }
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

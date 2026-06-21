@@ -1,27 +1,27 @@
 # `<AmapAutoComplete>`
 
-Provide instant search suggestions backed by the AMap AutoComplete service. The component wraps [`useAutoComplete`](/hooks/use-auto-complete) with an opinionated input, loading state, and exposes renderless slots for custom UIs.
+基于高德 AutoComplete 服务提供即时搜索建议。组件封装了 [`useAutoComplete`](/hooks/use-auto-complete)，内置输入框、加载状态，并通过无渲染插槽支持自定义 UI。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `modelValue` | `string` | `''` | Current keyword. Works with `v-model`. |
-| `auto` | `boolean` | `true` | Automatically trigger search when the keyword changes. |
-| `debounce` | `number` | `250` | Debounce interval (ms) applied before firing a search. |
-| `placeholder` | `string` | `'搜索地点'` | Placeholder text for the built-in input. |
-| `options` | `Partial<AMap.Autocomplete.Options>` | `{}` | Native AutoComplete options such as `city`, `type`, or `datatype`. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration passed to `loader.load`. |
+| `modelValue` | `string` | `''` | 当前关键词，支持 `v-model`。 |
+| `auto` | `boolean` | `true` | 关键词变化时自动触发搜索。 |
+| `debounce` | `number` | `250` | 触发搜索前的防抖间隔，单位毫秒。 |
+| `placeholder` | `string` | `'搜索地点'` | 内置输入框的占位文本。 |
+| `options` | `Partial<AMap.Autocomplete.Options>` | `{}` | 原生 AutoComplete 配置，例如 `city`、`type` 或 `datatype`。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | 传给 `loader.load` 的额外加载配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `update:modelValue` | `string` | Emitted whenever the keyword changes. |
-| `ready` | `AMap.AutoComplete` | Fires once after the service is initialised. |
-| `search` | `{ keyword: string, tips: AMap.Autocomplete.Tip[], result: AMap.Autocomplete.SearchResult \| null }` | Emitted after each search (including empty results). |
-| `select` | `AMap.Autocomplete.Tip` | Fired when a suggestion is clicked in the default slot. |
-| `error` | `string` | Emitted when the service reports a failure. |
+| `update:modelValue` | `string` | 关键词变化时触发。 |
+| `ready` | `AMap.AutoComplete` | 服务初始化完成后触发一次。 |
+| `search` | `{ keyword: string, tips: AMap.Autocomplete.Tip[], result: AMap.Autocomplete.SearchResult \| null }` | 每次搜索后触发，包括空结果。 |
+| `select` | `AMap.Autocomplete.Tip` | 默认列表中的建议项被点击时触发。 |
+| `error` | `string` | 服务返回失败时触发。 |
 
 ## 用法
 
@@ -29,7 +29,7 @@ Provide instant search suggestions backed by the AMap AutoComplete service. The 
 <AmapAutoComplete v-model="keyword" @select="handleSelect" />
 ```
 
-Use the default slot for full control over rendering:
+使用默认插槽可以完全接管渲染：
 
 ```vue
 <AmapAutoComplete v-model="keyword" v-slot="{ tips, select, loading }">
@@ -46,7 +46,7 @@ Use the default slot for full control over rendering:
 import AutoCompleteDemo from '../examples/AutoCompleteDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface AmapAutoCompleteProps {
@@ -59,12 +59,12 @@ export interface AmapAutoCompleteProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Load the `AMap.AutoComplete` plugin via `loadOptions.plugins` or `useDemoLoader` before mounting the component.
-- When `auto` is `false`, call the exposed `search(keyword)` method manually.
-- Handle the `error` event to surface quota issues or network failures to users.
+- 组件挂载前通过 `loadOptions.plugins` 或 `useDemoLoader` 加载 `AMap.AutoComplete` 插件。
+- `auto` 为 `false` 时，需要手动调用暴露的 `search(keyword)` 方法。
+- 监听 `error` 事件，将配额或网络错误反馈给用户。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

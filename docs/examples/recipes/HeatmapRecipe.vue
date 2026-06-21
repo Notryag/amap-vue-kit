@@ -37,24 +37,24 @@ useHeatMap(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      配置 <code>VITE_AMAP_KEY</code> 后预览 the heatmap recipe.
+      配置 <code>VITE_AMAP_KEY</code> 后预览热力图方案。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
-          Radius
+          半径
           <input v-model.number="radius" type="range" min="20" max="60">
         </label>
         <label>
-          Max intensity
+          最大强度
           <input v-model.number="max" type="range" min="40" max="100">
         </label>
         <label>
           配色
           <select v-model="gradientType">
-            <option value="warm">Warm</option>
-            <option value="cool">Cool</option>
+            <option value="warm">暖色</option>
+            <option value="cool">冷色</option>
           </select>
         </label>
       </div>

@@ -2,7 +2,8 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 type GeocoderOptions = AMap.Geocoder.Options
 type GeocoderResult = AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReGeocodeResult | AMap.Geocoder.BatchReGeocodeResult
@@ -59,7 +60,7 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
       (geocoder.value as any).setOptions?.(rest)
   }, { deep: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

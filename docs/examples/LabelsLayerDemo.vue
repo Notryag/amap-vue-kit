@@ -25,7 +25,7 @@ const points = reactive([
   {
     id: 3,
     position: [116.4036, 39.9163] as [number, number],
-    label: 'Forbidden City',
+    label: '故宫',
   },
   {
     id: 4,
@@ -55,7 +55,7 @@ function textOptions(label: string): AMap.LabelMarkerTextOptions {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to see the live demo.
+      配置 <code>VITE_AMAP_KEY</code> 后查看在线示例。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -73,7 +73,7 @@ function textOptions(label: string): AMap.LabelMarkerTextOptions {
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="showLayer" type="checkbox">
-          Show labels
+          显示标签
         </label>
         <label>
           <input v-model="avoidCollision" type="checkbox">

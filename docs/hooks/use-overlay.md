@@ -1,11 +1,11 @@
 # `useOverlay`
 
-`useOverlay` is a low-level helper for building overlay composables. It is used internally by the polygon, polyline, and circle components but can be used to wrap any overlay that exposes `setMap`.
+`useOverlay` 是用于构建覆盖物组合式函数的底层辅助方法。多边形、折线、圆形等组件内部会使用它；任何暴露 `setMap` 的覆盖物都可以用它封装。
 
 ```ts
 const { overlay, destroy } = useOverlay(
   () => map.value,
-  () => ({ path, stroke颜色: '#4b8bff' }),
+  () => ({ path, strokeColor: '#4b8bff' }),
   ({ AMap, map, options }) => {
     const polyline = new AMap.Polyline({
       ...options,
@@ -20,23 +20,23 @@ const { overlay, destroy } = useOverlay(
 )
 ```
 
-`useOverlay` handles deferred instantiation until both the map and JSAPI are ready, automatically reattaches listeners, and cleans up on unmount.
+`useOverlay` 会延迟到地图和 JSAPI 都就绪后再创建实例，自动重新绑定监听器，并在卸载时清理资源。
 
-## Parameters
+## 参数
 
-1. `mapRef` – a getter that returns the current map instance.
-2. `options` – reactive options passed to both the factory and updater.
-3. `factory` – receives `{ AMap, map, options }` and must return an overlay with `setMap`.
-4. `updater` (optional) – called whenever the reactive options change.
-5. `loadOptions` (optional) – additional loader config (plugins, timeouts, etc.).
+1. `mapRef`：返回当前地图实例的 getter。
+2. `options`：传给 factory 和 updater 的响应式选项。
+3. `factory`：接收 `{ AMap, map, options }`，必须返回带 `setMap` 的覆盖物。
+4. `updater`（可选）：响应式选项变化时调用。
+5. `loadOptions`（可选）：额外加载器配置，例如插件、超时等。
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<TOverlay | null>` referencing the created overlay. |
-| `on` / `off` | Register JSAPI event listeners that persist across re-creations. |
-| `destroy` | Remove the overlay from the map and release references. |
+| `overlay` | `ShallowRef<TOverlay | null>`，指向创建出的覆盖物。 |
+| `on` / `off` | 注册 JSAPI 事件监听器，并在实例重建后继续保留。 |
+| `destroy` | 从地图移除覆盖物并释放引用。 |
 
 ## 在线示例
 
@@ -48,6 +48,6 @@ const { overlay, destroy } = useOverlay(
 import UseOverlayHookDemo from '../examples/hooks/UseOverlayHookDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

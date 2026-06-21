@@ -1,14 +1,14 @@
 # `useContextMenu`
 
-Control JSAPI context menus from setup code. The composable lazy-loads `AMap.ContextMenu`, keeps menu items reactive, and exposes `open`/`close` helpers so you can trigger menus programmatically.
+在 setup 代码中控制 JSAPI 右键菜单。该组合式函数会惰性加载 `AMap.ContextMenu`，保持菜单项响应式，并暴露 `open`/`close` 方法用于命令式触发。
 
 ```ts
 import { useContextMenu } from '@amap-vue/hooks'
 
 const menu = useContextMenu(() => map.value, () => ({
   items: [
-    { text: 'Zoom in', handler: () => map.value?.zoomIn?.() },
-    { text: 'Drop marker', handler: ({ lnglat }) => console.log(lnglat) },
+    { text: '放大', handler: () => map.value?.zoomIn?.() },
+    { text: '放置标记', handler: ({ lnglat }) => console.log(lnglat) },
   ],
 }))
 
@@ -17,22 +17,22 @@ map.value?.on('rightclick', event => menu.open(event.lnglat))
 
 ## 参数
 
-| Key | Type | Description |
+| 字段 | 类型 | 说明 |
 | --- | --- | --- |
-| `items` | `ContextMenuItem[]` | Menu definitions. Each item has `text`, `handler`, and optional `index`. |
-| `options` | `Partial<AMap.ContextMenuOptions>` | Extra JSAPI options. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Loader configuration when creating the menu. |
+| `items` | `ContextMenuItem[]` | 菜单定义。每项包含 `text`、`handler` 和可选 `index`。 |
+| `options` | `Partial<AMap.ContextMenuOptions>` | 额外 JSAPI 配置。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | 创建菜单时使用的 loader 配置。 |
 
-## Return value
+## 返回值
 
-| Key | Description |
+| 字段 | 说明 |
 | --- | --- |
-| `menu` | `ShallowRef<AMap.ContextMenu \| null>` referencing the menu instance. |
-| `open(position)` | Open the menu at a `LngLatLike` location. Automatically resolves arrays to native `LngLat`. |
-| `close()` | Hide the menu. |
-| `addItem(item)` / `removeItem(item)` | Mutate menu entries on the fly. |
-| `destroy()` | Dispose of the menu and detach listeners. |
-| `on(event, handler)` / `off(event, handler)` | Subscribe to JSAPI menu events. |
+| `menu` | `ShallowRef<AMap.ContextMenu \| null>`，指向菜单实例。 |
+| `open(position)` | 在 `LngLatLike` 位置打开菜单，会自动把数组坐标转换为原生 `LngLat`。 |
+| `close()` | 隐藏菜单。 |
+| `addItem(item)` / `removeItem(item)` | 运行时修改菜单项。 |
+| `destroy()` | 销毁菜单并解绑监听器。 |
+| `on(event, handler)` / `off(event, handler)` | 订阅 JSAPI 菜单事件。 |
 
 ## 在线示例
 
@@ -44,12 +44,12 @@ map.value?.on('rightclick', event => menu.open(event.lnglat))
 import UseContextMenuHookDemo from '../examples/hooks/UseContextMenuHookDemo.vue'
 </script>
 
-### Tips
+### 使用提示
 
-- When using map right-click events, remember to remove listeners in `onBeforeUnmount` or by calling `destroy()`.
-- `loadOptions` is handy when you need to load the menu from a different CDN or with security parameters than the main map.
-- Call `addItem`/`removeItem` with stable object references to keep the internal diff clean.
+- 使用地图右键事件时，记得在 `onBeforeUnmount` 中移除监听器，或调用 `destroy()`。
+- 当菜单需要使用不同 CDN 或与主地图不同的安全参数加载时，可以使用 `loadOptions`。
+- 调用 `addItem`/`removeItem` 时传入稳定对象引用，可以让内部 diff 更干净。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

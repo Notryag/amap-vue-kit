@@ -1,7 +1,8 @@
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface EditorLike<TOverlay = any> {
   open: () => void
@@ -286,7 +287,7 @@ function createEditorHook<
       applyEditorOptions()
     }, { deep: true, immediate: true })
 
-    onBeforeUnmount(() => {
+    tryOnBeforeUnmount(() => {
       destroy()
     })
 

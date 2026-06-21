@@ -1,26 +1,26 @@
 # `<AmapElasticMarker>`
 
-`<AmapElasticMarker>` exposes AMap's ElasticMarker plugin, which renders scalable HTML markers that adapt their size and style across zoom levels.
+`<AmapElasticMarker>` 暴露高德 ElasticMarker 插件，用于渲染会随缩放级别调整尺寸和样式的可伸缩 HTML 标记。
 
-## Props
+## 属性
 
-| Prop | Type | Description |
+| 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `position` | `LngLatLike` | Marker coordinates. |
-| `styles` | `AMap.ElasticMarkerStyles` | Style definitions for each zoom level. |
-| `zoomStyleMapping` | `Record<number, number>` | Map from zoom level to style index. |
-| `visible` | `boolean` | Controls marker visibility. |
-| `extData` | `any` | Arbitrary metadata. |
-| `options` | `Partial<AMap.ElasticMarkerOptions>` | Additional JSAPI options. |
+| `position` | `LngLatLike` | 标记坐标。 |
+| `styles` | `AMap.ElasticMarkerStyles` | 各缩放级别的样式定义。 |
+| `zoomStyleMapping` | `Record<number, number>` | 从缩放级别到样式索引的映射。 |
+| `visible` | `boolean` | 控制标记可见性。 |
+| `extData` | `any` | 任意元数据。 |
+| `options` | `Partial<AMap.ElasticMarkerOptions>` | 额外 JSAPI 选项。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.ElasticMarker` | Fired when the marker instance is created. |
-| `click` | `any` | Click events on the marker. |
-| `mouseover` | `any` | Hover enter events. |
-| `mouseout` | `any` | Hover leave events. |
+| `ready` | `AMap.ElasticMarker` | 标记实例创建完成后触发。 |
+| `click` | `any` | 标记点击事件。 |
+| `mouseover` | `any` | 鼠标移入事件。 |
+| `mouseout` | `any` | 鼠标移出事件。 |
 
 ## 用法
 
@@ -47,6 +47,6 @@
 import ElasticMarkerComponentDemo from '../examples/ElasticMarkerComponentDemo.vue'
 </script>
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

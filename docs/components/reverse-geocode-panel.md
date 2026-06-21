@@ -1,24 +1,24 @@
 # `<AmapReverseGeocodePanel>`
 
-Combine forward and reverse geocoding in a ready-to-use panel. The component wraps `useGeocoder`, handles loading state, and renders a default UI that can be customised via slots or exposed methods.
+在一个可直接使用的面板中组合正向与逆向地理编码。组件封装 `useGeocoder`，处理加载状态，并提供默认 UI；也可以通过插槽或暴露方法自定义。
 
-## Props
+## 属性
 
-| Prop | Type | Default | Description |
+| 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| `position` | `[number, number] \| undefined` | – | Coordinates used for reverse geocoding. |
-| `address` | `string` | `''` | Optional address keyword for forward geocoding. |
-| `auto` | `boolean` | `true` | Automatically trigger geocoding when props change. |
-| `geocoderOptions` | `Partial<AMap.Geocoder.Options>` | `{}` | Custom options forwarded to the underlying geocoder. |
-| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader configuration when requesting the plugin. |
+| `position` | `[number, number] \| undefined` | – | 用于逆向地理编码的坐标。 |
+| `address` | `string` | `''` | 用于正向地理编码的可选地址关键字。 |
+| `auto` | `boolean` | `true` | 属性变化时自动触发地理编码。 |
+| `geocoderOptions` | `Partial<AMap.Geocoder.Options>` | `{}` | 透传给底层地理编码服务的自定义选项。 |
+| `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | 请求插件时使用的加载器配置。 |
 
 ## 事件
 
-| Event | Payload | Description |
+| 事件 | 载荷 | 说明 |
 | --- | --- | --- |
-| `ready` | `AMap.Geocoder` | Fired once the geocoder instance is created. |
-| `result` | `{ mode: 'forward' \| 'reverse', result: AMap.Geocoder.GeocodeResult \| AMap.Geocoder.ReGeocodeResult \| AMap.Geocoder.BatchReGeocodeResult \| null }` | Emitted whenever a geocode completes. |
-| `error` | `string` | Emitted when the geocoder fails to resolve a request. |
+| `ready` | `AMap.Geocoder` | 地理编码实例创建完成后触发。 |
+| `result` | `{ mode: 'forward' \| 'reverse', result: AMap.Geocoder.GeocodeResult \| AMap.Geocoder.ReGeocodeResult \| AMap.Geocoder.BatchReGeocodeResult \| null }` | 每次地理编码完成后触发。 |
+| `error` | `string` | 地理编码请求失败时触发。 |
 
 ## 用法
 
@@ -26,7 +26,7 @@ Combine forward and reverse geocoding in a ready-to-use panel. The component wra
 <AmapReverseGeocodePanel :position="position" @result="handleResult" />
 ```
 
-The panel exposes imperative `search`, `reverse`, and `clear` methods via `ref` for advanced use cases.
+面板会通过 `ref` 暴露命令式 `search`、`reverse`、`clear` 方法，供高级场景使用。
 
 <ClientOnly>
   <ReverseGeocodePanelDemo />
@@ -36,7 +36,7 @@ The panel exposes imperative `search`, `reverse`, and `clear` methods via `ref` 
 import ReverseGeocodePanelDemo from '../examples/ReverseGeocodePanelDemo.vue'
 </script>
 
-### TypeScript signature
+### TypeScript 签名
 
 ```ts
 export interface ReverseGeocodePanelProps {
@@ -48,12 +48,12 @@ export interface ReverseGeocodePanelProps {
 }
 ```
 
-### Common pitfalls
+### 常见错误
 
-- Provide both `position` and `auto=false` if you plan to control lookups manually via the exposed `reverse` method.
-- The default slot receives `result`, `loading`, `error`, `search`, and `reverse` helpers when you need custom layouts.
-- Use the `result` event to synchronise the resolved address with other UI components.
+- 如果准备通过暴露的 `reverse` 方法手动控制查询，请同时传入 `position` 并设置 `auto=false`。
+- 需要自定义布局时，默认插槽会收到 `result`、`loading`、`error`、`search`、`reverse` 等辅助数据和方法。
+- 使用 `result` 事件可以将解析后的地址同步到其他 UI 组件。
 
-### StackBlitz
+### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

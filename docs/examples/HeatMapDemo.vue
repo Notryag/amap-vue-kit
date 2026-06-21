@@ -43,7 +43,7 @@ const points: AMap.HeatMapDataPoint[] = [
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to see the live demo.
+      配置 <code>VITE_AMAP_KEY</code> 后查看在线示例。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -59,10 +59,10 @@ const points: AMap.HeatMapDataPoint[] = [
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="showHeatMap" type="checkbox">
-          Show heat map
+          显示热力图
         </label>
         <label>
-          Radius
+          半径
           <select v-model.number="radius">
             <option :value="28">28 px</option>
             <option :value="32">32 px</option>
@@ -70,11 +70,11 @@ const points: AMap.HeatMapDataPoint[] = [
           </select>
         </label>
         <label>
-          Gradient
+          渐变
           <select v-model="gradientKey">
-            <option value="sunset">Sunset</option>
-            <option value="ocean">Ocean</option>
-            <option value="default">Default</option>
+            <option value="sunset">日落</option>
+            <option value="ocean">海洋</option>
+            <option value="default">默认</option>
           </select>
         </label>
       </div>

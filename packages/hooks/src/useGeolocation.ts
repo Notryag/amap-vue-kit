@@ -2,7 +2,8 @@ import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 type GeolocationOptions = AMap.Geolocation.Options
 type GeolocationResult = AMap.Geolocation.GeolocationResult
@@ -61,7 +62,7 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
       (geolocation.value as any).setOptions?.(rest)
   }, { deep: true })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

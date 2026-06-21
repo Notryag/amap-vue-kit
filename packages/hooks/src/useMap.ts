@@ -2,7 +2,8 @@ import type { LngLatLike, LoaderOptions, ReadyCallback } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
 
-import { computed, onBeforeUnmount, onMounted, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount, tryOnMounted } from './lifecycle'
 
 export interface UseMapOptions extends Partial<AMap.MapOptions> {
   container?: MaybeRefOrGetter<HTMLElement | null | undefined> | string | HTMLElement
@@ -135,12 +136,12 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       ensureMap()
   }, { immediate: true })
 
-  onMounted(() => {
+  tryOnMounted(() => {
     if (containerRef.value)
       ensureMap()
   })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

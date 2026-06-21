@@ -3,7 +3,8 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import type { UseLabelsLayerReturn } from './useLabelsLayer'
 
 import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
+import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface UseLabelMarkerOptions extends Partial<AMap.LabelMarkerOptions> {
   position?: LngLatLike
@@ -211,7 +212,7 @@ export function useLabelMarker(
       hide()
   })
 
-  onBeforeUnmount(() => {
+  tryOnBeforeUnmount(() => {
     destroy()
   })
 

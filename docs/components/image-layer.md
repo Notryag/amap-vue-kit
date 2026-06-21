@@ -20,7 +20,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.ImageLayer` | 图片图层创建并挂载到地图后触发一次。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -54,7 +54,7 @@ const showOverlay = ref(true)
 import ImageLayerDemo from '../examples/ImageLayerDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface ImageLayerProps {
@@ -76,6 +76,6 @@ type ImageLayerReadyPayload = AMap.ImageLayer
 - 确保图片 URL 可通过 HTTPS 访问；浏览器会在安全页面中阻止不安全资源。
 - 如果需要频繁切换多个覆盖图片，复用同一个组件实例并更新 `url` / `bounds` 属性即可，不必反复重新挂载。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

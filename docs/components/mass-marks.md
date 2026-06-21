@@ -22,7 +22,7 @@
 | `mouseover` | `any` | 鼠标悬停到点上时触发。 |
 | `mouseout` | `any` | 鼠标离开点时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="11" class="map-shell">
@@ -40,7 +40,7 @@
 import MassMarksComponentDemo from '../examples/MassMarksComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface MassMarksProps {
@@ -60,6 +60,6 @@ export interface MassMarksProps {
 - 流式追加数据时优先使用 `ref`/`reactive` 集合，不要在每次 tick 都重建数组。
 - `MassMarks` 与其他覆盖物混用时，调整 `options.zIndex` 以保证期望的层级顺序。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

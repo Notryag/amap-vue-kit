@@ -28,7 +28,7 @@
 | `select` | `AMap.PlaceSearch.Poi` | 默认模板中的 POI 被点击时触发。 |
 | `error` | `string` | JSAPI 报错时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapPlaceSearch v-model="keyword" mode="nearby" :location="center" :radius="1500" @select="handlePoi" />
@@ -42,7 +42,7 @@
 import PlaceSearchDemo from '../examples/PlaceSearchDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface AmapPlaceSearchProps {
@@ -66,6 +66,6 @@ export interface AmapPlaceSearchProps {
 - 如果希望原生 PlaceSearch 自动渲染 POI 标记，请传入 `map` prop；否则通过插槽自行处理结果。
 - 调用暴露的 `goToPage(page)` 方法可以实现自定义分页控件。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

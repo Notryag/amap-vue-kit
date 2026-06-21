@@ -20,7 +20,7 @@
 | `mouseover` | `any` | 指针进入矩形时触发。 |
 | `mouseout` | `any` | 指针离开矩形时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell">
@@ -31,7 +31,7 @@
 </AmapMap>
 ```
 
-## 在线示例
+## 完整示例
 
 <ClientOnly>
   <RectangleComponentDemo />
@@ -41,7 +41,7 @@
 import RectangleComponentDemo from '../examples/RectangleComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface RectangleProps {

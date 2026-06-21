@@ -18,7 +18,7 @@
 | `adjust` | `any` | 透传拖拽控制点时触发的 JSAPI `adjust` 事件。 |
 | `end` | `any` | 编辑结束后触发（`mouseup`）。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -141,7 +141,7 @@ onBeforeUnmount(() => {
 import ShapeEditorsDemo from '../examples/ShapeEditorsDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface CircleEditorProps {
@@ -194,6 +194,6 @@ type EditorReadyPayload = AMap.CircleEditor
 - 编辑器会懒加载对应插件（`AMap.CircleEditor`、`AMap.BezierCurveEditor` 等）；请确认当前 Key 有权限访问这些插件。
 - 手动销毁覆盖物时，也要把编辑器的 `active` 设为 `false`，避免插件继续持有失效引用。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

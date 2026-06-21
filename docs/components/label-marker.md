@@ -26,7 +26,7 @@
 | `mouseover` | `any` | 指针移入事件。 |
 | `mouseout` | `any` | 指针移出事件。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapLabelsLayer :collision="true">
@@ -51,7 +51,7 @@
 import LabelsLayerDemo from '../examples/LabelsLayerDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface LabelMarkerProps {
@@ -74,6 +74,6 @@ export interface LabelMarkerProps {
 - 传入 `text.offset` 时可以使用 `[x, y]` 元组，组件内部会转换为 `AMap.Pixel`。
 - 避让行为取决于父图层。需要精细控制时，同时设置图层的 `collision` prop 和标记自身的 `collision` 覆盖项。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

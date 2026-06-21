@@ -21,7 +21,7 @@
 | `mouseover` | `any` | 指针进入椭圆时触发。 |
 | `mouseout` | `any` | 指针离开椭圆时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.406, 39.912]" :zoom="13" class="map-shell">
@@ -33,7 +33,7 @@
 </AmapMap>
 ```
 
-## 在线示例
+## 完整示例
 
 <ClientOnly>
   <EllipseComponentDemo />
@@ -43,7 +43,7 @@
 import EllipseComponentDemo from '../examples/EllipseComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface EllipseProps {

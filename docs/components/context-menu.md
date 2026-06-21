@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.ContextMenu` | 右键菜单创建后触发一次。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell" @ready="map => (mapRef = map)">
@@ -31,7 +31,7 @@
 </AmapMap>
 ```
 
-## 在线示例
+## 完整示例
 
 <ClientOnly>
   <ContextMenuComponentDemo />
@@ -41,7 +41,7 @@
 import ContextMenuComponentDemo from '../examples/ContextMenuComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface ContextMenuItem {

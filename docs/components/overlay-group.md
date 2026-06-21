@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.OverlayGroup` | 分组实例创建并挂载到地图后触发一次。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -69,7 +69,7 @@ import OverlayGroupDemo from '../examples/OverlayGroupDemo.vue'
 - `clearOverlays()`：移除分组管理的全部覆盖物。
 - `getOverlays()`：获取当前覆盖物列表快照。
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface OverlayGroupProps {
@@ -88,6 +88,6 @@ type OverlayGroupReadyPayload = AMap.OverlayGroup
 - 该组件不会渲染子内容。请在其他位置渲染交互 UI，并响应式修改 `overlays` prop。
 - 如果需要单个覆盖物级别的响应式，可结合 watcher 在数据变化时重建 `overlays` 数组。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

@@ -19,7 +19,7 @@
 | `mouseover` | `any` | Forwarded from the underlying overlay. |
 | `mouseout` | `any` | Forwarded from the underlying overlay. |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.909]" :zoom="12">
@@ -37,7 +37,7 @@
 import GeoJSONLayerComponentDemo from '../examples/GeoJSONLayerComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface GeoJSONLayerProps {
@@ -53,6 +53,6 @@ export interface GeoJSONLayerProps {
 - 流式更新数据时，请克隆 feature collection 以触发 Vue 变更检测（`{ ...collection, features: [...collection.features] }`）。
 - 切换大数据集时优先使用 `visible`，避免移除组件后重复导入大数据。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

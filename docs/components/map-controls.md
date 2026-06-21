@@ -17,7 +17,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.ToolBar \| AMap.Scale \| AMap.ControlBar \| AMap.MapType` | 控件创建并添加到地图后触发一次。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -72,7 +72,7 @@ import ControlsDemo from '../examples/ControlsDemo.vue'
 - 同一个角落重复加载同类控件且不调整 `offset` 会发生重叠。请为每个实例设置偏移，或按断点隐藏重复控件。
 - 将 `<AmapMapType>` 与 `<AmapTrafficLayer>` 搭配使用时，优先使用控件内置交通开关（`showTraffic`），避免状态冲突。
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface ToolBarProps {
@@ -113,6 +113,6 @@ type ControlReadyPayload = AMap.ToolBar | AMap.Scale | AMap.ControlBar | AMap.Ma
 
 这些接口复用了 `@amap-vue/shared` 中的 `PixelLike` 类型，以及 `@amap-vue/hooks` 导出的 hook 配置类型。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

@@ -19,7 +19,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.TileLayer` | 图层实例创建并添加到地图后触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -70,7 +70,7 @@ import TileLayerDemo from '../examples/TileLayerDemo.vue'
 
 当 URL 依赖复杂逻辑（鉴权头、签名 URL 等）时，优先使用 `getTileUrl` 回调。
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface TileLayerProps {
@@ -107,6 +107,6 @@ type TileLayerReadyPayload = AMap.TileLayer | AMap.TileLayer.Traffic | AMap.Tile
 - 不要为同一张地图配置互相冲突的加载器；调用一次 `loader.config` 共享插件配置即可。
 - `auto-refresh` 会每隔几秒发起网络请求；图层不在可视区域时建议禁用以节省配额。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

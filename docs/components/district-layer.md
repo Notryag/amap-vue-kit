@@ -20,7 +20,7 @@
 | `ready` | `AMap.DistrictLayer` | 图层实例可用后触发。 |
 | `complete` | `any` | 底层图层触发 `complete` 时透传。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="6">
@@ -43,7 +43,7 @@
 import DistrictLayerComponentDemo from '../examples/DistrictLayerComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface DistrictLayerProps {
@@ -62,6 +62,6 @@ export interface DistrictLayerProps {
 - 将 `styles` 与 `options` 中的透明度组合使用，可以创建更克制但仍突出边界的底图。
 - 在区域之间切换动画时，复用同一个 `AmapDistrictLayer` 实例可以避免闪烁。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

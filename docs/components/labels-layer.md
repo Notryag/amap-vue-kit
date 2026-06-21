@@ -20,7 +20,7 @@
 | --- | --- | --- |
 | `ready` | `AMap.LabelsLayer` | 图层实例创建并挂载到地图后触发一次。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="13" class="map-shell">
@@ -49,7 +49,7 @@
 import LabelsLayerDemo from '../examples/LabelsLayerDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface LabelsLayerProps {
@@ -69,6 +69,6 @@ export interface LabelsLayerProps {
 - 碰撞检测只作用于同一图层内的标签标记。组合不同数据集时可以创建独立图层。
 - 如果手动实例化图层，请记得在 AMap loader 中配置 `AMap.LabelsLayer` 插件；组件会自动请求它。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

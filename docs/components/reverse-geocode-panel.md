@@ -20,7 +20,7 @@
 | `result` | `{ mode: 'forward' \| 'reverse', result: AMap.Geocoder.GeocodeResult \| AMap.Geocoder.ReGeocodeResult \| AMap.Geocoder.BatchReGeocodeResult \| null }` | 每次地理编码完成后触发。 |
 | `error` | `string` | 地理编码请求失败时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapReverseGeocodePanel :position="position" @result="handleResult" />
@@ -36,7 +36,7 @@
 import ReverseGeocodePanelDemo from '../examples/ReverseGeocodePanelDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface ReverseGeocodePanelProps {
@@ -54,6 +54,6 @@ export interface ReverseGeocodePanelProps {
 - 需要自定义布局时，默认插槽会收到 `result`、`loading`、`error`、`search`、`reverse` 等辅助数据和方法。
 - 使用 `result` 事件可以将解析后的地址同步到其他 UI 组件。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

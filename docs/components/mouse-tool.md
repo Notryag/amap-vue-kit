@@ -19,7 +19,7 @@
 | `draw` | `any` | 覆盖物绘制完成后触发，载荷包含新创建的覆盖物（`event.obj`）。 |
 | `update:mode` | `DrawMode` | 组件请求切换模式时触发，用于 `v-model:mode`。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.909]" :zoom="13">
@@ -37,7 +37,7 @@
 import MouseToolComponentDemo from '../examples/MouseToolComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface MouseToolProps {
@@ -61,6 +61,6 @@ export interface MouseToolProps {
 - 如果需要连续绘制多个同类型图形，可以将 `autoClose=false` 与暴露的 `close()` 方法搭配使用。
 - `draw` 事件会通过 `event.obj` 暴露原始覆盖物；后续需要编辑或移除时请保存引用。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

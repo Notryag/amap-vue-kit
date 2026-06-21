@@ -23,7 +23,7 @@
 | `select` | `AMap.Autocomplete.Tip` | 默认列表中的建议项被点击时触发。 |
 | `error` | `string` | 服务返回失败时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapAutoComplete v-model="keyword" @select="handleSelect" />
@@ -46,7 +46,7 @@
 import AutoCompleteDemo from '../examples/AutoCompleteDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface AmapAutoCompleteProps {
@@ -65,6 +65,6 @@ export interface AmapAutoCompleteProps {
 - `auto` 为 `false` 时，需要手动调用暴露的 `search(keyword)` 方法。
 - 监听 `error` 事件，将配额或网络错误反馈给用户。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

@@ -22,13 +22,13 @@
 | `search` | `{ origin: WalkingEndpoint, destination: WalkingEndpoint, result: AMap.WalkingResult \| null }` | 每次路线请求后触发。 |
 | `error` | `string` | 组件无法计算路线时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapWalking :map="map" origin="天安门" destination="景山公园" :options="{ isOutline: true }" />
 ```
 
-## 在线示例
+## 完整示例
 
 <ClientOnly>
   <WalkingComponentDemo />
@@ -38,7 +38,7 @@
 import WalkingComponentDemo from '../examples/WalkingComponentDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface AmapWalkingProps {

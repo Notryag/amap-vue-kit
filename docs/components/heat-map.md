@@ -21,7 +21,7 @@ exposes helpers to push incremental updates.
 | --- | --- | --- |
 | `ready` | `AMap.HeatMap` | 插件实例创建完成时触发。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell">
@@ -40,7 +40,7 @@ ient change.
 import HeatMapDemo from '../examples/HeatMapDemo.vue'
 </script>
 
-### TypeScript 签名
+### TS 签名
 
 ```ts
 export interface HeatMapProps {
@@ -60,6 +60,6 @@ export interface HeatMapProps {
 - The heat map uses pixel radii. Increase the radius at low zoom levels to avoid sparse visuals.
 - 热力图与其他 WebGL 覆盖物混用时，建议统一 `zIndex` 顺序，避免闪烁伪影。
 
-### 在线示例
+### 完整示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)

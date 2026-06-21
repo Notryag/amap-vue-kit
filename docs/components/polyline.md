@@ -20,7 +20,7 @@
 | `mouseover` | `any` | 指针移入事件。 |
 | `mouseout` | `any` | 指针移出事件。 |
 
-## 用法
+## 最小示例
 
 ```vue
 <AmapPolyline
@@ -33,7 +33,7 @@
 />
 ```
 
-## 在线示例
+## 完整示例
 
 <ClientOnly>
   <PolylineComponentDemo />
@@ -46,3 +46,13 @@ import PolylineComponentDemo from '../examples/PolylineComponentDemo.vue'
 ### 在线示例
 
 [在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+
+## TS 签名
+
+本组件的 props、emits 与插槽类型由 `@amap-vue/core` 的 `.d.ts` 文件导出；上方属性和事件表与发布类型保持同步。
+
+## 常见错误
+
+- 地图空白时，先确认容器有明确高度，并已配置有效的高德 JSAPI Key。
+- 需要插件的组件应通过组件内部自动加载或在 `<AmapMap :plugins>` 中提前声明，避免实例创建时插件缺失。
+- 在 SSR 环境中不要在 setup 顶层直接访问 `window` 或 `AMap`；等待 `ready` 事件后再读取实例。

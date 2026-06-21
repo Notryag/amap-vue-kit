@@ -28,7 +28,7 @@ markerApi.on('click', (event) => {
 
 When the map reference becomes `null` (e.g. during unmount) the marker is automatically removed and destroyed.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMarkerHookDemo />
@@ -40,4 +40,4 @@ import UseMarkerHookDemo from '../examples/hooks/UseMarkerHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

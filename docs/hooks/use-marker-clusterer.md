@@ -21,12 +21,12 @@ cluster.on('click', (event) => {
 | Key | Description |
 | --- | --- |
 | `cluster` | `ShallowRef<AMap.MarkerCluster \| null>` referencing the clusterer instance. |
-| `setPoints`, `setMarkers`, `setOptions` | Imperative setters. |
+| `set点位`, `setMarkers`, `setOptions` | Imperative setters. |
 | `show` / `hide` | Toggle visibility. |
 | `on` / `off` | Subscribe to cluster events. |
 | `destroy` | Clear markers and dispose the cluster. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMarkerClustererHookDemo />
@@ -38,4 +38,4 @@ import UseMarkerClustererHookDemo from '../examples/hooks/UseMarkerClustererHook
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

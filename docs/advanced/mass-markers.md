@@ -17,7 +17,7 @@ const mass = useMassMarkers(() => map.value, () => ({
 
 Use the composable inside `ready` handlers to ensure the map exists before instantiation. Mass markers share the loader so additional plugins are only requested once.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMassMarkersHookDemo />
@@ -44,4 +44,4 @@ import MassMarksComparisonDemo from '../examples/MassMarksComparisonDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

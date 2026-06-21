@@ -14,7 +14,7 @@ Plan walking routes with a built-in form and optional JSAPI panel. `<AmapWalking
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -22,13 +22,13 @@ Plan walking routes with a built-in form and optional JSAPI panel. `<AmapWalking
 | `search` | `{ origin: WalkingEndpoint, destination: WalkingEndpoint, result: AMap.WalkingResult \| null }` | Fired after each routing request. |
 | `error` | `string` | Emitted when the component cannot compute a route. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapWalking :map="map" origin="天安门" destination="景山公园" :options="{ isOutline: true }" />
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <WalkingComponentDemo />
@@ -60,4 +60,4 @@ export interface AmapWalkingProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

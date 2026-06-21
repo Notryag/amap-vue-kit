@@ -1,6 +1,32 @@
 declare global {
   namespace AMap {
+    type MapViewMode = '2D' | '3D'
+    type MarkerAnchor = 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
+    type InfoWindowAnchor = 'top-left' | 'top-center' | 'top-right' | 'middle-left' | 'center' | 'middle-right' | 'bottom-left' | 'bottom-center' | 'bottom-right'
     type LabelsLayerZooms = [number, number]
+
+    interface MarkerLabelOptions {
+      content?: string
+      direction?: 'top' | 'right' | 'bottom' | 'left' | 'center'
+      offset?: AMap.Pixel | [number, number]
+      [key: string]: any
+    }
+
+    interface InfoWindowOptions {
+      content?: string | HTMLElement
+      offset?: AMap.Pixel | [number, number]
+      anchor?: InfoWindowAnchor
+      isCustom?: boolean
+      closeWhenClickMap?: boolean
+      autoMove?: boolean
+      [key: string]: any
+    }
+
+    interface MapOptions {
+      theme?: string
+      viewMode?: MapViewMode
+      [key: string]: any
+    }
 
     class Bounds {
       constructor(southWest: AMap.LngLat | [number, number], northEast: AMap.LngLat | [number, number])

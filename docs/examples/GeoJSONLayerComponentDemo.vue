@@ -5,12 +5,12 @@ import { useDemoLoader } from './useDemoLoader'
 
 useDemoLoader()
 
-const geojson = ref({
+const geojson = ref<any>({
   type: 'FeatureCollection',
   features: [
     {
       type: 'Feature',
-      properties: { name: 'Demo Polygon' },
+      properties: { name: '示例多边形' },
       geometry: {
         type: 'Polygon',
         coordinates: [
@@ -26,7 +26,7 @@ const geojson = ref({
     },
     {
       type: 'Feature',
-      properties: { name: 'Marker' },
+      properties: { name: '标记点' },
       geometry: {
         type: 'Point',
         coordinates: [116.404, 39.915],
@@ -50,14 +50,14 @@ const options = computed(() => ({
 
 function toggleSecondPoint() {
   const collection = geojson.value
-  const index = collection.features.findIndex(feature => feature.properties?.name === 'Marker')
+  const index = collection.features.findIndex((feature: any) => feature.properties?.name === '标记点')
   if (index >= 0) {
     collection.features.splice(index, 1)
   }
   else {
     collection.features.push({
       type: 'Feature',
-      properties: { name: 'Marker' },
+      properties: { name: '标记点' },
       geometry: { type: 'Point', coordinates: [116.404, 39.915] },
     })
   }
@@ -74,9 +74,9 @@ function toggleSecondPoint() {
     </div>
     <div class="amap-demo__toolbar">
       <button type="button" @click="toggleSecondPoint">
-        Toggle marker feature
+        切换标记要素
       </button>
-      <div>Features: {{ geojson.features.length }}</div>
+      <div>要素数量：{{ geojson.features.length }}</div>
     </div>
   </div>
 </template>

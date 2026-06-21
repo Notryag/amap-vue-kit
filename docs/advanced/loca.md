@@ -13,7 +13,7 @@ loader.config({
 
 From there you can instantiate `Loca.Container` instances inside `ready` callbacks. Future releases of AMap Vue Kit will ship dedicated helpers for common visualizations.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <LocaVisualizationDemo />

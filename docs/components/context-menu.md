@@ -11,13 +11,13 @@ Add contextual actions to right-click interactions on the map. `<AmapContextMenu
 | `bindMapRightClick` | `boolean` | `true` | Automatically listen for the map's `rightclick` event and open the menu. Disable if you want manual control. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | – | Custom loader configuration (plugins, security code) when instantiating the menu. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.ContextMenu` | Fired once the context menu is created. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell" @ready="map => (mapRef = map)">
@@ -31,7 +31,7 @@ Add contextual actions to right-click interactions on the map. `<AmapContextMenu
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <ContextMenuComponentDemo />
@@ -66,4 +66,4 @@ export interface ContextMenuProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

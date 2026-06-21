@@ -27,7 +27,7 @@ const visible = ref(true)
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>&lt;AmapBezierCurve&gt;</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>&lt;AmapBezierCurve&gt;</code>.
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -42,7 +42,7 @@ const visible = ref(true)
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
       </div>
     </template>

@@ -20,7 +20,7 @@ const dash = ref(false)
 const options = computed(() => ({
   strokeColor: color.value,
   strokeWeight: weight.value,
-  strokeStyle: dash.value ? 'dashed' : 'solid',
+  strokeStyle: dash.value ? 'dashed' as const : 'solid' as const,
   showDir: dash.value,
 }))
 
@@ -33,7 +33,7 @@ watch(dash, (value) => {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the polyline.
+      配置 <code>VITE_AMAP_KEY</code> 后预览折线。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -43,16 +43,16 @@ watch(dash, (value) => {
       </div>
       <div class="amap-demo__toolbar">
         <label>
-          Color
+          颜色
           <input v-model="color" type="color">
         </label>
         <label>
-          Width
+          线宽
           <input v-model.number="weight" type="range" min="2" max="12">
         </label>
         <label>
           <input v-model="dash" type="checkbox">
-          Show direction arrows
+          显示方向箭头
         </label>
       </div>
     </template>

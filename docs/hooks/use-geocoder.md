@@ -14,7 +14,7 @@ if (result)
   console.log(result.geocodes[0].location)
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -31,13 +31,13 @@ if (result)
 | `setOptions(options)` | Patch the geocoder options at runtime. |
 | `destroy()` | Dispose the instance and release references. |
 
-### Notes
+### 说明
 
 - `getLocation` and `getAddress` return `null` when the JSAPI reports `no_data`; guard your UI accordingly.
 - Call `setOptions` when switching between cities or toggling the `extensions` flag instead of re-creating the hook.
 - Combine with [`<AmapReverseGeocodePanel>`](/components/reverse-geocode-panel) for an opinionated panel with built-in loading and error states.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseGeocoderHookDemo />
@@ -49,4 +49,4 @@ import UseGeocoderHookDemo from '../examples/hooks/UseGeocoderHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -26,20 +26,20 @@ markers.value.forEach((item) => {
 | `overlay` | `ShallowRef<AMap.LabelsLayer \| null>` pointing to the layer instance. |
 | `ready` | Register callbacks executed once the layer is available. |
 | `setOptions` | Call through to `layer.setOptions()` for incremental updates. |
-| `setOpacity` / `setZIndex` | Adjust style attributes without recreating the layer. |
+| `set透明度` / `setZIndex` | Adjust style attributes without recreating the layer. |
 | `show` / `hide` | Toggle visibility. Also triggered when the reactive `visible` option changes. |
 | `add` / `remove` | Attach or detach one or many `LabelMarker` instances. |
 | `clear` | Remove every registered marker from the layer. |
 | `destroy` | Dispose of the layer and detach it from the map. |
 
-### Notes
+### 说明
 
 - The composable watches the reactive options deeply, so `collision`, `visible`, and `opacity` update automatically.
 - When the map reference becomes `null`, the layer detaches itself and reattaches once a map is available again.
 - Use the higher-level `<AmapLabelsLayer>` component when authoring templates; `useLabelsLayer` is ideal for custom renderers or
 server-driven setups.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseLabelsLayerHookDemo />
@@ -51,4 +51,4 @@ import UseLabelsLayerHookDemo from '../examples/hooks/UseLabelsLayerHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

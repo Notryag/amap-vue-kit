@@ -15,7 +15,7 @@ const menu = useContextMenu(() => map.value, () => ({
 map.value?.on('rightclick', event => menu.open(event.lnglat))
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ map.value?.on('rightclick', event => menu.open(event.lnglat))
 | `destroy()` | Dispose of the menu and detach listeners. |
 | `on(event, handler)` / `off(event, handler)` | Subscribe to JSAPI menu events. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseContextMenuHookDemo />
@@ -52,4 +52,4 @@ import UseContextMenuHookDemo from '../examples/hooks/UseContextMenuHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

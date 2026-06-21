@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import type { UseBezierCurveOptions } from '@amap-vue/hooks'
 import type { BezierCurvePath, MapInjectionContext } from '@amap-vue/shared'
-import type { PropType } from 'vue'
 
+import type { PropType } from 'vue'
 import { useBezierCurve } from '@amap-vue/hooks'
 import { amapMapInjectionKey, warn } from '@amap-vue/shared'
 import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
@@ -38,12 +39,12 @@ const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 if (!context)
   warn('<AmapBezierCurve> must be used inside <AmapMap>.')
 
-const curveOptions = computed(() => ({
+const curveOptions = computed<UseBezierCurveOptions>(() => ({
   path: props.path,
   visible: props.visible,
   extData: props.extData,
   ...props.options,
-}))
+}) as UseBezierCurveOptions)
 
 const curveApi = context ? useBezierCurve(() => context.map.value, curveOptions) : null
 const bezierCurve = curveApi?.overlay ?? shallowRef<AMap.BezierCurve | null>(null)

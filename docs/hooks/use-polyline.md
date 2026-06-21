@@ -13,7 +13,7 @@ const path = ref([
 
 const polylineApi = usePolyline(() => map.value, () => ({
   path: path.value,
-  strokeColor: '#2979ff',
+  stroke颜色: '#2979ff',
   strokeWeight: 4,
 }))
 
@@ -35,12 +35,12 @@ polylineApi.on('click', () => {
 | `show` / `hide` | Toggle the visibility flag without destroying the instance. |
 | `destroy` | Remove the polyline from the map and release listeners. |
 
-### Notes
+### 说明
 
-- The composable watches the reactive options and updates the JSAPI object incrementally, so you can mutate `path.value` or `strokeColor` without manual glue code.
+- The composable watches the reactive options and updates the JSAPI object incrementally, so you can mutate `path.value` or `stroke颜色` without manual glue code.
 - Setting `visible: false` in the options will hide the overlay until the flag becomes truthy again.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UsePolylineHookDemo />
@@ -52,4 +52,4 @@ import UsePolylineHookDemo from '../examples/hooks/UsePolylineHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -30,7 +30,7 @@ const distance = computed(() => path.value.length - 1)
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>usePolyline</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>usePolyline</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

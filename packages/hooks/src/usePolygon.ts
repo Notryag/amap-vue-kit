@@ -47,7 +47,7 @@ export function usePolygon(
     const polygon = new AMap.Polygon({
       ...rest,
       path: normalizePolygonPath(AMap, path),
-    })
+    } as any)
     polygon.setMap(map)
     if (visible === false)
       polygon.hide()
@@ -55,7 +55,7 @@ export function usePolygon(
   }, (polygon, nextOptions) => {
     const { path, visible, map: _ignored, ...rest } = nextOptions as UsePolygonOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      polygon.setOptions(rest)
+      polygon.setOptions(rest as any)
     if (path !== undefined)
       setPathInternal(polygon, path)
     if (visible != null)
@@ -78,7 +78,7 @@ export function usePolygon(
   }
 
   function setOptions(options: Partial<AMap.PolygonOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

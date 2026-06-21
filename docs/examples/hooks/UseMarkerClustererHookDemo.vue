@@ -51,14 +51,14 @@ function regenerate() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useMarkerClusterer</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useMarkerClusterer</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
         <button type="button" @click="regenerate">
           Regenerate points

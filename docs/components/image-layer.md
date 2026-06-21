@@ -14,13 +14,13 @@ Project custom raster overlays (heat maps, floor plans, historical imagery) onto
 | `zooms` | `[number, number] \| undefined` | – | Minimum and maximum zoom levels that keep the layer visible. |
 | `options` | `Partial<AMap.ImageLayerOptions>` | `{}` | Extra JSAPI options forwarded to the image layer instance. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.ImageLayer` | Emitted once the image layer is created and attached to the map. |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">
@@ -78,4 +78,4 @@ type ImageLayerReadyPayload = AMap.ImageLayer
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

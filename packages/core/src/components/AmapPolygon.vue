@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UsePolygonOptions } from '@amap-vue/hooks'
 import type { MapInjectionContext, PolygonPath } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { usePolygon } from '@amap-vue/hooks'
@@ -37,12 +38,12 @@ const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 if (!context)
   warn('<AmapPolygon> must be used inside <AmapMap>.')
 
-const overlayOptions = computed(() => ({
+const overlayOptions = computed<UsePolygonOptions>(() => ({
   path: props.path,
   visible: props.visible,
   extData: props.extData,
   ...props.options,
-}))
+}) as UsePolygonOptions)
 
 const polygonApi = context ? usePolygon(() => context.map.value, overlayOptions) : null
 const polygon = polygonApi?.overlay ?? shallowRef<AMap.Polygon | null>(null)

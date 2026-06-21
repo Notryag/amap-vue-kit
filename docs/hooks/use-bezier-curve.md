@@ -7,7 +7,7 @@ const curve = useBezierCurve(() => map.value, () => ({
   path: [
     [[116.35, 39.9], [116.36, 39.94], [116.38, 39.96], [116.41, 39.97]],
   ],
-  strokeColor: '#13c2c2',
+  stroke颜色: '#13c2c2',
 }))
 
 curve.on('click', (event) => {
@@ -25,7 +25,7 @@ curve.on('click', (event) => {
 | `on` / `off` | Listen to curve events. |
 | `destroy` | Remove the overlay. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseBezierCurveHookDemo />
@@ -37,4 +37,4 @@ import UseBezierCurveHookDemo from '../examples/hooks/UseBezierCurveHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

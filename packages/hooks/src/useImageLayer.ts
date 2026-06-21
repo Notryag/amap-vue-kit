@@ -6,7 +6,7 @@ import { loader, toBounds } from '@amap-vue/shared'
 import { computed, toValue } from 'vue'
 import { useOverlay } from './useOverlay'
 
-export interface UseImageLayerOptions extends Partial<AMap.ImageLayerOptions> {
+export interface UseImageLayerOptions extends Omit<Partial<AMap.ImageLayerOptions>, 'bounds'> {
   url?: string
   bounds?: BoundsLike
   visible?: boolean

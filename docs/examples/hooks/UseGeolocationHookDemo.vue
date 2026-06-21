@@ -8,7 +8,7 @@ const { hasKey } = useDemoLoader({ plugins: ['AMap.Geolocation'] })
 const geolocation = useGeolocation()
 const current = shallowRef<AMap.Geolocation.GeolocationResult | null>(null)
 const cityInfo = shallowRef<AMap.Geolocation.CityResult | null>(null)
-const watchId = ref<string | null>(null)
+const watchId = ref<number | null>(null)
 const log = ref<string[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
@@ -69,7 +69,7 @@ async function startWatch() {
       current.value = result
       pushLog(result, '持续定位')
     })
-    if (typeof id === 'string')
+    if (typeof id === 'number')
       watchId.value = id
     else
       error.value = '无法启动持续定位。'
@@ -111,7 +111,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useGeolocation</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useGeolocation</code>。
     </div>
     <template v-else>
       <div class="amap-demo__panel">

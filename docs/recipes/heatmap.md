@@ -23,7 +23,7 @@ ready((map) => {
 
 Wrap the heatmap instance in a composable to react to prop changes if you plan to update the dataset frequently.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <HeatmapRecipe />

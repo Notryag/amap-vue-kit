@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { UsePolylineOptions } from '@amap-vue/hooks'
 import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { usePolyline } from '@amap-vue/hooks'
@@ -44,12 +45,12 @@ const context = inject<MapInjectionContext | null>(amapMapInjectionKey, null)
 if (!context)
   warn('<AmapPolyline> must be used inside <AmapMap>.')
 
-const overlayOptions = computed(() => ({
+const overlayOptions = computed<UsePolylineOptions>(() => ({
   path: props.path,
   visible: props.visible,
   extData: props.extData,
   ...props.options,
-}))
+}) as UsePolylineOptions)
 
 const polylineApi = context ? usePolyline(() => context.map.value, overlayOptions) : null
 const polyline = polylineApi?.overlay ?? shallowRef<AMap.Polyline | null>(null)

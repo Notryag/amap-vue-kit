@@ -13,7 +13,7 @@ Render tens of thousands of lightweight markers using the JSAPI `MassMarks` plug
 | `visible` | `boolean` | `true` | Toggle marker visibility without destroying the instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader configuration forwarded to `loader.load`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -22,7 +22,7 @@ Render tens of thousands of lightweight markers using the JSAPI `MassMarks` plug
 | `mouseover` | `any` | Fired when a marker is hovered. |
 | `mouseout` | `any` | Fired when the cursor leaves a marker. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="11" class="map-shell">
@@ -62,4 +62,4 @@ export interface MassMarksProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

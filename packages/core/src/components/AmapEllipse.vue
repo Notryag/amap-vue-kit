@@ -16,7 +16,7 @@ const props = defineProps({
     required: true,
   },
   radius: {
-    type: Array as PropType<[number, number]>,
+    type: Array as unknown as PropType<[number, number]>,
     required: true,
   },
   options: {

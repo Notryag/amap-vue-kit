@@ -30,7 +30,7 @@ const editor = useEditorPolyline(() => map.value, () => ({
 }))
 
 onBeforeUnmount(() => {
-  polyline.value?.destroy?.()
+  ;(polyline.value as any)?.destroy?.()
   editor.destroy()
 })
 
@@ -42,16 +42,16 @@ function toggleEditing() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview the polyline editor.
+      配置 <code>VITE_AMAP_KEY</code> 后预览折线编辑器。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <button type="button" @click="toggleEditing">
-          {{ editing ? 'Stop' : 'Edit polyline' }}
+          {{ editing ? '停止编辑' : '编辑折线' }}
         </button>
         <p class="muted">
-          Drag vertices when editing is enabled.
+          开启编辑后拖动顶点即可调整折线。
         </p>
       </div>
     </template>

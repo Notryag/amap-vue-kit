@@ -13,13 +13,13 @@
 | `getTileUrl` | `(x: number, y: number, level: number) => string` | – | Imperative URL resolver. |
 | `options` | `Partial<AMap.TileLayerOptions>` | `{}` | Additional JSAPI options such as `zooms` or `tileSize`. Forward variant-specific values (like traffic refresh intervals) via each component's dedicated `options` prop. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.TileLayer` | Fires once the layer instance is created and added to the map. |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">
@@ -109,4 +109,4 @@ The prop interfaces and ready payload types mirror the component exports and reu
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

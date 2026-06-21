@@ -11,7 +11,7 @@ Render bezier polylines using the JSAPI plugin.
 | `extData` | `any` | Custom metadata. |
 | `options` | `Partial<AMap.BezierCurveOptions>` | Additional JSAPI options. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Render bezier polylines using the JSAPI plugin.
 | `mouseover` | `any` | Hover enter events. |
 | `mouseout` | `any` | Hover leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.4, 39.93]" :zoom="12" style="height: 320px">
@@ -29,12 +29,12 @@ Render bezier polylines using the JSAPI plugin.
       [[116.35, 39.9], [116.36, 39.94], [116.38, 39.96], [116.41, 39.97]],
       [[116.41, 39.97], [116.43, 39.96], [116.45, 39.92], [116.46, 39.9]]
     ]"
-    :options="{ strokeColor: '#722ed1', strokeWeight: 4 }"
+    :options="{ stroke颜色: '#722ed1', strokeWeight: 4 }"
   />
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <BezierCurveComponentDemo />
@@ -46,4 +46,4 @@ import BezierCurveComponentDemo from '../examples/BezierCurveComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

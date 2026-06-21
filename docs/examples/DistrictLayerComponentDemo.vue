@@ -28,7 +28,7 @@ function updateRegion(next: string) {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview administrative layers.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 administrative layers.
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -45,7 +45,7 @@ function updateRegion(next: string) {
       </div>
       <div class="amap-demo__toolbar">
         <label>
-          Visible
+          显示
           <input v-model="visible" type="checkbox">
         </label>
         <label>

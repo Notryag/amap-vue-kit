@@ -11,7 +11,7 @@ const live = await weather.getLive('北京')
 const forecast = await weather.getForecast('北京')
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -26,13 +26,13 @@ const forecast = await weather.getForecast('北京')
 | `getForecast(city)` | Fetch the 3-4 day forecast for the given city. |
 | `destroy()` | Release the plugin instance and cached references. |
 
-### Notes
+### 说明
 
 - Both helpers return `null` if the JSAPI returns `no_data`; handle fallbacks in your UI.
 - Batch multiple requests using `Promise.all` when displaying live and forecast data together.
 - Pair with [`<AmapWeatherPanel>`](/components/weather-panel) for a prebuilt city selector and presentation layer.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseWeatherHookDemo />
@@ -44,4 +44,4 @@ import UseWeatherHookDemo from '../examples/hooks/UseWeatherHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

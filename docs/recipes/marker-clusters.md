@@ -18,7 +18,7 @@ ready((map) => {
 
 Use Vue refs to store the cluster instance and call `setMarkers` or `addMarkers` when your reactive data changes.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <MarkerClusterRecipe />

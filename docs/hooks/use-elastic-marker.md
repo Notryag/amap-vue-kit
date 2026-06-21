@@ -25,7 +25,7 @@ marker.on('click', () => console.log('Elastic marker clicked'))
 | `on` / `off` | Subscribe to ElasticMarker events. |
 | `destroy` | Remove the marker from the map. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseElasticMarkerHookDemo />
@@ -37,4 +37,4 @@ import UseElasticMarkerHookDemo from '../examples/hooks/UseElasticMarkerHookDemo
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

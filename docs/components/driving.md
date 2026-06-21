@@ -14,7 +14,7 @@ Plan driving routes with a built-in form and optional result panel. `<AmapDrivin
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Bind the route rendering to a map instance. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Loader configuration for custom key/plugins. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -22,13 +22,13 @@ Plan driving routes with a built-in form and optional result panel. `<AmapDrivin
 | `search` | `{ origin: DrivingEndpoint, destination: DrivingEndpoint, result: AMap.Driving.SearchResult \| null }` | Fired after each routing request. |
 | `error` | `string` | Emitted when the component cannot compute a route. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapDriving :map="map" origin="天安门" destination="故宫" :options="{ policy: 0 }" />
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <DrivingComponentDemo />
@@ -60,4 +60,4 @@ export interface AmapDrivingProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

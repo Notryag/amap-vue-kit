@@ -12,7 +12,7 @@ Render geofenced regions or coverage areas using circles.
 | `visible` | `boolean` | Controls visibility. |
 | `extData` | `any` | Arbitrary metadata. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -21,17 +21,17 @@ Render geofenced regions or coverage areas using circles.
 | `mouseover` | `any` | Pointer enter events. |
 | `mouseout` | `any` | Pointer leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapCircle
   :center="[116.397, 39.908]"
   :radius="500"
-  :options="{ strokeColor: '#ff6a00', fillColor: 'rgba(255,106,0,0.1)' }"
+  :options="{ stroke颜色: '#ff6a00', fill颜色: 'rgba(255,106,0,0.1)' }"
 />
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <CircleComponentDemo />
@@ -43,4 +43,4 @@ import CircleComponentDemo from '../examples/CircleComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

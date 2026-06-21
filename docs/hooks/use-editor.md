@@ -17,7 +17,7 @@ polygonEditor.on('end', () => {
 })
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -36,7 +36,7 @@ polygonEditor.on('end', () => {
 | `on(event, handler)` / `off(event, handler)` | Subscribe to JSAPI editor events (`adjust`, `end`, etc.). |
 | `destroy()` | Dispose of the editor, cancel polling, and clear listeners. |
 
-## Notes
+## 说明
 
 - When a string `target` is provided the hook polls `map.getAllOverlays()` until the overlay appears, making it safe to pass IDs before overlays mount.
 - Updating the reactive options triggers `editor.setOptions`, letting you tweak handles (snap distance, color, etc.) without re-creating the editor.
@@ -69,4 +69,4 @@ import UsePolygonEditorHookDemo from '../examples/hooks/UsePolygonEditorHookDemo
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -6,7 +6,7 @@ import { useOverlay } from './useOverlay'
 
 export type DistrictLayerType = 'World' | 'Country' | 'Province' | 'City' | 'District'
 
-export interface UseDistrictLayerOptions extends Partial<AMap.DistrictLayerOptions> {
+export interface UseDistrictLayerOptions extends Omit<Partial<AMap.DistrictLayerOptions>, 'adcode'> {
   type?: DistrictLayerType
   adcode?: string | number | Array<string | number>
   visible?: boolean
@@ -63,7 +63,7 @@ export function useDistrictLayer(
     ...(toValue(options) as UseDistrictLayerOptions | undefined ?? {}),
   }))
 
-  const overlay = useOverlay(
+  const overlay = useOverlay<AMap.DistrictLayer, UseDistrictLayerOptions>(
     mapRef,
     optionsRef,
     ({ AMap, map, options: layerOptions }) => {
@@ -78,17 +78,17 @@ export function useDistrictLayer(
       return instance as AMap.DistrictLayer
     },
     (instance, nextOptions) => {
-      applyDistrictLayerOptions(instance, nextOptions)
+      applyDistrictLayerOptions(instance as AMap.DistrictLayer, nextOptions)
     },
     () => ({ plugins: ['AMap.DistrictLayer'] }),
   )
 
   function show() {
-    overlay.overlay.value?.show?.()
+    ;(overlay.overlay.value as any)?.show?.()
   }
 
   function hide() {
-    overlay.overlay.value?.hide?.()
+    ;(overlay.overlay.value as any)?.hide?.()
   }
 
   function setDistricts(adcode: string | number | Array<string | number> | undefined) {
@@ -109,7 +109,7 @@ export function useDistrictLayer(
     if (!options) {
       return
     }
-    overlay.overlay.value?.setOptions?.(options)
+    ;(overlay.overlay.value as any)?.setOptions?.(options)
   }
 
   return {

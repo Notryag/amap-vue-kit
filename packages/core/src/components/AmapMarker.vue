@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
-import type { PropType } from 'vue'
+import type { PropType, VNode } from 'vue'
 import { useMarker } from '@amap-vue/hooks'
 import { amapMapInjectionKey, warn } from '@amap-vue/shared'
 import { Comment, computed, inject, onBeforeUnmount, shallowRef, useSlots, watch } from 'vue'
@@ -51,8 +51,8 @@ const slots = useSlots()
 const slotHasContent = computed(() => {
   if (!slots.default)
     return false
-  const content = slots.default()
-  return content.some((node) => {
+  const content = slots.default({})
+  return content.some((node: VNode) => {
     if (node.type === Comment)
       return false
     if (typeof node.children === 'string')

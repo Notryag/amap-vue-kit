@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UseMassMarkersOptions } from '@amap-vue/hooks'
+import type { MassDataLike, MassMarkersStyleLike, UseMassMarkersOptions } from '@amap-vue/hooks'
 import type { LoaderOptions, MapInjectionContext } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, PropType } from 'vue'
 
@@ -13,15 +13,15 @@ defineOptions({
 
 const props = defineProps({
   data: {
-    type: Array as PropType<AMap.MassData[]>,
+    type: Array as PropType<MassDataLike[]>,
     default: () => [],
   },
   style: {
-    type: [Object, Array] as PropType<AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[] | undefined>,
+    type: [Object, Array] as PropType<MassMarkersStyleLike | MassMarkersStyleLike[] | undefined>,
     default: undefined,
   },
   styles: {
-    type: [Object, Array] as PropType<AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[] | undefined>,
+    type: [Object, Array] as PropType<MassMarkersStyleLike | MassMarkersStyleLike[] | undefined>,
     default: undefined,
   },
   options: {
@@ -92,11 +92,11 @@ function hide() {
   massApi?.hide()
 }
 
-function setData(data: AMap.MassData[]) {
+function setData(data: MassDataLike[]) {
   massApi?.setData(data)
 }
 
-function setStyle(style: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]) {
+function setStyle(style: MassMarkersStyleLike | MassMarkersStyleLike[]) {
   massApi?.setStyle(style)
 }
 

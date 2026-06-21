@@ -73,9 +73,10 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
     if (!riding.value)
       return
     const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = value
+    const instance = riding.value as any
     if (mapMaybe !== undefined)
-      (riding.value as any).setMap?.(toValue(mapMaybe) ?? null)
-    (riding.value as any).setOptions?.(rest)
+      instance.setMap?.(toValue(mapMaybe) ?? null)
+    instance.setOptions?.(rest)
   }, { deep: true })
 
   onBeforeUnmount(() => {

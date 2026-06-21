@@ -5,7 +5,7 @@
 ```ts
 const { overlay, destroy } = useOverlay(
   () => map.value,
-  () => ({ path, strokeColor: '#4b8bff' }),
+  () => ({ path, stroke颜色: '#4b8bff' }),
   ({ AMap, map, options }) => {
     const polyline = new AMap.Polyline({
       ...options,
@@ -38,7 +38,7 @@ const { overlay, destroy } = useOverlay(
 | `on` / `off` | Register JSAPI event listeners that persist across re-creations. |
 | `destroy` | Remove the overlay from the map and release references. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseOverlayHookDemo />
@@ -50,4 +50,4 @@ import UseOverlayHookDemo from '../examples/hooks/UseOverlayHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -35,14 +35,14 @@ const marker = useMarker(() => map.value, () => ({
 
 ready(async (mapInstance) => {
   await loader.load({ plugins: ['AMap.MoveAnimation'] })
-  mapInstance.plugin(['AMap.MoveAnimation'])
+  ;(mapInstance as any).plugin(['AMap.MoveAnimation'])
 })
 
 function start() {
   if (!marker.marker.value)
     return
   playing.value = true
-  marker.marker.value.moveAlong(path, { duration: 8000, autoRotation: true })
+  ;(marker.marker.value as any).moveAlong(path, { duration: 8000, autoRotation: true })
 }
 
 function pause() {
@@ -62,19 +62,19 @@ function reset() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the track animation.
+      配置 <code>VITE_AMAP_KEY</code> 后预览轨迹动画。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <button type="button" :disabled="playing" @click="start">
-          Start
+          开始
         </button>
         <button type="button" :disabled="!playing" @click="pause">
-          Pause
+          暂停
         </button>
         <button type="button" @click="reset">
-          Reset
+          重置
         </button>
       </div>
     </template>

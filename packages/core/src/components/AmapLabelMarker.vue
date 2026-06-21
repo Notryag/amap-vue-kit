@@ -25,7 +25,7 @@ const props = defineProps({
     default: undefined,
   },
   zooms: {
-    type: Array as PropType<[number, number] | undefined>,
+    type: Array as unknown as PropType<[number, number] | undefined>,
     default: undefined,
   },
   opacity: Number,

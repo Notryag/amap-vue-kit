@@ -18,7 +18,7 @@ Search points of interest with pagination, optional nearby/bounds modes, and a r
 | `map` | `MaybeRefOrGetter<AMap.Map \| null \| undefined>` | `undefined` | Associate the search results with an existing `<AmapMap>` instance (for automatic markers). |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ Search points of interest with pagination, optional nearby/bounds modes, and a r
 | `select` | `AMap.PlaceSearch.Poi` | Fired when a POI is clicked in the default template. |
 | `error` | `string` | Emitted whenever the JSAPI reports an error. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapPlaceSearch v-model="keyword" mode="nearby" :location="center" :radius="1500" @select="handlePoi" />
@@ -68,4 +68,4 @@ export interface AmapPlaceSearchProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

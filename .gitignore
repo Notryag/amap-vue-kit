@@ -13,4 +13,5 @@ docs/.vitepress/dist
 examples/*/dist
 .tsbuildinfo
 *.tsbuildinfo
+.env
 .env.local

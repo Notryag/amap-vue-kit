@@ -7,14 +7,14 @@ import { useRectangle } from '@amap-vue/hooks'
 
 const rectangle = useRectangle(() => map.value, () => ({
   bounds: bounds.value,
-  strokeColor: '#20c997',
-  fillColor: 'rgba(32, 201, 151, 0.35)',
+  stroke颜色: '#20c997',
+  fill颜色: 'rgba(32, 201, 151, 0.35)',
 }))
 
 rectangle.on('click', event => console.log(event))
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ rectangle.on('click', event => console.log(event))
 | `destroy()` | Dispose of the rectangle and remove listeners. |
 | `on(event, handler)` / `off(event, handler)` | Subscribe to JSAPI events such as `click` or `mouseover`. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseRectangleHookDemo />
@@ -51,4 +51,4 @@ import UseRectangleHookDemo from '../examples/hooks/UseRectangleHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

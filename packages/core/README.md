@@ -1,20 +1,20 @@
 # @amap-vue/core
 
-Declarative Vue 3 components for [AMap JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary).
+面向 [高德地图 JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary) 的声明式 Vue 3 组件包。
 
-This package is part of the `amap-vue-kit` monorepo. It builds on `@amap-vue/hooks` and `@amap-vue/shared`.
+它是 `amap-vue-kit` monorepo 的核心组件层，基于 `@amap-vue/hooks` 和 `@amap-vue/shared` 构建。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @amap-vue/core @amap-vue/hooks @amap-vue/shared vue
 ```
 
-## Usage
+## 使用
 
 ```ts
-import '@amap-vue/core/style.css'
 import { AmapMap, AmapMarker } from '@amap-vue/core'
+import '@amap-vue/core/style.css'
 ```
 
-See the docs site for guides and usage examples.
+更多指南和可运行示例见文档站。

@@ -60,7 +60,7 @@ const layerOptions = computed<UseTileLayerOptions>(() => {
   if (props.zIndex != null)
     base.zIndex = props.zIndex
   if (props.tileUrl)
-    base.tileUrl = props.tileUrl
+    base.tileUrl = props.tileUrl as any
   if (props.getTileUrl)
     base.getTileUrl = props.getTileUrl
   return base

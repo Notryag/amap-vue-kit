@@ -13,7 +13,7 @@ Display contextual information anchored to a map position. The component renders
 | `isCustom` | `boolean` | Remove the default bubble chrome so you can supply fully custom markup. |
 | `content` | `string \| HTMLElement \| null` | Provide a string/DOM node directly instead of using the default slot. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -21,7 +21,7 @@ Display contextual information anchored to a map position. The component renders
 | `open` | `any` | Fired when the info window is opened. |
 | `close` | `any` | Fired when the info window is closed. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapInfoWindow :position="[116.397, 39.908]" :is-open="showWindow">
@@ -36,7 +36,7 @@ Toggle the `isOpen` prop or call `infoWindow.open(map, position)` on the exposed
 
 To render a fully custom chrome, set `is-custom` and either keep the slot markup or pass markup through the `content` prop when you already own a DOM node.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <InfoWindowComponentDemo />
@@ -48,4 +48,4 @@ import InfoWindowComponentDemo from '../examples/InfoWindowComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -43,7 +43,7 @@ function regenerate() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview mass markers.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 mass markers.
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -53,7 +53,7 @@ function regenerate() {
       </div>
       <div class="amap-demo__toolbar">
         <label>
-          Points
+          点位
           <select v-model.number="count" @change="regenerate">
             <option :value="400">400</option>
             <option :value="800">800</option>

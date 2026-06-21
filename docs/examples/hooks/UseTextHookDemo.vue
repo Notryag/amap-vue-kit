@@ -35,7 +35,7 @@ overlay.on('click', () => {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useText</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useText</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -46,7 +46,7 @@ overlay.on('click', () => {
         </label>
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
         <label>
           <input v-model="highlight" type="checkbox">

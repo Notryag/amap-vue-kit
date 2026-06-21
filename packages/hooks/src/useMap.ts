@@ -98,7 +98,7 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       }
 
       const AMap = await loader.load(loadOptions)
-      const instance = new AMap.Map(containerRef.value!, mapOptions)
+      const instance = new AMap.Map(containerRef.value!, mapOptions as any)
       map.value = instance
       bindListeners(instance)
       readyCallbacks.splice(0, readyCallbacks.length).forEach(cb => cb(instance))
@@ -119,7 +119,7 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
     setRotation(opts.rotation)
     setMapStyle(opts.mapStyle)
     setTheme(opts.theme as string | undefined)
-    setViewMode(opts.viewMode)
+    setViewMode(opts.viewMode as AMap.MapViewMode | undefined)
   }
 
   watch(() => optionsRef.value.center, value => setCenter(value), { deep: true })

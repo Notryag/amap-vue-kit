@@ -31,6 +31,8 @@ editor.on('adjust', () => {
   if (!target)
     return
   const nextCenter = target.getCenter()
+  if (!nextCenter)
+    return
   center.value = [Number(nextCenter.getLng().toFixed(6)), Number(nextCenter.getLat().toFixed(6))]
   radius.value = Math.round(target.getRadius())
 })
@@ -50,18 +52,18 @@ function randomizeCircle() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview editor hooks.
+      配置 <code>VITE_AMAP_KEY</code> 后预览编辑器 hooks。
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
-        <div>Center: {{ center[0].toFixed(3) }}, {{ center[1].toFixed(3) }}</div>
-        <div>Radius: {{ radius }} m</div>
+        <div>圆心：{{ center[0].toFixed(3) }}, {{ center[1].toFixed(3) }}</div>
+        <div>半径：{{ radius }} 米</div>
         <button type="button" @click="editing = !editing">
-          {{ editing ? 'Finish editing' : 'Edit circle' }}
+          {{ editing ? '完成编辑' : '编辑圆形' }}
         </button>
         <button type="button" @click="randomizeCircle">
-          Randomize
+          随机位置
         </button>
       </div>
     </template>

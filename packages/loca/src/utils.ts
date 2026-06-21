@@ -11,8 +11,3 @@ export function getLoca(): Loca {
 
   return loca
 }
-
-export function callLayer<T extends { render?: () => void }>(layer: T | null | undefined, method: keyof T, ...args: any[]) {
-  if (layer && typeof (layer as any)[method] === 'function')
-    (layer as any)[method](...args)
-}

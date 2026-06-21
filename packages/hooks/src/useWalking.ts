@@ -6,7 +6,7 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 export type WalkingEndpoint = LngLatLike | string
 
-export interface UseWalkingOptions extends Partial<AMap.WalkingOptions> {
+export interface UseWalkingOptions extends Omit<Partial<AMap.WalkingOptions>, 'map'> {
   map?: MaybeRefOrGetter<AMap.Map | null | undefined>
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
 }

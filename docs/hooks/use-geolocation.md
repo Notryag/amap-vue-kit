@@ -12,7 +12,7 @@ if (result)
   console.log(result.position.toString())
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -31,13 +31,13 @@ if (result)
 | `setOptions(options)` | Update plugin configuration without re-instantiating. |
 | `destroy()` | Clear watchers and release the plugin instance. |
 
-### Notes
+### 说明
 
 - Always call `clearWatch`/`destroy` when a component unmounts to prevent background timers.
 - Combine with `<AmapWeatherPanel>` or custom overlays by reacting to the resolved coordinates.
 - Some browsers require HTTPS and explicit user consent before geolocation results are available.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseGeolocationHookDemo />
@@ -49,4 +49,4 @@ import UseGeolocationHookDemo from '../examples/hooks/UseGeolocationHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

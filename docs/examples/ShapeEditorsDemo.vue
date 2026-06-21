@@ -118,18 +118,18 @@ const ellipseTarget = computed(() =>
 )
 
 onBeforeUnmount(() => {
-  rectangle.value?.destroy?.()
-  ellipse.value?.destroy?.()
-  polyline.value?.destroy?.()
-  bezier.value?.destroy?.()
-  polygon.value?.destroy?.()
+  ;(rectangle.value as any)?.destroy?.()
+  ;(ellipse.value as any)?.destroy?.()
+  ;(polyline.value as any)?.destroy?.()
+  ;(bezier.value as any)?.destroy?.()
+  ;(polygon.value as any)?.destroy?.()
 })
 </script>
 
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to try the live editors.
+      配置 <code>VITE_AMAP_KEY</code> 后体验在线编辑器。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -142,56 +142,56 @@ onBeforeUnmount(() => {
           />
 
           <AmapCircleEditor target="demo-circle" :active="circleEditing" @end="record('Circle edited')" />
-          <AmapRectangleEditor :target="rectangleTarget" :active="rectangleEditing" @end="record('Rectangle edited')" />
-          <AmapEllipseEditor :target="ellipseTarget" :active="ellipseEditing" @end="record('Ellipse edited')" />
-          <AmapPolylineEditor :target="polyline" :active="polylineEditing" @end="record('Polyline edited')" />
-          <AmapBezierCurveEditor :target="bezier" :active="bezierEditing" @end="record('Bezier curve edited')" />
-          <AmapPolygonEditor :target="polygon" :active="polygonEditing" @end="record('Polygon edited')" />
+          <AmapRectangleEditor :target="rectangleTarget" :active="rectangleEditing" @end="record('矩形已编辑')" />
+          <AmapEllipseEditor :target="ellipseTarget" :active="ellipseEditing" @end="record('椭圆已编辑')" />
+          <AmapPolylineEditor :target="polyline" :active="polylineEditing" @end="record('折线已编辑')" />
+          <AmapBezierCurveEditor :target="bezier" :active="bezierEditing" @end="record('贝塞尔曲线已编辑')" />
+          <AmapPolygonEditor :target="polygon" :active="polygonEditing" @end="record('多边形已编辑')" />
         </AmapMap>
       </div>
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="circleEditing" type="checkbox">
-          Edit circle
+          编辑圆形
         </label>
         <label>
           <input v-model="rectangleEditing" type="checkbox">
-          Edit rectangle
+          编辑矩形
         </label>
         <label>
-          Rectangle target
+          矩形目标
           <select v-model="rectangleTargetMode">
-            <option value="instance">Overlay instance</option>
-            <option value="id">ExtData id</option>
+            <option value="instance">覆盖物实例</option>
+            <option value="id">ExtData ID</option>
           </select>
         </label>
         <label>
           <input v-model="ellipseEditing" type="checkbox">
-          Edit ellipse
+          编辑椭圆
         </label>
         <label>
-          Ellipse target
+          椭圆目标
           <select v-model="ellipseTargetMode">
-            <option value="id">ExtData id</option>
-            <option value="instance">Overlay instance</option>
+            <option value="id">ExtData ID</option>
+            <option value="instance">覆盖物实例</option>
           </select>
         </label>
         <label>
           <input v-model="polylineEditing" type="checkbox">
-          Edit polyline
+          编辑折线
         </label>
         <label>
           <input v-model="bezierEditing" type="checkbox">
-          Edit bezier curve
+          编辑贝塞尔曲线
         </label>
         <label>
           <input v-model="polygonEditing" type="checkbox">
-          Edit polygon
+          编辑多边形
         </label>
       </div>
       <ul class="amap-demo__log">
         <li v-if="!eventLog.length" class="muted">
-          Drag a vertex and release to record an event.
+          拖动顶点并松开后会记录事件。
         </li>
         <li v-for="(message, index) in eventLog" :key="index">
           {{ message }}

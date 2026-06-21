@@ -4,7 +4,7 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toLngLat, toPixel, warn } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
-export interface UseInfoWindowOptions extends Partial<AMap.InfoWindowOptions> {
+export interface UseInfoWindowOptions extends Record<string, any> {
   position?: LngLatLike
   open?: boolean
   offset?: PixelLike
@@ -17,10 +17,10 @@ export interface UseInfoWindowReturn {
   close: () => void
   setPosition: (position: LngLatLike | undefined) => void
   setOffset: (offset: PixelLike | undefined) => void
-  setAnchor: (anchor: AMap.InfoWindowAnchor | undefined) => void
+  setAnchor: (anchor: string | undefined) => void
   setIsCustom: (isCustom: boolean | undefined) => void
   setContent: (content: string | HTMLElement | null | undefined) => void
-  setOptions: (options: Partial<AMap.InfoWindowOptions>) => void
+  setOptions: (options: Record<string, any>) => void
   on: (event: string, handler: (event: any) => void) => void
   off: (event: string, handler: (event: any) => void) => void
   destroy: () => void
@@ -71,7 +71,7 @@ export function useInfoWindow(
       if (offset)
         setOffset(offset)
       if (typeof rest.anchor !== 'undefined')
-        setAnchor(rest.anchor as AMap.InfoWindowAnchor | undefined)
+        setAnchor(rest.anchor as string | undefined)
       if (typeof rest.isCustom !== 'undefined')
         setIsCustom(rest.isCustom as boolean | undefined)
       if (content != null)
@@ -112,7 +112,7 @@ export function useInfoWindow(
       setOffset(offset)
   }, { deep: true, immediate: true })
 
-  watch(() => optionsRef.value.anchor as AMap.InfoWindowAnchor | undefined, (anchor) => {
+  watch(() => optionsRef.value.anchor as string | undefined, (anchor) => {
     if (anchor != null)
       setAnchor(anchor)
   }, { immediate: true })
@@ -180,7 +180,7 @@ export function useInfoWindow(
     instance.setOffset?.(resolved as any)
   }
 
-  function setAnchor(anchor: AMap.InfoWindowAnchor | undefined) {
+  function setAnchor(anchor: string | undefined) {
     const instance = infoWindow.value as any
     if (!instance || anchor == null)
       return
@@ -207,7 +207,7 @@ export function useInfoWindow(
     instance.setContent?.(content)
   }
 
-  function setOptions(options: Partial<AMap.InfoWindowOptions>) {
+  function setOptions(options: Record<string, any>) {
     const instance = infoWindow.value as any
     if (!instance || typeof instance.setOptions !== 'function')
       return

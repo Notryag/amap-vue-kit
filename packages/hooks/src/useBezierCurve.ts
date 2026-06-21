@@ -6,7 +6,7 @@ import { loader, toLngLat } from '@amap-vue/shared'
 import { computed, toValue } from 'vue'
 import { useOverlay } from './useOverlay'
 
-export interface UseBezierCurveOptions extends Partial<AMap.BezierCurveOptions> {
+export interface UseBezierCurveOptions extends Omit<Partial<AMap.BezierCurveOptions>, 'path'> {
   path?: BezierCurvePath
   visible?: boolean
 }
@@ -37,7 +37,7 @@ export function useBezierCurve(
     const { path, visible, ...rest } = curveOptions as UseBezierCurveOptions & { map?: AMap.Map }
     const curve = new (AMap as any).BezierCurve({
       ...rest,
-      path: normalizePath(AMap, path) ?? rest.path,
+      path: normalizePath(AMap, path),
     }) as AMap.BezierCurve
     curve.setMap(map)
     if (visible === false)
@@ -46,7 +46,7 @@ export function useBezierCurve(
   }, (curve, nextOptions) => {
     const { path, visible, map: _ignored, ...rest } = nextOptions as UseBezierCurveOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      curve.setOptions(rest)
+      curve.setOptions(rest as any)
     if (path)
       setPathInternal(curve, path)
     if (visible != null)
@@ -75,7 +75,7 @@ export function useBezierCurve(
   }
 
   function setOptions(options: Partial<AMap.BezierCurveOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

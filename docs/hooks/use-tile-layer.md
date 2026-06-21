@@ -32,13 +32,13 @@ ready(() => {
 })
 
 // Later in your component you can hide/show layers reactively
-baseLayer.setOpacity(0.6)
+baseLayer.set透明度(0.6)
 traffic.hide()
 ```
 
 The hook defers instantiation until both the map instance and JSAPI script are available. Specialized hooks automatically request the necessary plugins (`AMap.TileLayer.Traffic`, `AMap.TileLayer.Satellite`, etc.).
 
-## Options
+## 参数
 
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -58,7 +58,7 @@ The hook defers instantiation until both the map instance and JSAPI script are a
 | `overlay` | `ShallowRef<AMap.TileLayer \| null>` | Reactive reference to the layer instance. Each variant narrows this type. |
 | `show` / `hide` | `() => void` | Toggle the layer without destroying it. |
 | `reload` | `() => void` | Force the JSAPI to refetch tiles (available on standard layers). |
-| `setOpacity` | `(opacity: number \| undefined) => void` | Update the opacity in place. |
+| `set透明度` | `(opacity: number \| undefined) => void` | Update the opacity in place. |
 | `setZIndex` | `(zIndex: number \| undefined) => void` | Adjust rendering order. |
 | `setTileUrl` | `(url: string \| ((x: number, y: number, level: number) => string) \| undefined) => void` | Switch the tile source on the fly. |
 | `setOptions` | `(options: Partial<AMap.TileLayerOptions>) => void` | Forward updates to the underlying instance. |
@@ -73,7 +73,7 @@ The hook defers instantiation until both the map instance and JSAPI script are a
 
 Each variant returns the same API surface while narrowing `overlay.value` to the concrete JSAPI class.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseTileLayerHookDemo />
@@ -98,7 +98,7 @@ export interface UseTileLayerReturn<TLayer extends AMap.TileLayer = AMap.TileLay
   show: () => void
   hide: () => void
   reload: () => void
-  setOpacity: (opacity: number | undefined) => void
+  set透明度: (opacity: number | undefined) => void
   setZIndex: (zIndex: number | undefined) => void
   setTileUrl: (
     url: string | ((x: number, y: number, level: number) => string) | undefined
@@ -140,4 +140,4 @@ All types shown above are re-exported from `@amap-vue/hooks`, while `AMap.*` typ
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

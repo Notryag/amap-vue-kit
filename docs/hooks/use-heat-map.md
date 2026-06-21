@@ -29,14 +29,14 @@ watch(points, (next) => {
 | `show` / `hide` | Toggle visibility imperatively. |
 | `destroy` | Dispose of the heat map and release references. |
 
-### Notes
+### 说明
 
 - The hook requests the `AMap.HeatMap` plugin automatically; no need to preload it via `loader.config`.
 - The `data` option is watched deeply. Pushing to the reactive array triggers incremental updates without recreating the instanc
 e.
 - When the map reference becomes `null`, the heat map detaches itself and waits for a new map instance before reattaching.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseHeatMapHookDemo />
@@ -48,4 +48,4 @@ import UseHeatMapHookDemo from '../examples/hooks/UseHeatMapHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

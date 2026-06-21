@@ -69,7 +69,7 @@ export function usePolyline(
   }
 
   function setOptions(options: Partial<AMap.PolylineOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

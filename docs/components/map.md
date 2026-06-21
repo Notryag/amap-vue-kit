@@ -16,7 +16,7 @@
 | `plugins` | `string[]` | `[]` | Additional JSAPI plugins to load. |
 | `loaderOptions` | `Partial<LoaderOptions>` | `{}` | Overrides passed to the shared loader (e.g. custom version). |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -26,7 +26,7 @@
 | `complete` | `any` | Fired after all resources are loaded. |
 | `error` | `any` | Emitted if the underlying JSAPI reports an error. |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">

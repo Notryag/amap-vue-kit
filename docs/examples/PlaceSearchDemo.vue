@@ -46,7 +46,7 @@ function poiDistrict(poi: AMap.PlaceSearch.Poi | null) {
 <template>
   <div class="amap-demo amap-demo--split">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>AmapPlaceSearch</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>AmapPlaceSearch</code>.
     </div>
     <template v-else>
       <div class="amap-demo__map">

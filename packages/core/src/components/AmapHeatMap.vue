@@ -23,7 +23,7 @@ const props = defineProps({
     default: undefined,
   },
   opacity: {
-    type: Array as PropType<[number, number] | undefined>,
+    type: Array as unknown as PropType<[number, number] | undefined>,
     default: undefined,
   },
   visible: {

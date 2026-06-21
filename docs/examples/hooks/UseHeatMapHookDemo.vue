@@ -41,7 +41,7 @@ useHeatMap(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useHeatMap</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useHeatMap</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -55,7 +55,7 @@ useHeatMap(() => map.value, () => ({
           <input v-model.number="intensity" type="range" min="0.5" max="1.5" step="0.1">
         </label>
         <label>
-          Palette
+          配色
           <select v-model="palette">
             <option value="warm">Warm</option>
             <option value="cool">Cool</option>

@@ -10,7 +10,7 @@ const result = await placeSearch.search('咖啡')
 console.log(result?.poiList?.pois)
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ console.log(result?.poiList?.pois)
 | `clear()` | Clear the built-in JSAPI overlays/panel. |
 | `destroy()` | Dispose the instance and detach from the map. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UsePlaceSearchHookDemo />
@@ -42,7 +42,7 @@ console.log(result?.poiList?.pois)
 import UsePlaceSearchHookDemo from '../examples/hooks/UsePlaceSearchHookDemo.vue'
 </script>
 
-### Notes
+### 说明
 
 - Remember to update `pageIndex` before triggering a new search when building custom pagination.
 - Nearby searches require both `location` and `radius`; guard against missing props to avoid `no_data` responses.
@@ -50,4 +50,4 @@ import UsePlaceSearchHookDemo from '../examples/hooks/UsePlaceSearchHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

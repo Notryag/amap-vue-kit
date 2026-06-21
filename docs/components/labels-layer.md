@@ -15,13 +15,13 @@ handles collision detection so the map remains responsive even with dense datase
 | `allowCollision` | `boolean \| undefined` | – | Force labels to overlap even when collisions are detected. |
 | `options` | `Partial<AMap.LabelsLayerOptions>` | `{}` | Extra JSAPI options forwarded to the underlying layer. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.LabelsLayer` | Fired once the layer instance is created and attached to the map. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="13" class="map-shell">
@@ -75,4 +75,4 @@ requests it automatically.
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

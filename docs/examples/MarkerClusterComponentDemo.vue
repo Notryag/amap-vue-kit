@@ -6,7 +6,7 @@ import { useDemoLoader } from './useDemoLoader'
 
 const { hasKey } = useDemoLoader({ plugins: ['AMap.MarkerCluster'] })
 
-const center: MarkerClusterPoint['position'] = [116.397, 39.908]
+const center: [number, number] = [116.397, 39.908]
 const points = ref<MarkerClusterPoint[]>(generatePoints(200))
 const visible = ref(true)
 
@@ -31,7 +31,7 @@ function regenerate() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview marker clustering.
+      配置 <code>VITE_AMAP_KEY</code> 后预览点聚合。
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -46,12 +46,12 @@ function regenerate() {
       <div class="amap-demo__toolbar">
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
         <button type="button" @click="regenerate">
-          Regenerate points
+          重新生成点位
         </button>
-        <div>Total points: {{ points.length }}</div>
+        <div>点位总数：{{ points.length }}</div>
       </div>
     </template>
   </div>

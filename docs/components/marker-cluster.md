@@ -11,14 +11,14 @@ Declaratively configure the MarkerCluster plugin to group dense point data.
 | `visible` | `boolean` | Controls cluster visibility. |
 | `options` | `Partial<AMap.MarkerClusterOptions>` | Additional JSAPI options such as `gridSize` or custom renderers. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.MarkerCluster` | Fired when the cluster instance is created. |
 | `click` | `any` | Click events on clusters. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="11" style="height: 320px">
@@ -26,7 +26,7 @@ Declaratively configure the MarkerCluster plugin to group dense point data.
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <MarkerClusterComponentDemo />
@@ -38,4 +38,4 @@ import MarkerClusterComponentDemo from '../examples/MarkerClusterComponentDemo.v
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

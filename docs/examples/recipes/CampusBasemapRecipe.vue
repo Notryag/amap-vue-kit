@@ -42,7 +42,7 @@ useImageLayer(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the campus basemap recipe.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the campus basemap recipe.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -55,7 +55,7 @@ useImageLayer(() => map.value, () => ({
           </select>
         </label>
         <label>
-          Opacity
+          透明度
           <input v-model.number="opacity" type="range" min="0.4" max="1" step="0.05">
         </label>
         <label>

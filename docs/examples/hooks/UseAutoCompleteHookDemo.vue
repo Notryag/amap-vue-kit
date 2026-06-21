@@ -39,7 +39,7 @@ runSearch()
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useAutoComplete</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useAutoComplete</code>.
     </div>
     <template v-else>
       <div class="amap-demo__panel">

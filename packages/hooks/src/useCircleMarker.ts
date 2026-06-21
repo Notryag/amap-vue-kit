@@ -43,7 +43,7 @@ export function useCircleMarker(
       ...mergedOptions,
       center: center ? toLngLat(AMap, center) ?? center : undefined,
       radius,
-    })
+    } as any)
     marker.setMap(map)
     if (visible === false)
       marker.hide()
@@ -59,7 +59,7 @@ export function useCircleMarker(
     } = nextOptions as UseCircleMarkerOptions & { map?: AMap.Map }
     const mergedOptions = { ...extraOptions, ...rest }
     if (Object.keys(mergedOptions).length)
-      marker.setOptions(mergedOptions)
+      marker.setOptions(mergedOptions as any)
     if (center !== undefined)
       setCenterInternal(marker, center)
     if (typeof radius === 'number')
@@ -94,7 +94,7 @@ export function useCircleMarker(
   }
 
   function setOptions(options: Partial<AMap.CircleMarkerOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

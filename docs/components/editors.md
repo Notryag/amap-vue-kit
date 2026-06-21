@@ -10,7 +10,7 @@ Enable interactive editing for common geometries without wiring plugins manually
 | `active` | `boolean` | `false` | Whether the editor should be open. Toggle reactively to start/stop editing. |
 | `options` | `Partial<AMap.CircleEditorOptions>` / `Partial<AMap.RectangleEditorOptions>` / `Partial<AMap.EllipseEditorOptions>` / `Partial<AMap.PolylineEditorOptions>` / `Partial<AMap.BezierCurveEditorOptions>` / `Partial<AMap.PolygonEditorOptions>` | `{}` | Extra plugin options forwarded on creation. Each component narrows the union to the correct type. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -18,7 +18,7 @@ Enable interactive editing for common geometries without wiring plugins manually
 | `adjust` | `any` | Mirrors the JSAPI `adjust` event emitted while dragging control points. |
 | `end` | `any` | Emitted after editing finishes (`mouseup`). |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">
@@ -45,8 +45,8 @@ async function handleReady(instance: AMap.Map) {
 
   const rect = new AMap.Rectangle({
     bounds: new AMap.Bounds([116.36, 39.9], [116.41, 39.94]),
-    strokeColor: '#20c997',
-    fillColor: 'rgba(32, 201, 151, 0.3)',
+    stroke颜色: '#20c997',
+    fill颜色: 'rgba(32, 201, 151, 0.3)',
     extData: { id: 'demo-rectangle' },
   })
   rect.setMap(instance)
@@ -55,8 +55,8 @@ async function handleReady(instance: AMap.Map) {
   const ell = new AMap.Ellipse({
     center: [116.406, 39.912],
     radius: [900, 420],
-    strokeColor: '#fd7e14',
-    fillColor: 'rgba(253, 126, 20, 0.25)',
+    stroke颜色: '#fd7e14',
+    fill颜色: 'rgba(253, 126, 20, 0.25)',
     extData: { id: 'demo-ellipse' },
   })
   ell.setMap(instance)
@@ -68,7 +68,7 @@ async function handleReady(instance: AMap.Map) {
       [116.38, 39.92],
       [116.41, 39.91],
     ],
-    strokeColor: '#722ed1',
+    stroke颜色: '#722ed1',
     strokeWeight: 4,
   })
   line.setMap(instance)
@@ -83,7 +83,7 @@ async function handleReady(instance: AMap.Map) {
         [116.42, 39.91],
       ],
     ],
-    strokeColor: '#13c2c2',
+    stroke颜色: '#13c2c2',
     strokeWeight: 4,
   }) as AMap.BezierCurve
   curve.setMap(instance)
@@ -96,8 +96,8 @@ async function handleReady(instance: AMap.Map) {
       [116.42, 39.93],
       [116.38, 39.94],
     ],
-    strokeColor: '#fa8c16',
-    fillColor: 'rgba(250, 140, 22, 0.25)',
+    stroke颜色: '#fa8c16',
+    fill颜色: 'rgba(250, 140, 22, 0.25)',
   })
   polygonOverlay.setMap(instance)
   polygon.value = polygonOverlay
@@ -118,7 +118,7 @@ onBeforeUnmount(() => {
       :center="[116.397, 39.908]"
       :radius="600"
       :ext-data="{ id: 'demo-circle' }"
-      :options="{ strokeColor: '#4b8bff', fillColor: 'rgba(75, 139, 255, 0.2)' }"
+      :options="{ stroke颜色: '#4b8bff', fill颜色: 'rgba(75, 139, 255, 0.2)' }"
     />
 
     <AmapCircleEditor target="demo-circle" :active="circleEditing" />
@@ -196,4 +196,4 @@ type EditorReadyPayload = AMap.CircleEditor
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -11,13 +11,13 @@ These wrapper components expose the built-in JSAPI map controls so you can toggl
 | `offset` | `PixelLike \| undefined` | – | Pixel offset from the anchor corner. Accepts `[x, y]` arrays or `AMap.Pixel`. |
 | `options` | `Partial<UseToolBarOptions \| UseScaleOptions \| UseControlBarOptions \| UseMapTypeOptions>` | `{}` | Extra JSAPI options passed to the control. Each component narrows this union to its concrete hook type (see below). |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.ToolBar \| AMap.Scale \| AMap.ControlBar \| AMap.MapType` | Emits once the control is created and added to the map. |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">
@@ -55,7 +55,7 @@ Toggle the props reactively to reposition the controls, reveal advanced toggles,
 import ControlsDemo from '../examples/ControlsDemo.vue'
 </script>
 
-### Component-specific props
+### 组件专属参数
 
 - **`<AmapControlBar>`** — Accepts `showZoomBar` and `showControlButton` to fine-tune the zoom slider and rotation/tilt switch. Provide extra ControlBar options (such as `liteStyle`) through `options: Partial<UseControlBarOptions>`.
 - **`<AmapMapType>`** — Supports `defaultType` (0 = standard, 1 = satellite), `showTraffic`, and `showRoad` to expose quick toggles on the control. When these init-only options change reactively, the wrapper recreates the JSAPI control so the current map type updates. Additional MapType options (like custom layer lists) can also be passed via `options: Partial<UseMapTypeOptions>`.
@@ -115,4 +115,4 @@ These interfaces reuse the shared `PixelLike` type from `@amap-vue/shared` and h
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

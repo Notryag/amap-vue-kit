@@ -12,7 +12,7 @@
 | `visible` | `boolean` | `true` | Toggle display without destroying the overlay. |
 | `extData` | `any` | – | Metadata stored on the ellipse instance. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -21,19 +21,19 @@
 | `mouseover` | `any` | Pointer enters the ellipse. |
 | `mouseout` | `any` | Pointer leaves the ellipse. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.406, 39.912]" :zoom="13" class="map-shell">
   <AmapEllipse
     :center="[116.406, 39.912]"
     :radius="[900, 500]"
-    :options="{ strokeColor: '#fd7e14', strokeWeight: 2, fillColor: 'rgba(253, 126, 20, 0.3)' }"
+    :options="{ stroke颜色: '#fd7e14', strokeWeight: 2, fill颜色: 'rgba(253, 126, 20, 0.3)' }"
   />
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <EllipseComponentDemo />
@@ -63,4 +63,4 @@ export interface EllipseProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -39,7 +39,7 @@ export function useText(
       ...rest,
       position: position ? toLngLat(AMap, position) ?? position : rest.position,
       offset: offset ? toPixel(AMap, offset) ?? offset : rest.offset,
-    })
+    } as any)
     text.setMap(map)
     if (visible === false)
       text.hide()
@@ -47,7 +47,7 @@ export function useText(
   }, (text, nextOptions) => {
     const { position, offset, visible, map: _ignored, ...rest } = nextOptions as UseTextOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      text.setOptions(rest)
+      (text as any).setOptions(rest)
     if (position !== undefined)
       setPositionInternal(text, position)
     if (offset !== undefined)
@@ -119,7 +119,7 @@ export function useText(
   }
 
   function setOptions(options: Partial<AMap.TextOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    ;(overlay.overlay.value as any)?.setOptions(options)
   }
 
   function show() {

@@ -13,7 +13,7 @@
 | `extData` | `any` | Arbitrary metadata. |
 | `options` | `Partial<AMap.ElasticMarkerOptions>` | Additional JSAPI options. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -22,7 +22,7 @@
 | `mouseover` | `any` | Hover enter events. |
 | `mouseout` | `any` | Hover leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" style="height: 320px">
@@ -37,7 +37,7 @@
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <ElasticMarkerComponentDemo />
@@ -49,4 +49,4 @@ import ElasticMarkerComponentDemo from '../examples/ElasticMarkerComponentDemo.v
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

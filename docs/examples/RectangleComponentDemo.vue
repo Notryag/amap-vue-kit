@@ -32,7 +32,7 @@ const options = computed(() => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the rectangle overlay.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the rectangle overlay.
     </div>
     <template v-else>
       <div class="amap-demo__map">
@@ -42,7 +42,7 @@ const options = computed(() => ({
       </div>
       <div class="amap-demo__toolbar">
         <label>
-          Width Δλ
+          宽度 Δλ
           <input v-model.number="width" type="range" min="0.02" max="0.12" step="0.005">
         </label>
         <label>

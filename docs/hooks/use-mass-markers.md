@@ -17,7 +17,7 @@ const mass = useMassMarkers(() => map.value, () => ({
 watch(points, value => mass.setData(value))
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -34,13 +34,13 @@ watch(points, value => mass.setData(value))
 | `setStyle(style)` | Update the style definition. |
 | `destroy()` | Dispose of the plugin and release references. |
 
-### Notes
+### 说明
 
 - The hook automatically loads the JSAPI 2.0 compatibility plugin required by `AMap.MassMarks`.
 - When the map reference becomes `null` the mass markers detach from the map and reattach once the map is back online.
 - Use lightweight point data objects (no large payloads in `extData`) to keep updates cheap.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMassMarkersHookDemo />
@@ -52,4 +52,4 @@ import UseMassMarkersHookDemo from '../examples/hooks/UseMassMarkersHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

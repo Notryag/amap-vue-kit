@@ -13,7 +13,7 @@ ready((map) => {
 
 Consider combining track animations with `<AmapPolyline>` overlays to render the path outline while the marker moves along it.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <TrackAnimationDemo />

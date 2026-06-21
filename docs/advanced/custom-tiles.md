@@ -14,7 +14,7 @@ ready((map) => {
 
 Combine tile layers with Vue reactivity by storing references in `shallowRef` instances and updating options inside watchers.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <CustomTilesDemo />

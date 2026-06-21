@@ -1,14 +1,13 @@
 # @amap-vue/loca
 
-Vue composables and components for working with [AMap Loca 2.0](https://lbs.amap.com/api/jsapi-v2/guide/loca/loca-overview).
+面向 [高德 Loca 2.0](https://lbs.amap.com/api/jsapi-v2/guide/loca/loca-overview) 的 Vue 组件和组合式 hooks。
 
-> This package is part of the `amap-vue-kit` monorepo. It pairs with `@amap-vue/shared` for script loading and `@amap-vue/core` fo
-r base map components.
+> 它是 `amap-vue-kit` monorepo 的可视化扩展包，依赖 `@amap-vue/shared` 加载脚本，并可配合 `@amap-vue/core` 的基础地图组件使用。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @amap-vue/loca
 ```
 
-See the docs site for guides and usage examples.
+更多指南和可运行示例见文档站。

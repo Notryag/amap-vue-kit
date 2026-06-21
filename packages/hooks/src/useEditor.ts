@@ -6,8 +6,8 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 export interface EditorLike<TOverlay = any> {
   open: () => void
   close: () => void
-  setTarget?: (target: TOverlay | null) => void
-  getTarget?: () => TOverlay | null
+  setTarget?: (target?: TOverlay | null) => void
+  getTarget?: () => TOverlay | null | undefined
   on?: (event: string, handler: (event: any) => void) => void
   off?: (event: string, handler: (event: any) => void) => void
   destroy?: () => void
@@ -22,7 +22,7 @@ export type UseEditorOptions<
   active?: boolean
 }
 
-export interface UseEditorReturn<TEditor extends EditorLike<TOverlay>, TOverlay> {
+export interface UseEditorReturn<TEditor, TOverlay> {
   editor: ShallowRef<TEditor | null>
   open: () => void
   close: () => void
@@ -42,7 +42,7 @@ type ExtractEditorOptions<TEditorOptions extends Record<string, any>> = Partial<
 
 function createEditorHook<
   TOverlay,
-  TEditor extends EditorLike<TOverlay>,
+  TEditor,
   TEditorOptions extends Record<string, any> = Record<string, any>,
 >(
   plugin: string,
@@ -52,11 +52,11 @@ function createEditorHook<
     mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     options: MaybeRefOrGetter<UseEditorOptions<TOverlay, TEditorOptions>>,
   ): UseEditorReturn<TEditor, TOverlay> {
-    const editor = shallowRef<TEditor | null>(null)
+    const editor = shallowRef(null) as ShallowRef<TEditor | null>
     const listeners = new Set<ListenerRecord>()
-    const optionsRef = computed<UseEditorOptions<TOverlay, TEditorOptions>>(() => ({
+    const optionsRef = computed(() => ({
       ...(toValue(options) as UseEditorOptions<TOverlay, TEditorOptions> | undefined ?? {}),
-    }))
+    }) as UseEditorOptions<TOverlay, TEditorOptions>)
 
     let currentMap: AMap.Map | null = null
     let currentTarget: TOverlay | null = null
@@ -74,13 +74,13 @@ function createEditorHook<
     function bindListeners(instance: TEditor | null) {
       if (!instance)
         return
-      listeners.forEach(({ event, handler }) => instance.on?.(event, handler))
+      listeners.forEach(({ event, handler }) => (instance as any).on?.(event, handler))
     }
 
     function unbindListeners(instance: TEditor | null) {
       if (!instance)
         return
-      listeners.forEach(({ event, handler }) => instance.off?.(event, handler))
+      listeners.forEach(({ event, handler }) => (instance as any).off?.(event, handler))
     }
 
     function stopTargetPolling() {
@@ -150,9 +150,10 @@ function createEditorHook<
       if (!instance || !pendingOptions)
         return
       const keys = Object.keys(pendingOptions as Record<string, any>)
-      if (!keys.length)
+      if (!keys.length) {
         return
-      instance.setOptions?.(pendingOptions as Record<string, any>)
+      }
+      ;(instance as any).setOptions?.(pendingOptions as Record<string, any>)
     }
 
     function applyActiveState() {
@@ -160,9 +161,9 @@ function createEditorHook<
       if (!instance)
         return
       if (desiredActive)
-        instance.open()
+        (instance as any).open()
       else
-        instance.close?.()
+        (instance as any).close?.()
     }
 
     async function syncEditor() {
@@ -178,9 +179,9 @@ function createEditorHook<
       const instance = editor.value
       if (instance) {
         if (resolvedTarget)
-          instance.setTarget?.(resolvedTarget)
+          (instance as any).setTarget?.(resolvedTarget)
         else
-          instance.setTarget?.(null as any)
+          (instance as any).setTarget?.(null as any)
       }
 
       if (!instance && resolvedTarget)
@@ -204,7 +205,7 @@ function createEditorHook<
         stopTargetPolling()
         const instance = editor.value
         if (instance)
-          instance.setTarget?.(resolved)
+          (instance as any).setTarget?.(resolved)
         else
           void ensureEditor(resolved)
         applyActiveState()
@@ -215,14 +216,14 @@ function createEditorHook<
       const record = { event, handler }
       listeners.add(record)
       const instance = editor.value
-      instance?.on?.(event, handler)
+      ;(instance as any)?.on?.(event, handler)
     }
 
     function off(event: string, handler: (event: any) => void) {
       for (const record of Array.from(listeners)) {
         if (record.event === event && record.handler === handler) {
           listeners.delete(record)
-          editor.value?.off?.(event, handler)
+          ;(editor.value as any)?.off?.(event, handler)
         }
       }
     }
@@ -232,8 +233,8 @@ function createEditorHook<
       const instance = editor.value
       if (instance) {
         unbindListeners(instance)
-        instance.close?.()
-        instance.destroy?.()
+        ;(instance as any).close?.()
+        ;(instance as any).destroy?.()
       }
       editor.value = null
       currentTarget = null
@@ -256,8 +257,8 @@ function createEditorHook<
 
     function getTarget(): TOverlay | null {
       const instance = editor.value
-      if (instance?.getTarget)
-        return instance.getTarget() ?? null
+      if ((instance as any)?.getTarget)
+        return (instance as any).getTarget() ?? null
       return currentTarget
     }
 

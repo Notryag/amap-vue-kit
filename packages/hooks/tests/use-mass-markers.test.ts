@@ -1,10 +1,11 @@
 import type { Ref } from 'vue'
 
+import type { UseMassMarkersOptions } from '../src/useMassMarkers'
 import { flushPromises as flushPendingPromises, mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
-import { defineComponent, nextTick, ref } from 'vue'
 
-import { useMassMarkers, type UseMassMarkersOptions } from '../src/useMassMarkers'
+import { defineComponent, nextTick, ref } from 'vue'
+import { useMassMarkers } from '../src/useMassMarkers'
 
 interface HookHarness<Options> {
   hook: ReturnType<typeof useMassMarkers>

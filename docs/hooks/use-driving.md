@@ -9,7 +9,7 @@ const driving = useDriving({ map })
 const result = await driving.search('天安门', '故宫')
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ const result = await driving.search('天安门', '故宫')
 | `clear()` | Clear the rendered route and panel. |
 | `destroy()` | Dispose the service and detach it from the map. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseDrivingHookDemo />
@@ -38,7 +38,7 @@ const result = await driving.search('天安门', '故宫')
 import UseDrivingHookDemo from '../examples/hooks/UseDrivingHookDemo.vue'
 </script>
 
-### Notes
+### 说明
 
 - Provide `map` if you want the JSAPI to draw route polylines automatically.
 - You can pass a custom `panel` element via `AMap.Driving.Options` if you need a summary list.
@@ -46,4 +46,4 @@ import UseDrivingHookDemo from '../examples/hooks/UseDrivingHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

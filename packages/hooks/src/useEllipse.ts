@@ -40,7 +40,7 @@ export function useEllipse(
       ...rest,
       center: resolveCenter(AMap, center),
       radius,
-    })
+    } as any)
     ellipse.setMap(map)
     if (visible === false)
       ellipse.hide()
@@ -48,7 +48,7 @@ export function useEllipse(
   }, (ellipse, nextOptions) => {
     const { center, radius, visible, map: _ignored, ...rest } = nextOptions as UseEllipseOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      ellipse.setOptions(rest)
+      ellipse.setOptions(rest as any)
     if (center !== undefined)
       setCenterInternal(ellipse, center)
     if (Array.isArray(radius))
@@ -83,7 +83,7 @@ export function useEllipse(
   }
 
   function setOptions(options: Partial<AMap.EllipseOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

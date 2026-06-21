@@ -10,7 +10,7 @@ Load and display GeoJSON data without manually instantiating overlays. The compo
 | `visible` | `boolean` | `true` | Toggle layer visibility while keeping the instance alive. |
 | `options` | `Partial<AMap.GeoJSON.Options>` | `{}` | Custom JSAPI options such as `getMarker` / `getPolygon` factories. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Load and display GeoJSON data without manually instantiating overlays. The compo
 | `mouseover` | `any` | Forwarded from the underlying overlay. |
 | `mouseout` | `any` | Forwarded from the underlying overlay. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.909]" :zoom="12">
@@ -55,4 +55,4 @@ export interface GeoJSONLayerProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

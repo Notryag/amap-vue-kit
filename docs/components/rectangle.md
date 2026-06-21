@@ -11,7 +11,7 @@ Draw axis-aligned rectangles by wrapping the JSAPI `AMap.Rectangle` overlay in a
 | `visible` | `boolean` | `true` | Toggles the rectangle without recreating the instance. |
 | `extData` | `any` | – | Arbitrary metadata forwarded to the overlay. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -20,18 +20,18 @@ Draw axis-aligned rectangles by wrapping the JSAPI `AMap.Rectangle` overlay in a
 | `mouseover` | `any` | Pointer enters the rectangle. |
 | `mouseout` | `any` | Pointer leaves the rectangle. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell">
   <AmapRectangle
     :bounds="[[116.35, 39.88], [116.44, 39.94]]"
-    :options="{ strokeColor: '#20c997', strokeWeight: 2, fillColor: 'rgba(32, 201, 151, 0.35)' }"
+    :options="{ stroke颜色: '#20c997', strokeWeight: 2, fill颜色: 'rgba(32, 201, 151, 0.35)' }"
   />
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <RectangleComponentDemo />
@@ -60,4 +60,4 @@ export interface RectangleProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

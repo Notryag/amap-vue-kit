@@ -75,13 +75,13 @@ export function useContextMenu(
 
   function applyItems(instance: AMap.ContextMenu, items: ContextMenuItem[] | undefined) {
     currentItems.forEach((item) => {
-      instance.removeItem?.(item.text, item.handler)
+      ;(instance as any).removeItem?.(item.text, item.handler)
     })
     currentItems = []
     if (!Array.isArray(items))
       return
     items.forEach((item) => {
-      instance.addItem(item.text, item.handler, item.index)
+      ;(instance as any).addItem(item.text, item.handler, item.index)
     })
     currentItems = items.map(item => ({ ...item }))
   }
@@ -106,14 +106,14 @@ export function useContextMenu(
       currentItems = [...currentItems, { ...item }]
       return
     }
-    menu.value.addItem(item.text, item.handler, item.index)
+    ;(menu.value as any).addItem(item.text, item.handler, item.index)
     currentItems.push({ ...item })
   }
 
   function removeItem(item: ContextMenuItem) {
     const instance = menu.value
     if (instance)
-      instance.removeItem?.(item.text, item.handler)
+      (instance as any).removeItem?.(item.text, item.handler)
     currentItems = currentItems.filter(current => !(current.text === item.text && current.handler === item.handler))
   }
 

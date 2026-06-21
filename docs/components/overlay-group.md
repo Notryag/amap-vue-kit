@@ -12,13 +12,13 @@ allowing you to swap datasets, hide or show the whole group, and call imperative
 | `extData` | `any` | – | Arbitrary metadata forwarded to the underlying overlay group. |
 | `options` | `Record<string, any>` | `{}` | Additional options passed to the JSAPI constructor. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.OverlayGroup` | Fired once the group instance is created and attached to the map. |
 
-## Usage
+## 用法
 
 ```vue
 <script setup lang="ts">
@@ -91,4 +91,4 @@ type OverlayGroupReadyPayload = AMap.OverlayGroup
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

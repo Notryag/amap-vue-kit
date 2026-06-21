@@ -13,7 +13,7 @@ overlayGroup.addOverlay(createMarker(feature))
 overlayGroup.clearOverlays()
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -35,13 +35,13 @@ overlayGroup.clearOverlays()
 | `setExtData(extData)` | Update the group's metadata. |
 | `destroy()` | Dispose of the overlay group and detach listeners. |
 
-### Notes
+### 说明
 
 - The hook clears and readds overlays when the reactive `overlays` array changes, ensuring the JSAPI group stays in sync.
 - Combine the hook with the loader helpers to instantiate overlays lazily after the JSAPI bundle is ready.
 - Call `destroy()` or `clearOverlays()` when tearing down large datasets to avoid leaving detached markers on the map.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseOverlayGroupHookDemo />
@@ -53,4 +53,4 @@ import UseOverlayGroupHookDemo from '../examples/hooks/UseOverlayGroupHookDemo.v
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

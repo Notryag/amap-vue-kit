@@ -17,7 +17,7 @@
 | `visible` | `boolean` | Controls visibility. |
 | `options` | `Partial<AMap.TextOptions>` | Additional JSAPI options. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -27,7 +27,7 @@
 | `mouseout` | `any` | Hover leave events. |
 | `dragend` | `any` | Fired when dragging ends (if enabled). |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="13" style="height: 320px">
@@ -41,7 +41,7 @@
 </AmapMap>
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <TextComponentDemo />
@@ -53,4 +53,4 @@ import TextComponentDemo from '../examples/TextComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

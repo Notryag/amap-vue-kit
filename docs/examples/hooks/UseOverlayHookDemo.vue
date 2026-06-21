@@ -69,7 +69,7 @@ function moveNorth() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useOverlay</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useOverlay</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -84,7 +84,7 @@ function moveNorth() {
         </label>
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
         <button type="button" @click="moveNorth">
           Move north

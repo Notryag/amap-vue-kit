@@ -18,7 +18,7 @@ s events so you can respond to clicks and hovers just like standard markers.
 | `collision` | `boolean \| undefined` | Override the parent layer's collision behaviour for this marker. |
 | `options` | `Partial<AMap.LabelMarkerOptions>` | Additional JSAPI options merged during creation. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -27,7 +27,7 @@ s events so you can respond to clicks and hovers just like standard markers.
 | `mouseover` | `any` | Pointer enter events. |
 | `mouseout` | `any` | Pointer leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapLabelsLayer :collision="true">
@@ -79,4 +79,4 @@ when you need granular control.
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

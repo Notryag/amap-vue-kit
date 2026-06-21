@@ -123,6 +123,14 @@ export function useHeatMap(
     heatMapLayers = new Set()
   }
 
+  function hasHeatMapLayer(mapInstance: AMap.Map, instance: AMap.HeatMap) {
+    const internalLayers = (instance as any).internalLayers
+    if (!Array.isArray(internalLayers) || !internalLayers.length)
+      return false
+    const currentLayers = getLayers(mapInstance)
+    return internalLayers.some(layer => currentLayers.includes(layer))
+  }
+
   const overlay = useOverlay(
     mapRef,
     optionsRef,
@@ -153,7 +161,7 @@ export function useHeatMap(
     {
       attach(map, instance) {
         const previousLayers = getLayers(map)
-        if ((instance as any).map !== map)
+        if ((instance as any).map !== map && !hasHeatMapLayer(map, instance))
           instance.setMap?.(map)
         trackAddedLayers(map, previousLayers)
       },

@@ -1,19 +1,19 @@
 # @amap-vue/hooks
 
-Composable Vue 3 hooks for [AMap JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary).
+面向 [高德地图 JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary) 的 Vue 3 组合式 hooks。
 
-This package is part of the `amap-vue-kit` monorepo. It pairs with `@amap-vue/shared` for script loading and shared types.
+它是 `amap-vue-kit` monorepo 的无渲染能力层，配合 `@amap-vue/shared` 完成脚本加载和共享类型管理。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @amap-vue/hooks @amap-vue/shared vue
 ```
 
-## Usage
+## 使用
 
 ```ts
 import { useMap, useMarker } from '@amap-vue/hooks'
 ```
 
-See the docs site for guides and usage examples.
+更多指南和可运行示例见文档站。

@@ -8,12 +8,12 @@ import { useMouseTool } from '@amap-vue/hooks'
 const mouseTool = useMouseTool(() => map.value)
 
 async function drawFence() {
-  const polygon = await mouseTool.drawPolygon({ strokeColor: '#1677ff' })
+  const polygon = await mouseTool.drawPolygon({ stroke颜色: '#1677ff' })
   console.log('Fence drawn', polygon?.getPath?.())
 }
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -34,7 +34,7 @@ async function drawFence() {
 | `destroy()` | Dispose of the mouse tool and clear listeners. |
 | `on(event, handler)` / `off(event, handler)` | Subscribe to plugin events such as `draw`. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMouseToolHookDemo />
@@ -52,4 +52,4 @@ import UseMouseToolHookDemo from '../examples/hooks/UseMouseToolHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -31,7 +31,7 @@ const { map, ready, setCenter, setZoom, on, off, destroy } = useMap(() => ({
 
 Because the loader is shared, calling `useMap` in multiple components will reuse the same script injection and plugin configuration.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseMapHookDemo />
@@ -43,4 +43,4 @@ import UseMapHookDemo from '../examples/hooks/UseMapHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

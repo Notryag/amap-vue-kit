@@ -41,7 +41,7 @@ export function useCircle(
       ...rest,
       center: resolveCenter(AMap, center),
       radius,
-    })
+    } as any)
     circle.setMap(map)
     if (visible === false)
       circle.hide()
@@ -49,7 +49,7 @@ export function useCircle(
   }, (circle, nextOptions) => {
     const { center, radius, visible, map: _ignored, ...rest } = nextOptions as UseCircleOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      circle.setOptions(rest)
+      circle.setOptions(rest as any)
     if (center !== undefined)
       setCenterInternal(circle, center)
     if (typeof radius === 'number')
@@ -84,7 +84,7 @@ export function useCircle(
   }
 
   function setOptions(options: Partial<AMap.CircleOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

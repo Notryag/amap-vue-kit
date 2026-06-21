@@ -77,14 +77,14 @@ export function useMarkerClusterer(
         position,
         extData: point.extData,
         ...(point.markerOptions ?? {}),
-      })
+      } as any)
     })
   }
 
   function destroyCreatedMarkers() {
     createdMarkers.forEach((marker) => {
       marker.setMap?.(null)
-      marker.destroy?.()
+      ;(marker as any).destroy?.()
     })
     createdMarkers = []
   }

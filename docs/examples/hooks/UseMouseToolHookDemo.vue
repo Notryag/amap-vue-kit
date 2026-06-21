@@ -69,7 +69,7 @@ function stopDrawing() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useMouseTool</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useMouseTool</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

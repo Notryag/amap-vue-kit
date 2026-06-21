@@ -9,7 +9,7 @@ const riding = useRiding({ map })
 const result = await riding.search('天安门', '北海公园')
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ const result = await riding.search('天安门', '北海公园')
 | `clear()` | Clear the rendered route and panel. |
 | `destroy()` | Dispose the service and detach it from the map. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseRidingHookDemo />
@@ -38,7 +38,7 @@ const result = await riding.search('天安门', '北海公园')
 import UseRidingHookDemo from '../examples/hooks/UseRidingHookDemo.vue'
 </script>
 
-### Notes
+### 说明
 
 - Provide `map` to render cycling routes on the map.
 - Supply a custom `panel` element via `AMap.Riding.Options` if you want result summaries.
@@ -46,4 +46,4 @@ import UseRidingHookDemo from '../examples/hooks/UseRidingHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

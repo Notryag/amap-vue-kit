@@ -77,9 +77,10 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
     if (!driving.value)
       return
     const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = value
+    const instance = driving.value as any
     if (mapMaybe !== undefined)
-      (driving.value as any).setMap?.(toValue(mapMaybe) ?? null)
-    (driving.value as any).setOptions?.(rest)
+      instance.setMap?.(toValue(mapMaybe) ?? null)
+    instance.setOptions?.(rest)
   }, { deep: true })
 
   onBeforeUnmount(() => {

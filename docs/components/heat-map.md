@@ -15,13 +15,13 @@ exposes helpers to push incremental updates.
 | `visible` | `boolean` | `true` | Toggle the heat map without destroying it. |
 | `options` | `Partial<AMap.HeatMapOptions>` | `{}` | Additional JSAPI options such as `zoomFactor` or `unit`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.HeatMap` | Emitted when the plugin instance is created. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell">
@@ -62,4 +62,4 @@ export interface HeatMapProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

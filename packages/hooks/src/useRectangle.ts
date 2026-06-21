@@ -6,7 +6,7 @@ import { loader, toBounds } from '@amap-vue/shared'
 import { computed, toValue } from 'vue'
 import { useOverlay } from './useOverlay'
 
-export interface UseRectangleOptions extends Partial<AMap.RectangleOptions> {
+export interface UseRectangleOptions extends Omit<Partial<AMap.RectangleOptions>, 'bounds'> {
   bounds?: BoundsLike
   visible?: boolean
 }
@@ -37,7 +37,7 @@ export function useRectangle(
     const rectangle = new AMap.Rectangle({
       ...rest,
       bounds: resolveBounds(AMap, bounds),
-    })
+    } as any)
     rectangle.setMap(map)
     if (visible === false)
       rectangle.hide()
@@ -45,7 +45,7 @@ export function useRectangle(
   }, (rectangle, nextOptions) => {
     const { bounds, visible, map: _ignored, ...rest } = nextOptions as UseRectangleOptions & { map?: AMap.Map }
     if (Object.keys(rest).length)
-      rectangle.setOptions(rest)
+      rectangle.setOptions(rest as any)
     if (bounds !== undefined)
       setBoundsInternal(rectangle, bounds)
     if (visible != null)
@@ -73,7 +73,7 @@ export function useRectangle(
   }
 
   function setOptions(options: Partial<AMap.RectangleOptions>) {
-    overlay.overlay.value?.setOptions(options)
+    overlay.overlay.value?.setOptions(options as any)
   }
 
   function setExtData(extData: any) {

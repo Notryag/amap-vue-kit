@@ -19,7 +19,7 @@ export interface OverlayAttachOptions<TOverlay> {
   destroy?: (overlay: TOverlay) => void
 }
 
-export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => void }, TOptions extends Record<string, any>>(
+export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   options: MaybeRefOrGetter<TOptions>,
   factory: OverlayFactory<TOverlay, TOptions>,
@@ -27,20 +27,24 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>,
   attachOptions: OverlayAttachOptions<TOverlay> = {},
 ): OverlayLifecycle<TOverlay> {
-  const overlay = shallowRef<TOverlay | null>(null)
+  const overlay = shallowRef(null) as ShallowRef<TOverlay | null>
   const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   let attachedMap: AMap.Map | null = null
+  let creating = false
   const optionsRef = computed<TOptions>(() => ({
     ...(toValue(options) as TOptions | undefined ?? {}),
   }) as TOptions)
 
   async function ensureOverlay(mapInstance: AMap.Map | null | undefined) {
-    if (!isClient || overlay.value || !mapInstance)
+    if (!isClient || overlay.value || !mapInstance || creating)
       return
 
+    creating = true
     try {
       const loaderOptions = loadOptions ? toValue(loadOptions) : undefined
       const AMap = await loader.load(loaderOptions)
+      if (overlay.value)
+        return
       const instance = factory({ AMap, map: mapInstance, options: optionsRef.value })
       overlay.value = instance
       if (attachOptions.attach)
@@ -52,6 +56,9 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
     }
     catch (error) {
       warn(error instanceof Error ? error.message : String(error))
+    }
+    finally {
+      creating = false
     }
   }
 
@@ -72,10 +79,12 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
     if (attachedMap)
       detachOverlay(instance)
 
-    if (attachOptions.attach)
+    if (attachOptions.attach) {
       attachOptions.attach(mapInstance, instance)
-    else
-      instance.setMap(mapInstance)
+    }
+    else {
+      ;(instance as any).setMap(mapInstance)
+    }
 
     attachedMap = mapInstance
   }
@@ -84,10 +93,12 @@ export function useOverlay<TOverlay extends { setMap: (map: AMap.Map | null) => 
     if (!attachedMap)
       return
 
-    if (attachOptions.detach)
+    if (attachOptions.detach) {
       attachOptions.detach(attachedMap, instance)
-    else
-      instance.setMap(null)
+    }
+    else {
+      ;(instance as any).setMap(null)
+    }
 
     attachedMap = null
   }

@@ -13,14 +13,14 @@ Wrap the JSAPI administrative district layer plugin with reactive props for `typ
 | `visible` | `boolean` | `true` | Controls layer visibility without destroying it. |
 | `options` | `Partial<AMap.DistrictLayerOptions>` | `{}` | Additional plugin options such as `opacity` or `zooms`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
 | `ready` | `AMap.DistrictLayer` | Fired when the layer instance becomes available. |
 | `complete` | `any` | Re-emitted when the underlying layer triggers `complete`. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.908]" :zoom="6">
@@ -64,4 +64,4 @@ export interface DistrictLayerProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

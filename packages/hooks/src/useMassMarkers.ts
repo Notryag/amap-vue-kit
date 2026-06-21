@@ -4,9 +4,20 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 
+export interface MassDataLike extends Omit<Partial<AMap.MassData>, 'lnglat'> {
+  lnglat: AMap.LngLat | [number, number]
+  [key: string]: any
+}
+
+export interface MassMarkersStyleLike extends Omit<Partial<AMap.MassMarkersStyleOptions>, 'anchor' | 'size'> {
+  anchor?: AMap.Pixel | [number, number]
+  size?: AMap.Size | [number, number]
+  [key: string]: any
+}
+
 export interface UseMassMarkersOptions {
-  data?: AMap.MassData[]
-  style?: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]
+  data?: MassDataLike[]
+  style?: MassMarkersStyleLike | MassMarkersStyleLike[]
   options?: Partial<AMap.MassMarkersOptions>
   visible?: boolean
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
@@ -14,8 +25,8 @@ export interface UseMassMarkersOptions {
 
 export interface UseMassMarkersReturn {
   mass: ShallowRef<AMap.MassMarks | null>
-  setData: (data: AMap.MassData[]) => void
-  setStyle: (style: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]) => void
+  setData: (data: MassDataLike[]) => void
+  setStyle: (style: MassMarkersStyleLike | MassMarkersStyleLike[]) => void
   setOptions: (options: Partial<AMap.MassMarkersOptions>) => void
   show: () => void
   hide: () => void
@@ -66,7 +77,7 @@ export function useMassMarkers(
         ...(massOptions ?? {}),
       }
       if (style)
-        initialOptions.style = style
+        initialOptions.style = style as any
 
       const instance = new MassMarks(data ?? [], initialOptions) as AMap.MassMarks
       if (visible !== false)
@@ -129,11 +140,11 @@ export function useMassMarkers(
       show()
   })
 
-  function setData(data: AMap.MassData[]) {
-    mass.value?.setData(data)
+  function setData(data: MassDataLike[]) {
+    mass.value?.setData(data as any)
   }
 
-  function setStyle(style: AMap.MassMarkersStyleOptions | AMap.MassMarkersStyleOptions[]) {
+  function setStyle(style: MassMarkersStyleLike | MassMarkersStyleLike[]) {
     const instance = mass.value
     if (!instance)
       return

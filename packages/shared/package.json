@@ -1,10 +1,19 @@
 {
   "name": "@amap-vue/shared",
-  "description": "Shared AMap JSAPI loader, types, and utilities for amap-vue-kit packages.",
   "type": "module",
   "version": "0.0.0",
   "private": false,
+  "description": "Shared AMap JSAPI loader, types, and utilities for amap-vue-kit packages.",
   "license": "MIT",
+  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Notryag/amap-vue-kit.git",
+    "directory": "packages/shared"
+  },
+  "bugs": {
+    "url": "https://github.com/Notryag/amap-vue-kit/issues"
+  },
   "keywords": [
     "vue",
     "vue3",
@@ -13,15 +22,6 @@
     "map",
     "loader"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Notryag/amap-vue-kit.git",
-    "directory": "packages/shared"
-  },
-  "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
-  "bugs": {
-    "url": "https://github.com/Notryag/amap-vue-kit/issues"
-  },
   "sideEffects": false,
   "exports": {
     ".": {
@@ -41,6 +41,9 @@
     "build": "vite build",
     "clean": "rm -rf dist temp"
   },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
   "dependencies": {
     "@amap/amap-jsapi-types": "^0.0.15",
     "@types/amap-js-api-autocomplete": "^1.4.4",
@@ -51,8 +54,5 @@
     "@types/amap-js-api-place-search": "^1.4.4",
     "@types/amap-js-api-riding": "^1.4.4",
     "@types/amap-js-api-transfer": "^1.4.4"
-  },
-  "peerDependencies": {
-    "vue": "^3.4.0"
   }
 }

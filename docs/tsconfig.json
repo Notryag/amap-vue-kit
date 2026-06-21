@@ -2,12 +2,12 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "noEmit": true,
     "types": [
       "vitepress/client",
       "node",
       "@amap/amap-jsapi-types"
-    ]
+    ],
+    "noEmit": true
   },
   "include": [
     "**/*.ts",

@@ -4,8 +4,11 @@ import type { OverlayLifecycle } from './useOverlay'
 import { computed, toValue } from 'vue'
 import { useOverlay } from './useOverlay'
 
-export interface UseTileLayerOptions extends Partial<AMap.TileLayerOptions> {
+export interface UseTileLayerOptions extends Omit<Partial<AMap.TileLayerOptions>, 'tileUrl' | 'map'> {
   visible?: boolean
+  map?: AMap.Map
+  getTileUrl?: string | ((x: number, y: number, level: number) => string)
+  tileUrl?: string | ((x: number, y: number, level: number) => string)
 }
 
 export interface UseTileLayerReturn<TLayer extends AMap.TileLayer = AMap.TileLayer> extends OverlayLifecycle<TLayer> {
@@ -139,17 +142,17 @@ export function useTileLayer(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   options: MaybeRefOrGetter<UseTileLayerOptions>,
 ): UseTileLayerReturn {
-  return createTileLayerHook(({ AMap, options: layerOptions }) => new AMap.TileLayer(layerOptions))(mapRef, options)
+  return createTileLayerHook(({ AMap, options: layerOptions }) => new AMap.TileLayer(layerOptions as any))(mapRef, options)
 }
 
-export interface UseTrafficLayerOptions extends UseTileLayerOptions, Partial<AMap.TileLayer.Traffic.Options> {}
+export interface UseTrafficLayerOptions extends UseTileLayerOptions, Omit<Partial<AMap.TileLayer.Traffic.Options>, 'tileUrl' | 'map'> {}
 
 export function useTrafficLayer(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
   options: MaybeRefOrGetter<UseTrafficLayerOptions>,
 ): UseTileLayerReturn<AMap.TileLayer.Traffic> {
   return createTileLayerHook<AMap.TileLayer.Traffic, UseTrafficLayerOptions>(
-    ({ AMap, options: layerOptions }) => new AMap.TileLayer.Traffic(layerOptions),
+    ({ AMap, options: layerOptions }) => new AMap.TileLayer.Traffic(layerOptions as any),
     'AMap.TileLayer.Traffic',
   )(mapRef, options)
 }
@@ -159,7 +162,7 @@ export function useSatelliteLayer(
   options: MaybeRefOrGetter<UseTileLayerOptions>,
 ): UseTileLayerReturn<AMap.TileLayer.Satellite> {
   return createTileLayerHook<AMap.TileLayer.Satellite, UseTileLayerOptions>(
-    ({ AMap, options: layerOptions }) => new AMap.TileLayer.Satellite(layerOptions),
+    ({ AMap, options: layerOptions }) => new AMap.TileLayer.Satellite(layerOptions as any),
     'AMap.TileLayer.Satellite',
   )(mapRef, options)
 }
@@ -169,7 +172,7 @@ export function useRoadNetLayer(
   options: MaybeRefOrGetter<UseTileLayerOptions>,
 ): UseTileLayerReturn<AMap.TileLayer.RoadNet> {
   return createTileLayerHook<AMap.TileLayer.RoadNet, UseTileLayerOptions>(
-    ({ AMap, options: layerOptions }) => new AMap.TileLayer.RoadNet(layerOptions),
+    ({ AMap, options: layerOptions }) => new AMap.TileLayer.RoadNet(layerOptions as any),
     'AMap.TileLayer.RoadNet',
   )(mapRef, options)
 }

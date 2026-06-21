@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview the polygon editor hook.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the polygon editor hook.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

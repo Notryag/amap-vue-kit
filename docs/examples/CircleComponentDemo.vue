@@ -29,7 +29,7 @@ function decreaseRadius() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the circle.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the circle.
     </div>
     <template v-else>
       <div class="amap-demo__map">

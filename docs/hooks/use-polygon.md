@@ -12,7 +12,7 @@ const polygonOptions = ref({
     [116.41, 39.91],
     [116.4, 39.94],
   ],
-  fillOpacity: 0.3,
+  fill透明度: 0.3,
 })
 
 const polygonApi = usePolygon(() => map.value, polygonOptions)
@@ -33,12 +33,12 @@ The same API powers `<AmapPolygon>`, so migrating from declarative templates to 
 | `show` / `hide` | Toggle visibility without disposing the overlay. |
 | `destroy` | Remove the polygon from the map and free listeners. |
 
-### Notes
+### 说明
 
 - The `path` option can be reactive and represent holes or multiple rings. Each segment is normalized to JSAPI coordinates.
 - Setting `visible` to `false` hides the polygon until the flag is flipped back to `true`.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UsePolygonHookDemo />
@@ -50,4 +50,4 @@ import UsePolygonHookDemo from '../examples/hooks/UsePolygonHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -37,7 +37,7 @@ const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview the live marker.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the live marker.
     </div>
     <template v-else>
       <div class="amap-demo__map">

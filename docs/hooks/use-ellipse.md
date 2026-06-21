@@ -8,14 +8,14 @@ import { useEllipse } from '@amap-vue/hooks'
 const ellipse = useEllipse(() => map.value, () => ({
   center: [116.406, 39.912],
   radius: [900, 500],
-  strokeColor: '#fd7e14',
-  fillColor: 'rgba(253, 126, 20, 0.3)',
+  stroke颜色: '#fd7e14',
+  fill颜色: 'rgba(253, 126, 20, 0.3)',
 }))
 
 ellipse.setRadius([1200, 600])
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -37,7 +37,7 @@ ellipse.setRadius([1200, 600])
 | `destroy()` | Dispose of the ellipse and clean up listeners. |
 | `on(event, handler)` / `off(event, handler)` | Subscribe to JSAPI events. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseEllipseHookDemo />
@@ -54,4 +54,4 @@ import UseEllipseHookDemo from '../examples/hooks/UseEllipseHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

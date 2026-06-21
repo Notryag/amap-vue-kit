@@ -7,8 +7,8 @@ const circle = useCircleMarker(() => map.value, () => ({
   center: [116.397, 39.908],
   radius: 10,
   options: {
-    strokeColor: '#1677ff',
-    fillColor: 'rgba(22, 119, 255, 0.45)',
+    stroke颜色: '#1677ff',
+    fill颜色: 'rgba(22, 119, 255, 0.45)',
   },
 }))
 
@@ -25,7 +25,7 @@ circle.on('click', () => console.log('Circle marker clicked'))
 | `on` / `off` | Subscribe to marker events. |
 | `destroy` | Remove the marker from the map. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseCircleMarkerHookDemo />
@@ -37,4 +37,4 @@ import UseCircleMarkerHookDemo from '../examples/hooks/UseCircleMarkerHookDemo.v
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

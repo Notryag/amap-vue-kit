@@ -19,7 +19,7 @@ function handleReady(instance: AMap.Map) {
 <template>
   <div class="amap-demo amap-demo--split">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>AmapWalking</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>AmapWalking</code>.
     </div>
     <template v-else>
       <div class="amap-demo__map">

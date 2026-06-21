@@ -11,7 +11,7 @@ Draw polylines representing paths or routes. The component consumes the map cont
 | `visible` | `boolean` | Toggles visibility. |
 | `extData` | `any` | Custom metadata. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Draw polylines representing paths or routes. The component consumes the map cont
 | `mouseover` | `any` | Pointer enter events. |
 | `mouseout` | `any` | Pointer leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapPolyline
@@ -29,11 +29,11 @@ Draw polylines representing paths or routes. The component consumes the map cont
     [116.427, 39.903],
     [116.45, 39.92]
   ]"
-  :options="{ strokeColor: '#4b8bff', strokeWeight: 4 }"
+  :options="{ stroke颜色: '#4b8bff', strokeWeight: 4 }"
 />
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <PolylineComponentDemo />
@@ -45,4 +45,4 @@ import PolylineComponentDemo from '../examples/PolylineComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

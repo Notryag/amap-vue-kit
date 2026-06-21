@@ -60,7 +60,7 @@ function clearSelection() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview the linked info windows recipe.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 the linked info windows recipe.
     </div>
     <template v-else>
       <div class="poi-layout">

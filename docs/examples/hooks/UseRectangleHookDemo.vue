@@ -36,13 +36,13 @@ useRectangle(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useRectangle</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useRectangle</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
       <div class="amap-demo__toolbar">
         <label>
-          Width Δλ
+          宽度 Δλ
           <input v-model.number="width" type="range" min="0.02" max="0.12" step="0.005">
         </label>
         <label>

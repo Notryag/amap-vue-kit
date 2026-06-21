@@ -37,7 +37,7 @@ function searchAddress() {
       <button type="button" @click="searchAddress">
         搜索地址
       </button>
-      <AmapReverseGeocodePanel ref="panelRef" :position="position" />
+      <AmapReverseGeocodePanel ref="panelRef" :position="position ?? undefined" />
     </div>
   </div>
 </template>

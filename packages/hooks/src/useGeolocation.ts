@@ -6,7 +6,7 @@ import { computed, onBeforeUnmount, shallowRef, toValue, watch } from 'vue'
 
 type GeolocationOptions = AMap.Geolocation.Options
 type GeolocationResult = AMap.Geolocation.GeolocationResult
-type GeolocationWatchId = string
+type GeolocationWatchId = number
 
 export interface UseGeolocationOptions extends Partial<GeolocationOptions> {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
@@ -87,20 +87,20 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
       if (status === 'complete')
         handler(result)
     })
-    if (typeof watchId === 'string')
+    if (typeof watchId === 'number')
       activeWatchers.add(watchId)
-    return typeof watchId === 'string' ? watchId : null
+    return typeof watchId === 'number' ? watchId : null
   }
 
   function clearWatch(watchId?: GeolocationWatchId) {
     if (!geolocation.value)
       return
-    if (typeof watchId === 'string') {
-      geolocation.value.clearWatch(watchId)
+    if (typeof watchId === 'number') {
+      geolocation.value.clearWatch(watchId as any)
       activeWatchers.delete(watchId)
       return
     }
-    activeWatchers.forEach(id => geolocation.value?.clearWatch(id))
+    activeWatchers.forEach(id => geolocation.value?.clearWatch(id as any))
     activeWatchers.clear()
   }
 

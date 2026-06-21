@@ -11,7 +11,7 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
 | `visible` | `boolean` | Toggles visibility. |
 | `extData` | `any` | Arbitrary metadata. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
 | `mouseover` | `any` | Pointer enter events. |
 | `mouseout` | `any` | Pointer leave events. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapPolygon
@@ -30,11 +30,11 @@ Render filled polygons with optional holes. Accepts both single-ring and multi-r
     [116.42, 39.92],
     [116.39, 39.92]
   ]"
-  :options="{ fillColor: 'rgba(75,139,255,0.25)', strokeColor: '#4b8bff' }"
+  :options="{ fill颜色: 'rgba(75,139,255,0.25)', stroke颜色: '#4b8bff' }"
 />
 ```
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <PolygonComponentDemo />
@@ -46,4 +46,4 @@ import PolygonComponentDemo from '../examples/PolygonComponentDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

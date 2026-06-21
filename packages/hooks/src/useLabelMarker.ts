@@ -243,15 +243,17 @@ export function useLabelMarker(
   }
 
   function setText(text: AMap.LabelMarkerTextOptions | undefined) {
-    if (!text)
+    if (!text) {
       return
-    marker.value?.setText(resolveTextOptions(text) as any)
+    }
+    ;(marker.value as any)?.setText(resolveTextOptions(text) as any)
   }
 
   function setIcon(icon: AMap.LabelMarkerIconOptions | undefined) {
-    if (!icon)
+    if (!icon) {
       return
-    marker.value?.setIcon(icon as any)
+    }
+    ;(marker.value as any)?.setIcon(icon as any)
   }
 
   function setZooms(zooms: [number, number] | undefined) {
@@ -267,9 +269,10 @@ export function useLabelMarker(
   }
 
   function setZIndex(zIndex: number | undefined) {
-    if (zIndex == null)
+    if (zIndex == null) {
       return
-    marker.value?.setzIndex(zIndex)
+    }
+    ;(marker.value as any)?.setzIndex(zIndex)
   }
 
   function setExtData(extData: any) {
@@ -306,7 +309,7 @@ export function useLabelMarker(
     if (instance) {
       unbindListeners(instance)
       detachFromLayer()
-      instance.destroy?.()
+      ;(instance as any).destroy?.()
     }
     marker.value = null
     listeners.clear()

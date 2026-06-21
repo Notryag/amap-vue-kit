@@ -26,20 +26,20 @@ marker.on('click', () => console.log('label clicked'))
 | `setText` | Apply text configuration including offsets and styles. |
 | `setIcon` | Change the icon sprite. |
 | `setZooms` | Restrict the zoom range. |
-| `setOpacity` / `setZIndex` | Adjust visual properties without recreating the marker. |
+| `set透明度` / `setZIndex` | Adjust visual properties without recreating the marker. |
 | `setExtData` | Attach arbitrary metadata. |
 | `show` / `hide` | Toggle visibility imperatively. |
 | `on` / `off` | Subscribe to and unsubscribe from marker events. |
 | `destroy` | Remove the marker from its parent layer and tear down listeners. |
 
-### Notes
+### 说明
 
 - The composable automatically reattaches the marker if the labels layer instance changes.
 - `text.offset` accepts tuples such as `[0, -12]`; they are converted to `AMap.Pixel` behind the scenes when the JSAPI is available.
 - When the supplied layer reference is `null`, the marker detaches itself and waits until a layer becomes available again.
 - You can pass a raw `LabelsLayer` instance, the object returned by `useLabelsLayer`, or the `<AmapLabelsLayer>` injection context—the hook queues and attaches markers appropriately in each scenario.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseLabelMarkerHookDemo />
@@ -51,4 +51,4 @@ import UseLabelMarkerHookDemo from '../examples/hooks/UseLabelMarkerHookDemo.vue
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

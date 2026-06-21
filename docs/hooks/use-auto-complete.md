@@ -10,7 +10,7 @@ const result = await autoComplete.search('咖啡')
 console.log(result?.tips)
 ```
 
-## Options
+## 参数
 
 | Key | Type | Description |
 | --- | --- | --- |
@@ -28,7 +28,7 @@ console.log(result?.tips)
 | `setType(type)` | Shortcut for `setOptions({ type })`. |
 | `destroy()` | Dispose the internal reference. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseAutoCompleteHookDemo />
@@ -38,7 +38,7 @@ console.log(result?.tips)
 import UseAutoCompleteHookDemo from '../examples/hooks/UseAutoCompleteHookDemo.vue'
 </script>
 
-### Notes
+### 说明
 
 - An empty keyword returns `null`; guard your UI to avoid accidental requests.
 - The hook queues `loader.load` only once per app and reuses the instance across re-renders.
@@ -46,4 +46,4 @@ import UseAutoCompleteHookDemo from '../examples/hooks/UseAutoCompleteHookDemo.v
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -52,7 +52,7 @@ function toggleAnchor() {
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useInfoWindow</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useInfoWindow</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />

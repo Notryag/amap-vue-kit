@@ -16,7 +16,7 @@ control.show()
 control.setOptions({ liteStyle: true })
 ```
 
-## Options
+## 参数
 
 The hooks accept the corresponding JSAPI options (for example `ToolBarOptions`) plus the shared keys below:
 
@@ -37,13 +37,13 @@ The hooks accept the corresponding JSAPI options (for example `ToolBarOptions`) 
 | `setOptions(options)` | Forward arbitrary options to the JSAPI control. |
 | `destroy()` | Remove the control from the map and clean up listeners. |
 
-### Notes
+### 说明
 
 - The hook lazily loads the required plugin (`AMap.ToolBar`, `AMap.Scale`, etc.) the first time it runs. No manual `loader.config` call is required.
 - Controls automatically reattach themselves if the map reference changes (for example, when remounting `<AmapMap>`).
 - Prefer toggling the reactive `visible` option over conditional rendering so the control instance can be reused.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseControlHookDemo />
@@ -55,4 +55,4 @@ import UseControlHookDemo from '../examples/hooks/UseControlHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -33,12 +33,12 @@ infoWindowApi.on('open', () => {
 | `on` / `off` | Subscribe to and remove JSAPI event listeners. |
 | `destroy` | Dispose the info window and clear internal state. |
 
-### Notes
+### 说明
 
 - Passing reactive `open`, `position`, or `content` options keeps the JSAPI instance in sync without manual watchers.
 - When the provided map reference becomes `null`, the info window closes itself and reattaches once a map is available again.
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseInfoWindowHookDemo />
@@ -50,4 +50,4 @@ import UseInfoWindowHookDemo from '../examples/hooks/UseInfoWindowHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

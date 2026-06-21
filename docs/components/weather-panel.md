@@ -11,7 +11,7 @@ Display live and forecast weather with an opinionated panel that wraps `useWeath
 | `auto` | `boolean` | `true` | Automatically fetch weather data when the component mounts or the city changes. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | Custom loader configuration passed to `useWeather`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Display live and forecast weather with an opinionated panel that wraps `useWeath
 | `ready` | `AMap.Weather` | Fires once after the weather service is initialised. |
 | `error` | `string` | Emitted whenever a fetch request fails or returns empty data. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapWeatherPanel v-model="city" :cities="['北京', '上海', '深圳']" @error="handleError" />
@@ -54,4 +54,4 @@ export interface WeatherPanelProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

@@ -12,7 +12,7 @@ Combine forward and reverse geocoding in a ready-to-use panel. The component wra
 | `geocoderOptions` | `Partial<AMap.Geocoder.Options>` | `{}` | Custom options forwarded to the underlying geocoder. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader configuration when requesting the plugin. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -20,7 +20,7 @@ Combine forward and reverse geocoding in a ready-to-use panel. The component wra
 | `result` | `{ mode: 'forward' \| 'reverse', result: AMap.Geocoder.GeocodeResult \| AMap.Geocoder.ReGeocodeResult \| AMap.Geocoder.BatchReGeocodeResult \| null }` | Emitted whenever a geocode completes. |
 | `error` | `string` | Emitted when the geocoder fails to resolve a request. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapReverseGeocodePanel :position="position" @result="handleResult" />
@@ -56,4 +56,4 @@ export interface ReverseGeocodePanelProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

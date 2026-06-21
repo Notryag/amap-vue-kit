@@ -13,7 +13,7 @@ Provide instant search suggestions backed by the AMap AutoComplete service. The 
 | `options` | `Partial<AMap.Autocomplete.Options>` | `{}` | Native AutoComplete options such as `city`, `type`, or `datatype`. |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions> \| undefined>` | `undefined` | Extra loader configuration passed to `loader.load`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -23,7 +23,7 @@ Provide instant search suggestions backed by the AMap AutoComplete service. The 
 | `select` | `AMap.Autocomplete.Tip` | Fired when a suggestion is clicked in the default slot. |
 | `error` | `string` | Emitted when the service reports a failure. |
 
-## Usage
+## 用法
 
 ```vue
 <AmapAutoComplete v-model="keyword" @select="handleSelect" />
@@ -67,4 +67,4 @@ export interface AmapAutoCompleteProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

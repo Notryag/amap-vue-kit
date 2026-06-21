@@ -29,7 +29,7 @@ useTileLayer(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Provide <code>VITE_AMAP_KEY</code> to preview custom tile switching.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 custom tile switching.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -42,7 +42,7 @@ useTileLayer(() => map.value, () => ({
           </select>
         </label>
         <label v-if="provider === 'osm'">
-          Opacity
+          透明度
           <input v-model.number="opacity" type="range" min="0.4" max="1" step="0.05">
         </label>
       </div>

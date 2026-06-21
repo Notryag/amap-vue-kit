@@ -39,7 +39,7 @@ useImageLayer(() => map.value, () => ({
 <template>
   <div class="amap-demo">
     <div v-if="!hasKey" class="amap-demo__placeholder">
-      Set <code>VITE_AMAP_KEY</code> to preview <code>useImageLayer</code>.
+      配置 <code>VITE_AMAP_KEY</code> 后预览 <code>useImageLayer</code>.
     </div>
     <template v-else>
       <div ref="container" class="amap-demo__map" />
@@ -52,12 +52,12 @@ useImageLayer(() => map.value, () => ({
           </select>
         </label>
         <label>
-          Opacity
+          透明度
           <input v-model.number="opacity" type="range" min="0.2" max="1" step="0.05">
         </label>
         <label>
           <input v-model="visible" type="checkbox">
-          Visible
+          显示
         </label>
       </div>
     </template>

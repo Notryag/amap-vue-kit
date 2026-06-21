@@ -1,23 +1,23 @@
-# Getting Started
+# 快速开始
 
-AMap Vue Kit wraps the [AMap JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary) with Vue 3 components and composables. Follow this guide to install the packages, register your API key, render a minimal map, and avoid common pitfalls during the first setup.
+AMap Vue Kit 用 Vue 3 组件和组合式 hooks 封装 [高德地图 JSAPI 2.x](https://lbs.amap.com/api/javascript-api/summary)。这份指南会带你完成安装、配置 Key、渲染第一张地图，并避开首次接入最常见的问题。
 
-## Prerequisites
+## 准备工作
 
-- Node.js 18+ and [pnpm](https://pnpm.io/) (other package managers work as well).
-- An [AMap Web JSAPI key](https://lbs.amap.com/api/javascript-api/guide/create-project/get-key). You can optionally enable a security code in the AMap console and pass it through the loader.
+- Node.js 18+ 和 [pnpm](https://pnpm.io/)（也可以使用 npm 或 yarn）。
+- 一个[高德地图 Web JSAPI Key](https://lbs.amap.com/api/javascript-api/guide/create-project/get-key)。如果你在高德控制台启用了安全密钥，也可以通过 loader 一并传入。
 
-## Install the packages
+## 安装
 
 ```bash
 pnpm add @amap-vue/core @amap-vue/hooks @amap-vue/shared vue
 ```
 
-> Use the equivalent `npm install` or `yarn add` command if you prefer a different package manager.
+> 如果不用 pnpm，可以换成等价的 `npm install` 或 `yarn add` 命令。
 
-## Configure your AMap key
+## 配置高德 Key
 
-Register the key once at application bootstrap so every map shares the same loader instance:
+在应用启动时配置一次 Key，所有地图实例都会复用同一个 loader：
 
 ```ts
 // main.ts
@@ -28,13 +28,13 @@ import App from './App.vue'
 loader.config({
   key: import.meta.env.VITE_AMAP_KEY,
   version: '2.0',
-  securityJsCode: import.meta.env.VITE_AMAP_SECURITY, // optional
+  securityJsCode: import.meta.env.VITE_AMAP_SECURITY, // 可选
 })
 
 createApp(App).mount('#app')
 ```
 
-The loader injects the JSAPI script only once, no matter how many maps are rendered. To fail fast when the CDN is unreachable, provide a `timeout` value (in milliseconds). The returned promise rejects so you can surface a friendly message to users:
+无论页面渲染多少张地图，loader 都只会注入一次 JSAPI 脚本。如果希望在网络异常时快速失败，可以设置 `timeout`（毫秒）。加载失败时 promise 会 reject，方便你在界面上展示友好提示：
 
 ```ts
 loader.config({
@@ -44,9 +44,9 @@ loader.config({
 })
 ```
 
-You can override individual calls with `loader.load({ timeout: 10_000 })` when a specific view requires stricter timeouts.
+某些页面需要更严格的超时时，也可以在单次调用里使用 `loader.load({ timeout: 10_000 })` 覆盖默认值。
 
-## Minimal example
+## 最小示例
 
 ```vue
 <script setup lang="ts">
@@ -62,15 +62,15 @@ const center = [116.397, 39.908]
 </template>
 ```
 
-`<AmapMap>` accepts the same options as `new AMap.Map()` and emits native events like `ready`, `moveend`, `click`, `complete`, and `error`. Nested overlays (markers, polylines, info windows…) automatically consume the closest map instance provided by `<AmapMap>`.
+`<AmapMap>` 接收与 `new AMap.Map()` 类似的配置，并会抛出 `ready`、`moveend`、`click`、`complete`、`error` 等原生事件。嵌套的 Marker、Polyline、InfoWindow 等覆盖物会自动使用最近的 `<AmapMap>` 实例。
 
 ### StackBlitz
 
-[Open the minimal example](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[打开最小示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
 
-## Container sizing
+## 容器尺寸
 
-The JSAPI requires an explicit height on the container element. Without it, the map renders as a blank square. Either apply inline styles or use a CSS class:
+JSAPI 要求地图容器有明确高度。没有高度时，地图通常会显示为空白。你可以写内联样式，也可以使用 CSS 类：
 
 ```css
 .map-shell {
@@ -85,11 +85,11 @@ The JSAPI requires an explicit height on the container element. Without it, the 
 </template>
 ```
 
-When embedding the map inside flex layouts, make sure the parent elements also have non-zero heights.
+如果地图放在 flex 布局里，也要确认父级元素有非零高度。
 
-## Use composables
+## 使用 Hooks
 
-Prefer the Composition API? `@amap-vue/hooks` exposes fine-grained helpers. Create the map via `useMap` and imperatively register overlays once the instance is ready:
+更喜欢组合式 API？`@amap-vue/hooks` 提供了更细粒度的控制方式。下面用 `useMap` 创建地图，并在实例 ready 后创建 Marker：
 
 ```vue
 <script setup lang="ts">
@@ -113,13 +113,13 @@ ready(() => {
 </template>
 ```
 
-All composables guard against SSR by lazily accessing the `window` object only after mount.
+所有 hooks 都会延迟访问 `window`，避免在 SSR 的 setup 阶段触发浏览器环境错误。
 
-## Common errors
+## 常见问题
 
-- **Map is blank** – the container (or its parents) lack a height. Apply the `map-shell` styles shown above.
-- **"Missing key" warning** – call `loader.config({ key: 'YOUR_KEY' })` before rendering the first map. Development builds warn loudly to avoid silent failures.
-- **Plugin not found** – ensure the plugin name is included in either the map `plugins` prop or the loader configuration. Components that require plugins (e.g. editors, heatmap) automatically request them, but manual JSAPI code must still call `map.plugin(...)`.
-- **`SECURITY_ERROR` from JSAPI** – if you enabled a security code in the AMap console, pass it as `securityJsCode` to the loader.
+- **地图空白**：地图容器或父级没有高度。按上面的 `map-shell` 样式补上高度即可。
+- **提示缺少 Key**：首次渲染地图前调用 `loader.config({ key: 'YOUR_KEY' })`。开发环境会主动 warning，避免静默失败。
+- **插件未找到**：确认插件名已经放进地图的 `plugins` prop 或 loader 配置里。编辑器、热力图等组件会自动请求依赖插件，但手写 JSAPI 代码时仍需要调用 `map.plugin(...)`。
+- **JSAPI 返回 `SECURITY_ERROR`**：如果高德控制台启用了安全密钥，请把它作为 `securityJsCode` 传给 loader。
 
-With these fundamentals covered you can explore component and composable pages, advanced guides, and performance recipes tailored for high-traffic AMap applications.
+完成这些基础配置后，就可以继续查看组件、hooks、高级能力和性能指南，按业务场景逐步接入。

@@ -117,7 +117,7 @@ function handleReady(instance: AMap.Map) {
       </div>
       <div class="amap-demo__toolbar">
         <label>
-          Points: {{ count }}
+          点位: {{ count }}
           <input v-model.number="count" type="range" min="200" max="2000" step="100">
         </label>
         <label>

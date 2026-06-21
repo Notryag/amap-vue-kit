@@ -31,7 +31,7 @@ textOverlay.on('click', () => {
 | `on` / `off` | Subscribe to events. |
 | `destroy` | Remove the overlay. |
 
-## Live example
+## 在线示例
 
 <ClientOnly>
   <UseTextHookDemo />
@@ -43,4 +43,4 @@ import UseTextHookDemo from '../examples/hooks/UseTextHookDemo.vue'
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

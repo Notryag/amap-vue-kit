@@ -1,4 +1,4 @@
-# Changelog
+# 更新日志
 
 This page is generated automatically from Changesets when a release is published.
 

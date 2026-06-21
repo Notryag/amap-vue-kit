@@ -3,8 +3,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "rootDir": "src",
-    "outDir": "temp/types",
-    "declarationDir": "temp/types"
+    "declarationDir": "temp/types",
+    "outDir": "temp/types"
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "tests", "**/*.test.ts"]

@@ -11,7 +11,7 @@ Create interactive drawing experiences with the JSAPI `MouseTool`. The component
 | `drawOptions` | `Partial<AMap.CircleOptions> & ...` | `{}` | Optional per-shape options keyed by mode (`circle`, `polygon`, etc.). |
 | `loadOptions` | `MaybeRefOrGetter<Partial<LoaderOptions>> \| undefined` | – | Loader config forwarded to `loader.load`. |
 
-## Events
+## 事件
 
 | Event | Payload | Description |
 | --- | --- | --- |
@@ -19,7 +19,7 @@ Create interactive drawing experiences with the JSAPI `MouseTool`. The component
 | `draw` | `any` | Fired after an overlay is drawn. The payload contains the newly created overlay (`event.obj`). |
 | `update:mode` | `DrawMode` | Emitted whenever the component requests a mode change (used for `v-model:mode`). |
 
-## Usage
+## 用法
 
 ```vue
 <AmapMap :center="[116.397, 39.909]" :zoom="13">
@@ -63,4 +63,4 @@ export interface MouseToolProps {
 
 ### StackBlitz
 
-[Open the example project](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/your-org/amap-vue-kit/tree/main/examples/basic)

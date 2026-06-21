@@ -1,17 +1,17 @@
 # @amap-vue/shared
 
-Shared AMap JSAPI loader, types, and utilities for `amap-vue-kit` packages.
+`amap-vue-kit` 的共享包，提供高德地图 JSAPI 单例 loader、类型和通用工具。
 
-## Installation
+## 安装
 
 ```bash
 pnpm add @amap-vue/shared vue
 ```
 
-## Usage
+## 使用
 
 ```ts
 import { loadAmap } from '@amap-vue/shared'
 ```
 
-See the docs site for guides and usage examples.
+更多指南和可运行示例见文档站。

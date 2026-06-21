@@ -60,13 +60,13 @@ export function useMouseTool(
   }
 
   function bindListeners(instance: AMap.MouseTool) {
-    listeners.forEach(({ event, handler }) => instance.on?.(event, handler))
+    listeners.forEach(({ event, handler }) => (instance as any).on?.(event, handler))
   }
 
   function unbindListeners(instance: AMap.MouseTool | null) {
     if (!instance)
       return
-    listeners.forEach(({ event, handler }) => instance.off?.(event, handler))
+    listeners.forEach(({ event, handler }) => (instance as any).off?.(event, handler))
   }
 
   async function withTool<T>(callback: (instance: AMap.MouseTool) => T): Promise<T | undefined> {
@@ -79,14 +79,14 @@ export function useMouseTool(
   }
 
   function close() {
-    tool.value?.close?.()
+    ;(tool.value as any)?.close?.()
   }
 
   function destroy() {
     const instance = tool.value
     if (instance) {
       unbindListeners(instance)
-      instance.close?.()
+      ;(instance as any).close?.()
     }
     tool.value = null
   }
@@ -94,40 +94,40 @@ export function useMouseTool(
   function on(event: string, handler: (event: any) => void) {
     const record = { event, handler }
     listeners.add(record)
-    tool.value?.on?.(event, handler)
+    ;(tool.value as any)?.on?.(event, handler)
   }
 
   function off(event: string, handler: (event: any) => void) {
     for (const record of Array.from(listeners)) {
       if (record.event === event && record.handler === handler) {
         listeners.delete(record)
-        tool.value?.off?.(event, handler)
+        ;(tool.value as any)?.off?.(event, handler)
       }
     }
   }
 
   async function drawCircle(options?: Partial<AMap.CircleOptions>) {
-    return withTool(toolInstance => toolInstance.circle(options))
+    return withTool(toolInstance => (toolInstance as any).circle(options))
   }
 
   async function drawRectangle(options?: Partial<AMap.RectangleOptions>) {
-    return withTool(toolInstance => toolInstance.rectangle(options))
+    return withTool(toolInstance => (toolInstance as any).rectangle(options))
   }
 
   async function drawPolygon(options?: Partial<AMap.PolygonOptions>) {
-    return withTool(toolInstance => toolInstance.polygon(options))
+    return withTool(toolInstance => (toolInstance as any).polygon(options))
   }
 
   async function drawPolyline(options?: Partial<AMap.PolylineOptions>) {
-    return withTool(toolInstance => toolInstance.polyline(options))
+    return withTool(toolInstance => (toolInstance as any).polyline(options))
   }
 
   async function drawBezierCurve(options?: Partial<AMap.BezierCurveOptions>) {
-    return withTool(toolInstance => toolInstance.bezierCurve(options))
+    return withTool(toolInstance => (toolInstance as any).bezierCurve(options))
   }
 
   async function drawEllipse(options?: Partial<AMap.EllipseOptions>) {
-    return withTool(toolInstance => toolInstance.ellipse(options))
+    return withTool(toolInstance => (toolInstance as any).ellipse(options))
   }
 
   watch(() => toValue(mapRef), (mapInstance) => {

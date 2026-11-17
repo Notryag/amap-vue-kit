@@ -140,7 +140,7 @@ export function useRoadNetLayer(
 
 ## 常见错误
 
-- 始终传入地图引用（`() => map.value`），不要直接传原始地图实例，以兼容 SSR 和延迟挂载。
+- 推荐传入地图引用（`() => map.value`），以便在地图延迟挂载或实例替换后更新图层。
 - 避免同时配置 `tileUrl` 与 `getTileUrl`；只有 `tileUrl` 为 `undefined` 时 hook 才会优先使用 `getTileUrl`。
 - 启用 `autoRefresh` 后交通图层会轮询网络；视图隐藏时暂停刷新可减少配额消耗。
 

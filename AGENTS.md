@@ -20,7 +20,7 @@
 ## Conventions (emulate VueUse / Devtools)
 - 目录/命名：composables 以 useXxx 命名，导出类型以 PascalCase。
 - API 设计：props 最小必需 + 可选 options；事件 `onXxx` / Vue emits；支持 v-model 当合理。
-- SSR-safe：在 setup 顶层避免直接访问 window，惰性加载 SDK。
+- 运行环境：仅支持浏览器端，不提供服务端渲染或水合适配。保留静态文档构建所需的安全导入和 SDK 惰性初始化；模块顶层不直接访问浏览器对象。
 - 错误与警告：缺少 AMap Key、脚本加载失败、无效坐标时给出友好 warning（仅 dev）。
 - 文档：每个组件/Hook 有「最小示例 + 完整示例 + TS 签名 + 常见错误」。
 

@@ -1,5 +1,6 @@
 import type { BoundsLike, LngLatLike, PixelLike } from './types'
 
+// Skip browser initialization during static documentation builds.
 export const isClient = typeof window !== 'undefined'
 
 export function toLngLat<AMapType extends typeof AMap>(AMap: AMapType, value: LngLatLike | undefined | null): AMap.LngLat | undefined {

@@ -83,4 +83,4 @@ import MarkerComponentDemo from '../examples/MarkerComponentDemo.vue'
 
 - 地图空白时，先确认容器有明确高度，并已配置有效的高德 JSAPI Key。
 - 需要插件的组件应通过组件内部自动加载或在 `<AmapMap :plugins>` 中提前声明，避免实例创建时插件缺失。
-- 在 SSR 环境中不要在 setup 顶层直接访问 `window` 或 `AMap`；等待 `ready` 事件后再读取实例。
+- SDK 加载和实例创建是异步的；请等待 `ready` 事件后再读取实例。

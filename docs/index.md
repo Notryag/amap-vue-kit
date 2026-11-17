@@ -17,5 +17,5 @@ features:
   - title: 组件与 Hooks 双形态
     details: 常用地图能力可直接用组件，也可以通过 `useMap`、`useMarker` 等 hooks 精细控制。
   - title: 面向生产使用
-    details: ESM 构建、按需加载、SSR 安全、单例 loader、测试覆盖与可运行的 VitePress 示例。
+    details: ESM 构建、按需加载、单例 loader、测试覆盖与可运行的 VitePress 示例。
 ---

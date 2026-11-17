@@ -11,7 +11,7 @@
 - Vue 3 原生体验：组件、插槽、事件、响应式 props，写法贴近普通 Vue 业务代码。
 - TypeScript 友好：导出类型完整，编辑器自动提示更舒服。
 - 按需组合：只用组件、只用 hooks，或者直接使用共享 loader 都可以。
-- SSR-safe：避免在 setup 顶层直接访问 `window`，地图 SDK 惰性加载。
+- 浏览器端运行：地图 SDK 惰性加载，仅支持客户端使用。
 - 插件按需加载：`AMap.ToolBar`、`AMap.Scale`、`AMap.HeatMap` 等插件可随用随取。
 - 覆盖常见业务场景：Marker、InfoWindow、Polyline、Polygon、Circle、MassMarks、MarkerCluster、图层、控件、搜索、天气、路线规划、编辑工具。
 - 面向大数据点位：提供 MassMarks、LabelsLayer、OverlayGroup、Loca 等能力，适合批量点位和可视化场景。

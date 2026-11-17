@@ -55,6 +55,6 @@ pnpm --filter examples/basic dev
 
 在 `examples/basic` 目录下创建 `.env.local`，写入 `VITE_AMAP_KEY=<your-key>`。
 
-## SSR 中如何使用？
+## 支持哪些运行环境？
 
-所有 hooks 都会避免在 setup 阶段访问 `window`。地图实例应只在客户端的 `onMounted` 或 `ready` 回调中创建。水合时可以先渲染占位内容，等 `loader.load()` 完成后再显示地图，从而保证 SSR 输出稳定。
+本库仅支持浏览器端运行，不提供服务端渲染或水合适配。文档中的 `<ClientOnly>` 和内部环境判断用于静态文档构建，地图示例在浏览器中加载 SDK 后运行。

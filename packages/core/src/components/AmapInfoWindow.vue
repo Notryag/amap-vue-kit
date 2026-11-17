@@ -3,7 +3,7 @@ import type { LngLatLike, MapInjectionContext } from '@amap-vue/shared'
 import type { PropType } from 'vue'
 import { useInfoWindow } from '@amap-vue/hooks'
 import { amapMapInjectionKey, warn } from '@amap-vue/shared'
-import { computed, inject, onBeforeUnmount, shallowRef, watch } from 'vue'
+import { computed, inject, onBeforeUnmount, onMounted, shallowRef, watch } from 'vue'
 
 defineOptions({
   name: 'AmapInfoWindow',
@@ -33,6 +33,12 @@ if (!context)
   warn('<AmapInfoWindow> must be used inside <AmapMap>.')
 
 const contentRef = shallowRef<HTMLDivElement | null>(null)
+
+onMounted(() => {
+  const container = document.createElement('div')
+  container.className = 'amap-vue-infowindow-content'
+  contentRef.value = container
+})
 
 const resolvedContent = computed(() => {
   if (props.content !== undefined && props.content !== null)
@@ -79,15 +85,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-if="props.content == null" ref="contentRef" class="amap-vue-infowindow-content">
+  <Teleport v-if="props.content == null && contentRef" :to="contentRef">
     <slot />
-  </div>
+  </Teleport>
 </template>
-
-<style scoped>
-.amap-vue-infowindow-content {
-  position: absolute;
-  top: -9999px;
-  left: -9999px;
-}
-</style>

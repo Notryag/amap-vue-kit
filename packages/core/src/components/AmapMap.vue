@@ -92,7 +92,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="containerRef" class="amap-vue-map">
+  <div class="amap-vue-map">
+    <div ref="containerRef" class="amap-vue-map__canvas" />
     <slot />
   </div>
 </template>
@@ -102,5 +103,10 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   position: relative;
+}
+
+.amap-vue-map__canvas {
+  width: 100%;
+  height: 100%;
 }
 </style>

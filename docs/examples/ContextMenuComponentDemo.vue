@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { AmapContextMenu, AmapMap } from '@amap-vue/core'
-import { computed, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, shallowRef } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
 const { hasKey } = useDemoLoader()
 
 const center: [number, number] = [116.397, 39.908]
 const map = shallowRef<AMap.Map | null>(null)
+let menuPosition: [number, number] | AMap.LngLat = center
+
+function rememberPosition(event: { lnglat: AMap.LngLat }) {
+  menuPosition = event.lnglat
+}
 
 const menuItems = computed(() => [
   {
@@ -19,21 +24,22 @@ const menuItems = computed(() => [
   },
   {
     text: 'Center here',
-    handler: (event: any) => {
-      const lnglat = event?.lnglat as AMap.LngLat | undefined
-      if (lnglat)
-        map.value?.setCenter?.(lnglat)
-    },
+    handler: () => map.value?.setCenter(menuPosition),
   },
 ])
 
 function handleReady(instance: AMap.Map) {
+  map.value?.off('rightclick', rememberPosition)
   map.value = instance
+  instance.on('rightclick', rememberPosition)
 }
+
+onBeforeUnmount(() => map.value?.off('rightclick', rememberPosition))
 
 const menuRef = shallowRef<InstanceType<typeof AmapContextMenu> | null>(null)
 
 function openAtCenter() {
+  menuPosition = center
   menuRef.value?.open(center)
 }
 </script>

@@ -1,5 +1,15 @@
 :root {
+  --vp-layout-max-width: 100%;
   --amap-demo-border: rgba(60, 60, 67, 0.12);
+  --amap-demo-height: clamp(260px, 52dvh, 640px);
+}
+
+.VPDoc.has-sidebar .content {
+  min-width: 0;
+}
+
+.VPDoc.has-sidebar .content .content-container {
+  max-width: none;
 }
 
 .amap-demo {
@@ -11,7 +21,7 @@
 
 .amap-demo__map {
   width: 100%;
-  height: 320px;
+  height: var(--amap-demo-height);
   position: relative;
 }
 
@@ -19,7 +29,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 320px;
+  height: var(--amap-demo-height);
   color: var(--vp-c-text-2);
   background: var(--vp-c-bg-alt);
 }

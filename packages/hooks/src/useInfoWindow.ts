@@ -266,7 +266,8 @@ export function useInfoWindow(
     if (instance) {
       unbindListeners(instance)
       instance.close?.()
-      instance.destroy?.()
+      // InfoWindow's public lifecycle ends with close(). The SDK's internal
+      // destroy method leaves a stale entry that map.destroy() removes again.
     }
     infoWindow.value = null
     pendingOpen = false

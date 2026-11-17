@@ -111,6 +111,41 @@ describe('amapMarker', () => {
 })
 
 describe('amapInfoWindow', () => {
+  it('keeps slot content reactive after the SDK adopts its container', async () => {
+    const wrapper = mount({
+      components: { AmapMap, AmapInfoWindow },
+      data: () => ({ count: 1, visible: true }),
+      template: `
+        <AmapMap>
+          <AmapInfoWindow v-if="visible" :position="[0, 0]" is-open>
+            <span>{{ count }}</span>
+          </AmapInfoWindow>
+        </AmapMap>
+      `,
+    })
+    await waitForMap()
+    const infoWindow = (wrapper.findComponent(AmapInfoWindow).vm as any).infoWindow
+    const map = infoWindow.map
+    const content = infoWindow.content as HTMLElement
+    const sdkHost = document.createElement('div')
+    map.container.appendChild(sdkHost)
+    sdkHost.appendChild(content)
+    const internalDestroy = vi.fn()
+    infoWindow.destroy = internalDestroy
+
+    wrapper.vm.count = 2
+    await waitForMap()
+    expect(content.textContent).toBe('2')
+    wrapper.vm.visible = false
+    await waitForMap()
+    expect(content.textContent).toBe('')
+    expect(infoWindow.opened).toBe(false)
+    expect(internalDestroy).not.toHaveBeenCalled()
+    expect(map.destroyed).toBe(false)
+    wrapper.unmount()
+    expect(map.destroyed).toBe(true)
+  })
+
   it('opens and closes based on props', async () => {
     const wrapper = mount({
       components: { AmapMap, AmapInfoWindow },

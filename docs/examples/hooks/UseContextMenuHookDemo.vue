@@ -4,6 +4,7 @@ import { onBeforeUnmount, watch } from 'vue'
 import { useHookDemoMap } from './useHookDemoMap'
 
 const center: [number, number] = [116.397, 39.908]
+let menuPosition: [number, number] | AMap.LngLat = center
 const { container, hasKey, map } = useHookDemoMap(() => ({
   center,
   zoom: 12,
@@ -13,13 +14,16 @@ const menu = useContextMenu(() => map.value, () => ({
   items: [
     { text: '放大', handler: () => map.value?.zoomIn?.() },
     { text: '缩小', handler: () => map.value?.zoomOut?.() },
+    { text: 'Center here', handler: () => map.value?.setCenter(menuPosition) },
   ],
 }))
 
 function handleRightClick(event: any) {
   const lnglat = event?.lnglat as AMap.LngLat | undefined
-  if (lnglat)
+  if (lnglat) {
+    menuPosition = lnglat
     void menu.open(lnglat)
+  }
 }
 
 watch(() => map.value, (instance, previous) => {
@@ -33,6 +37,7 @@ onBeforeUnmount(() => {
 })
 
 function openAtCenter() {
+  menuPosition = center
   menu.open(center)
 }
 </script>

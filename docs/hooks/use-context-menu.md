@@ -17,14 +17,18 @@
 ```ts
 import { useContextMenu } from '@amap-vue/hooks'
 
+let menuPosition: AMap.LngLat | undefined
 const menu = useContextMenu(() => map.value, () => ({
   items: [
     { text: '放大', handler: () => map.value?.zoomIn?.() },
-    { text: '放置标记', handler: ({ lnglat }) => console.log(lnglat) },
+    { text: '移动到这里', handler: () => menuPosition && map.value?.setCenter(menuPosition) },
   ],
 }))
 
-map.value?.on('rightclick', event => menu.open(event.lnglat))
+map.value?.on('rightclick', (event) => {
+  menuPosition = event.lnglat
+  void menu.open(event.lnglat)
+})
 ```
 
 ## 参数
@@ -66,6 +70,7 @@ import UseContextMenuHookDemo from '../examples/hooks/UseContextMenuHookDemo.vue
 
 ## 常见错误
 
+- 菜单项点击事件不携带地图坐标；请保存传给 `open(position)` 的坐标供菜单项回调使用。
 - 始终传入惰性的地图引用，例如 `() => map.value`，避免地图尚未创建时同步访问实例。
 - 需要插件的 hook 会按需加载 JSAPI 插件；如果自定义组合多个插件，请在 `useMap` 或 loader 配置中保持插件名一致。
 - 组件卸载会自动清理；在组件外使用 hook 时，请按需调用返回值里的 `destroy()`。

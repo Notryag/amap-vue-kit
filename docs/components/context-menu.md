@@ -32,15 +32,36 @@
 ## 最小示例
 
 ```vue
-<AmapMap :center="[116.397, 39.908]" :zoom="12" class="map-shell" @ready="map => (mapRef = map)">
-  <AmapContextMenu
-    ref="menuRef"
-    :items="[
-      { text: '放大', handler: () => mapRef?.zoomIn?.() },
-      { text: '移动到这里', handler: event => mapRef?.setCenter?.(event.lnglat) },
-    ]"
-  />
-</AmapMap>
+<script setup lang="ts">
+import { AmapContextMenu, AmapMap } from '@amap-vue/core'
+import { onBeforeUnmount, shallowRef } from 'vue'
+
+const mapRef = shallowRef<AMap.Map | null>(null)
+let menuPosition: AMap.LngLat | undefined
+
+function rememberPosition(event: { lnglat: AMap.LngLat }) {
+  menuPosition = event.lnglat
+}
+
+function handleReady(map: AMap.Map) {
+  mapRef.value?.off('rightclick', rememberPosition)
+  mapRef.value = map
+  map.on('rightclick', rememberPosition)
+}
+
+onBeforeUnmount(() => mapRef.value?.off('rightclick', rememberPosition))
+</script>
+
+<template>
+  <AmapMap :center="[116.397, 39.908]" :zoom="12" style="height: 320px" @ready="handleReady">
+    <AmapContextMenu
+      :items="[
+        { text: '放大', handler: () => mapRef?.zoomIn?.() },
+        { text: '移动到这里', handler: () => menuPosition && mapRef?.setCenter(menuPosition) },
+      ]"
+    />
+  </AmapMap>
+</template>
 ```
 
 <script setup lang="ts">
@@ -66,6 +87,7 @@ export interface ContextMenuProps {
 
 ### 常见错误
 
+- 菜单项的点击回调不携带地图坐标；需要在地图 `rightclick` 事件中保存 `event.lnglat`，再在菜单项回调中使用。
 - `bindMapRightClick` 为 `true` 时组件会自动绑定监听器；请确保菜单被销毁或地图被卸载，避免重复处理。
 - 菜单会惰性创建；调用 `open` 等命令式方法前，请使用 `ref` + `onMounted` 或等待 `ready` 事件。
 - 为菜单项处理函数提供稳定引用，方便响应式 diff 正确更新。

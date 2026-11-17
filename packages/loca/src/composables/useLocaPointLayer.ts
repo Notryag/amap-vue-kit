@@ -1,6 +1,6 @@
 import type { LocaContainer, LocaLayerStyle, LocaPointLayer, LocaPointLayerOptions, MaybeRefMap } from '../types'
 import { computed, shallowRef, unref } from 'vue'
-import { getLoca } from '../utils'
+import { createFeatureCollection, createGeoJSONSource, createPointFeature, getLoca } from '../utils'
 
 export interface PointLike {
   [key: string]: any
@@ -33,15 +33,15 @@ export function useLocaPointLayer(
       throw new Error('[amap-vue] Loca point layer data must be an array.')
 
     const layerInstance = ensureLayer()
-    layerInstance.setData(data, {
-      lnglat(item: PointLike) {
-        const lng = item[lngKey]
-        const lat = item[latKey]
-        if (typeof lng !== 'number' || typeof lat !== 'number')
-          throw new Error(`[amap-vue] Loca point layer requires numeric "${lngKey}"/"${latKey}" fields on each data item.`)
-        return [lng, lat]
-      },
+    const features = data.map((item) => {
+      const lng = item[lngKey]
+      const lat = item[latKey]
+      if (typeof lng !== 'number' || typeof lat !== 'number')
+        throw new Error(`[amap-vue] Loca point layer requires numeric "${lngKey}"/"${latKey}" fields on each data item.`)
+      return createPointFeature(item, lng, lat)
     })
+
+    layerInstance.setSource(createGeoJSONSource(createFeatureCollection(features)))
   }
 
   function setStyle(style: LocaLayerStyle<PointLike>) {
@@ -54,11 +54,12 @@ export function useLocaPointLayer(
     const resolved = target ?? containerRef.value
     if (!resolved)
       throw new Error('[amap-vue] Attempted to add a Loca point layer without a container.')
-    layerInstance.addTo(resolved)
+    resolved.add(layerInstance)
   }
 
   function remove() {
-    layer.value?.remove()
+    if (layer.value)
+      containerRef.value?.remove(layer.value)
   }
 
   function render() {

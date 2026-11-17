@@ -6,7 +6,7 @@ import type {
   MaybeRefMap,
 } from '../types'
 import { computed, shallowRef, unref } from 'vue'
-import { getLoca } from '../utils'
+import { createGeoJSONSource, getLoca } from '../utils'
 
 export type PolygonSource = Record<string, any>
 
@@ -36,7 +36,7 @@ export function useLocaPolygonLayer(
     const layerInstance = ensureLayer()
     if (!source)
       throw new Error('[amap-vue] Polygon layer requires a GeoJSON feature or feature collection.')
-    layerInstance.setData(source as any)
+    layerInstance.setSource(createGeoJSONSource(source))
   }
 
   function setStyle(style: LocaLayerStyle<PolygonLikeProperties>) {
@@ -49,11 +49,12 @@ export function useLocaPolygonLayer(
     const resolved = target ?? containerRef.value
     if (!resolved)
       throw new Error('[amap-vue] Attempted to add a Loca polygon layer without a container.')
-    layerInstance.addTo(resolved)
+    resolved.add(layerInstance)
   }
 
   function remove() {
-    layer.value?.remove()
+    if (layer.value)
+      containerRef.value?.remove(layer.value)
   }
 
   function render() {

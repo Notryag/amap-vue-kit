@@ -44,6 +44,9 @@ declare global {
       getCenter(): LngLat
       setZoom(zoom: number): void
       getZoom(): number
+      getPitch(): number
+      getRotation(): number
+      getBounds(): Bounds
       zoomIn?(): void
       zoomOut?(): void
       setPitch?(pitch: number): void

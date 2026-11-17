@@ -348,7 +348,7 @@ amap-vue-kit/
 * [x] HeatMap 数据集可动态变更
 * [x] hooks 与组件 API 对应、文档同步
 * [x] 文档站：入门 5 分钟能跑；页面齐备；动图与 StackBlitz 可用
-* [x] CI 全绿；首次 npm 发布成功；版本与文档一致（CI 通过、本地验证完成；发布由 Release workflow + NPM_TOKEN 驱动）
+* [ ] 核实远端 CI、首次 npm 发布和文档部署结果（本地版本为 0.1.0；发布由 Release workflow + NPM_TOKEN 驱动，不能仅凭本地提交判定发布成功）
 
 ---
 

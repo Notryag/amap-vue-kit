@@ -22,7 +22,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "test": "vitest",
-    "typecheck": "vue-tsc --build --force",
+    "typecheck": "pnpm run build && vue-tsc --build --force",
     "verify:pack": "node scripts/verify-pack.mjs",
     "verify:npm-names": "node scripts/check-npm-names.mjs",
     "changeset": "changeset",

@@ -3,6 +3,8 @@
     { "path": "packages/shared" },
     { "path": "packages/hooks" },
     { "path": "packages/core" },
+    { "path": "packages/loca" },
+    { "path": "packages/playground" },
     { "path": "docs" },
     { "path": "examples/basic" }
   ],

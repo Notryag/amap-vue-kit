@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - master
   workflow_dispatch:
     inputs:
       channel:
@@ -51,7 +52,7 @@ jobs:
         run: pnpm lint
 
       - name: Run unit tests
-        run: pnpm test -- --run
+        run: pnpm exec vitest run
 
       - name: Type check
         run: pnpm run typecheck
@@ -98,7 +99,7 @@ jobs:
         run: pnpm lint
 
       - name: Run unit tests
-        run: pnpm test -- --run
+        run: pnpm exec vitest run
 
       - name: Type check
         run: pnpm run typecheck

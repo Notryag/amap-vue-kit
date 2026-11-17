@@ -6,7 +6,7 @@ import type {
   MaybeRefMap,
 } from '../types'
 import { computed, shallowRef, unref } from 'vue'
-import { getLoca } from '../utils'
+import { createFeatureCollection, createGeoJSONSource, createPointFeature, getLoca } from '../utils'
 
 export interface HeatmapLike {
   [key: string]: any
@@ -45,21 +45,22 @@ export function useLocaHeatmapLayer(
       throw new Error('[amap-vue] Loca heatmap layer data must be an array.')
 
     const layerInstance = ensureLayer()
-    layerInstance.setData(data, {
-      lnglat(item: HeatmapLike) {
-        const lng = item.lng ?? item.longitude ?? item.x
-        const lat = item.lat ?? item.latitude ?? item.y
-        if (typeof lng !== 'number' || typeof lat !== 'number')
-          throw new Error('[amap-vue] Heatmap data items require numeric lng/lat fields.')
-        return [lng, lat]
-      },
-      value(item: HeatmapLike) {
-        const value = item[valueField]
-        if (typeof value !== 'number')
-          throw new Error(`[amap-vue] Heatmap value field "${valueField}" must be numeric.`)
-        return value
-      },
+    const features = data.map((item) => {
+      const lng = item.lng ?? item.longitude ?? item.x
+      const lat = item.lat ?? item.latitude ?? item.y
+      const value = item[valueField]
+      if (typeof lng !== 'number' || typeof lat !== 'number')
+        throw new Error('[amap-vue] Heatmap data items require numeric lng/lat fields.')
+      if (typeof value !== 'number')
+        throw new Error(`[amap-vue] Heatmap value field "${valueField}" must be numeric.`)
+
+      return createPointFeature({
+        ...item,
+        value,
+      }, lng, lat)
     })
+
+    layerInstance.setSource(createGeoJSONSource(createFeatureCollection(features)))
   }
 
   function setStyle(style: LocaLayerStyle<HeatmapLike>) {
@@ -77,11 +78,12 @@ export function useLocaHeatmapLayer(
     const resolved = target ?? containerRef.value
     if (!resolved)
       throw new Error('[amap-vue] Attempted to add a Loca heatmap layer without a container.')
-    layerInstance.addTo(resolved)
+    resolved.add(layerInstance)
   }
 
   function remove() {
-    layer.value?.remove()
+    if (layer.value)
+      containerRef.value?.remove(layer.value)
   }
 
   function render() {

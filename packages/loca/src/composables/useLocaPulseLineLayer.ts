@@ -6,7 +6,7 @@ import type {
   MaybeRefMap,
 } from '../types'
 import { computed, shallowRef, unref } from 'vue'
-import { getLoca } from '../utils'
+import { createFeatureCollection, createGeoJSONSource, createLineFeature, getLoca } from '../utils'
 
 export interface PulseLineItem {
   path: [number, number][]
@@ -36,14 +36,15 @@ export function useLocaPulseLineLayer(
       throw new Error('[amap-vue] Pulse line layer data must be an array.')
 
     const layerInstance = ensureLayer()
-    layerInstance.setData(data, {
-      path(item: PulseLineItem) {
-        const path = item[pathKey]
-        if (!Array.isArray(path) || path.some(point => !Array.isArray(point) || point.length < 2))
-          throw new Error('[amap-vue] Pulse line items require a "path" array of [lng, lat] tuples.')
-        return path
-      },
+    const features = data.map((item) => {
+      const path = item[pathKey]
+      if (!Array.isArray(path) || path.some(point => !Array.isArray(point) || point.length < 2))
+        throw new Error('[amap-vue] Pulse line items require a "path" array of [lng, lat] tuples.')
+
+      return createLineFeature(item, path)
     })
+
+    layerInstance.setSource(createGeoJSONSource(createFeatureCollection(features)))
   }
 
   function setStyle(style: LocaLayerStyle<PulseLineItem>) {
@@ -62,11 +63,12 @@ export function useLocaPulseLineLayer(
     const resolved = target ?? containerRef.value
     if (!resolved)
       throw new Error('[amap-vue] Attempted to add a Loca pulse line layer without a container.')
-    layerInstance.addTo(resolved)
+    resolved.add(layerInstance)
   }
 
   function remove() {
-    layer.value?.remove()
+    if (layer.value)
+      containerRef.value?.remove(layer.value)
   }
 
   function render() {

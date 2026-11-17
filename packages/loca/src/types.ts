@@ -14,8 +14,18 @@ export interface LocaContainerOptions {
 
 export interface LocaContainer {
   getMap: () => AMap.Map
+  add: (layer: LocaLayer) => void
+  remove: (layer: LocaLayer) => void
   render: () => void
   destroy: () => void
+}
+
+export interface LocaGeoJSONSourceOptions {
+  data: Record<string, any>
+}
+
+export interface LocaGeoJSONSource {
+  options: LocaGeoJSONSourceOptions
 }
 
 export type LocaStyleValue<TData = any> = any | ((item: TData) => any)
@@ -23,11 +33,10 @@ export type LocaStyleValue<TData = any> = any | ((item: TData) => any)
 export type LocaLayerStyle<TData = any> = Record<string, LocaStyleValue<TData>>
 
 export interface LocaLayer<TData = any> {
-  setData: (data: TData[], options?: Record<string, any>) => void
+  setSource: (source: LocaGeoJSONSource) => void
+  setData?: (data: TData[] | Record<string, any>, options?: Record<string, any>) => void
   setStyle: (style: LocaLayerStyle<TData>) => void
   setOptions?: (options: Record<string, any>) => void
-  addTo: (container: LocaContainer) => void
-  remove: () => void
   render: () => void
   destroy: () => void
   on: (event: string, handler: (event: any) => void) => void
@@ -78,6 +87,7 @@ export type LocaPulseLineLayer<TData = any> = LocaLayer<TData>
 
 export interface LocaNamespace {
   Container: new (options: LocaContainerOptions) => LocaContainer
+  GeoJSONSource: new (options: LocaGeoJSONSourceOptions) => LocaGeoJSONSource
   PointLayer: new (options?: LocaPointLayerOptions) => LocaPointLayer
   HeatmapLayer: new (options?: LocaHeatmapLayerOptions) => LocaHeatmapLayer
   PolygonLayer: new (options?: LocaPolygonLayerOptions) => LocaPolygonLayer

@@ -10,6 +10,8 @@ import AmapLocaProvider from '../src/components/AmapLocaProvider.vue'
 class MockContainer {
   public render = vi.fn()
   public destroy = vi.fn()
+  public add = vi.fn()
+  public remove = vi.fn()
   constructor(public options: Record<string, any>) {}
   getMap() {
     return this.options.map
@@ -17,12 +19,10 @@ class MockContainer {
 }
 
 class MockLayer {
-  public data: any = null
+  public source: any = null
   public style: any = null
   public options: any = null
-  public container: any = null
   public render = vi.fn()
-  public remove = vi.fn()
   public destroy = vi.fn()
   public on = vi.fn()
   public off = vi.fn()
@@ -31,22 +31,8 @@ class MockLayer {
     this.options = options
   }
 
-  setData(data: any, transforms: Record<string, any>) {
-    if (transforms?.value && transforms?.lnglat) {
-      this.data = data.map((item: any) => ({
-        point: transforms.lnglat(item),
-        value: transforms.value(item),
-      }))
-    }
-    else if (transforms?.lnglat) {
-      this.data = data.map((item: any) => transforms.lnglat(item))
-    }
-    else if (transforms?.path) {
-      this.data = data.map((item: any) => transforms.path(item))
-    }
-    else {
-      this.data = data
-    }
+  setSource(source: any) {
+    this.source = source
   }
 
   setStyle(style: Record<string, any>) {
@@ -58,10 +44,6 @@ class MockLayer {
       ...this.options,
       ...options,
     }
-  }
-
-  addTo(container: any) {
-    this.container = container
   }
 }
 
@@ -78,6 +60,9 @@ beforeEach(() => {
   }
   mockLoca = {
     Container: MockContainer as any,
+    GeoJSONSource: vi.fn((options: Record<string, any>) => {
+      return options
+    }) as any,
     PointLayer: PointLayer as any,
     HeatmapLayer: PointLayer as any,
     PolygonLayer: PointLayer as any,
@@ -110,12 +95,12 @@ describe('amap loca components', () => {
     const wrapper = mount(Root)
     await nextTick()
 
-    expect(createdLayers[0].data).toEqual([[120, 30]])
+    expect(createdLayers[0].source.data.features[0].geometry.coordinates).toEqual([120, 30])
 
     wrapper.vm.points = [{ lng: 121, lat: 31 }]
     await nextTick()
 
-    expect(createdLayers[0].data).toEqual([[121, 31]])
+    expect(createdLayers[0].source.data.features[0].geometry.coordinates).toEqual([121, 31])
 
     wrapper.unmount()
   })

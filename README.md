@@ -202,6 +202,9 @@ VITE_AMAP_SECURITY_CODE=你的安全密钥
 
 ## 发布
 
+默认开发分支为 `master`，CI 和发布工作流兼容 `master` / `main`。
+文档通过 GitHub Pages 工作流部署；需在仓库 Settings → Pages 中将 Source 设为 GitHub Actions。
+
 项目使用 Changesets 管理版本与 changelog。
 
 ```bash

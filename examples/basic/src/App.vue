@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import HawkEyeDemo from './HawkEyeDemo.vue'
 
 const center = ref<[number, number]>([116.397, 39.908])
 const zoom = ref(11)
 const infoOpen = ref(true)
+const showHawkEyeDemo = ref(false)
 const hasKey = computed(() => Boolean(import.meta.env.VITE_AMAP_KEY))
 
 function toggleInfo() {
@@ -15,7 +17,9 @@ function toggleInfo() {
   <main class="app">
     <h1>AMap Vue Kit 最小示例</h1>
     <p>使用声明式组件渲染高德地图、点标记和信息窗体。</p>
-    <div class="map-shell">
+    <label><input v-model="showHawkEyeDemo" type="checkbox"> 查看鹰眼控件示例</label>
+    <HawkEyeDemo v-if="showHawkEyeDemo" />
+    <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。
       </div>

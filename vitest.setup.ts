@@ -915,6 +915,31 @@ class Scale extends ToolBar {}
 
 class ControlBar extends ToolBar {}
 
+class HawkEye {
+  public map: Map | null = null
+  public visible = true
+  public isOpen: boolean
+
+  constructor(public options: AMap.HawkEyeOptions = {}) {
+    this.isOpen = options.isOpen ?? false
+  }
+
+  addTo(map: Map) {
+    this.map = map
+    map.controls.add(this)
+  }
+
+  remove() {
+    this.map?.controls.delete(this)
+    this.map = null
+  }
+
+  open() { this.isOpen = true }
+  close() { this.isOpen = false }
+  show() { this.visible = true }
+  hide() { this.visible = false }
+}
+
 class MapTypeControl extends EventTarget {
   public map: Map | null = null
   public options: any
@@ -1684,6 +1709,7 @@ Object.assign(globalThis, {
     ToolBar,
     Scale,
     ControlBar,
+    HawkEye,
     MapType: MapTypeControl,
     OverlayGroup,
     MassMarks,

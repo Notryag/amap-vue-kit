@@ -38,6 +38,17 @@ interface CreateControlHookOptions<TOptions extends UseControlOptions> {
   plugin?: string
   cleanupAddedLayers?: boolean
   shouldRecreate?: (previous: TOptions, next: TOptions) => boolean
+  update?: (control: ControlLike, options: TOptions) => void
+}
+
+function snapshotOptions<T extends UseControlOptions>(options: T): T {
+  return Object.fromEntries(Object.entries(options).map(([key, value]) => [key, Array.isArray(value) ? [...value] : value])) as T
+}
+
+function sameOption(before: unknown, after: unknown): boolean {
+  return Array.isArray(before) && Array.isArray(after)
+    ? before.length === after.length && before.every((value, index) => value === after[index])
+    : before === after
 }
 
 function applyControlOptions(control: ControlLike, options: UseControlOptions) {
@@ -79,24 +90,36 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
     }) as TOptions)
     let attachedMap: AMap.Map | null = null
     let trackedAddedLayers = new Set<any>()
-    let previousOptions = { ...optionsRef.value } as TOptions
+    let previousOptions = snapshotOptions(optionsRef.value)
+    let generation = 0
+    let disposed = false
+    let creating = false
 
     async function ensureControl(mapInstance: AMap.Map | null | undefined) {
-      if (!isClient || control.value || !mapInstance)
+      if (!isClient || disposed || creating || control.value || !mapInstance)
         return
 
+      creating = true
+      const current = generation
       try {
         const loadOptions = hookOptions.plugin ? { plugins: [hookOptions.plugin] } : undefined
         const AMapInstance = await loader.load(loadOptions)
+        if (disposed || current !== generation || toValue(mapRef) !== mapInstance || control.value)
+          return
         const { visible: _ignoredVisible, map: _ignoredMap, ...rest } = optionsRef.value as TOptions & { map?: AMap.Map }
         const instance = factory({ AMap: AMapInstance, options: rest as TOptions })
         control.value = instance
         attachToMap(mapInstance, instance)
         applyControlOptions(instance, optionsRef.value)
-        previousOptions = { ...optionsRef.value } as TOptions
+        hookOptions.update?.(instance, optionsRef.value)
+        previousOptions = snapshotOptions(optionsRef.value)
       }
       catch (error) {
         warn(error instanceof Error ? error.message : String(error))
+      }
+      finally {
+        if (current === generation)
+          creating = false
       }
     }
 
@@ -189,6 +212,8 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
     }
 
     watch(() => toValue(mapRef), (mapInstance) => {
+      generation++
+      creating = false
       if (!mapInstance) {
         detachFromMap()
         return
@@ -209,15 +234,17 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
         destroy()
         if (mapInstance)
           void ensureControl(mapInstance)
-        previousOptions = { ...value } as TOptions
+        previousOptions = snapshotOptions(value)
         return
       }
 
       applyControlOptions(control.value, value)
-      previousOptions = { ...value } as TOptions
+      hookOptions.update?.(control.value, value)
+      previousOptions = snapshotOptions(value)
     }, { deep: true })
 
     tryOnBeforeUnmount(() => {
+      disposed = true
       destroy()
     })
 
@@ -250,6 +277,8 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
     }
 
     function destroy() {
+      generation++
+      creating = false
       if (control.value) {
         control.value.hide?.()
       }
@@ -319,7 +348,59 @@ export function useMapType(
     {
       plugin: 'AMap.MapType',
       cleanupAddedLayers: true,
-      shouldRecreate: (previous, next) => MAP_TYPE_RECREATE_OPTIONS.some(key => previous[key] !== next[key]),
+      shouldRecreate: (previous, next) => MAP_TYPE_RECREATE_OPTIONS.some(key => !sameOption(previous[key], next[key])),
     },
   )(mapRef, options)
+}
+
+/** Options for the overview map. Constructor-only changes recreate the control. */
+export interface UseHawkEyeOptions extends AMap.HawkEyeOptions {
+  /** Show or hide the control independently of its expanded state. */
+  visible?: boolean
+}
+
+export interface UseHawkEyeReturn {
+  control: ShallowRef<AMap.HawkEye | null>
+  show: () => void
+  hide: () => void
+  open: () => void
+  close: () => void
+  setOptions: (options: Partial<UseHawkEyeOptions>) => void
+  destroy: () => void
+}
+
+/** Lazily load an overview control and keep it attached to the current map. */
+export function useHawkEye(
+  mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
+  options: MaybeRefOrGetter<UseHawkEyeOptions> = {},
+): UseHawkEyeReturn {
+  const overrides = shallowRef<Partial<UseHawkEyeOptions>>({})
+  const resolved = computed(() => ({ ...toValue(options), ...overrides.value }))
+  const api = createControlHook<AMap.HawkEye, UseHawkEyeOptions>(
+    ({ AMap, options }) => new AMap.HawkEye(options),
+    {
+      plugin: 'AMap.HawkEye',
+      shouldRecreate: (previous, next) => [...new Set([...Object.keys(previous), ...Object.keys(next)])]
+        .filter(key => key !== 'visible' && key !== 'isOpen')
+        .some(key => !sameOption(previous[key], next[key])),
+      update: (control, options) => {
+        if (options.isOpen !== undefined) {
+          const hawkEye = control as AMap.HawkEye
+          options.isOpen ? hawkEye.open() : hawkEye.close()
+        }
+      },
+    },
+  )(mapRef, resolved)
+
+  return {
+    control: api.control,
+    show: api.show,
+    hide: api.hide,
+    open: () => api.control.value?.open(),
+    close: () => api.control.value?.close(),
+    setOptions: (next) => {
+      overrides.value = { ...overrides.value, ...next }
+    },
+    destroy: api.destroy,
+  }
 }

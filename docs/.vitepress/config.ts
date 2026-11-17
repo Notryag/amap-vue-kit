@@ -65,6 +65,7 @@ export default defineConfig({
           text: 'D · 控件',
           items: [
             { text: '地图控件', link: '/components/map-controls' },
+            { text: '鹰眼控件', link: '/components/hawk-eye' },
           ],
         },
         {
@@ -111,6 +112,7 @@ export default defineConfig({
             { text: 'useLabelMarker', link: '/hooks/use-label-marker' },
             { text: 'useMassMarkers', link: '/hooks/use-mass-markers' },
             { text: 'useControl', link: '/hooks/use-control' },
+            { text: 'useHawkEye', link: '/hooks/use-hawk-eye' },
             { text: 'useMouseTool', link: '/hooks/use-mouse-tool' },
             { text: 'useGeocoder', link: '/hooks/use-geocoder' },
             { text: 'useAutoComplete', link: '/hooks/use-auto-complete' },

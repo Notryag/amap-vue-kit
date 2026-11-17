@@ -122,7 +122,7 @@ VITE_AMAP_SECURITY_CODE=你的安全密钥
 - 编辑器：`<AmapPolylineEditor>`、`<AmapPolygonEditor>`、`<AmapCircleEditor>`、`<AmapRectangleEditor>`、`<AmapEllipseEditor>`、`<AmapBezierCurveEditor>`
 - 批量点位：`<AmapMassMarks>`、`<AmapMarkerCluster>`、`<AmapLabelsLayer>`、`<AmapOverlayGroup>`
 - 图层：`<AmapTileLayer>`、`<AmapTrafficLayer>`、`<AmapSatelliteLayer>`、`<AmapRoadNetLayer>`、`<AmapImageLayer>`、`<AmapHeatMap>`、`<AmapGeoJSONLayer>`、`<AmapDistrictLayer>`
-- 控件：`<AmapToolBar>`、`<AmapScale>`、`<AmapControlBar>`、`<AmapMapType>`
+- 控件：`<AmapToolBar>`、`<AmapScale>`、`<AmapControlBar>`、`<AmapMapType>`、`<AmapHawkEye>`（鹰眼缩略图）
 - 服务与面板：`<AmapAutoComplete>`、`<AmapPlaceSearch>`、`<AmapDriving>`、`<AmapWalking>`、`<AmapRiding>`、`<AmapWeatherPanel>`、`<AmapReverseGeocodePanel>`
 - 交互工具：`<AmapMouseTool>`、`<AmapContextMenu>`
 

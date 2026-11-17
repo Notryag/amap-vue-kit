@@ -174,8 +174,8 @@ import App from './App.vue'
 createApp(App).mount('#app')
 `)
   await writeFile(join(consumerDir, 'src', 'App.vue'), `<script setup lang="ts">
-import { AmapMap, AmapMarker, AmapToolBar } from '@amap-vue/core'
-import { useMap, useMarker } from '@amap-vue/hooks'
+import { AmapHawkEye, AmapMap, AmapMarker, AmapToolBar } from '@amap-vue/core'
+import { useHawkEye, useMap, useMarker } from '@amap-vue/hooks'
 import { AmapLocaPointLayer, AmapLocaProvider } from '@amap-vue/loca'
 import { loader } from '@amap-vue/shared'
 import { computed, shallowRef } from 'vue'
@@ -188,18 +188,21 @@ const mapRef = shallowRef<AMap.Map | null>(null)
 const hasMap = computed(() => Boolean(mapRef.value))
 const manualMap = useMap({ center, zoom: 12, immediate: false })
 const manualMarker = useMarker(() => manualMap.map.value, () => ({ position: center }))
+const manualHawkEye = useHawkEye(() => manualMap.map.value, { isOpen: true })
 const locaData = [{ lng: center[0], lat: center[1], count: 1 }]
 </script>
 
 <template>
   <AmapMap :center="center" :zoom="12" @ready="mapRef = $event">
     <AmapToolBar />
+    <AmapHawkEye :is-open="true" width="180px" />
     <AmapMarker :position="center" label="天安门" />
     <AmapLocaProvider v-if="hasMap" :map="mapRef">
       <AmapLocaPointLayer :data="locaData" />
     </AmapLocaProvider>
   </AmapMap>
   <p>{{ manualMarker.marker.value ? 'marker-ready' : 'marker-pending' }}</p>
+  <p>{{ manualHawkEye.control.value ? 'hawk-eye-ready' : 'hawk-eye-pending' }}</p>
 </template>
 `)
 

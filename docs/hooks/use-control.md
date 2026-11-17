@@ -1,5 +1,7 @@
 # `useControl`, `useToolBar`, `useScale`, `useControlBar`, `useMapType`
 
+鹰眼控件使用独立的 [`useHawkEye`](./use-hawk-eye.md)，提供 `open/close` 与 `show/hide`。
+
 通过 Vue 状态驱动 JSAPI 地图控件。底层 `useControl` 是各类控件 hooks 的基础，支持
 组件响应属性变化，并在需要自定义行为时直接访问控件实例。
 

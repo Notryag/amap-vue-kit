@@ -64,6 +64,33 @@ declare global {
       off(event: string, handler: (event: any) => void): void
     }
 
+    interface HawkEyeOptions extends BaseOptions {
+      autoMove?: boolean
+      showRectangle?: boolean
+      showButton?: boolean
+      isOpen?: boolean
+      mapStyle?: string
+      layers?: unknown[]
+      width?: string
+      height?: string
+      offset?: [number, number]
+      borderStyle?: string
+      borderColor?: string
+      borderRadius?: string
+      borderWidth?: string
+      buttonSize?: string
+    }
+
+    class HawkEye {
+      constructor(options?: HawkEyeOptions)
+      addTo(map: Map): void
+      remove(): void
+      open(): void
+      close(): void
+      show(): void
+      hide(): void
+    }
+
     class LngLat {
       constructor(lng: number, lat: number)
       getLng(): number

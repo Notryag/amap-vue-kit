@@ -11,6 +11,7 @@ describe('@amap-vue/core install', () => {
     expect(app.component('AmapMap')).toBe(AmapMap)
     expect(app.component('AmapMarker')).toBeTruthy()
     expect(app.component('AmapToolBar')).toBeTruthy()
+    expect(app.component('AmapHawkEye')).toBeTruthy()
   })
 
   it('exposes a default Vue plugin', () => {

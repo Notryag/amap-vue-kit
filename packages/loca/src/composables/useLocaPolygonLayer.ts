@@ -5,8 +5,8 @@ import type {
   LocaPolygonLayerOptions,
   MaybeRefMap,
 } from '../types'
-import { computed, shallowRef, unref } from 'vue'
 import { createGeoJSONSource, getLoca } from '../utils'
+import { useLocaLayer } from './useLocaLayer'
 
 export type PolygonSource = Record<string, any>
 
@@ -18,19 +18,15 @@ export function useLocaPolygonLayer(
   container: MaybeRefMap<LocaContainer | null | undefined>,
   options: LocaPolygonLayerOptions = {},
 ) {
-  const containerRef = computed(() => {
-    const resolved = typeof container === 'function' ? container() : unref(container as any)
-    return resolved ?? null
-  })
-  const layer = shallowRef<LocaPolygonLayer<PolygonLikeProperties> | null>(null)
-
-  function ensureLayer() {
-    if (!layer.value) {
+  const { layer, ensureLayer, addTo, remove, render, destroy } = useLocaLayer<LocaPolygonLayer<PolygonLikeProperties>>(
+    container,
+    () => {
       const loca = getLoca()
-      layer.value = new loca.PolygonLayer(options)
-    }
-    return layer.value
-  }
+      const instance = new loca.PolygonLayer(options)
+      return instance
+    },
+    'polygon',
+  )
 
   function setData(source: PolygonSource) {
     const layerInstance = ensureLayer()
@@ -42,33 +38,6 @@ export function useLocaPolygonLayer(
   function setStyle(style: LocaLayerStyle<PolygonLikeProperties>) {
     const layerInstance = ensureLayer()
     layerInstance.setStyle(style)
-  }
-
-  function addTo(target?: LocaContainer | null) {
-    const layerInstance = ensureLayer()
-    const resolved = target ?? containerRef.value
-    if (!resolved)
-      throw new Error('[amap-vue] Attempted to add a Loca polygon layer without a container.')
-    resolved.add(layerInstance)
-  }
-
-  function remove() {
-    if (layer.value)
-      containerRef.value?.remove(layer.value)
-  }
-
-  function render() {
-    if (layer.value && typeof (layer.value as any).render === 'function')
-      layer.value!.render()
-    else
-      containerRef.value?.render()
-  }
-
-  function destroy() {
-    if (layer.value) {
-      layer.value.destroy()
-      layer.value = null
-    }
   }
 
   function on(event: string, handler: (payload: any) => void) {

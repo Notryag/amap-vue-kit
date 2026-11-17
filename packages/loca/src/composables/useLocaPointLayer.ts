@@ -1,6 +1,6 @@
 import type { LocaContainer, LocaLayerStyle, LocaPointLayer, LocaPointLayerOptions, MaybeRefMap } from '../types'
-import { computed, shallowRef, unref } from 'vue'
 import { createFeatureCollection, createGeoJSONSource, createPointFeature, getLoca } from '../utils'
+import { useLocaLayer } from './useLocaLayer'
 
 export interface PointLike {
   [key: string]: any
@@ -14,19 +14,16 @@ export function useLocaPointLayer(
   container: MaybeRefMap<LocaContainer | null | undefined>,
   options: UseLocaPointLayerOptions = {},
 ) {
-  const containerRef = computed(() => {
-    const resolved = typeof container === 'function' ? container() : unref(container as any)
-    return resolved ?? options.container ?? null
-  })
-  const layer = shallowRef<LocaPointLayer<PointLike> | null>(null)
-
-  function ensureLayer() {
-    if (!layer.value) {
+  const { layer, ensureLayer, addTo, remove, render, destroy } = useLocaLayer<LocaPointLayer<PointLike>>(
+    container,
+    () => {
       const loca = getLoca()
-      layer.value = new loca.PointLayer(options)
-    }
-    return layer.value
-  }
+      const instance = new loca.PointLayer(options)
+      return instance
+    },
+    'point',
+    options.container,
+  )
 
   function setData(data: PointLike[], lngKey = 'lng', latKey = 'lat') {
     if (!Array.isArray(data))
@@ -47,33 +44,6 @@ export function useLocaPointLayer(
   function setStyle(style: LocaLayerStyle<PointLike>) {
     const layerInstance = ensureLayer()
     layerInstance.setStyle(style)
-  }
-
-  function addTo(target?: LocaContainer | null) {
-    const layerInstance = ensureLayer()
-    const resolved = target ?? containerRef.value
-    if (!resolved)
-      throw new Error('[amap-vue] Attempted to add a Loca point layer without a container.')
-    resolved.add(layerInstance)
-  }
-
-  function remove() {
-    if (layer.value)
-      containerRef.value?.remove(layer.value)
-  }
-
-  function render() {
-    if (layer.value && typeof (layer.value as any).render === 'function')
-      layer.value!.render()
-    else
-      containerRef.value?.render()
-  }
-
-  function destroy() {
-    if (layer.value) {
-      layer.value.destroy()
-      layer.value = null
-    }
   }
 
   return {

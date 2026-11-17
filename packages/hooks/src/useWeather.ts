@@ -1,9 +1,9 @@
 import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, shallowRef, toValue } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 export interface UseWeatherOptions {
   loadOptions?: MaybeRefOrGetter<Partial<LoaderOptions> | undefined>
@@ -22,31 +22,14 @@ export function useWeather(options: MaybeRefOrGetter<UseWeatherOptions | undefin
     ...(toValue(options) as UseWeatherOptions | undefined ?? {}),
   }))
 
-  let creating = false
-
-  async function ensureWeather() {
-    if (!isClient)
-      return null
-    if (weather.value)
-      return weather.value
-    if (creating)
-      return weather.value
-    creating = true
-    try {
-      const loaderOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.Weather'] })
-      const instance = new (AMapInstance as any).Weather()
-      weather.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+  const { ensure: ensureWeather, invalidate } = useServiceInstance(
+    weather,
+    'AMap.Weather',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      return new AMapInstance.Weather()
+    },
+  )
 
   tryOnBeforeUnmount(() => {
     destroy()
@@ -81,6 +64,7 @@ export function useWeather(options: MaybeRefOrGetter<UseWeatherOptions | undefin
   }
 
   function destroy() {
+    invalidate()
     weather.value = null
   }
 

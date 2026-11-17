@@ -32,19 +32,22 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   let attachedMap: AMap.Map | null = null
   let creating = false
+  let generation = 0
+  let disposed = false
   const optionsRef = computed<TOptions>(() => ({
     ...(toValue(options) as TOptions | undefined ?? {}),
   }) as TOptions)
 
   async function ensureOverlay(mapInstance: AMap.Map | null | undefined) {
-    if (!isClient || overlay.value || !mapInstance || creating)
+    if (!isClient || disposed || overlay.value || !mapInstance || creating)
       return
 
     creating = true
+    const current = generation
     try {
       const loaderOptions = loadOptions ? toValue(loadOptions) : undefined
       const AMap = await loader.load(loaderOptions)
-      if (overlay.value)
+      if (disposed || current !== generation || toValue(mapRef) !== mapInstance || overlay.value)
         return
       const instance = factory({ AMap, map: mapInstance, options: optionsRef.value })
       overlay.value = instance
@@ -59,7 +62,8 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
       warn(error instanceof Error ? error.message : String(error))
     }
     finally {
-      creating = false
+      if (current === generation)
+        creating = false
     }
   }
 
@@ -105,6 +109,8 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   }
 
   watch(() => toValue(mapRef), (mapInstance) => {
+    generation++
+    creating = false
     if (!mapInstance) {
       if (overlay.value)
         detachOverlay(overlay.value)
@@ -125,6 +131,7 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   }
 
   tryOnBeforeUnmount(() => {
+    disposed = true
     destroy()
   })
 
@@ -146,6 +153,8 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   }
 
   function destroy() {
+    generation++
+    creating = false
     const instance = overlay.value as any
     if (instance) {
       unbindListeners(instance)

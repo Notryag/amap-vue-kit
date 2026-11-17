@@ -1,9 +1,10 @@
 import type { LngLatLike, LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
+import { loader, toLngLat } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 export type WalkingEndpoint = LngLatLike | string
 
@@ -28,38 +29,17 @@ export function useWalking(options: MaybeRefOrGetter<UseWalkingOptions | undefin
   }))
 
   let amap: typeof AMap | null = null
-  let creating = false
-
-  async function ensureWalking() {
-    if (!isClient)
-      return null
-    if (walking.value)
-      return walking.value
-    if (creating)
-      return walking.value
-
-    creating = true
-    try {
-      const { loadOptions: loadOptionsMaybe, map: mapMaybe, ...rest } = optionsRef.value
-      const loaderOptions = loadOptionsMaybe ? toValue(loadOptionsMaybe) : undefined
-      const mapInstance = mapMaybe !== undefined ? toValue(mapMaybe) ?? null : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.Walking'] })
+  const { ensure: ensureWalking, invalidate } = useServiceInstance(
+    walking,
+    'AMap.Walking',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = optionsRef.value
+      const map = mapMaybe !== undefined ? toValue(mapMaybe) ?? undefined : undefined
       amap = AMapInstance
-      const instance = new (AMapInstance as any).Walking({
-        ...rest,
-        map: mapInstance ?? undefined,
-      })
-      walking.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+      return new AMapInstance.Walking({ ...rest, map })
+    },
+  )
 
   function normalizeEndpoint(AMapInstance: typeof AMap, value: WalkingEndpoint) {
     if (typeof value === 'string')
@@ -113,6 +93,7 @@ export function useWalking(options: MaybeRefOrGetter<UseWalkingOptions | undefin
   }
 
   function destroy() {
+    invalidate()
     clear()
     walking.value?.setMap?.(null)
     walking.value = null

@@ -1,9 +1,9 @@
 import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 type GeolocationOptions = AMap.Geolocation.Options
 type GeolocationResult = AMap.Geolocation.GeolocationResult
@@ -30,31 +30,15 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
     ...(toValue(options) as UseGeolocationOptions | undefined ?? {}),
   }))
 
-  let creating = false
-
-  async function ensureGeolocation() {
-    if (!isClient)
-      return null
-    if (geolocation.value)
-      return geolocation.value
-    if (creating)
-      return geolocation.value
-    creating = true
-    try {
-      const loaderOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.Geolocation'] })
-      const instance = new (AMapInstance as any).Geolocation(optionsRef.value)
-      geolocation.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+  const { ensure: ensureGeolocation, invalidate } = useServiceInstance(
+    geolocation,
+    'AMap.Geolocation',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, ...rest } = optionsRef.value
+      return new AMapInstance.Geolocation(rest)
+    },
+  )
 
   watch(optionsRef, (value) => {
     const { loadOptions: _loadOptions, ...rest } = value
@@ -126,6 +110,7 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
   }
 
   function destroy() {
+    invalidate()
     clearWatch()
     geolocation.value = null
   }

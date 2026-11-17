@@ -1,9 +1,9 @@
 import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 type AutoCompleteOptions = AMap.Autocomplete.Options
 type AutoCompleteResult = AMap.Autocomplete.SearchResult
@@ -29,34 +29,16 @@ export function useAutoComplete(
     ...(toValue(options) as UseAutoCompleteOptions | undefined ?? {}),
   }))
 
-  let creating = false
-
-  async function ensureAutoComplete() {
-    if (!isClient)
-      return null
-    if (autoComplete.value)
-      return autoComplete.value
-    if (creating)
-      return autoComplete.value
-
-    creating = true
-    try {
-      const { loadOptions: loadOptionsMaybe, ...rest } = optionsRef.value
-      const loaderOptions = loadOptionsMaybe ? toValue(loadOptionsMaybe) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.AutoComplete'] })
-      const AutoCompleteCtor = (AMapInstance as any).AutoComplete ?? (AMapInstance as any).Autocomplete
-      const instance = new AutoCompleteCtor(rest)
-      autoComplete.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+  const { ensure: ensureAutoComplete, invalidate } = useServiceInstance(
+    autoComplete,
+    'AMap.AutoComplete',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, ...rest } = optionsRef.value
+      const Ctor = AMapInstance.AutoComplete ?? AMapInstance.Autocomplete
+      return new Ctor(rest)
+    },
+  )
 
   function applyOptions(instance: AMap.Autocomplete, next: Partial<AutoCompleteOptions>) {
     if ('city' in next && next.city != null)
@@ -130,6 +112,7 @@ export function useAutoComplete(
   }
 
   function destroy() {
+    invalidate()
     autoComplete.value = null
   }
 

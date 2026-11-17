@@ -4,6 +4,7 @@ import type { OverlayLifecycle } from './useOverlay'
 
 import { loader, toLngLat } from '@amap-vue/shared'
 import { computed, toValue } from 'vue'
+import { createOverlayActions } from './overlay-actions'
 import { useOverlay } from './useOverlay'
 
 export interface UsePolylineOptions extends Partial<AMap.PolylineOptions> {
@@ -68,27 +69,7 @@ export function usePolyline(
     setPathInternal(instance, path)
   }
 
-  function setOptions(options: Partial<AMap.PolylineOptions>) {
-    overlay.overlay.value?.setOptions(options as any)
-  }
-
-  function setExtData(extData: any) {
-    const instance = overlay.overlay.value as any
-    if (!instance)
-      return
-    if (typeof instance.setExtData === 'function')
-      instance.setExtData(extData)
-    else
-      instance.setOptions?.({ extData })
-  }
-
-  function show() {
-    overlay.overlay.value?.show()
-  }
-
-  function hide() {
-    overlay.overlay.value?.hide()
-  }
+  const { setOptions, setExtData, show, hide } = createOverlayActions<Partial<AMap.PolylineOptions>>(overlay.overlay)
 
   return {
     ...overlay,

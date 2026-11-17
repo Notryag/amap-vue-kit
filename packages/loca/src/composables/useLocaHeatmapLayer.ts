@@ -5,8 +5,8 @@ import type {
   LocaLayerStyle,
   MaybeRefMap,
 } from '../types'
-import { computed, shallowRef, unref } from 'vue'
 import { createFeatureCollection, createGeoJSONSource, createPointFeature, getLoca } from '../utils'
+import { useLocaLayer } from './useLocaLayer'
 
 export interface HeatmapLike {
   [key: string]: any
@@ -16,20 +16,19 @@ export function useLocaHeatmapLayer(
   container: MaybeRefMap<LocaContainer | null | undefined>,
   options: LocaHeatmapLayerOptions = {},
 ) {
-  const containerRef = computed(() => {
-    const resolved = typeof container === 'function' ? container() : unref(container as any)
-    return resolved ?? null
-  })
-  const layer = shallowRef<LocaHeatmapLayer<HeatmapLike> | null>(null)
-
-  function ensureLayer() {
-    if (!layer.value) {
+  const { layer, ensureLayer, addTo, remove, render, destroy } = useLocaLayer<LocaHeatmapLayer<HeatmapLike>>(
+    container,
+    () => {
       const loca = getLoca()
-      layer.value = new loca.HeatmapLayer(options)
-      applyOptions(options)
-    }
-    return layer.value
-  }
+      const instance = new loca.HeatmapLayer(options)
+      if (instance.setOptions)
+        instance.setOptions(options)
+      else
+        instance.setStyle(options as LocaLayerStyle<HeatmapLike>)
+      return instance
+    },
+    'heatmap',
+  )
 
   function applyOptions(value: Partial<LocaHeatmapLayerOptions>) {
     if (!layer.value)
@@ -71,33 +70,6 @@ export function useLocaHeatmapLayer(
   function updateOptions(next: Partial<LocaHeatmapLayerOptions>) {
     ensureLayer()
     applyOptions(next)
-  }
-
-  function addTo(target?: LocaContainer | null) {
-    const layerInstance = ensureLayer()
-    const resolved = target ?? containerRef.value
-    if (!resolved)
-      throw new Error('[amap-vue] Attempted to add a Loca heatmap layer without a container.')
-    resolved.add(layerInstance)
-  }
-
-  function remove() {
-    if (layer.value)
-      containerRef.value?.remove(layer.value)
-  }
-
-  function render() {
-    if (layer.value && typeof (layer.value as any).render === 'function')
-      layer.value!.render()
-    else
-      containerRef.value?.render()
-  }
-
-  function destroy() {
-    if (layer.value) {
-      layer.value.destroy()
-      layer.value = null
-    }
   }
 
   return {

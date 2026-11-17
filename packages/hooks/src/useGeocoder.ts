@@ -1,9 +1,10 @@
 import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
+import { loader, toLngLat } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 type GeocoderOptions = AMap.Geocoder.Options
 type GeocoderResult = AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReGeocodeResult | AMap.Geocoder.BatchReGeocodeResult
@@ -27,32 +28,16 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
   }))
 
   let amap: typeof AMap | null = null
-  let creating = false
-
-  async function ensureGeocoder() {
-    if (!isClient)
-      return null
-    if (geocoder.value)
-      return geocoder.value
-    if (creating)
-      return geocoder.value
-    creating = true
-    try {
-      const loaderOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.Geocoder'] })
+  const { ensure: ensureGeocoder, invalidate } = useServiceInstance(
+    geocoder,
+    'AMap.Geocoder',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, ...rest } = optionsRef.value
       amap = AMapInstance
-      const instance = new (AMapInstance as any).Geocoder(optionsRef.value)
-      geocoder.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+      return new AMapInstance.Geocoder(rest)
+    },
+  )
 
   watch(optionsRef, (value) => {
     const { loadOptions: _loadOptions, ...rest } = value
@@ -115,6 +100,7 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
   }
 
   function destroy() {
+    invalidate()
     geocoder.value = null
   }
 

@@ -1,9 +1,10 @@
 import type { LngLatLike, LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
+import { loader, toLngLat } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 export type RidingEndpoint = LngLatLike | string
 
@@ -31,38 +32,17 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
   }))
 
   let amap: typeof AMap | null = null
-  let creating = false
-
-  async function ensureRiding() {
-    if (!isClient)
-      return null
-    if (riding.value)
-      return riding.value
-    if (creating)
-      return riding.value
-
-    creating = true
-    try {
-      const { loadOptions: loadOptionsMaybe, map: mapMaybe, ...rest } = optionsRef.value
-      const loaderOptions = loadOptionsMaybe ? toValue(loadOptionsMaybe) : undefined
-      const mapInstance = mapMaybe !== undefined ? toValue(mapMaybe) ?? null : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.Riding'] })
+  const { ensure: ensureRiding, invalidate } = useServiceInstance(
+    riding,
+    'AMap.Riding',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = optionsRef.value
+      const map = mapMaybe !== undefined ? toValue(mapMaybe) ?? undefined : undefined
       amap = AMapInstance
-      const instance = new (AMapInstance as any).Riding({
-        ...rest,
-        map: mapInstance ?? undefined,
-      })
-      riding.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+      return new AMapInstance.Riding({ ...rest, map })
+    },
+  )
 
   function normalizeEndpoint(AMapInstance: typeof AMap, value: RidingEndpoint) {
     if (typeof value === 'string')
@@ -119,6 +99,7 @@ export function useRiding(options: MaybeRefOrGetter<UseRidingOptions | undefined
   }
 
   function destroy() {
+    invalidate()
     clear()
     const instance = riding.value as any
     instance?.setMap?.(null)

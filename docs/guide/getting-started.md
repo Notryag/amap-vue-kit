@@ -115,6 +115,12 @@ ready(() => {
 
 所有 hooks 都会延迟访问 `window`，避免在 SSR 的 setup 阶段触发浏览器环境错误。
 
+### 服务 Hook 的初始化与清理
+
+`useDriving`、`useWalking`、`useRiding`、`useGeocoder`、`useGeolocation`、`useWeather`、`useAutoComplete` 和 `usePlaceSearch` 在首次查询时加载插件。同一个 Hook 实例的首次并发查询会等待同一个初始化过程，再各自执行查询。
+
+初始化失败时查询返回 `null`，后续调用可重试。加载期间调用 `destroy()` 会使本次初始化失效，避免创建过期实例；之后主动查询可以重新初始化。组件卸载后，该 Hook 不会再创建服务实例。在组件外使用时，应主动调用 `destroy()` 清理。
+
 ## 常见问题
 
 - **地图空白**：地图容器或父级没有高度。按上面的 `map-shell` 样式补上高度即可。

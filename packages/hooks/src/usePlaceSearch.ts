@@ -1,9 +1,10 @@
 import type { LoaderOptions } from '@amap-vue/shared'
 import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
-import { isClient, loader, toBounds, toLngLat, warn } from '@amap-vue/shared'
+import { loader, toBounds, toLngLat } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
 import { tryOnBeforeUnmount } from './lifecycle'
+import { useServiceInstance } from './service-instance'
 
 type PlaceSearchOptions = AMap.PlaceSearch.Options
 type PlaceSearchResult = AMap.PlaceSearch.SearchResult
@@ -44,37 +45,16 @@ export function usePlaceSearch(
     ...(toValue(options) as UsePlaceSearchOptions | undefined ?? {}),
   }))
 
-  let creating = false
-
-  async function ensurePlaceSearch() {
-    if (!isClient)
-      return null
-    if (placeSearch.value)
-      return placeSearch.value
-    if (creating)
-      return placeSearch.value
-
-    creating = true
-    try {
-      const { loadOptions: loadOptionsMaybe, map: mapMaybe, ...rest } = optionsRef.value
-      const loaderOptions = loadOptionsMaybe ? toValue(loadOptionsMaybe) : undefined
-      const mapInstance = mapMaybe !== undefined ? toValue(mapMaybe) ?? null : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.PlaceSearch'] })
-      const instance = new (AMapInstance as any).PlaceSearch({
-        ...rest,
-        map: mapInstance ?? undefined,
-      })
-      placeSearch.value = instance
-      return instance
-    }
-    catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
-      return null
-    }
-    finally {
-      creating = false
-    }
-  }
+  const { ensure: ensurePlaceSearch, invalidate } = useServiceInstance(
+    placeSearch,
+    'AMap.PlaceSearch',
+    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    (AMapInstance) => {
+      const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = optionsRef.value
+      const map = mapMaybe !== undefined ? toValue(mapMaybe) ?? undefined : undefined
+      return new AMapInstance.PlaceSearch({ ...rest, map })
+    },
+  )
 
   function applyOptions(instance: AMap.PlaceSearch, next: Partial<PlaceSearchOptions>) {
     if ('city' in next && next.city != null)
@@ -224,6 +204,7 @@ export function usePlaceSearch(
   }
 
   function destroy() {
+    invalidate()
     placeSearch.value?.clear?.()
     const instance = placeSearch.value as any
     instance?.setMap?.(null)

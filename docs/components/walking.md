@@ -2,6 +2,18 @@
 
 使用内置表单和可选 JSAPI 面板规划步行路线。`<AmapWalking>` 封装 [`useWalking`](/hooks/use-walking)，并保持路线表单响应式。
 
+<DemoPreview>
+<ClientOnly>
+  <WalkingComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/WalkingComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -27,12 +39,6 @@
 ```vue
 <AmapWalking :map="map" origin="天安门" destination="景山公园" :options="{ isOutline: true }" />
 ```
-
-## 完整示例
-
-<ClientOnly>
-  <WalkingComponentDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import WalkingComponentDemo from '../examples/WalkingComponentDemo.vue'
@@ -60,4 +66,4 @@ export interface AmapWalkingProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

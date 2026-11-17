@@ -2,6 +2,18 @@
 
 通过 Vue 响应式状态管理单环或多环多边形。该 hook 会规范化传入路径，同步可见性，并在卸载时自动清理。
 
+<DemoPreview>
+<ClientOnly>
+  <UsePolygonHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UsePolygonHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { usePolygon } from '@amap-vue/hooks'
 import { ref } from 'vue'
@@ -42,19 +54,13 @@ polygonApi.setExtData({ regionId: 'beijing-core' })
 - `path` 选项可以是响应式数据，并可表达孔洞或多环结构；每段路径都会规范化为 JSAPI 坐标。
 - 将 `visible` 设为 `false` 会隐藏多边形，直到重新切回 `true`。
 
-## 完整示例
-
-<ClientOnly>
-  <UsePolygonHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UsePolygonHookDemo from '../examples/hooks/UsePolygonHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -2,6 +2,18 @@
 
 `useOverlay` 是用于构建覆盖物组合式函数的底层辅助方法。多边形、折线、圆形等组件内部会使用它；任何暴露 `setMap` 的覆盖物都可以用它封装。
 
+<DemoPreview>
+<ClientOnly>
+  <UseOverlayHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseOverlayHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const { overlay, destroy } = useOverlay(
   () => map.value,
@@ -42,19 +54,13 @@ const { overlay, destroy } = useOverlay(
 | `on` / `off` | 注册 JSAPI 事件监听器，并在实例重建后继续保留。 |
 | `destroy` | 从地图移除覆盖物并释放引用。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseOverlayHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseOverlayHookDemo from '../examples/hooks/UseOverlayHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

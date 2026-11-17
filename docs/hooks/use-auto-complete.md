@@ -2,6 +2,18 @@
 
 `useAutoComplete` 用组合式 API 封装高德输入提示服务。它会按需加载 `AMap.AutoComplete` 插件，提供 Promise 风格的 `search` 方法，也可以和 [`<AmapAutoComplete>`](/components/auto-complete) 组件搭配使用。
 
+<DemoPreview>
+<ClientOnly>
+  <UseAutoCompleteHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseAutoCompleteHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useAutoComplete } from '@amap-vue/hooks'
 
@@ -32,12 +44,6 @@ console.log(result?.tips)
 | `setType(type)` | `setOptions({ type })` 的快捷方法。 |
 | `destroy()` | 释放内部实例引用。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseAutoCompleteHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseAutoCompleteHookDemo from '../examples/hooks/UseAutoCompleteHookDemo.vue'
 </script>
@@ -50,7 +56,7 @@ import UseAutoCompleteHookDemo from '../examples/hooks/UseAutoCompleteHookDemo.v
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

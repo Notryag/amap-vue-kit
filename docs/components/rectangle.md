@@ -2,6 +2,18 @@
 
 通过声明式组件封装 JSAPI `AMap.Rectangle` 覆盖物，用于绘制轴对齐矩形。矩形会响应属性变化，因此可以用 Vue 状态驱动范围、样式或可见性变化。
 
+<DemoPreview>
+<ClientOnly>
+  <RectangleComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/RectangleComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -31,12 +43,6 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <RectangleComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import RectangleComponentDemo from '../examples/RectangleComponentDemo.vue'
 </script>
@@ -60,4 +66,4 @@ export interface RectangleProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

@@ -2,6 +2,18 @@
 
 `<AmapTileLayer>` 封装 JSAPI 瓦片图层，让你可以在底图上叠加额外影像。它也是 `<AmapTrafficLayer>`、`<AmapRoadNetLayer>`、`<AmapSatelliteLayer>` 这些便捷组件的基础。
 
+<DemoPreview>
+<ClientOnly>
+  <TileLayerDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/TileLayerDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -40,10 +52,6 @@ const showSatellite = ref(false)
 ```
 
 切换响应式标记即可添加或移除各图层。组件卸载时会自动销毁实例。
-
-<ClientOnly>
-  <TileLayerDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import TileLayerDemo from '../examples/TileLayerDemo.vue'
@@ -109,4 +117,4 @@ type TileLayerReadyPayload = AMap.TileLayer | AMap.TileLayer.Traffic | AMap.Tile
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

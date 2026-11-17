@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { loader } from '@amap-vue/shared'
-import { computed, onBeforeUnmount, reactive, ref, watch } from 'vue'
+import { onBeforeUnmount, reactive, ref, watch } from 'vue'
+import { useDemoLoader } from './useDemoLoader'
 
 type Category = 'coffee' | 'park'
 
@@ -16,12 +17,9 @@ interface FiltersState {
   park: boolean
 }
 
-const key = (import.meta as any).env?.VITE_AMAP_KEY as string | undefined
-if (key)
-  loader.config({ key })
+const { hasKey } = useDemoLoader()
 
 const center: [number, number] = [116.397, 39.908]
-const hasKey = computed(() => Boolean(key))
 const overlays = ref<AMap.Marker[]>([])
 const visible = ref(true)
 const filters = reactive<FiltersState>({ coffee: true, park: true })
@@ -43,7 +41,7 @@ function disposeMarkers(markers: AMap.Marker[]) {
 }
 
 async function rebuildOverlays() {
-  if (!key) {
+  if (!hasKey.value) {
     disposeMarkers(overlays.value)
     overlays.value = []
     return
@@ -76,7 +74,7 @@ async function rebuildOverlays() {
 }
 
 watch(
-  () => [filters.coffee, filters.park],
+  () => [hasKey.value, filters.coffee, filters.park],
   () => { void rebuildOverlays() },
   { immediate: true },
 )

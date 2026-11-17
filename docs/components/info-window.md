@@ -2,6 +2,18 @@
 
 在地图坐标上展示上下文信息。组件会把默认插槽内容渲染到 JSAPI 信息窗体中。
 
+<DemoPreview>
+<ClientOnly>
+  <InfoWindowComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/InfoWindowComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -36,19 +48,13 @@
 
 如需完全自定义外观，可以设置 `is-custom`，继续使用插槽内容；如果已经持有 DOM 节点，也可以通过 `content` prop 传入。
 
-## 完整示例
-
-<ClientOnly>
-  <InfoWindowComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import InfoWindowComponentDemo from '../examples/InfoWindowComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

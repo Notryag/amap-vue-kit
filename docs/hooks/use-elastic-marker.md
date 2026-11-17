@@ -2,6 +2,18 @@
 
 Wraps the ElasticMarker plugin with a composable interface.
 
+<DemoPreview>
+<ClientOnly>
+  <UseElasticMarkerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseElasticMarkerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const marker = useElasticMarker(() => map.value, () => ({
   position: [116.397, 39.908],
@@ -29,19 +41,13 @@ marker.on('click', () => console.log('点击灵活点标记'))
 | `on` / `off` | 订阅 ElasticMarker 事件。 |
 | `destroy` | 从地图上移除标记。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseElasticMarkerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseElasticMarkerHookDemo from '../examples/hooks/UseElasticMarkerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

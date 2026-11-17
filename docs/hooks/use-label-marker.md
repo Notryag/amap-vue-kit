@@ -4,6 +4,18 @@
 nent: markers are lazily created once the layer is ready, listeners are rebound after option changes, and everything is cleaned
 up on unmount.
 
+<DemoPreview>
+<ClientOnly>
+  <UseLabelMarkerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseLabelMarkerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useLabelMarker, useLabelsLayer } from '@amap-vue/hooks'
 
@@ -43,19 +55,13 @@ marker.on('click', () => console.log('点击标签标记'))
 - 传入的图层引用为 `null` 时，标记会自动解绑，并等待图层再次可用。
 - You can pass a raw `LabelsLayer` instance, the object returned by `useLabelsLayer`, or the `<AmapLabelsLayer>` injection context—the hook queues and attaches markers appropriately in each scenario.
 
-## 完整示例
-
-<ClientOnly>
-  <UseLabelMarkerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseLabelMarkerHookDemo from '../examples/hooks/UseLabelMarkerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

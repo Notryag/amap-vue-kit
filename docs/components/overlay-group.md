@@ -2,6 +2,18 @@
 
 批量管理大量覆盖物，无需逐个处理生命周期 hook。组件封装了 `AMap.OverlayGroup`，支持切换数据集、整体显示/隐藏分组，并通过 `ref` 调用命令式辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <OverlayGroupDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/OverlayGroupDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -51,10 +63,6 @@ api?.clearOverlays()
 api?.hide()
 ```
 
-<ClientOnly>
-  <OverlayGroupDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import OverlayGroupDemo from '../examples/OverlayGroupDemo.vue'
 </script>
@@ -90,4 +98,4 @@ type OverlayGroupReadyPayload = AMap.OverlayGroup
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

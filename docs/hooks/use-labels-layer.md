@@ -2,6 +2,18 @@
 
 以命令式方式管理 JSAPI `LabelsLayer`，同时保持 Vue 响应式。该组合式函数会惰性加载 `AMap.LabelsLayer` 插件，将图层挂载到传入地图，并在响应式配置变化时更新可见性和透明度。
 
+<DemoPreview>
+<ClientOnly>
+  <UseLabelsLayerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseLabelsLayerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useLabelMarker, useLabelsLayer } from '@amap-vue/hooks'
 import { ref } from 'vue'
@@ -41,19 +53,13 @@ markers.value.forEach((item) => {
 - 当地图引用变为 `null` 时，图层会自动解绑；地图再次可用后会重新挂载。
 - 编写模板时优先使用更高层的 `<AmapLabelsLayer>` 组件；`useLabelsLayer` 更适合自定义渲染器或服务端驱动场景。
 
-## 完整示例
-
-<ClientOnly>
-  <UseLabelsLayerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseLabelsLayerHookDemo from '../examples/hooks/UseLabelsLayerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

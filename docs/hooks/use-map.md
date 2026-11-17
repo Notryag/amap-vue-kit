@@ -2,6 +2,18 @@
 
 `useMap` 是围绕地图生命周期封装的组合式函数。它会惰性加载 JSAPI、创建地图实例，并暴露命令式辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseMapHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseMapHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const { map, ready, setCenter, setZoom, on, off, destroy } = useMap(() => ({
   container: containerRef,
@@ -35,19 +47,13 @@ const { map, ready, setCenter, setZoom, on, off, destroy } = useMap(() => ({
 
 loader 是共享单例，在多个组件中调用 `useMap` 会复用同一次脚本注入与插件配置。
 
-## 完整示例
-
-<ClientOnly>
-  <UseMapHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseMapHookDemo from '../examples/hooks/UseMapHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

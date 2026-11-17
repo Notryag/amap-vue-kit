@@ -3,6 +3,7 @@ import { AmapHawkEye, AmapMap } from '@amap-vue/core'
 import { loader } from '@amap-vue/shared'
 import { ref } from 'vue'
 
+const props = defineProps<{ enabled?: boolean }>()
 const key = import.meta.env.VITE_AMAP_KEY
 if (key)
   loader.config({ key, securityJsCode: import.meta.env.VITE_AMAP_SECURITY_CODE })
@@ -18,7 +19,7 @@ const width = ref('180px')
       <label><input v-model="isOpen" type="checkbox"> 展开鹰眼</label>
       <label>宽度 <select v-model="width"><option>180px</option><option>240px</option></select></label>
     </div>
-    <AmapMap v-if="key" :center="[116.397, 39.908]" :zoom="12" style="height: 360px">
+    <AmapMap v-if="props.enabled ?? key" :center="[116.397, 39.908]" :zoom="12" style="height: 360px">
       <AmapHawkEye :visible="visible" :is-open="isOpen" :width="width" height="140px" :offset="[12, 12]" />
     </AmapMap>
     <p v-else>

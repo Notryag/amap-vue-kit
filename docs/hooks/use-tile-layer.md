@@ -2,6 +2,18 @@
 
 瓦片图层 hooks 封装 JSAPI 瓦片覆盖物，让你可以在 Composition API 中命令式切换影像、交通和路网图层。
 
+<DemoPreview>
+<ClientOnly>
+  <UseTileLayerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseTileLayerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 最小示例
 
 ```ts
@@ -73,12 +85,6 @@ hook 会等到地图实例与 JSAPI 脚本都可用后再创建图层。专用 h
 
 每个变体返回相同的 API，同时将 `overlay.value` 收窄为具体 JSAPI 类。
 
-## 完整示例
-
-<ClientOnly>
-  <UseTileLayerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseTileLayerHookDemo from '../examples/hooks/UseTileLayerHookDemo.vue'
 </script>
@@ -140,4 +146,4 @@ export function useRoadNetLayer(
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

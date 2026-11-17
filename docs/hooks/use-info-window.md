@@ -2,6 +2,18 @@
 
 以命令式方式结合 Vue 响应式管理 JSAPI 信息窗体。该组合式函数会等地图和 loader 就绪后再创建实例，同步打开状态，并在卸载时自动清理。
 
+<DemoPreview>
+<ClientOnly>
+  <UseInfoWindowHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseInfoWindowHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useInfoWindow } from '@amap-vue/hooks'
 import { ref } from 'vue'
@@ -42,19 +54,13 @@ infoWindowApi.on('open', () => {
 - Passing reactive `open`, `position`, or `content` options keeps the JSAPI instance in sync without manual watchers.
 - 当传入的地图引用变为 `null` 时，信息窗体会自动关闭；地图再次可用后会重新挂载。
 
-## 完整示例
-
-<ClientOnly>
-  <UseInfoWindowHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseInfoWindowHookDemo from '../examples/hooks/UseInfoWindowHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

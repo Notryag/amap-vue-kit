@@ -2,6 +2,18 @@
 
 用响应式 props 封装 JSAPI 行政区图层插件，支持 `type`、`adcode` 和样式配置。无需命令式代码即可在国家、省、市视图之间切换。
 
+<DemoPreview>
+<ClientOnly>
+  <DistrictLayerComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/DistrictLayerComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -35,10 +47,6 @@
 
 切换 `type` 或 `adcode` 属性时会自动调用对应 JSAPI setter，并复用现有实例以保持更新流畅。
 
-<ClientOnly>
-  <DistrictLayerComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import DistrictLayerComponentDemo from '../examples/DistrictLayerComponentDemo.vue'
 </script>
@@ -64,4 +72,4 @@ export interface DistrictLayerProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

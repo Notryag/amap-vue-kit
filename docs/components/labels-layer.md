@@ -2,6 +2,18 @@
 
 以 GPU 加速方式渲染数百个富文本标记。标签图层会批量管理所有 `LabelMarker` 实例并处理碰撞检测，即使数据密集也能保持地图响应。
 
+<DemoPreview>
+<ClientOnly>
+  <LabelsLayerDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/LabelsLayerDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -41,10 +53,6 @@
 
 使用 `visible` 和 `collision` props 可在不重建图层的情况下切换可见性和避让规则。单个标签标记也可以通过自己的 `visible` prop 控制可见性。
 
-<ClientOnly>
-  <LabelsLayerDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import LabelsLayerDemo from '../examples/LabelsLayerDemo.vue'
 </script>
@@ -71,4 +79,4 @@ export interface LabelsLayerProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

@@ -9,8 +9,8 @@ hero:
       text: 快速开始
       link: /guide/getting-started
     - theme: alt
-      text: 查看 GitHub
-      link: https://github.com/Notryag/amap-vue-kit
+      text: 浏览地图示例
+      link: /api/
 features:
   - title: Vue 优先体验
     details: 围绕 `<script setup>`、组合式 API 和 TypeScript 设计，组件写法自然，补全信息清晰。

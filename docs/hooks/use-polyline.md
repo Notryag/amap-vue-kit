@@ -2,6 +2,18 @@
 
 用 Vue 状态声明式创建并更新 JSAPI 折线。路径会从 `LngLatLike[]` 规范化，地图引用变化时实例会自动重新挂载。
 
+<DemoPreview>
+<ClientOnly>
+  <UsePolylineHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UsePolylineHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { usePolyline } from '@amap-vue/hooks'
 import { ref } from 'vue'
@@ -44,19 +56,13 @@ polylineApi.on('click', () => {
 - 该组合式函数会监听响应式配置并增量更新 JSAPI 对象，因此可以直接修改 `path.value` 或描边颜色，无需手写同步代码。
 - 在选项中设置 `visible: false` 会隐藏覆盖物，直到该值重新变为真值。
 
-## 完整示例
-
-<ClientOnly>
-  <UsePolylineHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UsePolylineHookDemo from '../examples/hooks/UsePolylineHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -2,6 +2,18 @@
 
 `<AmapElasticMarker>` 暴露高德 ElasticMarker 插件，用于渲染会随缩放级别调整尺寸和样式的可伸缩 HTML 标记。
 
+<DemoPreview>
+<ClientOnly>
+  <ElasticMarkerComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ElasticMarkerComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -37,19 +49,13 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <ElasticMarkerComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import ElasticMarkerComponentDemo from '../examples/ElasticMarkerComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

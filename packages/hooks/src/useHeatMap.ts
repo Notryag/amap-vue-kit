@@ -169,9 +169,6 @@ export function useHeatMap(
         instance.setMap?.(null)
         cleanupHeatMapLayers(map)
       },
-      destroy(instance) {
-        instance.setMap?.(null)
-      },
     },
   )
 

@@ -54,3 +54,121 @@
   height: 0.95rem;
   accent-color: var(--vp-c-brand-1);
 }
+
+.api-mode-switch {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 24px;
+  border-bottom: 1px solid var(--vp-c-divider);
+  padding-bottom: 12px;
+}
+
+.api-mode-switch a {
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: var(--vp-c-text-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.api-mode-switch a[aria-current='page'] {
+  color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+}
+
+.demo-preview {
+  margin: 24px 0 32px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.demo-preview__heading,
+.demo-preview__source summary {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  background: var(--vp-c-bg-soft);
+}
+
+.demo-preview__source summary {
+  cursor: pointer;
+  border-top: 1px solid var(--vp-c-divider);
+}
+
+.demo-preview__canvas .amap-demo {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+
+.demo-preview__source div[class*='language-'] {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  max-height: 380px;
+  overflow: auto;
+}
+
+.demo-key-form {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.demo-key-form p {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.demo-key-form__fields {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 12px;
+}
+
+.demo-key-form label {
+  display: grid;
+  flex: 1 1 160px;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.demo-key-form input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  background: var(--vp-c-bg);
+}
+
+.demo-key-form button {
+  border-radius: 6px;
+  background: var(--vp-c-brand-1);
+  color: var(--vp-c-white);
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+.api-catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 12px;
+}
+
+.api-catalog-card {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.api-catalog-card h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+
+.api-catalog-card a {
+  display: block;
+  font-size: 14px;
+}

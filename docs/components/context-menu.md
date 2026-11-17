@@ -2,6 +2,18 @@
 
 为地图右键交互添加上下文操作。`<AmapContextMenu>` 封装 `AMap.ContextMenu`，保持菜单项响应式，并通过 `ref` 暴露命令式辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <ContextMenuComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ContextMenuComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -30,12 +42,6 @@
   />
 </AmapMap>
 ```
-
-## 完整示例
-
-<ClientOnly>
-  <ContextMenuComponentDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import ContextMenuComponentDemo from '../examples/ContextMenuComponentDemo.vue'
@@ -66,4 +72,4 @@ export interface ContextMenuProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

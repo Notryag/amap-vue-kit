@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { loader } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
+import { useDemoLoader } from './useDemoLoader'
 
 type TargetMode = 'instance' | 'id'
 
@@ -10,11 +11,8 @@ type EditableBezier = AMap.BezierCurve | null
 
 type EditablePolygon = AMap.Polygon | null
 
-const key = (import.meta as any).env?.VITE_AMAP_KEY as string | undefined
-if (key)
-  loader.config({ key })
+const { hasKey } = useDemoLoader()
 
-const hasKey = computed(() => Boolean(key))
 const center: [number, number] = [116.397, 39.908]
 
 const circleEditing = ref(false)
@@ -40,7 +38,7 @@ function record(label: string) {
 }
 
 async function handleReady(map: AMap.Map) {
-  if (!key)
+  if (!hasKey.value)
     return
   const AMapInstance = await loader.load({ plugins: ['AMap.BezierCurve'] })
 

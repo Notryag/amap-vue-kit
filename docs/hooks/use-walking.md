@@ -2,6 +2,18 @@
 
 以编程方式使用 AMap 步行路线服务。该组合式函数会懒加载步行插件，可选绑定地图，并暴露搜索与清空路线的辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseWalkingHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseWalkingHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useWalking } from '@amap-vue/hooks'
 
@@ -32,12 +44,6 @@ const result = await walking.search('天安门', '景山公园')
 | `clear()` | 清空已渲染的路线和面板。 |
 | `destroy()` | 销毁服务实例并从地图解绑。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseWalkingHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseWalkingHookDemo from '../examples/hooks/UseWalkingHookDemo.vue'
 </script>
@@ -50,7 +56,7 @@ import UseWalkingHookDemo from '../examples/hooks/UseWalkingHookDemo.vue'
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

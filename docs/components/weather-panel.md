@@ -2,6 +2,18 @@
 
 通过封装 `useWeather` 的面板展示实时天气和天气预报。组件内置城市下拉选择、刷新按钮，并暴露命令式方法，便于更深度集成。
 
+<DemoPreview>
+<ClientOnly>
+  <WeatherPanelDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/WeatherPanelDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -27,10 +39,6 @@
 
 组件会通过 `ref` 暴露 `weather`、`live`、`forecast`、`loading`、`error` 和 `refresh`。如果需要更细粒度控制或后台刷新，可以直接搭配 [`useWeather`](/hooks/use-weather) 使用。
 
-<ClientOnly>
-  <WeatherPanelDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import WeatherPanelDemo from '../examples/WeatherPanelDemo.vue'
 </script>
@@ -54,4 +62,4 @@ export interface WeatherPanelProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

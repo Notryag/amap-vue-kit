@@ -2,6 +2,18 @@
 
 以命令式方式管理点聚合。
 
+<DemoPreview>
+<ClientOnly>
+  <UseMarkerClustererHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseMarkerClustererHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const cluster = useMarkerClusterer(() => map.value, () => ({
   points: Array.from({ length: 100 }, (_, i) => ({
@@ -30,19 +42,13 @@ cluster.on('click', (event) => {
 | `on` / `off` | 订阅聚合事件。 |
 | `destroy` | 清空标记并销毁聚合实例。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseMarkerClustererHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseMarkerClustererHookDemo from '../examples/hooks/UseMarkerClustererHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

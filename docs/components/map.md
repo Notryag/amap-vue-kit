@@ -2,6 +2,18 @@
 
 `<AmapMap>` 渲染一个可交互的 JSAPI 地图实例，并为内部覆盖物提供地图上下文。
 
+<DemoPreview>
+<ClientOnly>
+  <BasicMapDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/BasicMapDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -42,17 +54,13 @@ const center = [116.397, 39.908]
 </template>
 ```
 
-<ClientOnly>
-  <BasicMapDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import BasicMapDemo from '../examples/BasicMapDemo.vue'
 </script>
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

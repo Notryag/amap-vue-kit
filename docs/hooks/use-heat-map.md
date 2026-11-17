@@ -3,6 +3,18 @@
 在组合式 API 中驱动热力图插件。该 hook 会等 JSAPI 和地图都就绪后再创建实例，
 并在响应式选项变化时同步数据集。
 
+<DemoPreview>
+<ClientOnly>
+  <UseHeatMapHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseHeatMapHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useHeatMap } from '@amap-vue/hooks'
 
@@ -39,19 +51,13 @@ watch(points, (next) => {
 - `data` 选项会被深度监听。向响应式数组追加数据会触发增量更新，而不会重建实例。
 - 当地图引用变为 `null` 时，热力图会自动解绑，并等待新的地图实例后重新挂载。
 
-## 完整示例
-
-<ClientOnly>
-  <UseHeatMapHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseHeatMapHookDemo from '../examples/hooks/UseHeatMapHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

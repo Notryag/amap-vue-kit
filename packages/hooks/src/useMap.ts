@@ -3,7 +3,7 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 import { isClient, loader, toLngLat, warn } from '@amap-vue/shared'
 
 import { computed, shallowRef, toValue, watch } from 'vue'
-import { tryOnBeforeUnmount, tryOnMounted } from './lifecycle'
+import { tryOnBeforeUnmount, tryOnMounted, tryOnUnmounted } from './lifecycle'
 
 export interface UseMapOptions extends Partial<AMap.MapOptions> {
   container?: MaybeRefOrGetter<HTMLElement | null | undefined> | string | HTMLElement
@@ -49,6 +49,8 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
   const readyCallbacks: ReadyCallback[] = []
   const listeners = new Set<{ event: string, handler: (event: any) => void }>()
   let creating = false
+  let disposed = false
+  let generation = 0
 
   const optionsRef = computed<UseMapOptions>(() => ({
     ...(toValue(options) as UseMapOptions | undefined ?? {}),
@@ -86,10 +88,11 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
   }
 
   async function ensureMap() {
-    if (!isClient || creating || map.value || !containerRef.value)
+    if (!isClient || disposed || creating || map.value || !containerRef.value)
       return
 
     creating = true
+    const current = generation
     try {
       const opts = optionsRef.value
       const { container: _ignoredContainer, plugins, loaderOptions, ...mapOptions } = opts
@@ -99,6 +102,8 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       }
 
       const AMap = await loader.load(loadOptions)
+      if (disposed || current !== generation)
+        return
       const instance = new AMap.Map(containerRef.value!, mapOptions as any)
       map.value = instance
       bindListeners(instance)
@@ -109,7 +114,8 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       warn(error instanceof Error ? error.message : String(error))
     }
     finally {
-      creating = false
+      if (current === generation)
+        creating = false
     }
   }
 
@@ -142,8 +148,13 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
   })
 
   tryOnBeforeUnmount(() => {
-    destroy()
+    disposed = true
+    generation++
+    readyCallbacks.length = 0
   })
+
+  // Children must detach overlays while their parent map is still usable.
+  tryOnUnmounted(destroy)
 
   function ready(callback: ReadyCallback) {
     if (map.value)
@@ -230,6 +241,8 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
   }
 
   function destroy() {
+    generation++
+    creating = false
     const instance = map.value as any
     if (instance) {
       unbindListeners(instance)

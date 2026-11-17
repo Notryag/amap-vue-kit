@@ -2,6 +2,18 @@
 
 搜索兴趣点，支持分页、附近/范围模式，以及开箱即用的面板 UI。组件内部组合了 [`usePlaceSearch`](/hooks/use-place-search)，处理防抖，并通过无渲染插槽支持自定义渲染。
 
+<DemoPreview>
+<ClientOnly>
+  <PlaceSearchDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/PlaceSearchDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -34,10 +46,6 @@
 <AmapPlaceSearch v-model="keyword" mode="nearby" :location="center" :radius="1500" @select="handlePoi" />
 ```
 
-<ClientOnly>
-  <PlaceSearchDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import PlaceSearchDemo from '../examples/PlaceSearchDemo.vue'
 </script>
@@ -68,4 +76,4 @@ export interface AmapPlaceSearchProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

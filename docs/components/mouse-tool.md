@@ -2,6 +2,18 @@
 
 使用 JSAPI `MouseTool` 创建交互式绘制体验。组件会与外层 `<AmapMap>` 协调工具生命周期，并提供简单的 `mode` prop 与无渲染插槽工具。
 
+<DemoPreview>
+<ClientOnly>
+  <MouseToolComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/MouseToolComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -28,10 +40,6 @@
 ```
 
 如果希望在地图内渲染自定义控件，组件默认插槽会提供辅助函数（`drawCircle`、`activate`、`close`）。
-
-<ClientOnly>
-  <MouseToolComponentDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import MouseToolComponentDemo from '../examples/MouseToolComponentDemo.vue'
@@ -63,4 +71,4 @@ export interface MouseToolProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

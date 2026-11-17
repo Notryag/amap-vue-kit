@@ -2,6 +2,18 @@
 
 使用内置表单和可选 JSAPI 面板规划骑行路线。`<AmapRiding>` 封装 [`useRiding`](/hooks/use-riding)，负责搜索状态并上报路线结果。
 
+<DemoPreview>
+<ClientOnly>
+  <RidingComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/RidingComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -27,12 +39,6 @@
 ```vue
 <AmapRiding :map="map" origin="天安门" destination="北海公园" :options="{ policy: 0 }" />
 ```
-
-## 完整示例
-
-<ClientOnly>
-  <RidingComponentDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import RidingComponentDemo from '../examples/RidingComponentDemo.vue'
@@ -60,4 +66,4 @@ export interface AmapRidingProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

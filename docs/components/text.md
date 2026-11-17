@@ -2,6 +2,18 @@
 
 `<AmapText>` 渲染 `AMap.Text` 覆盖物，用于在地理坐标点上显示带样式的文本标签。
 
+<DemoPreview>
+<ClientOnly>
+  <TextComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/TextComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -41,19 +53,13 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <TextComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import TextComponentDemo from '../examples/TextComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

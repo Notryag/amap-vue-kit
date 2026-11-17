@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
 import { defineConfig } from 'vitepress'
+import { apiSidebar } from './features'
 
 export default defineConfig({
   lang: 'zh-CN',
@@ -8,10 +9,10 @@ export default defineConfig({
   lastUpdated: true,
   themeConfig: {
     logo: '/logo.svg',
+    search: { provider: 'local' },
     nav: [
       { text: '指南', link: '/guide/getting-started' },
-      { text: '组件', link: '/components/map' },
-      { text: 'Hooks', link: '/hooks/use-map' },
+      { text: '功能与示例', link: '/api/' },
       { text: '进阶', link: '/advanced/mass-markers' },
       { text: '场景方案', link: '/recipes/marker-clusters' },
       { text: '常见问题', link: '/faq' },
@@ -25,108 +26,9 @@ export default defineConfig({
           ],
         },
       ],
-      '/components/': [
-        {
-          text: 'A · 基础与覆盖物',
-          items: [
-            { text: '地图容器', link: '/components/map' },
-            { text: '点标记', link: '/components/marker' },
-            { text: '文本标记', link: '/components/text' },
-            { text: '圆点标记', link: '/components/circle-marker' },
-            { text: '灵活点标记', link: '/components/elastic-marker' },
-            { text: '点聚合', link: '/components/marker-cluster' },
-            { text: '信息窗体', link: '/components/info-window' },
-          ],
-        },
-        {
-          text: 'B · 矢量图形',
-          items: [
-            { text: '折线', link: '/components/polyline' },
-            { text: '多边形', link: '/components/polygon' },
-            { text: '圆形', link: '/components/circle' },
-            { text: '矩形', link: '/components/rectangle' },
-            { text: '椭圆', link: '/components/ellipse' },
-            { text: '贝塞尔曲线', link: '/components/bezier-curve' },
-          ],
-        },
-        {
-          text: 'C · 图层与批量点位',
-          items: [
-            { text: '瓦片图层', link: '/components/tile-layer' },
-            { text: '标签图层', link: '/components/labels-layer' },
-            { text: '标签标记', link: '/components/label-marker' },
-            { text: '海量点', link: '/components/mass-marks' },
-            { text: '行政区图层', link: '/components/district-layer' },
-            { text: 'GeoJSON 图层', link: '/components/geojson-layer' },
-            { text: '热力图', link: '/components/heat-map' },
-          ],
-        },
-        {
-          text: 'D · 控件',
-          items: [
-            { text: '地图控件', link: '/components/map-controls' },
-            { text: '鹰眼控件', link: '/components/hawk-eye' },
-          ],
-        },
-        {
-          text: 'E · 服务、工具与编辑器',
-          items: [
-            { text: '右键菜单', link: '/components/context-menu' },
-            { text: '鼠标绘制工具', link: '/components/mouse-tool' },
-            { text: '图片图层', link: '/components/image-layer' },
-            { text: '覆盖物分组', link: '/components/overlay-group' },
-            { text: '图形编辑器', link: '/components/editors' },
-            { text: '逆地理编码面板', link: '/components/reverse-geocode-panel' },
-            { text: '输入提示', link: '/components/auto-complete' },
-            { text: '地点搜索', link: '/components/place-search' },
-            { text: '驾车路线', link: '/components/driving' },
-            { text: '步行路线', link: '/components/walking' },
-            { text: '骑行路线', link: '/components/riding' },
-            { text: '天气面板', link: '/components/weather-panel' },
-          ],
-        },
-      ],
-      '/hooks/': [
-        {
-          text: 'Hooks',
-          items: [
-            { text: 'useMap', link: '/hooks/use-map' },
-            { text: 'useMarker', link: '/hooks/use-marker' },
-            { text: 'useCircleMarker', link: '/hooks/use-circle-marker' },
-            { text: 'useElasticMarker', link: '/hooks/use-elastic-marker' },
-            { text: 'useMarkerClusterer', link: '/hooks/use-marker-clusterer' },
-            { text: 'useBezierCurve', link: '/hooks/use-bezier-curve' },
-            { text: 'useText', link: '/hooks/use-text' },
-            { text: 'useInfoWindow', link: '/hooks/use-info-window' },
-            { text: 'usePolyline', link: '/hooks/use-polyline' },
-            { text: 'usePolygon', link: '/hooks/use-polygon' },
-            { text: 'useCircle', link: '/hooks/use-circle' },
-            { text: 'useRectangle', link: '/hooks/use-rectangle' },
-            { text: 'useEllipse', link: '/hooks/use-ellipse' },
-            { text: 'useTileLayer', link: '/hooks/use-tile-layer' },
-            { text: 'useImageLayer', link: '/hooks/use-image-layer' },
-            { text: 'useHeatMap', link: '/hooks/use-heat-map' },
-            { text: 'useOverlay', link: '/hooks/use-overlay' },
-            { text: 'useOverlayGroup', link: '/hooks/use-overlay-group' },
-            { text: 'useLabelsLayer', link: '/hooks/use-labels-layer' },
-            { text: 'useLabelMarker', link: '/hooks/use-label-marker' },
-            { text: 'useMassMarkers', link: '/hooks/use-mass-markers' },
-            { text: 'useControl', link: '/hooks/use-control' },
-            { text: 'useHawkEye', link: '/hooks/use-hawk-eye' },
-            { text: 'useMouseTool', link: '/hooks/use-mouse-tool' },
-            { text: 'useGeocoder', link: '/hooks/use-geocoder' },
-            { text: 'useAutoComplete', link: '/hooks/use-auto-complete' },
-            { text: 'useGeolocation', link: '/hooks/use-geolocation' },
-            { text: 'useWeather', link: '/hooks/use-weather' },
-            { text: 'usePlaceSearch', link: '/hooks/use-place-search' },
-            { text: 'useDriving', link: '/hooks/use-driving' },
-            { text: 'useWalking', link: '/hooks/use-walking' },
-            { text: 'useRiding', link: '/hooks/use-riding' },
-            { text: 'useContextMenu', link: '/hooks/use-context-menu' },
-            { text: 'useEditor', link: '/hooks/use-editor' },
-          ],
-        },
-      ],
+      '/api/': apiSidebar,
+      '/components/': apiSidebar,
+      '/hooks/': apiSidebar,
       '/advanced/': [
         {
           text: '进阶',
@@ -165,6 +67,7 @@ export default defineConfig({
     },
   },
   vite: {
+    envDir: resolve(__dirname, '../..'),
     resolve: {
       alias: {
         '@amap-vue/core': resolve(__dirname, '../../packages/core/src'),

@@ -2,6 +2,18 @@
 
 声明式配置 MarkerCluster 插件，用于聚合密集点数据。
 
+<DemoPreview>
+<ClientOnly>
+  <MarkerClusterComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/MarkerClusterComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -26,19 +38,13 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <MarkerClusterComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import MarkerClusterComponentDemo from '../examples/MarkerClusterComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

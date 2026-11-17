@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { loader } from '@amap-vue/shared'
 import { computed, ref } from 'vue'
+import { useDemoLoader } from './useDemoLoader'
 
 type OverlayKey = 'footprints' | 'heatmap'
 
@@ -10,12 +10,9 @@ interface OverlaySource {
   bounds: [[number, number], [number, number]]
 }
 
-const key = (import.meta as any).env?.VITE_AMAP_KEY as string | undefined
-if (key)
-  loader.config({ key })
+const { hasKey } = useDemoLoader()
 
 const center: [number, number] = [116.397, 39.908]
-const hasKey = computed(() => Boolean(key))
 const visible = ref(true)
 const opacity = ref(0.75)
 const activeSource = ref<OverlayKey>('footprints')

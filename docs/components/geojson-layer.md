@@ -2,6 +2,18 @@
 
 加载并展示 GeoJSON 数据，无需手动创建覆盖物。组件负责可见性、增量数据更新，并暴露方法与底层 `AMap.GeoJSON` 实例交互。
 
+<DemoPreview>
+<ClientOnly>
+  <GeoJSONLayerComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/GeoJSONLayerComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -29,10 +41,6 @@
 
 `AmapGeoJSONLayer` re-imports new feature collections whenever the `data` prop changes and re-applies custom factory functions supplied through `options`.
 
-<ClientOnly>
-  <GeoJSONLayerComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import GeoJSONLayerComponentDemo from '../examples/GeoJSONLayerComponentDemo.vue'
 </script>
@@ -55,4 +63,4 @@ export interface GeoJSONLayerProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

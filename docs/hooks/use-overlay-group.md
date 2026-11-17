@@ -2,6 +2,18 @@
 
 用一个组合式函数分组并批量管理覆盖物。`useOverlayGroup` 封装 `AMap.OverlayGroup`，在覆盖物数组变化时排队更新，并为高频操作提供命令式辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseOverlayGroupHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseOverlayGroupHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const overlayGroup = useOverlayGroup(() => map.value, () => ({
   overlays: markers.value,
@@ -45,19 +57,13 @@ overlayGroup.clearOverlays()
 - 可以配合加载器辅助方法，在 JSAPI 包就绪后再懒创建覆盖物。
 - 拆除大数据集时调用 `destroy()` 或 `clearOverlays()`，避免地图上残留已解绑的标记。
 
-## 完整示例
-
-<ClientOnly>
-  <UseOverlayGroupHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseOverlayGroupHookDemo from '../examples/hooks/UseOverlayGroupHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

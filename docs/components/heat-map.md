@@ -3,6 +3,18 @@
 使用 JSAPI 热力图插件可视化密度类指标。组件会让数据集与 Vue 状态保持同步，并
 exposes helpers to push incremental updates.
 
+<DemoPreview>
+<ClientOnly>
+  <HeatMapDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/HeatMapDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -32,10 +44,6 @@ exposes helpers to push incremental updates.
 组件会按需请求 `AMap.HeatMap` 插件，并在 `data`、`radius` 或渐变配置变化时自动重新应用配置。
 ient change.
 
-<ClientOnly>
-  <HeatMapDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import HeatMapDemo from '../examples/HeatMapDemo.vue'
 </script>
@@ -62,4 +70,4 @@ export interface HeatMapProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

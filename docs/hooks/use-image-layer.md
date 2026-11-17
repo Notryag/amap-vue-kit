@@ -3,6 +3,18 @@
 在组合式 API 中创建并控制 `AMap.ImageLayer` 覆盖物。该 hook 会监听响应式配置，并转换 `BoundsLike`
 输入，同时暴露命令式 setter 便于精细调整。
 
+<DemoPreview>
+<ClientOnly>
+  <UseImageLayerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseImageLayerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useImageLayer } from '@amap-vue/hooks'
 
@@ -53,19 +65,13 @@ watch(currentOverlay, (next) => {
 - 地图引用变为 `null` 时，图层会自动解绑；新的地图实例传入后会重新挂载。
 - 范围与偏移会通过 `@amap-vue/shared` 的共享工具规范化，因此可以安全传入数组简写。
 
-## 完整示例
-
-<ClientOnly>
-  <UseImageLayerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseImageLayerHookDemo from '../examples/hooks/UseImageLayerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

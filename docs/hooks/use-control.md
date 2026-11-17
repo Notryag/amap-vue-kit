@@ -2,6 +2,18 @@
 
 鹰眼控件使用独立的 [`useHawkEye`](./use-hawk-eye.md)，提供 `open/close` 与 `show/hide`。
 
+<DemoPreview>
+<ClientOnly>
+  <UseControlHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseControlHookDemo.vue
+
+</template>
+</DemoPreview>
+
 通过 Vue 状态驱动 JSAPI 地图控件。底层 `useControl` 是各类控件 hooks 的基础，支持
 组件响应属性变化，并在需要自定义行为时直接访问控件实例。
 
@@ -49,19 +61,13 @@ control.setOptions({ liteStyle: true })
 - 地图引用变化时（例如重新挂载 `<AmapMap>`），控件会自动重新挂载。
 - 优先切换响应式 `visible` 选项，而不是条件渲染组件，这样可以复用同一个控件实例。
 
-## 完整示例
-
-<ClientOnly>
-  <UseControlHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseControlHookDemo from '../examples/hooks/UseControlHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

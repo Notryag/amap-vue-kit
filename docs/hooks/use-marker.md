@@ -2,6 +2,18 @@
 
 以命令式方式创建和管理 JSAPI 标记。
 
+<DemoPreview>
+<ClientOnly>
+  <UseMarkerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseMarkerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const markerApi = useMarker(() => map.value, () => ({
   position: [116.397, 39.908],
@@ -32,19 +44,13 @@ markerApi.on('click', (event) => {
 
 当地图引用变为 `null`（例如组件卸载）时，标记会自动移除并销毁。
 
-## 完整示例
-
-<ClientOnly>
-  <UseMarkerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseMarkerHookDemo from '../examples/hooks/UseMarkerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

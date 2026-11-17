@@ -2,6 +2,18 @@
 
 通过内置表单和可选结果面板规划驾车路线。`<AmapDriving>` 封装 [`useDriving`](/hooks/use-driving)，处理用户输入，并在启用时渲染 JSAPI 驾车结果面板。
 
+<DemoPreview>
+<ClientOnly>
+  <DrivingComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/DrivingComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -27,12 +39,6 @@
 ```vue
 <AmapDriving :map="map" origin="天安门" destination="故宫" :options="{ policy: 0 }" />
 ```
-
-## 完整示例
-
-<ClientOnly>
-  <DrivingComponentDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import DrivingComponentDemo from '../examples/DrivingComponentDemo.vue'
@@ -60,4 +66,4 @@ export interface AmapDrivingProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

@@ -2,6 +2,18 @@
 
 这些封装组件暴露 JSAPI 内置地图控件，让你无需编写命令式代码即可切换导航控件。每个控件都会自动加载所需插件，挂载到最近的 `<AmapMap>`，并在卸载时清理。
 
+<DemoPreview>
+<ClientOnly>
+  <ControlsDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ControlsDemo.vue
+
+</template>
+</DemoPreview>
+
 鹰眼缩略图控件单独提供 [`<AmapHawkEye>`](./hawk-eye.md)，支持展开与显示的独立控制。
 
 ## 共享属性
@@ -48,10 +60,6 @@ const mapTypeDefaultType = ref<0 | 1>(0)
 ```
 
 响应式切换 props 可以重新定位控件、展示高级开关，或在不销毁底层 JSAPI 实例的情况下隐藏控件。
-
-<ClientOnly>
-  <ControlsDemo />
-</ClientOnly>
 
 <script setup lang="ts">
 import ControlsDemo from '../examples/ControlsDemo.vue'
@@ -117,4 +125,4 @@ type ControlReadyPayload = AMap.ToolBar | AMap.Scale | AMap.ControlBar | AMap.Ma
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

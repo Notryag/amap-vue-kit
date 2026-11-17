@@ -2,6 +2,18 @@
 
 `<AmapMarker>` 渲染标准 JSAPI 点标记，并自动注册到最近的 `<AmapMap>`。
 
+<DemoPreview>
+<ClientOnly>
+  <MarkerComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/MarkerComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -55,19 +67,13 @@
 
 将 `anchor` 与 `offset` 搭配使用，可以让插槽内容相对地理坐标精确对齐。例如 `anchor="bottom-center"` 加负向 Y 偏移，可以让 HTML 卡片底部固定在坐标点上。
 
-## 完整示例
-
-<ClientOnly>
-  <MarkerComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import MarkerComponentDemo from '../examples/MarkerComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

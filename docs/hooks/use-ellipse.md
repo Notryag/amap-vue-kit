@@ -2,6 +2,18 @@
 
 响应式管理 `AMap.Ellipse` 覆盖物。该 hook 会处理插件加载，将中心点转换为原生 `AMap.LngLat`，并提供半径、样式、可见性相关方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseEllipseHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseEllipseHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useEllipse } from '@amap-vue/hooks'
 
@@ -41,12 +53,6 @@ ellipse.setRadius([1200, 600])
 | `destroy()` | 销毁椭圆并清理监听器。 |
 | `on(event, handler)` / `off(event, handler)` | 订阅 JSAPI 事件。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseEllipseHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseEllipseHookDemo from '../examples/hooks/UseEllipseHookDemo.vue'
 </script>
@@ -58,7 +64,7 @@ import UseEllipseHookDemo from '../examples/hooks/UseEllipseHookDemo.vue'
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

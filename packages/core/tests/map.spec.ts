@@ -1,6 +1,8 @@
+import { loader } from '@amap-vue/shared'
 import { flushPromises, mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
+import AmapHeatMap from '../src/components/AmapHeatMap.vue'
 import AmapInfoWindow from '../src/components/AmapInfoWindow.vue'
 import AmapMap from '../src/components/AmapMap.vue'
 import AmapMarker from '../src/components/AmapMarker.vue'
@@ -11,6 +13,44 @@ async function waitForMap() {
 }
 
 describe('amapMap', () => {
+  it('detaches child heat maps before destroying the parent map', async () => {
+    const wrapper = mount({
+      components: { AmapMap, AmapHeatMap },
+      template: '<AmapMap><AmapHeatMap /></AmapMap>',
+    })
+    await waitForMap()
+    const heatMap = (wrapper.findComponent(AmapHeatMap).vm as any).heatMap
+    expect(heatMap).toBeTruthy()
+    const map = heatMap.map
+    const detach = vi.spyOn(heatMap, 'setMap').mockImplementation((target) => {
+      expect(map.destroyed).toBe(false)
+      expect(target).toBeNull()
+    })
+    wrapper.unmount()
+    expect(detach).toHaveBeenCalledTimes(1)
+    expect(map.destroyed).toBe(true)
+    detach.mockRestore()
+  })
+
+  it('does not create a map when SDK loading finishes after unmount', async () => {
+    let resolve!: (sdk: typeof AMap) => void
+    const load = vi.spyOn(loader, 'load').mockReturnValue(new Promise((done) => {
+      resolve = done
+    }))
+    const createMap = vi.fn()
+    try {
+      const wrapper = mount(AmapMap)
+      await flushPromises()
+      wrapper.unmount()
+      resolve({ ...AMap, Map: createMap } as unknown as typeof AMap)
+      await waitForMap()
+      expect(createMap).not.toHaveBeenCalled()
+    }
+    finally {
+      load.mockRestore()
+    }
+  })
+
   it('creates map instance and reacts to prop changes', async () => {
     const wrapper = mount(AmapMap, {
       props: {

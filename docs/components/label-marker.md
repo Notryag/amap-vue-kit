@@ -2,6 +2,18 @@
 
 将高性能文本或图标标记挂载到 `<AmapLabelsLayer>`。组件会代理 `LabelMarker` 配置并暴露事件，让你像处理普通标记一样响应点击和悬停。
 
+<DemoPreview>
+<ClientOnly>
+  <LabelsLayerDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/LabelsLayerDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -43,10 +55,6 @@
 
 请把标签标记放在标签图层内，以便共享 GPU 资源。组件会通过 `ready` 事件以及 `template ref`/`expose` 暴露底层实例，必要时可以调用命令式方法。
 
-<ClientOnly>
-  <LabelsLayerDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import LabelsLayerDemo from '../examples/LabelsLayerDemo.vue'
 </script>
@@ -76,4 +84,4 @@ export interface LabelMarkerProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

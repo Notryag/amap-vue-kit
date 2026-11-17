@@ -2,6 +2,18 @@
 
 `<AmapEllipse>` 以响应式方式控制中心点、半径、样式和可见性，用于渲染 JSAPI 椭圆。适合高亮覆盖范围或不确定区域，无需手动管理覆盖物。
 
+<DemoPreview>
+<ClientOnly>
+  <EllipseComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/EllipseComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -33,12 +45,6 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <EllipseComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import EllipseComponentDemo from '../examples/EllipseComponentDemo.vue'
 </script>
@@ -63,4 +69,4 @@ export interface EllipseProps {
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

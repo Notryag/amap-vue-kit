@@ -2,6 +2,18 @@
 
 基于高德 AutoComplete 服务提供即时搜索建议。组件封装了 [`useAutoComplete`](/hooks/use-auto-complete)，内置输入框、加载状态，并通过无渲染插槽支持自定义 UI。
 
+<DemoPreview>
+<ClientOnly>
+  <AutoCompleteDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/AutoCompleteDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -38,10 +50,6 @@
 </AmapAutoComplete>
 ```
 
-<ClientOnly>
-  <AutoCompleteDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import AutoCompleteDemo from '../examples/AutoCompleteDemo.vue'
 </script>
@@ -67,4 +75,4 @@ export interface AmapAutoCompleteProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

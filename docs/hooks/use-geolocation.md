@@ -2,6 +2,18 @@
 
 通过适配 Composition API 的封装访问 JSAPI 定位服务。该 hook 会按需加载 `AMap.Geolocation`，暴露 Promise 风格工具，并帮你管理连续定位的 watcher ID。
 
+<DemoPreview>
+<ClientOnly>
+  <UseGeolocationHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseGeolocationHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useGeolocation } from '@amap-vue/hooks'
 
@@ -41,19 +53,13 @@ if (result)
 - 可以监听解析后的坐标，并与 `<AmapWeatherPanel>` 或自定义覆盖物组合使用。
 - 部分浏览器要求 HTTPS 与明确的用户授权后才会返回定位结果。
 
-## 完整示例
-
-<ClientOnly>
-  <UseGeolocationHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseGeolocationHookDemo from '../examples/hooks/UseGeolocationHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

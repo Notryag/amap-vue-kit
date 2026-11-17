@@ -2,6 +2,18 @@
 
 将 JSAPI 图形编辑器封装为组合式函数。每个 hook 会等地图和目标覆盖物就绪后再加载插件，同步 `active` 状态，并暴露切换目标与监听编辑事件的方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseEditorHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseEditorHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useEditorPolygon } from '@amap-vue/hooks'
 
@@ -48,21 +60,41 @@ polygonEditor.on('end', () => {
 
 ## 完整示例
 
-<ClientOnly>
-  <UseEditorHookDemo />
-</ClientOnly>
-
+<DemoPreview>
 <ClientOnly>
   <UsePolylineEditorHookDemo />
 </ClientOnly>
 
+<template #code>
+
+<<< ../examples/hooks/UsePolylineEditorHookDemo.vue
+
+</template>
+</DemoPreview>
+
+<DemoPreview>
 <ClientOnly>
   <UseBezierCurveEditorHookDemo />
 </ClientOnly>
 
+<template #code>
+
+<<< ../examples/hooks/UseBezierCurveEditorHookDemo.vue
+
+</template>
+</DemoPreview>
+
+<DemoPreview>
 <ClientOnly>
   <UsePolygonEditorHookDemo />
 </ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UsePolygonEditorHookDemo.vue
+
+</template>
+</DemoPreview>
 
 <script setup lang="ts">
 import UseEditorHookDemo from '../examples/hooks/UseEditorHookDemo.vue'
@@ -73,7 +105,7 @@ import UsePolygonEditorHookDemo from '../examples/hooks/UsePolygonEditorHookDemo
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

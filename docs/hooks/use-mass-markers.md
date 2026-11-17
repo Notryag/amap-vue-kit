@@ -2,6 +2,18 @@
 
 使用 JSAPI `MassMarks` 插件渲染数千个轻量点标记。该组合式函数会延迟加载插件，保持数据集响应式，并提供样式与数据更新方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseMassMarkersHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseMassMarkersHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useMassMarkers } from '@amap-vue/hooks'
 
@@ -43,19 +55,13 @@ watch(points, value => mass.setData(value))
 - 当地图引用变为 `null` 时，海量点会从地图解绑；地图恢复后会重新挂载。
 - 使用轻量点数据对象，避免在 `extData` 中放入大体积载荷，以降低更新成本。
 
-## 完整示例
-
-<ClientOnly>
-  <UseMassMarkersHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseMassMarkersHookDemo from '../examples/hooks/UseMassMarkersHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -2,6 +2,18 @@
 
 将自定义栅格覆盖物（热力图、楼层平面图、历史影像等）投射到地图上，无需编写命令式胶水代码。组件会监听 URL、范围和透明度变化，并同步底层 `AMap.ImageLayer`。
 
+<DemoPreview>
+<ClientOnly>
+  <ImageLayerDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ImageLayerDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -46,10 +58,6 @@ const showOverlay = ref(true)
 
 切换下方示例中的下拉框和滑块，可以更换影像源、调整透明度，或在不销毁实例的情况下临时隐藏图层。
 
-<ClientOnly>
-  <ImageLayerDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import ImageLayerDemo from '../examples/ImageLayerDemo.vue'
 </script>
@@ -78,4 +86,4 @@ type ImageLayerReadyPayload = AMap.ImageLayer
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

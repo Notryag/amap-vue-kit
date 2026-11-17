@@ -2,6 +2,18 @@
 
 以命令式方式管理贝塞尔曲线。
 
+<DemoPreview>
+<ClientOnly>
+  <UseBezierCurveHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseBezierCurveHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const curve = useBezierCurve(() => map.value, () => ({
   path: [
@@ -29,19 +41,13 @@ curve.on('click', (event) => {
 | `on` / `off` | 监听曲线事件。 |
 | `destroy` | 移除覆盖物。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseBezierCurveHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseBezierCurveHookDemo from '../examples/hooks/UseBezierCurveHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

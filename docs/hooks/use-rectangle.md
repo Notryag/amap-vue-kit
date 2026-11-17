@@ -2,6 +2,18 @@
 
 通过 Vue 状态命令式控制 `AMap.Rectangle` 覆盖物。该组合式函数会在地图就绪后创建矩形，保持选项响应式，并暴露范围、可见性、元数据相关方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseRectangleHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseRectangleHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useRectangle } from '@amap-vue/hooks'
 
@@ -38,12 +50,6 @@ rectangle.on('click', event => console.log(event))
 | `destroy()` | 销毁矩形并移除监听器。 |
 | `on(event, handler)` / `off(event, handler)` | 订阅 `click`、`mouseover` 等 JSAPI 事件。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseRectangleHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseRectangleHookDemo from '../examples/hooks/UseRectangleHookDemo.vue'
 </script>
@@ -55,7 +61,7 @@ import UseRectangleHookDemo from '../examples/hooks/UseRectangleHookDemo.vue'
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

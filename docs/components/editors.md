@@ -2,6 +2,18 @@
 
 为常见几何图形启用交互编辑，无需手动装配插件。这些轻量组件封装对应的 JSAPI 编辑器，监听 `active` 状态，并支持传入覆盖物实例或字符串标识。
 
+<DemoPreview>
+<ClientOnly>
+  <ShapeEditorsDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ShapeEditorsDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 共享 props
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -133,10 +145,6 @@ onBeforeUnmount(() => {
 
 在在线示例中可以切换每个编辑器，比较字符串标识与直接覆盖物引用两种写法，并监听 `adjust` / `end` 事件。
 
-<ClientOnly>
-  <ShapeEditorsDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import ShapeEditorsDemo from '../examples/ShapeEditorsDemo.vue'
 </script>
@@ -196,4 +204,4 @@ type EditorReadyPayload = AMap.CircleEditor
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

@@ -2,6 +2,16 @@
 
 以响应式选项管理鹰眼缩略图，支持独立展开、显示和卸载清理。
 
+<DemoPreview>
+<ClientOnly><UseHawkEyeHookDemo /></ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseHawkEyeHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 最小示例
 
 ```ts
@@ -14,12 +24,6 @@ overview.hide() // 隐藏整个控件
 ```
 
 实例尚未就绪时命令式方法不会执行；需要设置初始状态时传入 `isOpen` / `visible`。
-
-## 完整示例
-
-<ClientOnly><UseHawkEyeHookDemo /></ClientOnly>
-
-<<< ../examples/hooks/UseHawkEyeHookDemo.vue
 
 <script setup lang="ts">
 import UseHawkEyeHookDemo from '../examples/hooks/UseHawkEyeHookDemo.vue'

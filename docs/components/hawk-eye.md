@@ -2,6 +2,16 @@
 
 在地图右下角显示缩略地图，支持独立控制显示与展开状态。组件自动加载 `AMap.HawkEye`，地图切换和卸载时自动清理。
 
+<DemoPreview>
+<ClientOnly><HawkEyeDemo /></ClientOnly>
+
+<template #code>
+
+<<< ../../examples/basic/src/HawkEyeDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 最小示例
 
 完成[入门配置](../guide/getting-started.md)后：
@@ -17,12 +27,6 @@ import { AmapHawkEye, AmapMap } from '@amap-vue/core'
   </AmapMap>
 </template>
 ```
-
-## 完整示例
-
-<ClientOnly><HawkEyeDemo /></ClientOnly>
-
-<<< ../../examples/basic/src/HawkEyeDemo.vue
 
 <script setup lang="ts">
 import HawkEyeDemo from '../examples/HawkEyeDemo.vue'

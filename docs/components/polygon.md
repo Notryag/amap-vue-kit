@@ -2,6 +2,18 @@
 
 渲染可带洞的填充多边形，支持单环和多环路径。
 
+<DemoPreview>
+<ClientOnly>
+  <PolygonComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/PolygonComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -34,19 +46,13 @@
 />
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <PolygonComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import PolygonComponentDemo from '../examples/PolygonComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

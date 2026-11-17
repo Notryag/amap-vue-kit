@@ -2,6 +2,18 @@
 
 在组合式 API 中完成正向和逆向地理编码。该组合式函数会惰性加载 `AMap.Geocoder` 插件，暴露 Promise 风格方法，也可以搭配 `<AmapReverseGeocodePanel>` 快速得到可用 UI。
 
+<DemoPreview>
+<ClientOnly>
+  <UseGeocoderHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseGeocoderHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useGeocoder } from '@amap-vue/hooks'
 
@@ -41,19 +53,13 @@ if (result)
 - 切换城市或 `extensions` 标记时，优先调用 `setOptions`，无需重新创建 hook。
 - 可搭配 [`<AmapReverseGeocodePanel>`](/components/reverse-geocode-panel) 使用内置加载和错误状态的面板。
 
-## 完整示例
-
-<ClientOnly>
-  <UseGeocoderHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseGeocoderHookDemo from '../examples/hooks/UseGeocoderHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

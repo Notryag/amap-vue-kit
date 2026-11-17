@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { loader } from '@amap-vue/shared'
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
+import { useDemoLoader } from './useDemoLoader'
 
-const key = (import.meta as any).env?.VITE_AMAP_KEY as string | undefined
-if (key)
-  loader.config({ key })
+const { hasKey } = useDemoLoader()
 
 const center: [number, number] = [116.397, 39.908]
 const zoom = 12
-const hasKey = computed(() => Boolean(key))
 
 const showToolBar = ref(true)
 const showScale = ref(true)

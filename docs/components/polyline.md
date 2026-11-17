@@ -2,6 +2,18 @@
 
 绘制表示路径或路线的折线。组件会消费地图上下文，并在属性变化时响应式更新。
 
+<DemoPreview>
+<ClientOnly>
+  <PolylineComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/PolylineComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -33,19 +45,13 @@
 />
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <PolylineComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import PolylineComponentDemo from '../examples/PolylineComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

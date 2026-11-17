@@ -53,7 +53,7 @@ const mapOptions = computed(() => ({
   container: containerRef.value,
 }))
 
-const { map, ready, on, off, destroy } = useMap(mapOptions, containerRef)
+const { map, ready, on, off } = useMap(mapOptions, containerRef)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
   { event: 'moveend', handler: event => emit('moveend', event) },
@@ -88,7 +88,6 @@ defineExpose({
 
 onBeforeUnmount(() => {
   eventBindings.forEach(({ event, handler }) => off(event, handler))
-  destroy()
 })
 </script>
 

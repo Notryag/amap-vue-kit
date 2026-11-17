@@ -2,6 +2,18 @@
 
 `<AmapCircleMarker>` 封装轻量 JSAPI 圆点覆盖物，用于在地图坐标上渲染可缩放的矢量圆。
 
+<DemoPreview>
+<ClientOnly>
+  <CircleMarkerComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/CircleMarkerComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -33,19 +45,13 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <CircleMarkerComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import CircleMarkerComponentDemo from '../examples/CircleMarkerComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

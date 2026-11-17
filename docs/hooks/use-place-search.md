@@ -2,6 +2,18 @@
 
 通过 AMap PlaceSearch 服务以编程方式查询 POI。该组合式函数支持关键字、周边、范围检索，并让分页状态保留在 JSAPI 服务侧。
 
+<DemoPreview>
+<ClientOnly>
+  <UsePlaceSearchHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UsePlaceSearchHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { usePlaceSearch } from '@amap-vue/hooks'
 
@@ -36,12 +48,6 @@ console.log(result?.poiList?.pois)
 | `clear()` | 清空 JSAPI 内置覆盖物或结果面板。 |
 | `destroy()` | 销毁实例并从地图解绑。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UsePlaceSearchHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UsePlaceSearchHookDemo from '../examples/hooks/UsePlaceSearchHookDemo.vue'
 </script>
@@ -54,7 +60,7 @@ import UsePlaceSearchHookDemo from '../examples/hooks/UsePlaceSearchHookDemo.vue
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

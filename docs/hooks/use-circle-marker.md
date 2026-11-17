@@ -2,6 +2,18 @@
 
 以命令式方式管理 JSAPI 圆点标记，适合渲染大量简单点位。
 
+<DemoPreview>
+<ClientOnly>
+  <UseCircleMarkerHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseCircleMarkerHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const circle = useCircleMarker(() => map.value, () => ({
   center: [116.397, 39.908],
@@ -29,19 +41,13 @@ circle.on('click', () => console.log('点击圆点标记'))
 | `on` / `off` | 订阅标记事件。 |
 | `destroy` | 从地图上移除标记。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseCircleMarkerHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseCircleMarkerHookDemo from '../examples/hooks/UseCircleMarkerHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

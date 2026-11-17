@@ -2,6 +2,18 @@
 
 以命令式方式创建并管理 `AMap.Text` 覆盖物。
 
+<DemoPreview>
+<ClientOnly>
+  <UseTextHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseTextHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 const textOverlay = useText(() => map.value, () => ({
   position: [116.397, 39.908],
@@ -35,19 +47,13 @@ textOverlay.on('click', () => {
 | `on` / `off` | 订阅或取消订阅事件。 |
 | `destroy` | 移除覆盖物。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseTextHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseTextHookDemo from '../examples/hooks/UseTextHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

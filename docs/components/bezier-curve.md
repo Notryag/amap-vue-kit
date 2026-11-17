@@ -2,6 +2,18 @@
 
 使用 JSAPI 插件渲染贝塞尔折线。
 
+<DemoPreview>
+<ClientOnly>
+  <BezierCurveComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/BezierCurveComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -34,19 +46,13 @@
 </AmapMap>
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <BezierCurveComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import BezierCurveComponentDemo from '../examples/BezierCurveComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -2,6 +2,18 @@
 
 在一个可直接使用的面板中组合正向与逆向地理编码。组件封装 `useGeocoder`，处理加载状态，并提供默认 UI；也可以通过插槽或暴露方法自定义。
 
+<DemoPreview>
+<ClientOnly>
+  <ReverseGeocodePanelDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/ReverseGeocodePanelDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -28,10 +40,6 @@
 
 面板会通过 `ref` 暴露命令式 `search`、`reverse`、`clear` 方法，供高级场景使用。
 
-<ClientOnly>
-  <ReverseGeocodePanelDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import ReverseGeocodePanelDemo from '../examples/ReverseGeocodePanelDemo.vue'
 </script>
@@ -56,4 +64,4 @@ export interface ReverseGeocodePanelProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

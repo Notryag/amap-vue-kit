@@ -2,6 +2,18 @@
 
 使用圆形渲染地理围栏或覆盖范围。
 
+<DemoPreview>
+<ClientOnly>
+  <CircleComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/CircleComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 说明 |
@@ -31,19 +43,13 @@
 />
 ```
 
-## 完整示例
-
-<ClientOnly>
-  <CircleComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import CircleComponentDemo from '../examples/CircleComponentDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -2,6 +2,18 @@
 
 使用 JSAPI `MassMarks` 插件渲染数万级轻量点标记。组件会让实例与 Vue 状态保持同步，并暴露方法在不重建覆盖物的情况下更新数据集。
 
+<DemoPreview>
+<ClientOnly>
+  <MassMarksComponentDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/MassMarksComponentDemo.vue
+
+</template>
+</DemoPreview>
+
 ## 属性
 
 | 属性 | 类型 | 默认值 | 说明 |
@@ -32,10 +44,6 @@
 
 组件会自动加载 `AMap.MassMarks` 所需的 JSAPI 兼容插件，深度监听 `data` 数组，并在样式或配置的响应式来源变化时重新应用。
 
-<ClientOnly>
-  <MassMarksComponentDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import MassMarksComponentDemo from '../examples/MassMarksComponentDemo.vue'
 </script>
@@ -62,4 +70,4 @@ export interface MassMarksProps {
 
 ### 完整示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)

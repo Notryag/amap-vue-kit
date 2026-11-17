@@ -2,6 +2,18 @@
 
 驱动圆形、矩形、多边形、折线、贝塞尔曲线、椭圆等交互式绘制工具，无需手动串接 JSAPI。该 hook 会惰性加载 `AMap.MouseTool`，每个地图只保留一个实例，并为各绘制模式暴露 Promise 风格辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseMouseToolHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseMouseToolHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useMouseTool } from '@amap-vue/hooks'
 
@@ -38,12 +50,6 @@ async function drawFence() {
 | `destroy()` | 销毁鼠标工具并清理监听器。 |
 | `on(event, handler)` / `off(event, handler)` | 订阅插件事件，例如 `draw`。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseMouseToolHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseMouseToolHookDemo from '../examples/hooks/UseMouseToolHookDemo.vue'
 </script>
@@ -56,7 +62,7 @@ import UseMouseToolHookDemo from '../examples/hooks/UseMouseToolHookDemo.vue'
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

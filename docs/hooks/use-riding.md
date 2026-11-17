@@ -2,6 +2,18 @@
 
 以编程方式使用 AMap 骑行路线服务。该组合式函数会按需加载骑行插件，支持绑定地图，并暴露搜索与清空路线的辅助方法。
 
+<DemoPreview>
+<ClientOnly>
+  <UseRidingHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseRidingHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useRiding } from '@amap-vue/hooks'
 
@@ -32,12 +44,6 @@ const result = await riding.search('天安门', '北海公园')
 | `clear()` | 清空已渲染的路线和面板。 |
 | `destroy()` | 销毁服务实例并从地图解绑。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseRidingHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseRidingHookDemo from '../examples/hooks/UseRidingHookDemo.vue'
 </script>
@@ -50,7 +56,7 @@ import UseRidingHookDemo from '../examples/hooks/UseRidingHookDemo.vue'
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

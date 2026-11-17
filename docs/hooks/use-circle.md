@@ -2,6 +2,18 @@
 
 以响应式方式控制圆形覆盖物。该 hook 会同步中心点与半径状态，规范化 `LngLatLike` 坐标，并处理可见性切换。
 
+<DemoPreview>
+<ClientOnly>
+  <UseCircleHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseCircleHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useCircle } from '@amap-vue/hooks'
 import { ref } from 'vue'
@@ -43,19 +55,13 @@ circleApi.on('dragend', () => {
 - 设置响应式 `visible` 选项会自动隐藏或显示圆形。
 - 当地图引用变为 `null` 时，圆形会自动解绑；地图实例再次可用后会重新挂载。
 
-## 完整示例
-
-<ClientOnly>
-  <UseCircleHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseCircleHookDemo from '../examples/hooks/UseCircleHookDemo.vue'
 </script>
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

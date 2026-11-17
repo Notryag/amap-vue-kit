@@ -2,6 +2,18 @@
 
 在 setup 代码中控制 JSAPI 右键菜单。该组合式函数会惰性加载 `AMap.ContextMenu`，保持菜单项响应式，并暴露 `open`/`close` 方法用于命令式触发。
 
+<DemoPreview>
+<ClientOnly>
+  <UseContextMenuHookDemo />
+</ClientOnly>
+
+<template #code>
+
+<<< ../examples/hooks/UseContextMenuHookDemo.vue
+
+</template>
+</DemoPreview>
+
 ```ts
 import { useContextMenu } from '@amap-vue/hooks'
 
@@ -34,12 +46,6 @@ map.value?.on('rightclick', event => menu.open(event.lnglat))
 | `destroy()` | 销毁菜单并解绑监听器。 |
 | `on(event, handler)` / `off(event, handler)` | 订阅 JSAPI 菜单事件。 |
 
-## 完整示例
-
-<ClientOnly>
-  <UseContextMenuHookDemo />
-</ClientOnly>
-
 <script setup lang="ts">
 import UseContextMenuHookDemo from '../examples/hooks/UseContextMenuHookDemo.vue'
 </script>
@@ -52,7 +58,7 @@ import UseContextMenuHookDemo from '../examples/hooks/UseContextMenuHookDemo.vue
 
 ### 在线示例
 
-[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/master/examples/basic)
 
 ## TS 签名
 

@@ -10,10 +10,10 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      '@amap-vue/core': resolve(__dirname, '../core/src'),
-      '@amap-vue/hooks': resolve(__dirname, '../hooks/src'),
-      '@amap-vue/shared': resolve(__dirname, '../shared/src'),
+      '@': resolve(import.meta.dirname, 'src'),
+      '@amap-vue/core': resolve(import.meta.dirname, '../core/src'),
+      '@amap-vue/hooks': resolve(import.meta.dirname, '../hooks/src'),
+      '@amap-vue/shared': resolve(import.meta.dirname, '../shared/src'),
     },
   },
 })

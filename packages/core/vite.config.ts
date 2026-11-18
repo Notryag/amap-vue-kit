@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
+      processor: 'vue',
       entryRoot: 'src',
       outputDir: 'dist',
       insertTypesEntry: true,
@@ -15,7 +16,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(import.meta.dirname, 'src/index.ts'),
       name: 'AmapVueCore',
       fileName: () => 'index.js',
       formats: ['es'],

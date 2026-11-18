@@ -11,10 +11,10 @@
     "@amap-vue/core": "workspace:*",
     "@amap-vue/hooks": "workspace:*",
     "@amap-vue/shared": "workspace:*",
-    "vue": "^3.4.15"
+    "vue": "^3.5.45"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.0.3",
-    "vite": "^5.1.4"
+    "@vitejs/plugin-vue": "^6.0.11",
+    "vite": "^8.3.8"
   }
 }

@@ -156,6 +156,8 @@ import { useMap, useMarker, usePlaceSearch } from '@amap-vue/hooks'
 
 ## 本地开发
 
+建议使用 Node.js 24.15+ 和仓库指定的 pnpm 12。
+
 ```bash
 pnpm install
 pnpm lint

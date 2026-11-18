@@ -216,7 +216,7 @@ it('preserves extra plugins and uses the latest service options after loading', 
   const loading = deferred<typeof AMap>()
   const load = vi.spyOn(loader, 'load').mockReturnValue(loading.promise)
   const PlaceSearch = AMap.PlaceSearch
-  const create = vi.spyOn(AMap, 'PlaceSearch').mockImplementation(options => new PlaceSearch(options))
+  const create = vi.spyOn(AMap, 'PlaceSearch').mockImplementation(class extends PlaceSearch {})
   const options = reactive({
     city: '北京',
     loadOptions: {

@@ -45,6 +45,6 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@amap-vue/shared": "^0.1.0"
+    "@amap-vue/shared": "workspace:^0.1.0"
   }
 }

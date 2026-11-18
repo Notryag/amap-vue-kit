@@ -40,9 +40,13 @@ let mockLoca: LocaNamespace
 beforeEach(() => {
   mockLoca = {
     Container: vi.fn() as any,
-    GeoJSONSource: vi.fn((options: Record<string, any>) => {
-      return options
-    }) as any,
+    GeoJSONSource: class {
+      constructor(public readonly options: { data: Record<string, any> }) {}
+
+      get data() {
+        return this.options.data
+      }
+    },
     PointLayer: MockPointLayer as any,
     HeatmapLayer: MockPointLayer as any,
     PolygonLayer: MockPointLayer as any,

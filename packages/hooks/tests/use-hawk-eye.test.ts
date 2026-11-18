@@ -103,9 +103,11 @@ describe('useHawkEye', () => {
     }))
     const construct = vi.fn()
     const Original = AMap.HawkEye
-    vi.spyOn(AMap, 'HawkEye').mockImplementation((options) => {
-      construct()
-      return new Original(options)
+    vi.spyOn(AMap, 'HawkEye').mockImplementation(class extends Original {
+      constructor(options: ConstructorParameters<typeof Original>[0]) {
+        super(options)
+        construct()
+      }
     })
     const initial = createMap()
     const map = shallowRef<AMap.Map | null>(initial)

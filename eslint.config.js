@@ -10,8 +10,4 @@ export default antfu({
   ],
   vue: true,
   typescript: true,
-  rules: {
-    // These workspace settings target newer pnpm versions; this repo uses pnpm 8.
-    'pnpm/yaml-enforce-settings': 'off',
-  },
 })

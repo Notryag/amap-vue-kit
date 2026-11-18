@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     target: 'esnext',
     lib: {
-      entry: resolve(__dirname, 'src/index.ts'),
+      entry: resolve(import.meta.dirname, 'src/index.ts'),
       formats: ['es'],
       fileName: () => 'index.js',
     },
@@ -22,7 +22,7 @@ export default defineConfig({
       insertTypesEntry: true,
       copyDtsFiles: true,
       afterBuild() {
-        const indexPath = resolve(__dirname, 'dist/index.d.ts')
+        const indexPath = resolve(import.meta.dirname, 'dist/index.d.ts')
         const indexTypes = readFileSync(indexPath, 'utf8')
         writeFileSync(
           indexPath,

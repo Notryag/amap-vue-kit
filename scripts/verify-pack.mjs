@@ -18,7 +18,7 @@ const packageDirs = [
 
 const forbiddenPackagePatterns = [
   {
-    pattern: /workspace:\*/u,
+    pattern: /"workspace:/u,
     reason: 'workspace protocol leaked into packed package',
   },
   {
@@ -133,17 +133,20 @@ async function main() {
   const packages = await getPackages()
 
   for (const { dir } of packages) {
-    await run('npm', ['pack', '--pack-destination', packDir], {
+    await run('pnpm', ['pack', '--pack-destination', packDir], {
       cwd: join(root, dir),
     })
   }
 
   await auditPackedPackages()
 
+  const { packageManager, devDependencies } = JSON.parse(await readFile(join(root, 'package.json'), 'utf8'))
+
   await writeFile(join(consumerDir, 'package.json'), JSON.stringify({
     name: 'amap-vue-kit-pack-consumer',
     private: true,
     type: 'module',
+    packageManager,
     scripts: {
       build: 'vite build',
       typecheck: 'vue-tsc --noEmit',
@@ -153,20 +156,20 @@ async function main() {
       '@amap-vue/hooks': getTarballPath(packages, '@amap-vue/hooks'),
       '@amap-vue/loca': getTarballPath(packages, '@amap-vue/loca'),
       '@amap-vue/shared': getTarballPath(packages, '@amap-vue/shared'),
-      '@vitejs/plugin-vue': '^6.0.1',
-      'typescript': '^5.9.3',
-      'vite': '^7.1.9',
-      'vue': '^3.5.22',
-      'vue-tsc': '^3.1.1',
-    },
-    pnpm: {
-      overrides: {
-        '@amap-vue/hooks': getTarballPath(packages, '@amap-vue/hooks'),
-        '@amap-vue/shared': getTarballPath(packages, '@amap-vue/shared'),
-      },
+      '@vitejs/plugin-vue': devDependencies['@vitejs/plugin-vue'],
+      'typescript': devDependencies.typescript,
+      'vite': devDependencies.vite,
+      'vue': devDependencies.vue,
+      'vue-tsc': devDependencies['vue-tsc'],
     },
   }, null, 2))
-  await writeFile(join(consumerDir, 'pnpm-workspace.yaml'), 'packages:\n  - .\n')
+  await writeFile(join(consumerDir, 'pnpm-workspace.yaml'), [
+    'packages:',
+    '  - .',
+    'overrides:',
+    ...['@amap-vue/hooks', '@amap-vue/shared'].map(name => `  '${name}': ${JSON.stringify(getTarballPath(packages, name))}`),
+    '',
+  ].join('\n'))
 
   await writeFile(join(consumerDir, 'index.html'), '<div id="app"></div><script type="module" src="/src/main.ts"></script>\n')
   await writeFile(join(consumerDir, 'vite.config.ts'), `import vue from '@vitejs/plugin-vue'

@@ -60,9 +60,13 @@ beforeEach(() => {
   }
   mockLoca = {
     Container: MockContainer as any,
-    GeoJSONSource: vi.fn((options: Record<string, any>) => {
-      return options
-    }) as any,
+    GeoJSONSource: class {
+      constructor(public readonly options: { data: Record<string, any> }) {}
+
+      get data() {
+        return this.options.data
+      }
+    },
     PointLayer: PointLayer as any,
     HeatmapLayer: PointLayer as any,
     PolygonLayer: PointLayer as any,

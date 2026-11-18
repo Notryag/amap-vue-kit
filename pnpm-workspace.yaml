@@ -1,5 +1,16 @@
+minimumReleaseAgeExcludePrune: true
+trustPolicy: no-downgrade
+shellEmulator: true
+
 packages:
   - packages/*
   - docs
   - examples/*
   - .changeset
+
+overrides:
+  vitepress>@vitejs/plugin-vue: ^6.0.11
+  vitepress>vite: ^7.3.8
+
+allowBuilds:
+  esbuild: true

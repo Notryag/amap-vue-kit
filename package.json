@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.15.4",
+  "packageManager": "pnpm@12.21.0",
   "license": "MIT",
   "homepage": "https://github.com/Notryag/amap-vue-kit#readme",
   "repository": {
@@ -13,8 +13,11 @@
   "bugs": {
     "url": "https://github.com/Notryag/amap-vue-kit/issues"
   },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
-    "build": "pnpm -r --filter ./packages/* run build",
+    "build": "pnpm -r --filter \"./packages/*\" run build",
     "build:all": "pnpm run build && pnpm --filter ./docs run build && pnpm --filter ./examples/basic run build",
     "dev:docs": "pnpm --filter ./docs run dev",
     "dev:playground": "pnpm --filter @amap-vue/playground run dev",
@@ -33,17 +36,18 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^10.0.0",
-    "@changesets/cli": "^2.29.7",
-    "@types/node": "^24.7.0",
-    "@vitejs/plugin-vue": "^6.0.1",
-    "@vue/test-utils": "^2.4.6",
+    "@changesets/cli": "^3.0.3",
+    "@types/node": "^26.6.6",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "@vue/language-core": "3.3.14",
+    "@vue/test-utils": "^2.6.0",
     "eslint": "^10.15.0",
-    "jsdom": "^27.0.0",
+    "jsdom": "^31.0.1",
     "typescript": "^6.0.3",
-    "vite": "^7.1.9",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^3.2.4",
-    "vue": "^3.5.22",
+    "vite": "^8.3.8",
+    "vite-plugin-dts": "^5.1.2",
+    "vitest": "^5.1.0",
+    "vue": "^3.5.45",
     "vue-tsc": "^3.3.14"
   }
 }

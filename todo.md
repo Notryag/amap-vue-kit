@@ -3,10 +3,6 @@
 仅保留未完成事项；完成后删除，历史进度通过 Git 和 Changelog 查询。
 开发规范见 [AGENTS.md](./AGENTS.md)，现有能力见 [README.md](./README.md)。
 
-## P1：常用控件与服务
-
-- [ ] `AmapTransfer` / `useTransfer`：公交换乘，支持方案查询、地图展示与结果面板。
-
 ## P2：标准图层与楼块
 
 - [ ] `AmapWMSLayer` / `useWMSLayer`：对接 `AMap.TileLayer.WMS`，支持服务地址与参数更新。

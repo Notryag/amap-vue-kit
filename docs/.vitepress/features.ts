@@ -108,6 +108,7 @@ export const apiGroups: ApiGroup[] = [
       { name: '驾车 Driving', component: 'driving', hook: 'use-driving' },
       { name: '步行 Walking', component: 'walking', hook: 'use-walking' },
       { name: '骑行 Riding', component: 'riding', hook: 'use-riding' },
+      { name: '公交换乘 Transfer', component: 'transfer', hook: 'use-transfer' },
     ],
   },
   {

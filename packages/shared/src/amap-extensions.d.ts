@@ -989,6 +989,50 @@ declare global {
       plans?: any[]
     }
 
+    class Transfer {
+      constructor(options?: TransferOptions)
+      search(origin: LngLat, destination: LngLat, callback: TransferCallback): void
+      search(points: [TransferKeyword, TransferKeyword], callback: TransferCallback): void
+      clear(): void
+    }
+
+    interface TransferOptions {
+      city?: string
+      cityd?: string
+      policy?: number
+      nightflag?: boolean
+    }
+
+    interface TransferKeyword {
+      keyword: string
+      city?: string
+    }
+
+    type TransferCallback = (status: 'complete' | 'error' | 'no_data', result: TransferResult | string) => void
+
+    interface TransferResult {
+      info: string
+      origin?: LngLat
+      destination?: LngLat
+      plans: TransferPlan[]
+    }
+
+    interface TransferPlan {
+      /** Estimated duration in seconds. */
+      time?: number
+      distance?: number
+      cost?: number
+      walking_distance?: number
+      path?: LngLat[]
+      segments: TransferSegment[]
+    }
+
+    interface TransferSegment {
+      transit_mode: string
+      instruction?: string
+      transit?: { path?: LngLat[] }
+    }
+
     class Walking {
       constructor(options?: WalkingOptions)
       search(origin: RouteEndpoint, destination: RouteEndpoint, callback: (status: string, result: WalkingResult) => void): void

@@ -119,7 +119,9 @@ async function loadLoca(options: LoaderOptions) {
   if (state.locaPromise)
     return state.locaPromise
 
-  const version = typeof options.loca === 'object' && options.loca?.version ? options.loca.version : DEFAULT_LOCA_VERSION
+  const version = typeof options.loca === 'object' && options.loca?.version
+    ? options.loca.version
+    : DEFAULT_LOCA_VERSION
   const url = `https://webapi.amap.com/loca?v=${version}&key=${options.key}`
 
   const existing = document.querySelector('script[data-amap-loca]') as HTMLScriptElement | null
@@ -369,7 +371,10 @@ export function createLoader() {
             warn('Attempted to call loader.load() with a configuration that differs from the initial call. Existing configuration will be reused.')
 
           if (resolved.plugins) {
-            const merged = new Set([...(state.config.plugins ?? []), ...resolved.plugins])
+            const merged = new Set([
+              ...(state.config.plugins ?? []),
+              ...resolved.plugins,
+            ])
             resolved.plugins = Array.from(merged)
           }
         }

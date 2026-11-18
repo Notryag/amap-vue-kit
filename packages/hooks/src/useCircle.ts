@@ -25,7 +25,9 @@ export interface UseCircleReturn extends OverlayLifecycle<AMap.Circle> {
 function resolveCenter(AMapInstance: typeof AMap | undefined, center: LngLatLike | undefined) {
   if (!center)
     return undefined
-  return AMapInstance ? toLngLat(AMapInstance, center) ?? center : center
+  return AMapInstance
+    ? toLngLat(AMapInstance, center) ?? center
+    : center
 }
 
 export function useCircle(
@@ -55,8 +57,11 @@ export function useCircle(
       setCenterInternal(circle, center)
     if (typeof radius === 'number')
       circle.setRadius(radius)
-    if (visible != null)
-      visible ? circle.show() : circle.hide()
+    if (visible != null) {
+      visible
+        ? circle.show()
+        : circle.hide()
+    }
   })
 
   function setCenterInternal(circle: AMap.Circle, center: LngLatLike | undefined) {

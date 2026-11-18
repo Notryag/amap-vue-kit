@@ -45,8 +45,13 @@ export function useMouseTool(
       return
     creating = true
     try {
-      const loaderOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
-      const AMapInstance = await loader.load({ ...(loaderOptions ?? {}), plugins: ['AMap.MouseTool'] })
+      const loaderOptions = optionsRef.value.loadOptions
+        ? toValue(optionsRef.value.loadOptions)
+        : undefined
+      const AMapInstance = await loader.load({
+        ...(loaderOptions ?? {}),
+        plugins: ['AMap.MouseTool'],
+      })
       if (!currentMap) {
         creating = false
         return

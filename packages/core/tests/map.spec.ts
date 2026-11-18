@@ -72,7 +72,9 @@ describe('amapMap', () => {
     await waitForMap()
     expect(map.options.zoom).toBe(12)
 
-    await wrapper.setProps({ center: [121, 31] })
+    await wrapper.setProps({
+      center: [121, 31],
+    })
     await waitForMap()
     expect(map.options.center).toEqual([121, 31])
   })
@@ -82,7 +84,9 @@ describe('amapMarker', () => {
   it('syncs marker position and emits events', async () => {
     const wrapper = mount({
       components: { AmapMap, AmapMarker },
-      data: () => ({ position: [100, 20] as [number, number] }),
+      data: () => ({
+        position: [100, 20] as [number, number],
+      }),
       template: `
         <AmapMap :center="[100, 20]" :zoom="12">
           <AmapMarker :position="position" @click="onClick" />

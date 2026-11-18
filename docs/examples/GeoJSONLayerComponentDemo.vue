@@ -44,7 +44,11 @@ const options = computed(() => ({
   }),
   getMarker: (_feature: any, position: AMap.LngLat) => new AMap.Marker({
     position,
-    label: { content: 'POI', direction: 'top', offset: new AMap.Pixel(0, -24) },
+    label: {
+      content: 'POI',
+      direction: 'top',
+      offset: new AMap.Pixel(0, -24),
+    },
   }),
 }))
 
@@ -58,10 +62,16 @@ function toggleSecondPoint() {
     collection.features.push({
       type: 'Feature',
       properties: { name: '标记点' },
-      geometry: { type: 'Point', coordinates: [116.404, 39.915] },
+      geometry: {
+        type: 'Point',
+        coordinates: [116.404, 39.915],
+      },
     })
   }
-  geojson.value = { ...collection, features: [...collection.features] }
+  geojson.value = {
+    ...collection,
+    features: [...collection.features],
+  }
 }
 </script>
 

@@ -33,7 +33,9 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
   const { ensure: ensureGeolocation, invalidate } = useServiceInstance(
     geolocation,
     'AMap.Geolocation',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       const { loadOptions: _loadOptions, ...rest } = optionsRef.value
       return new AMapInstance.Geolocation(rest)
@@ -74,7 +76,9 @@ export function useGeolocation(options: MaybeRefOrGetter<UseGeolocationOptions |
     })
     if (typeof watchId === 'number')
       activeWatchers.add(watchId)
-    return typeof watchId === 'number' ? watchId : null
+    return typeof watchId === 'number'
+      ? watchId
+      : null
   }
 
   function clearWatch(watchId?: GeolocationWatchId) {

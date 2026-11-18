@@ -33,7 +33,9 @@ const editor = useEditorPolygon(() => map.value, () => ({
 
 function updateVertexCount() {
   const path = polygon.overlay.value?.getPath?.()
-  vertexCount.value = Array.isArray(path) ? path.length : coordinates.value.length
+  vertexCount.value = Array.isArray(path)
+    ? path.length
+    : coordinates.value.length
 }
 
 editor.on('adjust', updateVertexCount)
@@ -46,7 +48,10 @@ function randomisePolygon() {
   coordinates.value = Array.from({ length: 4 }, (_, index) => {
     const baseLng = 116.36 + index * 0.025
     const baseLat = 39.89 + index * 0.01
-    return [Number((baseLng + Math.random() * 0.02).toFixed(6)), Number((baseLat + Math.random() * 0.02).toFixed(6))]
+    return [
+      Number((baseLng + Math.random() * 0.02).toFixed(6)),
+      Number((baseLat + Math.random() * 0.02).toFixed(6)),
+    ]
   })
   vertexCount.value = coordinates.value.length
 }

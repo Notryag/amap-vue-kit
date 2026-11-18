@@ -141,7 +141,9 @@ export function useMapInspector(hasKey: { value: boolean }) {
         keyCounts.set(baseKey, count)
 
         return {
-          key: count === 1 ? baseKey : `${baseKey}-${count}`,
+          key: count === 1
+            ? baseKey
+            : `${baseKey}-${count}`,
           label,
         }
       }

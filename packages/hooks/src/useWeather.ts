@@ -25,7 +25,9 @@ export function useWeather(options: MaybeRefOrGetter<UseWeatherOptions | undefin
   const { ensure: ensureWeather, invalidate } = useServiceInstance(
     weather,
     'AMap.Weather',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       return new AMapInstance.Weather()
     },

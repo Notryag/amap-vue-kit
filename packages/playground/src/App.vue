@@ -275,7 +275,10 @@ function createPlaygroundState(): PlaygroundState {
 
 const { restoreInitialState } = usePlaygroundPersistence({
   createPlaygroundState,
-  applyStateValues: createApplyStateValues({ ...state, ...performance }),
+  applyStateValues: createApplyStateValues({
+    ...state,
+    ...performance,
+  }),
   logEvent,
 })
 
@@ -368,7 +371,10 @@ function getPathCenter(path: LngLatTuple[]): LngLatTuple {
   const lng = (Math.min(...lngValues) + Math.max(...lngValues)) / 2
   const lat = (Math.min(...latValues) + Math.max(...latValues)) / 2
 
-  return [Number(lng.toFixed(6)), Number(lat.toFixed(6))]
+  return [
+    Number(lng.toFixed(6)),
+    Number(lat.toFixed(6)),
+  ]
 }
 
 function applyShapeView(targetCenter: LngLatTuple, targetZoom: number) {
@@ -390,13 +396,17 @@ function locateActiveShape() {
       applyShapeView(getPathCenter(polygonPath), 15)
       break
     case 'circle':
-      applyShapeView([...center.value] as LngLatTuple, circleState.radius > 1200 ? 13 : 15)
+      applyShapeView([...center.value] as LngLatTuple, circleState.radius > 1200
+        ? 13
+        : 15)
       break
     case 'rectangle':
       applyShapeView([...center.value] as LngLatTuple, 14)
       break
     case 'ellipse':
-      applyShapeView([...center.value] as LngLatTuple, ellipseState.radiusX > 1200 ? 13 : 14)
+      applyShapeView([...center.value] as LngLatTuple, ellipseState.radiusX > 1200
+        ? 13
+        : 14)
       break
     case 'bezierCurve':
       applyShapeView(getPathCenter(bezierCurvePath.flat()), 12)

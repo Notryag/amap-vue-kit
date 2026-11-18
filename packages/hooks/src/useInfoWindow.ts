@@ -62,7 +62,9 @@ export function useInfoWindow(
       const instance = new AMap.InfoWindow({
         ...rest,
         content: content ?? rest.content,
-        offset: offset ? toPixel(AMap, offset) ?? undefined : rest.offset,
+        offset: offset
+          ? toPixel(AMap, offset) ?? undefined
+          : rest.offset,
       })
       infoWindow.value = instance
       bindListeners(instance)
@@ -84,7 +86,9 @@ export function useInfoWindow(
         openWindow()
     }
     catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
+      warn(error instanceof Error
+        ? error.message
+        : String(error))
     }
   }
 
@@ -166,7 +170,9 @@ export function useInfoWindow(
     }
 
     const AMap = loader.get()
-    const resolved = AMap ? toLngLat(AMap, position) ?? position : position
+    const resolved = AMap
+      ? toLngLat(AMap, position) ?? position
+      : position
     instance.setPosition?.(resolved as any)
     if (pendingOpen)
       openWindow()
@@ -177,7 +183,9 @@ export function useInfoWindow(
     if (!instance || offset == null)
       return
     const AMap = loader.get()
-    const resolved = AMap ? toPixel(AMap, offset) ?? offset : offset
+    const resolved = AMap
+      ? toPixel(AMap, offset) ?? offset
+      : offset
     instance.setOffset?.(resolved as any)
   }
 
@@ -226,7 +234,9 @@ export function useInfoWindow(
       return
 
     const AMap = loader.get()
-    const resolved = AMap ? toLngLat(AMap, position) ?? position : position
+    const resolved = AMap
+      ? toLngLat(AMap, position) ?? position
+      : position
     instance.open?.(map, resolved as any)
   }
 

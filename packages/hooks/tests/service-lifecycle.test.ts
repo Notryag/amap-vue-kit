@@ -26,56 +26,88 @@ const services = [
     name: 'Driving',
     create: () => {
       const api = useDriving()
-      return { ...api, instance: api.driving, call: () => api.search([116, 39], [117, 40]) }
+      return {
+        ...api,
+        instance: api.driving,
+        call: () => api.search([116, 39], [117, 40]),
+      }
     },
   },
   {
     name: 'Walking',
     create: () => {
       const api = useWalking()
-      return { ...api, instance: api.walking, call: () => api.search([116, 39], [117, 40]) }
+      return {
+        ...api,
+        instance: api.walking,
+        call: () => api.search([116, 39], [117, 40]),
+      }
     },
   },
   {
     name: 'Riding',
     create: () => {
       const api = useRiding()
-      return { ...api, instance: api.riding, call: () => api.search([116, 39], [117, 40]) }
+      return {
+        ...api,
+        instance: api.riding,
+        call: () => api.search([116, 39], [117, 40]),
+      }
     },
   },
   {
     name: 'Geocoder',
     create: () => {
       const api = useGeocoder()
-      return { ...api, instance: api.geocoder, call: () => api.getLocation('北京') }
+      return {
+        ...api,
+        instance: api.geocoder,
+        call: () => api.getLocation('北京'),
+      }
     },
   },
   {
     name: 'Weather',
     create: () => {
       const api = useWeather()
-      return { ...api, instance: api.weather, call: () => api.getLive('北京') }
+      return {
+        ...api,
+        instance: api.weather,
+        call: () => api.getLive('北京'),
+      }
     },
   },
   {
     name: 'Geolocation',
     create: () => {
       const api = useGeolocation()
-      return { ...api, instance: api.geolocation, call: () => api.getCurrentPosition() }
+      return {
+        ...api,
+        instance: api.geolocation,
+        call: () => api.getCurrentPosition(),
+      }
     },
   },
   {
     name: 'AutoComplete',
     create: () => {
       const api = useAutoComplete()
-      return { ...api, instance: api.autoComplete, call: () => api.search('北京') }
+      return {
+        ...api,
+        instance: api.autoComplete,
+        call: () => api.search('北京'),
+      }
     },
   },
   {
     name: 'PlaceSearch',
     create: () => {
       const api = usePlaceSearch()
-      return { ...api, instance: api.placeSearch, call: () => api.search('北京') }
+      return {
+        ...api,
+        instance: api.placeSearch,
+        call: () => api.search('北京'),
+      }
     },
   },
 ]
@@ -89,7 +121,12 @@ beforeEach(() => {
     setMap() {}
     clear() {}
   }
-  vi.stubGlobal('AMap', { ...AMap, Driving: Route, Walking: Route, Riding: Route })
+  vi.stubGlobal('AMap', {
+    ...AMap,
+    Driving: Route,
+    Walking: Route,
+    Riding: Route,
+  })
 })
 
 afterEach(() => {
@@ -160,11 +197,13 @@ describe.each(services)('$name lifecycle', ({ create }) => {
     vi.spyOn(loader, 'load').mockReturnValue(loading.promise)
     let api!: ReturnType<typeof create>
     let result!: ReturnType<typeof api.call>
-    const wrapper = mount(defineComponent({ setup() {
-      api = create()
-      result = api.call()
-      return () => null
-    } }))
+    const wrapper = mount(defineComponent({
+      setup() {
+        api = create()
+        result = api.call()
+        return () => null
+      },
+    }))
     wrapper.unmount()
     loading.resolve(AMap)
     expect(await result).toBeNull()
@@ -178,14 +217,21 @@ it('preserves extra plugins and uses the latest service options after loading', 
   const load = vi.spyOn(loader, 'load').mockReturnValue(loading.promise)
   const PlaceSearch = AMap.PlaceSearch
   const create = vi.spyOn(AMap, 'PlaceSearch').mockImplementation(options => new PlaceSearch(options))
-  const options = reactive({ city: '北京', loadOptions: { plugins: ['AMap.Scale'] } })
+  const options = reactive({
+    city: '北京',
+    loadOptions: {
+      plugins: ['AMap.Scale'],
+    },
+  })
   const api = usePlaceSearch(() => options)
   const result = api.search('咖啡')
   await Promise.resolve()
   options.city = '上海'
   loading.resolve(AMap)
   expect(await result).not.toBeNull()
-  expect(load).toHaveBeenCalledWith(expect.objectContaining({ plugins: ['AMap.Scale', 'AMap.PlaceSearch'] }))
+  expect(load).toHaveBeenCalledWith(expect.objectContaining({
+    plugins: ['AMap.Scale', 'AMap.PlaceSearch'],
+  }))
   expect(create).toHaveBeenCalledWith(expect.objectContaining({ city: '上海' }))
   api.destroy()
 })

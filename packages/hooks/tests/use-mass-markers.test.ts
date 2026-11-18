@@ -85,7 +85,12 @@ function mountMassMarkers(initialOptions: UseMassMarkersOptions): HookHarness<Us
 describe('useMassMarkers', () => {
   it('responds to option updates', async () => {
     const initialOptions = {
-      data: [{ lnglat: [116.397, 39.908] as [number, number], style: 0 }],
+      data: [
+        {
+          lnglat: [116.397, 39.908] as [number, number],
+          style: 0,
+        },
+      ],
       style: {
         url: 'https://a.amap.com/jsapi_demos/static/images/mass0.png',
         anchor: [6, 6] as [number, number],

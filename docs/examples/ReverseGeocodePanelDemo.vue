@@ -3,7 +3,9 @@ import { AmapMap, AmapMarker, AmapReverseGeocodePanel } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-useDemoLoader({ plugins: ['AMap.Geocoder'] })
+useDemoLoader({
+  plugins: ['AMap.Geocoder'],
+})
 
 const panelRef = ref<any>(null)
 const position = ref<[number, number] | null>([116.397, 39.909])
@@ -13,7 +15,10 @@ function handleMapClick(event: any) {
   const lnglat = event?.lnglat
   if (!lnglat)
     return
-  position.value = [Number(lnglat.lng.toFixed(6)), Number(lnglat.lat.toFixed(6))]
+  position.value = [
+    Number(lnglat.lng.toFixed(6)),
+    Number(lnglat.lat.toFixed(6)),
+  ]
   panelRef.value?.reverse(position.value)
 }
 

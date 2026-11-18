@@ -261,8 +261,14 @@ export function usePlaygroundState() {
   const rectangleBounds = computed(() => {
     const [lng, lat] = center.value
     return [
-      [Number((lng - 0.018).toFixed(6)), Number((lat - 0.01).toFixed(6))],
-      [Number((lng + 0.018).toFixed(6)), Number((lat + 0.01).toFixed(6))],
+      [
+        Number((lng - 0.018).toFixed(6)),
+        Number((lat - 0.01).toFixed(6)),
+      ],
+      [
+        Number((lng + 0.018).toFixed(6)),
+        Number((lat + 0.01).toFixed(6)),
+      ],
     ] as [LngLatTuple, LngLatTuple]
   })
 

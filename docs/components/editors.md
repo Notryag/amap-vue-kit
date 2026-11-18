@@ -53,7 +53,9 @@ const polygon = shallowRef<AMap.Polygon | null>(null)
 
 async function handleReady(instance: AMap.Map) {
   map.value = instance
-  const AMap = await loader.load({ plugins: ['AMap.BezierCurve'] })
+  const AMap = await loader.load({
+    plugins: ['AMap.BezierCurve']
+  })
 
   const rect = new AMap.Rectangle({
     bounds: new AMap.Bounds([116.36, 39.9], [116.41, 39.94]),

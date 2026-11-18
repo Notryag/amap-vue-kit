@@ -55,7 +55,9 @@ const controlOptions = computed<UseToolBarOptions>(() => {
   return base
 })
 
-const controlApi = context ? useToolBar(() => context.map.value, controlOptions) : null
+const controlApi = context
+  ? useToolBar(() => context.map.value, controlOptions)
+  : null
 const control = controlApi?.control ?? shallowRef<any>(null)
 
 if (controlApi) {

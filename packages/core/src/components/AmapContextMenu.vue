@@ -45,7 +45,9 @@ const menuOptions = computed<UseContextMenuOptions>(() => ({
   loadOptions: props.loadOptions,
 }))
 
-const menuApi = mapContext ? useContextMenu(() => mapContext.map.value, menuOptions) : null
+const menuApi = mapContext
+  ? useContextMenu(() => mapContext.map.value, menuOptions)
+  : null
 const menu = menuApi?.menu ?? shallowRef<AMap.ContextMenu | null>(null)
 
 if (menuApi) {

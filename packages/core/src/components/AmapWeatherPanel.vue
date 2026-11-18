@@ -90,7 +90,9 @@ async function refresh(city: string = currentCity.value) {
       handleError('未获取到该城市的天气信息。')
   }
   catch (error) {
-    handleError(error instanceof Error ? error.message : String(error))
+    handleError(error instanceof Error
+      ? error.message
+      : String(error))
   }
   finally {
     loading.value = false

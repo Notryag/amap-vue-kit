@@ -37,7 +37,9 @@ export function useElasticMarker(
       const marker = new (AMap as any).ElasticMarker({
         ...rest,
         map,
-        position: position ? toLngLat(AMap, position) ?? position : rest.position,
+        position: position
+          ? toLngLat(AMap, position) ?? position
+          : rest.position,
       }) as AMap.ElasticMarker
       if (visible === false)
         marker.hide()
@@ -53,17 +55,24 @@ export function useElasticMarker(
         marker.setStyles?.(styles as any)
       if (zoomStyleMapping !== undefined)
         marker.setZoomStyleMapping?.(zoomStyleMapping)
-      if (visible != null)
-        visible ? marker.show() : marker.hide()
+      if (visible != null) {
+        visible
+          ? marker.show()
+          : marker.hide()
+      }
     },
-    () => ({ plugins: ['AMap.ElasticMarker'] }),
+    () => ({
+      plugins: ['AMap.ElasticMarker'],
+    }),
   )
 
   function setPositionInternal(marker: AMap.ElasticMarker, position: LngLatLike | undefined) {
     if (!position)
       return
     const AMapInstance = loader.get()
-    const resolved = AMapInstance ? toLngLat(AMapInstance, position) ?? position : position
+    const resolved = AMapInstance
+      ? toLngLat(AMapInstance, position) ?? position
+      : position
     marker.setPosition(resolved as any)
   }
 

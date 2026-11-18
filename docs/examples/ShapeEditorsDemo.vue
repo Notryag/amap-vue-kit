@@ -40,7 +40,9 @@ function record(label: string) {
 async function handleReady(map: AMap.Map) {
   if (!hasKey.value)
     return
-  const AMapInstance = await loader.load({ plugins: ['AMap.BezierCurve'] })
+  const AMapInstance = await loader.load({
+    plugins: ['AMap.BezierCurve'],
+  })
 
   const rect = new AMapInstance.Rectangle({
     bounds: new AMapInstance.Bounds([116.36, 39.9], [116.41, 39.94]),
@@ -109,10 +111,14 @@ async function handleReady(map: AMap.Map) {
 }
 
 const rectangleTarget = computed(() =>
-  rectangleTargetMode.value === 'instance' ? rectangle.value : 'demo-rectangle',
+  rectangleTargetMode.value === 'instance'
+    ? rectangle.value
+    : 'demo-rectangle',
 )
 const ellipseTarget = computed(() =>
-  ellipseTargetMode.value === 'instance' ? ellipse.value : 'demo-ellipse',
+  ellipseTargetMode.value === 'instance'
+    ? ellipse.value
+    : 'demo-ellipse',
 )
 
 onBeforeUnmount(() => {

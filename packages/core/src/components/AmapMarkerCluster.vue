@@ -41,11 +41,16 @@ const clusterOptions = computed(() => ({
   ...props.options,
 }))
 
-const clusterApi = context ? useMarkerClusterer(() => context.map.value, clusterOptions) : null
+const clusterApi = context
+  ? useMarkerClusterer(() => context.map.value, clusterOptions)
+  : null
 const cluster = clusterApi?.cluster ?? shallowRef<AMap.MarkerCluster | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
 ]
 
 if (clusterApi) {

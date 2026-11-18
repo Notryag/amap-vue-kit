@@ -34,7 +34,9 @@ const marker = useMarker(() => map.value, () => ({
 }))
 
 ready(async (mapInstance) => {
-  await loader.load({ plugins: ['AMap.MoveAnimation'] })
+  await loader.load({
+    plugins: ['AMap.MoveAnimation'],
+  })
   ;(mapInstance as any).plugin(['AMap.MoveAnimation'])
 })
 

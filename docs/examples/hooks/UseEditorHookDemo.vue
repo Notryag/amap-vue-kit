@@ -33,7 +33,10 @@ editor.on('adjust', () => {
   const nextCenter = target.getCenter()
   if (!nextCenter)
     return
-  center.value = [Number(nextCenter.getLng().toFixed(6)), Number(nextCenter.getLat().toFixed(6))]
+  center.value = [
+    Number(nextCenter.getLng().toFixed(6)),
+    Number(nextCenter.getLat().toFixed(6)),
+  ]
   radius.value = Math.round(target.getRadius())
 })
 
@@ -44,7 +47,10 @@ editor.on('end', () => {
 function randomizeCircle() {
   const lng = 116.38 + Math.random() * 0.04
   const lat = 39.9 + Math.random() * 0.04
-  center.value = [Number(lng.toFixed(6)), Number(lat.toFixed(6))]
+  center.value = [
+    Number(lng.toFixed(6)),
+    Number(lat.toFixed(6)),
+  ]
   radius.value = 400 + Math.round(Math.random() * 400)
 }
 </script>

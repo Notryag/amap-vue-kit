@@ -32,7 +32,9 @@ export function useAutoComplete(
   const { ensure: ensureAutoComplete, invalidate } = useServiceInstance(
     autoComplete,
     'AMap.AutoComplete',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       const { loadOptions: _loadOptions, ...rest } = optionsRef.value
       const Ctor = AMapInstance.AutoComplete ?? AMapInstance.Autocomplete

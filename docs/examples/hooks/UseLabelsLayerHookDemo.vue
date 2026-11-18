@@ -10,11 +10,31 @@ const count = ref(4)
 const palette = ref<'brand' | 'muted'>('brand')
 
 const labelMeta = [
-  { name: '故宫', coords: [116.397, 39.918], color: '#0ea5e9' },
-  { name: '天安门', coords: [116.403, 39.915], color: '#6366f1' },
-  { name: '景山公园', coords: [116.397, 39.923], color: '#22c55e' },
-  { name: '国家博物馆', coords: [116.414, 39.913], color: '#f97316' },
-  { name: '北海公园', coords: [116.383, 39.924], color: '#14b8a6' },
+  {
+    name: '故宫',
+    coords: [116.397, 39.918],
+    color: '#0ea5e9',
+  },
+  {
+    name: '天安门',
+    coords: [116.403, 39.915],
+    color: '#6366f1',
+  },
+  {
+    name: '景山公园',
+    coords: [116.397, 39.923],
+    color: '#22c55e',
+  },
+  {
+    name: '国家博物馆',
+    coords: [116.414, 39.913],
+    color: '#f97316',
+  },
+  {
+    name: '北海公园',
+    coords: [116.383, 39.924],
+    color: '#14b8a6',
+  },
 ]
 
 const markers = ref<AMap.LabelMarker[]>([])
@@ -22,7 +42,9 @@ const markers = ref<AMap.LabelMarker[]>([])
 const { container, hasKey, map, ready } = useHookDemoMap(() => ({
   center: [116.4, 39.915],
   zoom: 13,
-}), { plugins: ['AMap.LabelsLayer'] })
+}), {
+  plugins: ['AMap.LabelsLayer'],
+})
 
 const labelsLayer = useLabelsLayer(() => map.value, () => ({
   opacity: opacity.value,
@@ -31,7 +53,9 @@ const labelsLayer = useLabelsLayer(() => map.value, () => ({
 }))
 
 ready(async () => {
-  const AMapInstance = loader.get() ?? await loader.load({ plugins: ['AMap.LabelsLayer'] })
+  const AMapInstance = loader.get() ?? await loader.load({
+    plugins: ['AMap.LabelsLayer'],
+  })
   if (!AMapInstance)
     return
   const created = labelMeta.map(meta => new (AMapInstance as any).LabelMarker({
@@ -71,14 +95,22 @@ watch(palette, (mode) => {
       content: meta.name,
       direction: 'right',
       style: {
-        fillColor: mode === 'brand' ? meta.color : '#334155',
+        fillColor: mode === 'brand'
+          ? meta.color
+          : '#334155',
         fontSize: 12,
-        fontWeight: mode === 'brand' ? 600 : 500,
+        fontWeight: mode === 'brand'
+          ? 600
+          : 500,
         padding: [2, 6],
-        backgroundColor: mode === 'brand' ? 'rgba(15,23,42,0.85)' : 'rgba(241,245,249,0.92)',
+        backgroundColor: mode === 'brand'
+          ? 'rgba(15,23,42,0.85)'
+          : 'rgba(241,245,249,0.92)',
         borderRadius: 6,
         borderColor: 'transparent',
-        color: mode === 'brand' ? '#ecfeff' : '#0f172a',
+        color: mode === 'brand'
+          ? '#ecfeff'
+          : '#0f172a',
       },
     })
   })

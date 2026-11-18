@@ -67,7 +67,11 @@ function createTileLayerHook<TLayer extends AMap.TileLayer, TOptions extends Use
       (layer, nextOptions) => {
         applyTileLayerOptions(layer, nextOptions)
       },
-      plugin ? () => ({ plugins: [plugin] }) : undefined,
+      plugin
+        ? () => ({
+            plugins: [plugin],
+          })
+        : undefined,
       {
         attach(map, layer) {
           if (typeof (map as any).addLayer === 'function')

@@ -163,7 +163,10 @@ function createSfcSnippet(ctx: SnippetContext, options: {
   declarations?: string[]
 }) {
   const template = buildMapTemplate(ctx, options.children)
-  const componentOrder = ['AmapMap', ...options.components.filter(component => component !== 'AmapMap')]
+  const componentOrder = [
+    'AmapMap',
+    ...options.components.filter(component => component !== 'AmapMap'),
+  ]
   const componentList = Array.from(new Set(componentOrder))
 
   const imports = [
@@ -181,7 +184,12 @@ function createSfcSnippet(ctx: SnippetContext, options: {
 
   scriptLines.push('<\\/script>')
 
-  return [template, '', scriptLines.join('\n'), ''].join('\n')
+  return [
+    template,
+    '',
+    scriptLines.join('\n'),
+    '',
+  ].join('\n')
 }
 
 function renderMarkerTag(ctx: SnippetContext) {
@@ -235,7 +243,10 @@ export function createSnippetGenerators(ctx: SnippetContext): Partial<Record<Pan
     }),
 
     infoWindow: () => {
-      const sections = [renderMarkerTag(ctx), renderInfoWindowTag(ctx)]
+      const sections = [
+        renderMarkerTag(ctx),
+        renderInfoWindowTag(ctx),
+      ]
 
       return createSfcSnippet(ctx, {
         components: ['AmapMarker', 'AmapInfoWindow'],
@@ -412,7 +423,9 @@ export function createSnippetGenerators(ctx: SnippetContext): Partial<Record<Pan
         [
           'const points: AMap.MassData[] = [',
           ...sampleLines,
-          remaining > 0 ? `  // ... ${remaining.toLocaleString()} more points` : undefined,
+          remaining > 0
+            ? `  // ... ${remaining.toLocaleString()} more points`
+            : undefined,
           ']',
         ].filter(Boolean).join('\n'),
         'const styles = ref<AMap.MassMarkersStyleOptions[]>([])',

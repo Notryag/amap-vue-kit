@@ -6,7 +6,12 @@ import { useHookDemoMap } from './useHookDemoMap'
 const visible = ref(true)
 const isOpen = ref(true)
 const { container, hasKey, map } = useHookDemoMap()
-useHawkEye(() => map.value, () => ({ visible: visible.value, isOpen: isOpen.value, width: '180px', height: '140px' }))
+useHawkEye(() => map.value, () => ({
+  visible: visible.value,
+  isOpen: isOpen.value,
+  width: '180px',
+  height: '140px',
+}))
 </script>
 
 <template>

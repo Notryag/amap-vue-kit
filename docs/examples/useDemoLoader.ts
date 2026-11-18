@@ -17,8 +17,12 @@ export function useDemoLoader(config?: DemoLoaderConfig) {
   if (config?.plugins)
     config.plugins.forEach(plugin => pluginSet.add(plugin))
 
-  if (!key && (config?.options || pluginSet.size))
-    loader.config({ ...(config?.options ?? {}), plugins: Array.from(pluginSet) })
+  if (!key && (config?.options || pluginSet.size)) {
+    loader.config({
+      ...(config?.options ?? {}),
+      plugins: Array.from(pluginSet),
+    })
+  }
 
   if (key) {
     const existing = loader.getConfig?.() as Partial<LoaderOptions> | undefined
@@ -30,7 +34,9 @@ export function useDemoLoader(config?: DemoLoaderConfig) {
 
     const nextOptions: Partial<LoaderOptions> = {
       key,
-      ...(security ? { securityJsCode: security } : {}),
+      ...(security
+        ? { securityJsCode: security }
+        : {}),
       ...(config?.options ?? {}),
     }
 

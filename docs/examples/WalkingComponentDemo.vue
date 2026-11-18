@@ -3,7 +3,9 @@ import { AmapMap, AmapWalking } from '@amap-vue/core'
 import { shallowRef } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Walking'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Walking'],
+})
 
 const center: [number, number] = [116.397, 39.908]
 const origin = '天安门'

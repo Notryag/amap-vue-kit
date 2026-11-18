@@ -3,7 +3,9 @@ import { AmapMap, AmapMarker, AmapPlaceSearch } from '@amap-vue/core'
 import { computed, ref, shallowRef } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.PlaceSearch'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.PlaceSearch'],
+})
 
 const keyword = ref('美食')
 const pois = shallowRef<AMap.PlaceSearch.Poi[]>([])
@@ -12,19 +14,34 @@ const selected = shallowRef<AMap.PlaceSearch.Poi | null>()
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)
     return null
-  if (typeof value.getLng === 'function' && typeof value.getLat === 'function')
-    return [Number(value.getLng()), Number(value.getLat())]
-  if (Array.isArray(value) && value.length >= 2)
-    return [Number(value[0]), Number(value[1])]
-  if (typeof value.lng === 'number' && typeof value.lat === 'number')
-    return [Number(value.lng), Number(value.lat)]
+  if (typeof value.getLng === 'function' && typeof value.getLat === 'function') {
+    return [
+      Number(value.getLng()),
+      Number(value.getLat()),
+    ]
+  }
+  if (Array.isArray(value) && value.length >= 2) {
+    return [
+      Number(value[0]),
+      Number(value[1]),
+    ]
+  }
+  if (typeof value.lng === 'number' && typeof value.lat === 'number') {
+    return [
+      Number(value.lng),
+      Number(value.lat),
+    ]
+  }
   return null
 }
 
 const mapCenter = computed<[number, number]>(() => normaliseLngLat(selected.value?.location) ?? [116.397, 39.909])
 const markerPois = computed(() =>
   pois.value
-    .map(poi => ({ poi, position: normaliseLngLat(poi.location) as [number, number] | null }))
+    .map(poi => ({
+      poi,
+      position: normaliseLngLat(poi.location) as [number, number] | null,
+    }))
     .filter((entry): entry is { poi: AMap.PlaceSearch.Poi, position: [number, number] } => Array.isArray(entry.position)),
 )
 
@@ -39,7 +56,9 @@ function handleSelect(poi: AMap.PlaceSearch.Poi) {
 }
 
 function poiDistrict(poi: AMap.PlaceSearch.Poi | null) {
-  return poi && 'district' in poi ? poi.district : ''
+  return poi && 'district' in poi
+    ? poi.district
+    : ''
 }
 </script>
 

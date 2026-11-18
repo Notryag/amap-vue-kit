@@ -39,10 +39,14 @@ export function useDriving(options: MaybeRefOrGetter<UseDrivingOptions | undefin
   const { ensure: ensureDriving, invalidate } = useServiceInstance(
     driving,
     'AMap.Driving',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = optionsRef.value
-      const map = mapMaybe !== undefined ? toValue(mapMaybe) ?? undefined : undefined
+      const map = mapMaybe !== undefined
+        ? toValue(mapMaybe) ?? undefined
+        : undefined
       amap = AMapInstance
       return new AMapInstance.Driving({ ...rest, map })
     },

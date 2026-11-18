@@ -50,7 +50,9 @@ export function useContextMenu(
       return
     creating = true
     try {
-      const loadOptions = optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined
+      const loadOptions = optionsRef.value.loadOptions
+        ? toValue(optionsRef.value.loadOptions)
+        : undefined
       const AMapInstance = await loader.load(loadOptions)
       const { items, loadOptions: _ignored, ...rest } = optionsRef.value
       const instance = new (AMapInstance as any).ContextMenu(rest)
@@ -94,7 +96,9 @@ export function useContextMenu(
     if (!instance || !currentMap)
       return
     const AMapInstance = loader.get()
-    const lngLat = AMapInstance ? toLngLat(AMapInstance, position) ?? position : position
+    const lngLat = AMapInstance
+      ? toLngLat(AMapInstance, position) ?? position
+      : position
     instance.open(currentMap, lngLat as any)
   }
 
@@ -104,7 +108,10 @@ export function useContextMenu(
 
   function addItem(item: ContextMenuItem) {
     if (!menu.value) {
-      currentItems = [...currentItems, { ...item }]
+      currentItems = [
+        ...currentItems,
+        { ...item },
+      ]
       return
     }
     ;(menu.value as any).addItem(item.text, item.handler, item.index)

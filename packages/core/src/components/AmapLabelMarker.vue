@@ -85,14 +85,25 @@ const markerOptions = computed<UseLabelMarkerOptions>(() => {
   return base
 })
 
-const markerApi = layerContext ? useLabelMarker(layerContext, markerOptions) : null
+const markerApi = layerContext
+  ? useLabelMarker(layerContext, markerOptions)
+  : null
 const marker = markerApi?.marker ?? shallowRef<AMap.LabelMarker | null>(null)
 
 if (markerApi) {
   const events = [
-    { event: 'click', handler: (event: any) => emit('click', event) },
-    { event: 'mouseover', handler: (event: any) => emit('mouseover', event) },
-    { event: 'mouseout', handler: (event: any) => emit('mouseout', event) },
+    {
+      event: 'click',
+      handler: (event: any) => emit('click', event),
+    },
+    {
+      event: 'mouseover',
+      handler: (event: any) => emit('mouseover', event),
+    },
+    {
+      event: 'mouseout',
+      handler: (event: any) => emit('mouseout', event),
+    },
   ]
   events.forEach(({ event, handler }) => markerApi.on(event, handler))
 

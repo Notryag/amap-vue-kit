@@ -61,7 +61,9 @@ export function useLabelsLayer(
     (layer, nextOptions) => {
       applyLabelsLayerOptions(layer, nextOptions)
     },
-    () => ({ plugins: ['AMap.LabelsLayer'] }),
+    () => ({
+      plugins: ['AMap.LabelsLayer'],
+    }),
   )
 
   const pendingAdds = new Set<AMap.LabelMarker>()
@@ -74,7 +76,9 @@ export function useLabelsLayer(
     if (!pendingAdds.size && !pendingRemovals.size)
       return
     flushScheduled = true
-    const schedule = typeof queueMicrotask === 'function' ? queueMicrotask : (fn: () => void) => Promise.resolve().then(fn)
+    const schedule = typeof queueMicrotask === 'function'
+      ? queueMicrotask
+      : (fn: () => void) => Promise.resolve().then(fn)
     schedule(() => {
       flushScheduled = false
       flushPending()
@@ -98,7 +102,9 @@ export function useLabelsLayer(
   }
 
   function normalizeMarkers(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
-    return Array.isArray(markers) ? markers : [markers]
+    return Array.isArray(markers)
+      ? markers
+      : [markers]
   }
 
   watch(() => overlay.overlay.value, (instance) => {

@@ -63,7 +63,9 @@ const layerOptions = computed<UseLabelsLayerOptions>(() => {
   return base
 })
 
-const layerApi = mapContext ? useLabelsLayer(() => mapContext.map.value, layerOptions) : null
+const layerApi = mapContext
+  ? useLabelsLayer(() => mapContext.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.LabelsLayer | null>(null)
 const readyCallbacks: Array<(layer: AMap.LabelsLayer) => void> = []
 const pendingMarkers = new Set<AMap.LabelMarker>()
@@ -98,22 +100,31 @@ function onLayerReady(callback: (layer: AMap.LabelsLayer) => void) {
 }
 
 function normalizeMarkers(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
-  return Array.isArray(markers) ? markers : [markers]
+  return Array.isArray(markers)
+    ? markers
+    : [markers]
 }
 
 function addMarkers(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
   const items = normalizeMarkers(markers)
-  if (layer.value)
-    layerApi?.add(items.length === 1 ? items[0] : items)
-  else
+  if (layer.value) {
+    layerApi?.add(items.length === 1
+      ? items[0]
+      : items)
+  }
+  else {
     items.forEach(marker => pendingMarkers.add(marker))
+  }
 }
 
 function removeMarkers(markers: AMap.LabelMarker | AMap.LabelMarker[]) {
   const items = normalizeMarkers(markers)
   items.forEach(marker => pendingMarkers.delete(marker))
-  if (layer.value)
-    layerApi?.remove(items.length === 1 ? items[0] : items)
+  if (layer.value) {
+    layerApi?.remove(items.length === 1
+      ? items[0]
+      : items)
+  }
 }
 
 function clearMarkers() {

@@ -50,13 +50,24 @@ const overlayOptions = computed(() => ({
   ...props.options,
 }))
 
-const ellipseApi = context ? useEllipse(() => context.map.value, overlayOptions) : null
+const ellipseApi = context
+  ? useEllipse(() => context.map.value, overlayOptions)
+  : null
 const ellipse = ellipseApi?.overlay ?? shallowRef<AMap.Ellipse | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (ellipseApi) {

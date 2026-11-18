@@ -82,7 +82,9 @@ describe('amap loca components', () => {
       components: { AmapLocaProvider, AmapLocaPointLayer },
       setup() {
         const map = {}
-        const points = ref([{ lng: 120, lat: 30 }])
+        const points = ref([
+          { lng: 120, lat: 30 },
+        ])
         return { map, points }
       },
       template: `
@@ -97,7 +99,9 @@ describe('amap loca components', () => {
 
     expect(createdLayers[0].source.data.features[0].geometry.coordinates).toEqual([120, 30])
 
-    wrapper.vm.points = [{ lng: 121, lat: 31 }]
+    wrapper.vm.points = [
+      { lng: 121, lat: 31 },
+    ]
     await nextTick()
 
     expect(createdLayers[0].source.data.features[0].geometry.coordinates).toEqual([121, 31])
@@ -110,7 +114,9 @@ describe('amap loca components', () => {
       components: { AmapLocaProvider, AmapLocaHeatmapLayer },
       setup() {
         const map = {}
-        const data = ref([{ lng: 120, lat: 30, value: 10 }])
+        const data = ref([
+          { lng: 120, lat: 30, value: 10 },
+        ])
         const options = ref({ radius: 20 })
         return { map, data, options }
       },

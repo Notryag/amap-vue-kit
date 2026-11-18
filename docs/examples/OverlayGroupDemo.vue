@@ -25,12 +25,42 @@ const visible = ref(true)
 const filters = reactive<FiltersState>({ coffee: true, park: true })
 
 const places: Place[] = [
-  { id: 'coffee-1', name: '北京咖啡', position: [116.404, 39.915], category: 'coffee' },
-  { id: 'coffee-2', name: '朝阳咖啡', position: [116.39, 39.92], category: 'coffee' },
-  { id: 'coffee-3', name: 'CBD 烘焙店', position: [116.456, 39.912], category: 'coffee' },
-  { id: 'park-1', name: '日坛公园', position: [116.45, 39.915], category: 'park' },
-  { id: 'park-2', name: '朝阳公园', position: [116.48, 39.94], category: 'park' },
-  { id: 'park-3', name: '龙潭公园', position: [116.435, 39.876], category: 'park' },
+  {
+    id: 'coffee-1',
+    name: '北京咖啡',
+    position: [116.404, 39.915],
+    category: 'coffee',
+  },
+  {
+    id: 'coffee-2',
+    name: '朝阳咖啡',
+    position: [116.39, 39.92],
+    category: 'coffee',
+  },
+  {
+    id: 'coffee-3',
+    name: 'CBD 烘焙店',
+    position: [116.456, 39.912],
+    category: 'coffee',
+  },
+  {
+    id: 'park-1',
+    name: '日坛公园',
+    position: [116.45, 39.915],
+    category: 'park',
+  },
+  {
+    id: 'park-2',
+    name: '朝阳公园',
+    position: [116.48, 39.94],
+    category: 'park',
+  },
+  {
+    id: 'park-3',
+    name: '龙潭公园',
+    position: [116.435, 39.876],
+    category: 'park',
+  },
 ]
 
 function disposeMarkers(markers: AMap.Marker[]) {

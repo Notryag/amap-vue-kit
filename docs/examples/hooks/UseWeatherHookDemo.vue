@@ -3,7 +3,9 @@ import { useWeather } from '@amap-vue/hooks'
 import { computed, ref, shallowRef, watch } from 'vue'
 import { useDemoLoader } from '../useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Weather'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Weather'],
+})
 
 const weather = useWeather()
 const city = ref('北京')
@@ -31,7 +33,9 @@ async function refresh(target: string = city.value) {
       error.value = '未获取到该城市的天气信息。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false

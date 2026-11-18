@@ -3,7 +3,9 @@ import { useGeocoder } from '@amap-vue/hooks'
 import { computed, ref, shallowRef } from 'vue'
 import { useDemoLoader } from '../useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Geocoder'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Geocoder'],
+})
 
 const geocoder = useGeocoder()
 
@@ -19,18 +21,32 @@ const reverseResult = shallowRef<AMap.Geocoder.GeocodeResult | AMap.Geocoder.ReG
 const locationEntry = computed(() => locationResult.value?.geocodes?.[0] ?? null)
 const reverseEntry = computed(() => {
   const value = reverseResult.value
-  return value && 'regeocode' in value ? value.regeocode : null
+  return value && 'regeocode' in value
+    ? value.regeocode
+    : null
 })
 
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)
     return null
-  if (typeof value.getLng === 'function' && typeof value.getLat === 'function')
-    return [Number(value.getLng()), Number(value.getLat())]
-  if (Array.isArray(value) && value.length >= 2)
-    return [Number(value[0]), Number(value[1])]
-  if (typeof value.lng === 'number' && typeof value.lat === 'number')
-    return [Number(value.lng), Number(value.lat)]
+  if (typeof value.getLng === 'function' && typeof value.getLat === 'function') {
+    return [
+      Number(value.getLng()),
+      Number(value.getLat()),
+    ]
+  }
+  if (Array.isArray(value) && value.length >= 2) {
+    return [
+      Number(value[0]),
+      Number(value[1]),
+    ]
+  }
+  if (typeof value.lng === 'number' && typeof value.lat === 'number') {
+    return [
+      Number(value.lng),
+      Number(value.lat),
+    ]
+  }
   return null
 }
 
@@ -60,7 +76,9 @@ async function searchAddress() {
       error.value = '未找到匹配的地址。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false
@@ -71,13 +89,18 @@ async function reverseLookup() {
   loading.value = true
   error.value = null
   try {
-    const result = await geocoder.getAddress([Number(lng.value), Number(lat.value)])
+    const result = await geocoder.getAddress([
+      Number(lng.value),
+      Number(lat.value),
+    ])
     reverseResult.value = result
     if (!result)
       error.value = '未查询到对应的地址。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false

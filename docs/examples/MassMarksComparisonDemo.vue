@@ -5,7 +5,9 @@ import { loader } from '@amap-vue/shared'
 import { computed, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Adaptor'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Adaptor'],
+})
 
 const center: [number, number] = [116.397, 39.908]
 const map = shallowRef<AMap.Map | null>(null)
@@ -21,7 +23,10 @@ function generatePoints(size: number) {
     const lat = 39.85 + Math.random() * 0.16
     return {
       id: `pt-${index}`,
-      lnglat: [Number(lng.toFixed(6)), Number(lat.toFixed(6))] as [number, number],
+      lnglat: [
+        Number(lng.toFixed(6)),
+        Number(lat.toFixed(6)),
+      ] as [number, number],
       category: categories[index % categories.length],
       styleIndex: index % 2,
     }
@@ -77,7 +82,11 @@ const labelPoints = computed(() => {
   }))
 })
 
-watch([mode, map, () => mass.mass.value], ([value, mapInstance]) => {
+watch([
+  mode,
+  map,
+  () => mass.mass.value,
+], ([value, mapInstance]) => {
   const instance = mass.mass.value
   if (!instance)
     return

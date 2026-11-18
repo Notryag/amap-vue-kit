@@ -58,15 +58,26 @@ const massOptions = computed<UseMassMarkersOptions>(() => ({
   loadOptions: props.loadOptions,
 }))
 
-const massApi = mapContext ? useMassMarkers(() => mapContext.map.value, massOptions) : null
+const massApi = mapContext
+  ? useMassMarkers(() => mapContext.map.value, massOptions)
+  : null
 const mass = massApi?.mass ?? shallowRef<AMap.MassMarks | null>(null)
 
 let readyEmitted = false
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (massApi) {

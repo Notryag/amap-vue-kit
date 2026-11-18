@@ -38,7 +38,12 @@ export function useServiceInstance<T>(
         const options = getLoadOptions()
         const amap = await loader.load({
           ...options,
-          plugins: [...new Set([...(options?.plugins ?? []), plugin])],
+          plugins: [
+            ...new Set([
+              ...(options?.plugins ?? []),
+              plugin,
+            ]),
+          ],
         })
         if (disposed || current !== generation)
           return null
@@ -47,8 +52,11 @@ export function useServiceInstance<T>(
         return value
       }
       catch (error) {
-        if (current === generation && !disposed)
-          warn(error instanceof Error ? error.message : String(error))
+        if (current === generation && !disposed) {
+          warn(error instanceof Error
+            ? error.message
+            : String(error))
+        }
         return null
       }
       finally {

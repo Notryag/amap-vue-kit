@@ -3,7 +3,9 @@ import { useAutoComplete } from '@amap-vue/hooks'
 import { ref, shallowRef } from 'vue'
 import { useDemoLoader } from '../useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.AutoComplete'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.AutoComplete'],
+})
 
 const autoComplete = useAutoComplete({ city: '北京' })
 const keyword = ref('咖啡')
@@ -26,7 +28,9 @@ async function runSearch() {
       error.value = '未找到匹配的地点。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false

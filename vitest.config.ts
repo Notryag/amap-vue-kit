@@ -3,7 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+  ],
   resolve: {
     alias: {
       '@amap-vue/core': resolve(__dirname, 'packages/core/src'),
@@ -14,7 +16,9 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    setupFiles: [resolve(__dirname, 'vitest.setup.ts')],
+    setupFiles: [
+      resolve(__dirname, 'vitest.setup.ts'),
+    ],
     globals: true,
   },
 })

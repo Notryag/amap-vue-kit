@@ -60,7 +60,9 @@ const layerOptions = computed<UseTrafficLayerOptions>(() => {
   return base
 })
 
-const layerApi = context ? useTrafficLayer(() => context.map.value, layerOptions) : null
+const layerApi = context
+  ? useTrafficLayer(() => context.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.TileLayer.Traffic | null>(null)
 
 if (layerApi) {

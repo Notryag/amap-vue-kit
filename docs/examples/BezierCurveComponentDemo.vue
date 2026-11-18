@@ -4,7 +4,9 @@ import { AmapBezierCurve, AmapMap } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.BezierCurve'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.BezierCurve'],
+})
 
 const path = ref<BezierCurvePath>([
   [

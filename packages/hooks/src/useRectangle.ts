@@ -22,7 +22,9 @@ export interface UseRectangleReturn extends OverlayLifecycle<AMap.Rectangle> {
 function resolveBounds(AMapInstance: typeof AMap | undefined, bounds: BoundsLike | undefined) {
   if (!bounds)
     return undefined
-  return AMapInstance ? toBounds(AMapInstance, bounds) ?? bounds : bounds
+  return AMapInstance
+    ? toBounds(AMapInstance, bounds) ?? bounds
+    : bounds
 }
 
 export function useRectangle(
@@ -49,8 +51,11 @@ export function useRectangle(
       rectangle.setOptions(rest as any)
     if (bounds !== undefined)
       setBoundsInternal(rectangle, bounds)
-    if (visible != null)
-      visible ? rectangle.show() : rectangle.hide()
+    if (visible != null) {
+      visible
+        ? rectangle.show()
+        : rectangle.hide()
+    }
   })
 
   function setBoundsInternal(rectangle: AMap.Rectangle, bounds: BoundsLike | undefined) {

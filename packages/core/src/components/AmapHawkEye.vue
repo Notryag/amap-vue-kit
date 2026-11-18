@@ -34,12 +34,22 @@ if (!context)
 const options = computed<UseHawkEyeOptions>(() => ({
   ...props.options,
   visible: props.visible,
-  ...(props.isOpen !== undefined ? { isOpen: props.isOpen } : {}),
-  ...(props.width !== undefined ? { width: props.width } : {}),
-  ...(props.height !== undefined ? { height: props.height } : {}),
-  ...(props.offset !== undefined ? { offset: props.offset } : {}),
+  ...(props.isOpen !== undefined
+    ? { isOpen: props.isOpen }
+    : {}),
+  ...(props.width !== undefined
+    ? { width: props.width }
+    : {}),
+  ...(props.height !== undefined
+    ? { height: props.height }
+    : {}),
+  ...(props.offset !== undefined
+    ? { offset: props.offset }
+    : {}),
 }))
-const api = context ? useHawkEye(() => context.map.value, options) : null
+const api = context
+  ? useHawkEye(() => context.map.value, options)
+  : null
 const control = api?.control ?? shallowRef<AMap.HawkEye | null>(null)
 watch(control, (value) => {
   if (value)

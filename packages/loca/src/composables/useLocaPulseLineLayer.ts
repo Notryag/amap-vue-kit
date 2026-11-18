@@ -29,7 +29,7 @@ export function useLocaPulseLineLayer(
 
   function setData(data: PulseLineItem[], pathKey = 'path') {
     if (!Array.isArray(data))
-      throw new Error('[amap-vue] Pulse line layer data must be an array.')
+      throw new TypeError('[amap-vue] Pulse line layer data must be an array.')
 
     const layerInstance = ensureLayer()
     const features = data.map((item) => {

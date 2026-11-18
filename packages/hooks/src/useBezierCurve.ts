@@ -50,9 +50,14 @@ export function useBezierCurve(
       curve.setOptions(rest as any)
     if (path)
       setPathInternal(curve, path)
-    if (visible != null)
-      visible ? curve.show() : curve.hide()
-  }, () => ({ plugins: ['AMap.BezierCurve'] }))
+    if (visible != null) {
+      visible
+        ? curve.show()
+        : curve.hide()
+    }
+  }, () => ({
+    plugins: ['AMap.BezierCurve'],
+  }))
 
   function setPathInternal(curve: AMap.BezierCurve, path: BezierCurvePath | undefined) {
     if (!path)

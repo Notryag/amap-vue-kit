@@ -15,7 +15,9 @@ const segments = ref<BezierCurvePath>([
 
 const editing = ref(false)
 
-const { container, hasKey, map } = useHookDemoMap({ plugins: ['AMap.BezierCurve'] })
+const { container, hasKey, map } = useHookDemoMap({
+  plugins: ['AMap.BezierCurve'],
+})
 
 const curve = useBezierCurve(() => map.value, () => ({
   path: segments.value,

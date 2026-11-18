@@ -21,7 +21,7 @@ export interface UseDistrictLayerReturn extends OverlayLifecycle<AMap.DistrictLa
 }
 
 function hasOwn(target: object, key: PropertyKey) {
-  return Object.prototype.hasOwnProperty.call(target, key)
+  return Object.hasOwn(target, key)
 }
 
 function resolveLayerCtor(AMapInstance: typeof AMap, type: DistrictLayerType | undefined) {
@@ -80,7 +80,9 @@ export function useDistrictLayer(
     (instance, nextOptions) => {
       applyDistrictLayerOptions(instance as AMap.DistrictLayer, nextOptions)
     },
-    () => ({ plugins: ['AMap.DistrictLayer'] }),
+    () => ({
+      plugins: ['AMap.DistrictLayer'],
+    }),
   )
 
   function show() {

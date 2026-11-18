@@ -78,7 +78,9 @@ export function useImageLayer(
     ({ AMap, map, options: layerOptions }) => {
       const { visible: _ignoredVisible, map: _ignoredMap, ...rest } = layerOptions as UseImageLayerOptions & { map?: AMap.Map }
       const { bounds, ...others } = rest
-      const resolvedBounds = bounds ? toBounds(AMap, bounds) ?? bounds : bounds
+      const resolvedBounds = bounds
+        ? toBounds(AMap, bounds) ?? bounds
+        : bounds
       const instance = new (AMap as any).ImageLayer({
         ...others,
         bounds: resolvedBounds,
@@ -89,7 +91,9 @@ export function useImageLayer(
     (layer, nextOptions) => {
       applyImageLayerOptions(layer, nextOptions)
     },
-    () => ({ plugins: ['AMap.ImageLayer'] }),
+    () => ({
+      plugins: ['AMap.ImageLayer'],
+    }),
   )
 
   function show() {

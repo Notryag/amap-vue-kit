@@ -47,13 +47,24 @@ const markerOptions = computed(() => ({
   ...props.options,
 }))
 
-const markerApi = context ? useCircleMarker(() => context.map.value, markerOptions) : null
+const markerApi = context
+  ? useCircleMarker(() => context.map.value, markerOptions)
+  : null
 const circleMarker = markerApi?.overlay ?? shallowRef<AMap.CircleMarker | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (markerApi) {

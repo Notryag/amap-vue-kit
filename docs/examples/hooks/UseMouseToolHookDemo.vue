@@ -6,7 +6,9 @@ import { useHookDemoMap } from './useHookDemoMap'
 const { container, hasKey, map } = useHookDemoMap(() => ({
   center: [116.397, 39.908],
   zoom: 12,
-}), { plugins: ['AMap.BezierCurve'] })
+}), {
+  plugins: ['AMap.BezierCurve'],
+})
 
 const eventLog = ref<string[]>([])
 

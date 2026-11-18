@@ -3,7 +3,9 @@ import { AmapAutoComplete } from '@amap-vue/core'
 import { ref, shallowRef } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.AutoComplete'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.AutoComplete'],
+})
 
 const keyword = ref('咖啡')
 const tips = shallowRef<AMap.Autocomplete.Tip[]>([])

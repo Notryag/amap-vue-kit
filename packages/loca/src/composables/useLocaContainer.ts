@@ -10,7 +10,9 @@ export interface UseLocaContainerOptions {
 export function useLocaContainer(options: UseLocaContainerOptions) {
   const instance = shallowRef<LocaContainer | null>(null)
   const mapRef = computed(() => {
-    const value = typeof options.map === 'function' ? options.map() : unref(options.map as any)
+    const value = typeof options.map === 'function'
+      ? options.map()
+      : unref(options.map as any)
     return value ?? null
   })
 

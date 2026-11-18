@@ -10,7 +10,13 @@ const packages = [
 
 function npmView(packageName) {
   return new Promise((resolve) => {
-    const child = spawn('npm', ['view', packageName, 'name', 'version', '--json'], {
+    const child = spawn('npm', [
+      'view',
+      packageName,
+      'name',
+      'version',
+      '--json',
+    ], {
       shell: process.platform === 'win32',
       stdio: ['ignore', 'pipe', 'pipe'],
     })

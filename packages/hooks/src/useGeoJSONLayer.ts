@@ -21,7 +21,7 @@ export interface UseGeoJSONLayerReturn extends OverlayLifecycle<AMap.GeoJSON> {
 }
 
 function hasOwn(target: object, key: PropertyKey) {
-  return Object.prototype.hasOwnProperty.call(target, key)
+  return Object.hasOwn(target, key)
 }
 
 function applyGeoJSONOptions(instance: AMap.GeoJSON, options: UseGeoJSONLayerOptions) {
@@ -62,7 +62,9 @@ export function useGeoJSONLayer(
     (instance, nextOptions) => {
       applyGeoJSONOptions(instance, nextOptions)
     },
-    () => ({ plugins: ['AMap.GeoJSON'] }),
+    () => ({
+      plugins: ['AMap.GeoJSON'],
+    }),
     {
       detach(_map, instance) {
         instance.clearOverlays?.()

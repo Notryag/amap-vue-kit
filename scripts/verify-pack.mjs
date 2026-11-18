@@ -73,7 +73,12 @@ async function auditPackedPackages() {
   for (const { tarballName } of await getPackages()) {
     const packageRoot = join(extractRoot, tarballName.replace(/\.tgz$/u, ''))
     await mkdir(packageRoot, { recursive: true })
-    await run('tar', ['-xzf', join(packDir, tarballName), '-C', packageRoot])
+    await run('tar', [
+      '-xzf',
+      join(packDir, tarballName),
+      '-C',
+      packageRoot,
+    ])
 
     const files = await listFiles(packageRoot)
     for (const file of files) {
@@ -127,8 +132,11 @@ async function main() {
 
   const packages = await getPackages()
 
-  for (const { dir } of packages)
-    await run('npm', ['pack', '--pack-destination', packDir], { cwd: join(root, dir) })
+  for (const { dir } of packages) {
+    await run('npm', ['pack', '--pack-destination', packDir], {
+      cwd: join(root, dir),
+    })
+  }
 
   await auditPackedPackages()
 

@@ -16,7 +16,10 @@ const { container, hasKey, on, ready, setTheme, setViewMode } = useHookDemoMap((
 ready((instance) => {
   instance.on('moveend', () => {
     const next = instance.getCenter()
-    center.value = [Number(next.getLng().toFixed(5)), Number(next.getLat().toFixed(5))]
+    center.value = [
+      Number(next.getLng().toFixed(5)),
+      Number(next.getLat().toFixed(5)),
+    ]
   })
   instance.on('zoomchange', () => {
     zoom.value = Math.round(instance.getZoom())
@@ -28,7 +31,9 @@ on('complete', () => {
     setTheme('amap://styles/dark')
 })
 
-const themeLabel = computed(() => theme.value === 'default' ? '默认' : '深色（夜间）')
+const themeLabel = computed(() => theme.value === 'default'
+  ? '默认'
+  : '深色（夜间）')
 
 function flyTo(point: [number, number], nextZoom: number) {
   center.value = point
@@ -36,12 +41,18 @@ function flyTo(point: [number, number], nextZoom: number) {
 }
 
 function toggleTheme() {
-  theme.value = theme.value === 'default' ? 'dark' : 'default'
-  setTheme(theme.value === 'default' ? undefined : 'amap://styles/dark')
+  theme.value = theme.value === 'default'
+    ? 'dark'
+    : 'default'
+  setTheme(theme.value === 'default'
+    ? undefined
+    : 'amap://styles/dark')
 }
 
 function toggleViewMode() {
-  viewMode.value = viewMode.value === '2D' ? '3D' : '2D'
+  viewMode.value = viewMode.value === '2D'
+    ? '3D'
+    : '2D'
   setViewMode(viewMode.value)
 }
 </script>

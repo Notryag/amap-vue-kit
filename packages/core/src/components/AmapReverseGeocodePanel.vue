@@ -137,7 +137,9 @@ function displayAddress(value: GeocoderResult) {
 }
 
 function reGeocode(value: GeocoderResult) {
-  return 'regeocode' in value ? value.regeocode : null
+  return 'regeocode' in value
+    ? value.regeocode
+    : null
 }
 
 function reGeocodePois(value: GeocoderResult) {

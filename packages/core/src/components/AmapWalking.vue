@@ -65,8 +65,12 @@ const walkingOptions = computed<UseWalkingOptions>(() => {
 const walkingApi = useWalking(walkingOptions)
 const walking = walkingApi.walking
 
-const originInput = ref(typeof props.origin === 'string' ? props.origin : '')
-const destinationInput = ref(typeof props.destination === 'string' ? props.destination : '')
+const originInput = ref(typeof props.origin === 'string'
+  ? props.origin
+  : '')
+const destinationInput = ref(typeof props.destination === 'string'
+  ? props.destination
+  : '')
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)

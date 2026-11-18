@@ -12,7 +12,12 @@ function createMap() {
 
 describe('useHawkEye', () => {
   it('preserves MapType instances on visibility updates with an unchanged layer array', async () => {
-    const options = reactive({ visible: true, layers: [new AMap.TileLayer()] })
+    const options = reactive({
+      visible: true,
+      layers: [
+        new AMap.TileLayer(),
+      ],
+    })
     const api = useMapType(createMap(), options)
     await flushPromises()
     const first = api.control.value
@@ -31,7 +36,9 @@ describe('useHawkEye', () => {
     const api = useHawkEye(map, options)
     await flushPromises()
     const control = api.control.value as any
-    expect(load).toHaveBeenCalledWith({ plugins: ['AMap.HawkEye'] })
+    expect(load).toHaveBeenCalledWith({
+      plugins: ['AMap.HawkEye'],
+    })
     expect(control.map).toBe(map)
     expect(control.visible).toBe(false)
     expect(control.isOpen).toBe(true)
@@ -51,7 +58,10 @@ describe('useHawkEye', () => {
   })
 
   it('recreates constructor-only options, including in-place offset updates', async () => {
-    const options = reactive({ width: '160px', offset: [10, 10] as [number, number] })
+    const options = reactive({
+      width: '160px',
+      offset: [10, 10] as [number, number],
+    })
     const api = useHawkEye(createMap(), options)
     await flushPromises()
     const first = api.control.value as any
@@ -81,7 +91,12 @@ describe('useHawkEye', () => {
     api.destroy()
   })
 
-  it.each(['switch', 'remove', 'destroy', 'unmount'])('ignores stale initialization on %s', async (action) => {
+  it.each([
+    'switch',
+    'remove',
+    'destroy',
+    'unmount',
+  ])('ignores stale initialization on %s', async (action) => {
     let resolve!: (amap: typeof AMap) => void
     vi.spyOn(loader, 'load').mockReturnValue(new Promise((done) => {
       resolve = done
@@ -95,10 +110,12 @@ describe('useHawkEye', () => {
     const initial = createMap()
     const map = shallowRef<AMap.Map | null>(initial)
     let api!: ReturnType<typeof useHawkEye>
-    const wrapper = mount(defineComponent({ setup() {
-      api = useHawkEye(map)
-      return () => null
-    } }))
+    const wrapper = mount(defineComponent({
+      setup() {
+        api = useHawkEye(map)
+        return () => null
+      },
+    }))
     if (action === 'switch')
       map.value = createMap()
     else if (action === 'remove')
@@ -110,7 +127,9 @@ describe('useHawkEye', () => {
     await nextTick()
     resolve(AMap)
     await flushPromises()
-    expect(construct).toHaveBeenCalledTimes(action === 'switch' ? 1 : 0)
+    expect(construct).toHaveBeenCalledTimes(action === 'switch'
+      ? 1
+      : 0)
     if (action === 'switch')
       expect((api.control.value as any).map).toBe(map.value)
     else

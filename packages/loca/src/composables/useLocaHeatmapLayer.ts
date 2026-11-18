@@ -41,7 +41,7 @@ export function useLocaHeatmapLayer(
 
   function setData(data: HeatmapLike[], valueField = options.valueField ?? 'value') {
     if (!Array.isArray(data))
-      throw new Error('[amap-vue] Loca heatmap layer data must be an array.')
+      throw new TypeError('[amap-vue] Loca heatmap layer data must be an array.')
 
     const layerInstance = ensureLayer()
     const features = data.map((item) => {
@@ -49,9 +49,9 @@ export function useLocaHeatmapLayer(
       const lat = item.lat ?? item.latitude ?? item.y
       const value = item[valueField]
       if (typeof lng !== 'number' || typeof lat !== 'number')
-        throw new Error('[amap-vue] Heatmap data items require numeric lng/lat fields.')
+        throw new TypeError('[amap-vue] Heatmap data items require numeric lng/lat fields.')
       if (typeof value !== 'number')
-        throw new Error(`[amap-vue] Heatmap value field "${valueField}" must be numeric.`)
+        throw new TypeError(`[amap-vue] Heatmap value field "${valueField}" must be numeric.`)
 
       return createPointFeature({
         ...item,

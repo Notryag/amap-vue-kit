@@ -56,7 +56,9 @@ const toolOptions = computed<UseMouseToolOptions>(() => ({
   loadOptions: props.loadOptions,
 }))
 
-const toolApi = mapContext ? useMouseTool(() => mapContext.map.value, toolOptions) : null
+const toolApi = mapContext
+  ? useMouseTool(() => mapContext.map.value, toolOptions)
+  : null
 const tool = toolApi?.tool ?? shallowRef<AMap.MouseTool | null>(null)
 
 let readyEmitted = false

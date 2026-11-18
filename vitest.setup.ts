@@ -48,8 +48,12 @@ class Bounds {
   public northEast: LngLat
 
   constructor(southWest: LngLat | [number, number], northEast: LngLat | [number, number]) {
-    this.southWest = southWest instanceof LngLat ? southWest : new LngLat(southWest[0], southWest[1])
-    this.northEast = northEast instanceof LngLat ? northEast : new LngLat(northEast[0], northEast[1])
+    this.southWest = southWest instanceof LngLat
+      ? southWest
+      : new LngLat(southWest[0], southWest[1])
+    this.northEast = northEast instanceof LngLat
+      ? northEast
+      : new LngLat(northEast[0], northEast[1])
   }
 
   getSouthWest() {
@@ -61,7 +65,9 @@ class Bounds {
   }
 
   contains(lngLat: LngLat | [number, number]) {
-    const point = lngLat instanceof LngLat ? lngLat : new LngLat(lngLat[0], lngLat[1])
+    const point = lngLat instanceof LngLat
+      ? lngLat
+      : new LngLat(lngLat[0], lngLat[1])
     return point.lng >= this.southWest.lng
       && point.lng <= this.northEast.lng
       && point.lat >= this.southWest.lat
@@ -82,10 +88,15 @@ class Map extends EventTarget {
   }
 
   setCenter(value: any) {
-    if (value && typeof value.getLng === 'function' && typeof value.getLat === 'function')
-      this.options.center = [value.getLng(), value.getLat()]
-    else
+    if (value && typeof value.getLng === 'function' && typeof value.getLat === 'function') {
+      this.options.center = [
+        value.getLng(),
+        value.getLat(),
+      ]
+    }
+    else {
       this.options.center = value
+    }
   }
 
   setZoom(value: number) {
@@ -109,7 +120,10 @@ class Map extends EventTarget {
   }
 
   setStatus(status: Record<string, any>) {
-    this.status = { ...this.status, ...status }
+    this.status = {
+      ...this.status,
+      ...status,
+    }
   }
 
   addControl(control: any) {
@@ -137,12 +151,16 @@ class Map extends EventTarget {
   }
 
   add(feature: any) {
-    const features = Array.isArray(feature) ? feature : [feature]
+    const features = Array.isArray(feature)
+      ? feature
+      : [feature]
     features.forEach(item => this.addLayer(item))
   }
 
   remove(feature: any) {
-    const features = Array.isArray(feature) ? feature : [feature]
+    const features = Array.isArray(feature)
+      ? feature
+      : [feature]
     features.forEach(item => this.removeLayer(item))
   }
 
@@ -170,10 +188,15 @@ class Marker extends EventTarget {
   }
 
   setPosition(position: any) {
-    if (position && typeof position.getLng === 'function' && typeof position.getLat === 'function')
-      this.options.position = [position.getLng(), position.getLat()]
-    else
+    if (position && typeof position.getLng === 'function' && typeof position.getLat === 'function') {
+      this.options.position = [
+        position.getLng(),
+        position.getLat(),
+      ]
+    }
+    else {
       this.options.position = position
+    }
   }
 
   setIcon(icon: any) {
@@ -209,7 +232,10 @@ class Marker extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -244,7 +270,10 @@ class Text extends EventTarget {
   }
 
   setStyle(style: any) {
-    this.options.style = { ...(this.options.style ?? {}), ...style }
+    this.options.style = {
+      ...(this.options.style ?? {}),
+      ...style,
+    }
   }
 
   setPosition(position: any) {
@@ -256,7 +285,10 @@ class Text extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setzIndex(zIndex: number) {
@@ -387,7 +419,10 @@ class Polyline extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -422,7 +457,10 @@ class BezierCurve extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -463,7 +501,10 @@ class Circle extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -498,7 +539,10 @@ class Rectangle extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setExtData(extData: any) {
@@ -541,7 +585,10 @@ class Ellipse extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setExtData(extData: any) {
@@ -584,7 +631,10 @@ class CircleMarker extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setExtData(extData: any) {
@@ -631,7 +681,10 @@ class TileLayer extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -689,7 +742,10 @@ class ImageLayer extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -720,7 +776,9 @@ class LabelsLayer extends EventTarget {
   }
 
   add(markers: LabelMarker | LabelMarker[]) {
-    const items = Array.isArray(markers) ? markers : [markers]
+    const items = Array.isArray(markers)
+      ? markers
+      : [markers]
     items.forEach((marker) => {
       this.markers.add(marker)
       marker.layer = this
@@ -732,7 +790,9 @@ class LabelsLayer extends EventTarget {
   }
 
   remove(markers: LabelMarker | LabelMarker[]) {
-    const items = Array.isArray(markers) ? markers : [markers]
+    const items = Array.isArray(markers)
+      ? markers
+      : [markers]
     items.forEach((marker) => {
       if (this.markers.has(marker)) {
         this.markers.delete(marker)
@@ -748,7 +808,10 @@ class LabelsLayer extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setOpacity(opacity: number) {
@@ -794,7 +857,10 @@ class ElasticMarker extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setStyles(styles: any) {
@@ -830,7 +896,9 @@ class MarkerCluster extends EventTarget {
   constructor(map: Map, markers: AMap.Marker[] | AMap.Marker = [], options: any = {}) {
     super()
     this.map = map
-    this.markers = Array.isArray(markers) ? [...markers] : [markers]
+    this.markers = Array.isArray(markers)
+      ? [...markers]
+      : [markers]
     this.options = { ...options }
   }
 
@@ -863,7 +931,10 @@ class MarkerCluster extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   destroy() {
@@ -895,7 +966,10 @@ class ToolBar extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -964,7 +1038,10 @@ class MapTypeControl extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   show() {
@@ -1243,7 +1320,10 @@ class BaseEditor<TTarget> extends EventTarget {
   }
 
   setOptions(options: Record<string, any>) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   destroy() {
@@ -1274,7 +1354,10 @@ class DistrictLayerBase extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setStyles(styles: any) {
@@ -1392,7 +1475,10 @@ class HeatMap extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   setDataSet(dataSet: any) {
@@ -1425,13 +1511,21 @@ class Geocoder extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   getLocation(address: string, callback: (status: string, result: any) => void) {
     callback('complete', {
       info: 'OK',
-      geocodes: [{ formattedAddress: address, location: new LngLat(116.39, 39.9) }],
+      geocodes: [
+        {
+          formattedAddress: address,
+          location: new LngLat(116.39, 39.9),
+        },
+      ],
     })
   }
 
@@ -1447,7 +1541,11 @@ class Geocoder extends EventTarget {
           streetNumber: { street: '长安街', number: '1号' },
         },
         pois: [
-          { id: 'poi-1', name: '天安门广场', location: new LngLat(116.397, 39.908) },
+          {
+            id: 'poi-1',
+            name: '天安门广场',
+            location: new LngLat(116.397, 39.908),
+          },
         ],
       },
     })
@@ -1465,7 +1563,10 @@ class Geolocation extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 
   getCurrentPosition(callback: (status: string, result: any) => void) {
@@ -1521,8 +1622,22 @@ class Weather extends EventTarget {
       province: '北京',
       adcode: '110000',
       forecasts: [
-        { date: '2024-01-01', week: '周一', dayWeather: '晴', nightWeather: '多云', dayTemp: '26', nightTemp: '18' },
-        { date: '2024-01-02', week: '周二', dayWeather: '多云', nightWeather: '阵雨', dayTemp: '24', nightTemp: '17' },
+        {
+          date: '2024-01-01',
+          week: '周一',
+          dayWeather: '晴',
+          nightWeather: '多云',
+          dayTemp: '26',
+          nightTemp: '18',
+        },
+        {
+          date: '2024-01-02',
+          week: '周二',
+          dayWeather: '多云',
+          nightWeather: '阵雨',
+          dayTemp: '24',
+          nightTemp: '17',
+        },
       ],
     })
   }
@@ -1583,7 +1698,10 @@ class AutoComplete extends EventTarget {
   }
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 }
 
@@ -1619,7 +1737,15 @@ class PlaceSearch extends EventTarget {
 
   search(keyword: string, callback: (status: string, result: any) => void) {
     if (!keyword) {
-      callback('no_data', { info: 'NO_DATA', poiList: { count: 0, pageIndex: 1, pageSize: this.options.pageSize ?? 10, pois: [] } })
+      callback('no_data', {
+        info: 'NO_DATA',
+        poiList: {
+          count: 0,
+          pageIndex: 1,
+          pageSize: this.options.pageSize ?? 10,
+          pois: [],
+        },
+      })
       return
     }
     const pois = this.buildPois(keyword)
@@ -1685,7 +1811,10 @@ class PlaceSearch extends EventTarget {
   clear() {}
 
   setOptions(options: any) {
-    this.options = { ...this.options, ...options }
+    this.options = {
+      ...this.options,
+      ...options,
+    }
   }
 }
 

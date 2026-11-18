@@ -39,10 +39,15 @@ export function useCircleMarker(
       options: extraOptions,
       ...rest
     } = markerOptions as UseCircleMarkerOptions & { map?: AMap.Map }
-    const mergedOptions = { ...extraOptions, ...rest }
+    const mergedOptions = {
+      ...extraOptions,
+      ...rest,
+    }
     const marker = new AMap.CircleMarker({
       ...mergedOptions,
-      center: center ? toLngLat(AMap, center) ?? center : undefined,
+      center: center
+        ? toLngLat(AMap, center) ?? center
+        : undefined,
       radius,
     } as any)
     marker.setMap(map)
@@ -58,22 +63,30 @@ export function useCircleMarker(
       map: _ignored,
       ...rest
     } = nextOptions as UseCircleMarkerOptions & { map?: AMap.Map }
-    const mergedOptions = { ...extraOptions, ...rest }
+    const mergedOptions = {
+      ...extraOptions,
+      ...rest,
+    }
     if (Object.keys(mergedOptions).length)
       marker.setOptions(mergedOptions as any)
     if (center !== undefined)
       setCenterInternal(marker, center)
     if (typeof radius === 'number')
       marker.setRadius(radius)
-    if (visible != null)
-      visible ? marker.show() : marker.hide()
+    if (visible != null) {
+      visible
+        ? marker.show()
+        : marker.hide()
+    }
   })
 
   function setCenterInternal(marker: AMap.CircleMarker, center: LngLatLike | undefined) {
     if (!center)
       return
     const AMapInstance = loader.get()
-    const resolved = AMapInstance ? toLngLat(AMapInstance, center) ?? center : center
+    const resolved = AMapInstance
+      ? toLngLat(AMapInstance, center) ?? center
+      : center
     marker.setCenter(resolved as any)
   }
 

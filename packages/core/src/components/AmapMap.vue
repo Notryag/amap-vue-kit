@@ -56,10 +56,22 @@ const mapOptions = computed(() => ({
 const { map, ready, on, off } = useMap(mapOptions, containerRef)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'moveend', handler: event => emit('moveend', event) },
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'complete', handler: event => emit('complete', event) },
-  { event: 'error', handler: event => emit('error', event) },
+  {
+    event: 'moveend',
+    handler: event => emit('moveend', event),
+  },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'complete',
+    handler: event => emit('complete', event),
+  },
+  {
+    event: 'error',
+    handler: event => emit('error', event),
+  },
 ]
 
 eventBindings.forEach(({ event, handler }) => on(event, handler))

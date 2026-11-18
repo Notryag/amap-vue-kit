@@ -62,7 +62,9 @@ export function usePlaygroundPersistence(ctx: {
 
     const nextHash = params.toString()
     const base = `${window.location.pathname}${window.location.search}`
-    window.history.replaceState(null, '', nextHash ? `${base}#${nextHash}` : base)
+    window.history.replaceState(null, '', nextHash
+      ? `${base}#${nextHash}`
+      : base)
   }
 
   function restoreStateFromHash(): Partial<PlaygroundState> | undefined {
@@ -121,7 +123,9 @@ export function usePlaygroundPersistence(ctx: {
         ctx.logEvent(
           'State',
           'restore',
-          source === 'hash' ? 'Restored from URL hash' : 'Restored from local storage',
+          source === 'hash'
+            ? 'Restored from URL hash'
+            : 'Restored from local storage',
         )
       }
     }
@@ -212,8 +216,12 @@ export function createApplyStateValues(ctx: any) {
       const marker = state.marker
       const draggable = toBoolean(marker.draggable)
       const showLabel = toBoolean(marker.showLabel)
-      const labelText = typeof marker.labelText === 'string' ? marker.labelText : undefined
-      const labelDirection = isMarkerDirection(marker.labelDirection) ? marker.labelDirection : undefined
+      const labelText = typeof marker.labelText === 'string'
+        ? marker.labelText
+        : undefined
+      const labelDirection = isMarkerDirection(marker.labelDirection)
+        ? marker.labelDirection
+        : undefined
       const offsetX = toFiniteNumber(marker.offsetX)
       const offsetY = toFiniteNumber(marker.offsetY)
 
@@ -250,8 +258,12 @@ export function createApplyStateValues(ctx: any) {
 
     if (state.text) {
       const visible = toBoolean(state.text.visible)
-      const text = typeof state.text.text === 'string' ? state.text.text : undefined
-      const color = typeof state.text.color === 'string' ? state.text.color : undefined
+      const text = typeof state.text.text === 'string'
+        ? state.text.text
+        : undefined
+      const color = typeof state.text.color === 'string'
+        ? state.text.color
+        : undefined
 
       if (visible != null) {
         ctx.textState.visible = visible
@@ -272,8 +284,12 @@ export function createApplyStateValues(ctx: any) {
     if (state.circleMarker) {
       const visible = toBoolean(state.circleMarker.visible)
       const radius = toFiniteNumber(state.circleMarker.radius)
-      const fillColor = typeof state.circleMarker.fillColor === 'string' ? state.circleMarker.fillColor : undefined
-      const strokeColor = typeof state.circleMarker.strokeColor === 'string' ? state.circleMarker.strokeColor : undefined
+      const fillColor = typeof state.circleMarker.fillColor === 'string'
+        ? state.circleMarker.fillColor
+        : undefined
+      const strokeColor = typeof state.circleMarker.strokeColor === 'string'
+        ? state.circleMarker.strokeColor
+        : undefined
 
       if (visible != null) {
         ctx.circleMarkerState.visible = visible
@@ -343,9 +359,15 @@ export function createApplyStateValues(ctx: any) {
     if (state.infoWindow) {
       const infoWindow = state.infoWindow
       const isOpen = toBoolean(infoWindow.isOpen)
-      const title = typeof infoWindow.title === 'string' ? infoWindow.title : undefined
-      const body = typeof infoWindow.body === 'string' ? infoWindow.body : undefined
-      const anchor = isInfoWindowAnchor(infoWindow.anchor) ? infoWindow.anchor : undefined
+      const title = typeof infoWindow.title === 'string'
+        ? infoWindow.title
+        : undefined
+      const body = typeof infoWindow.body === 'string'
+        ? infoWindow.body
+        : undefined
+      const anchor = isInfoWindowAnchor(infoWindow.anchor)
+        ? infoWindow.anchor
+        : undefined
       const offsetX = toFiniteNumber(infoWindow.offsetX)
       const offsetY = toFiniteNumber(infoWindow.offsetY)
 
@@ -410,7 +432,9 @@ function applyOverlayState(
 ) {
   if (state.polyline) {
     const visible = toBoolean(state.polyline.visible)
-    const strokeColor = typeof state.polyline.strokeColor === 'string' ? state.polyline.strokeColor : undefined
+    const strokeColor = typeof state.polyline.strokeColor === 'string'
+      ? state.polyline.strokeColor
+      : undefined
     const strokeWeight = toFiniteNumber(state.polyline.strokeWeight)
 
     if (visible != null) {
@@ -431,8 +455,12 @@ function applyOverlayState(
 
   if (state.polygon) {
     const visible = toBoolean(state.polygon.visible)
-    const strokeColor = typeof state.polygon.strokeColor === 'string' ? state.polygon.strokeColor : undefined
-    const fillColor = typeof state.polygon.fillColor === 'string' ? state.polygon.fillColor : undefined
+    const strokeColor = typeof state.polygon.strokeColor === 'string'
+      ? state.polygon.strokeColor
+      : undefined
+    const fillColor = typeof state.polygon.fillColor === 'string'
+      ? state.polygon.fillColor
+      : undefined
     const fillOpacity = toFiniteNumber(state.polygon.fillOpacity)
 
     if (visible != null) {
@@ -459,9 +487,13 @@ function applyOverlayState(
   if (state.circle) {
     const visible = toBoolean(state.circle.visible)
     const radius = toFiniteNumber(state.circle.radius)
-    const strokeColor = typeof state.circle.strokeColor === 'string' ? state.circle.strokeColor : undefined
+    const strokeColor = typeof state.circle.strokeColor === 'string'
+      ? state.circle.strokeColor
+      : undefined
     const strokeWeight = toFiniteNumber(state.circle.strokeWeight)
-    const fillColor = typeof state.circle.fillColor === 'string' ? state.circle.fillColor : undefined
+    const fillColor = typeof state.circle.fillColor === 'string'
+      ? state.circle.fillColor
+      : undefined
     const fillOpacity = toFiniteNumber(state.circle.fillOpacity)
 
     if (visible != null) {
@@ -497,8 +529,12 @@ function applyOverlayState(
 
   if (state.rectangle) {
     const visible = toBoolean(state.rectangle.visible)
-    const strokeColor = typeof state.rectangle.strokeColor === 'string' ? state.rectangle.strokeColor : undefined
-    const fillColor = typeof state.rectangle.fillColor === 'string' ? state.rectangle.fillColor : undefined
+    const strokeColor = typeof state.rectangle.strokeColor === 'string'
+      ? state.rectangle.strokeColor
+      : undefined
+    const fillColor = typeof state.rectangle.fillColor === 'string'
+      ? state.rectangle.fillColor
+      : undefined
     const fillOpacity = toFiniteNumber(state.rectangle.fillOpacity)
 
     if (visible != null) {
@@ -526,8 +562,12 @@ function applyOverlayState(
     const visible = toBoolean(state.ellipse.visible)
     const radiusX = toFiniteNumber(state.ellipse.radiusX)
     const radiusY = toFiniteNumber(state.ellipse.radiusY)
-    const strokeColor = typeof state.ellipse.strokeColor === 'string' ? state.ellipse.strokeColor : undefined
-    const fillColor = typeof state.ellipse.fillColor === 'string' ? state.ellipse.fillColor : undefined
+    const strokeColor = typeof state.ellipse.strokeColor === 'string'
+      ? state.ellipse.strokeColor
+      : undefined
+    const fillColor = typeof state.ellipse.fillColor === 'string'
+      ? state.ellipse.fillColor
+      : undefined
     const fillOpacity = toFiniteNumber(state.ellipse.fillOpacity)
 
     if (visible != null) {
@@ -563,7 +603,9 @@ function applyOverlayState(
 
   if (state.bezierCurve) {
     const visible = toBoolean(state.bezierCurve.visible)
-    const strokeColor = typeof state.bezierCurve.strokeColor === 'string' ? state.bezierCurve.strokeColor : undefined
+    const strokeColor = typeof state.bezierCurve.strokeColor === 'string'
+      ? state.bezierCurve.strokeColor
+      : undefined
     const strokeWeight = toFiniteNumber(state.bezierCurve.strokeWeight)
 
     if (visible != null) {
@@ -594,7 +636,9 @@ function applyLayerState(
   if (state.tileLayer) {
     const visible = toBoolean(state.tileLayer.visible)
     const opacity = toFiniteNumber(state.tileLayer.opacity)
-    const tileUrl = typeof state.tileLayer.tileUrl === 'string' ? state.tileLayer.tileUrl : undefined
+    const tileUrl = typeof state.tileLayer.tileUrl === 'string'
+      ? state.tileLayer.tileUrl
+      : undefined
 
     if (visible != null) {
       ctx.tileLayerState.visible = visible
@@ -666,7 +710,9 @@ function applyLayerState(
   if (state.districtLayer) {
     const visible = toBoolean(state.districtLayer.visible)
     const opacity = toFiniteNumber(state.districtLayer.opacity)
-    const adcode = typeof state.districtLayer.adcode === 'string' ? state.districtLayer.adcode : undefined
+    const adcode = typeof state.districtLayer.adcode === 'string'
+      ? state.districtLayer.adcode
+      : undefined
 
     if (visible != null) {
       ctx.districtLayerState.visible = visible
@@ -732,7 +778,12 @@ function applyControlState(
   ctx: any,
   markRestored: () => void,
 ) {
-  for (const key of ['toolBar', 'scale', 'controlBar', 'mapType'] as const) {
+  for (const key of [
+    'toolBar',
+    'scale',
+    'controlBar',
+    'mapType',
+  ] as const) {
     const stateValue = state[key]
     const ctxKey = `${key}State`
 
@@ -740,7 +791,9 @@ function applyControlState(
       continue
 
     const visible = toBoolean(stateValue.visible)
-    const position = isControlPosition(stateValue.position) ? stateValue.position : undefined
+    const position = isControlPosition(stateValue.position)
+      ? stateValue.position
+      : undefined
     const offsetX = toFiniteNumber(stateValue.offsetX)
     const offsetY = toFiniteNumber(stateValue.offsetY)
 

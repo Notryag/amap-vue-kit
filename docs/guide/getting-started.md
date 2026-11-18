@@ -104,7 +104,9 @@ const { map, ready } = useMap(() => ({
 }))
 
 ready(() => {
-  useMarker(() => map.value, { position: [116.397, 39.908] })
+  useMarker(() => map.value, {
+    position: [116.397, 39.908]
+  })
 })
 </script>
 

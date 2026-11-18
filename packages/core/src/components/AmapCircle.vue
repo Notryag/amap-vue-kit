@@ -49,13 +49,24 @@ const overlayOptions = computed(() => ({
   ...props.options,
 }))
 
-const circleApi = context ? useCircle(() => context.map.value, overlayOptions) : null
+const circleApi = context
+  ? useCircle(() => context.map.value, overlayOptions)
+  : null
 const circle = circleApi?.overlay ?? shallowRef<AMap.Circle | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (circleApi) {

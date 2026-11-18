@@ -45,13 +45,24 @@ const overlayOptions = computed(() => ({
   ...props.options,
 }))
 
-const rectangleApi = context ? useRectangle(() => context.map.value, overlayOptions) : null
+const rectangleApi = context
+  ? useRectangle(() => context.map.value, overlayOptions)
+  : null
 const rectangle = rectangleApi?.overlay ?? shallowRef<AMap.Rectangle | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (rectangleApi) {

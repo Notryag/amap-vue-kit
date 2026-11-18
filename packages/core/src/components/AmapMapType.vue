@@ -67,7 +67,9 @@ const controlOptions = computed<UseMapTypeOptions>(() => {
   return base
 })
 
-const controlApi = context ? useMapType(() => context.map.value, controlOptions) : null
+const controlApi = context
+  ? useMapType(() => context.map.value, controlOptions)
+  : null
 const control = controlApi?.control ?? shallowRef<any>(null)
 
 if (controlApi) {

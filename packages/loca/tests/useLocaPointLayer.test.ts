@@ -69,12 +69,18 @@ describe('useLocaPointLayer', () => {
         {
           type: 'Feature',
           properties: { lng: 116.397428, lat: 39.90923 },
-          geometry: { type: 'Point', coordinates: [116.397428, 39.90923] },
+          geometry: {
+            type: 'Point',
+            coordinates: [116.397428, 39.90923],
+          },
         },
         {
           type: 'Feature',
           properties: { lng: 120, lat: 30 },
-          geometry: { type: 'Point', coordinates: [120, 30] },
+          geometry: {
+            type: 'Point',
+            coordinates: [120, 30],
+          },
         },
       ],
     })
@@ -85,7 +91,9 @@ describe('useLocaPointLayer', () => {
     const container = new MockContainer()
     const api = useLocaPointLayer(() => container as any)
 
-    expect(() => api.setData([{ lng: null, lat: 10 } as any])).toThrowError(/numeric/)
+    expect(() => api.setData([
+      { lng: null, lat: 10 } as any,
+    ])).toThrowError(/numeric/)
   })
 })
 

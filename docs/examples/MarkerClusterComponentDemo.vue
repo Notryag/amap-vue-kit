@@ -4,7 +4,9 @@ import { AmapMap, AmapMarkerCluster } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.MarkerCluster'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.MarkerCluster'],
+})
 
 const center: [number, number] = [116.397, 39.908]
 const points = ref<MarkerClusterPoint[]>(generatePoints(200))
@@ -16,7 +18,10 @@ function generatePoints(count: number): MarkerClusterPoint[] {
     const lng = center[0] + (Math.random() - 0.5) * 0.6
     const lat = center[1] + (Math.random() - 0.5) * 0.6
     items.push({
-      position: [Number(lng.toFixed(6)), Number(lat.toFixed(6))],
+      position: [
+        Number(lng.toFixed(6)),
+        Number(lat.toFixed(6)),
+      ],
       extData: { id: index },
     })
   }

@@ -25,16 +25,40 @@ defineEmits<{
 
 const markerIcon = 'https://a.amap.com/jsapi_demos/static/demo-center/icons/poi-marker-default.png'
 const clusterPoints = [
-  { position: [116.397428, 39.90923], extData: { name: 'Tiananmen' } },
-  { position: [116.407428, 39.91923], extData: { name: 'Dongcheng' } },
-  { position: [116.387428, 39.91523], extData: { name: 'Xicheng' } },
-  { position: [116.417428, 39.89923], extData: { name: 'Chaoyang west' } },
-  { position: [116.377428, 39.89923], extData: { name: 'Fengtai east' } },
+  {
+    position: [116.397428, 39.90923],
+    extData: { name: 'Tiananmen' },
+  },
+  {
+    position: [116.407428, 39.91923],
+    extData: { name: 'Dongcheng' },
+  },
+  {
+    position: [116.387428, 39.91523],
+    extData: { name: 'Xicheng' },
+  },
+  {
+    position: [116.417428, 39.89923],
+    extData: { name: 'Chaoyang west' },
+  },
+  {
+    position: [116.377428, 39.89923],
+    extData: { name: 'Fengtai east' },
+  },
 ]
 const labelMarkerPoints = [
-  { position: [116.397428, 39.90923], text: 'Center' },
-  { position: [116.407428, 39.91623], text: 'North east' },
-  { position: [116.386428, 39.90223], text: 'South west' },
+  {
+    position: [116.397428, 39.90923],
+    text: 'Center',
+  },
+  {
+    position: [116.407428, 39.91623],
+    text: 'North east',
+  },
+  {
+    position: [116.386428, 39.90223],
+    text: 'South west',
+  },
 ]
 const imageLayerBounds = [
   [116.365, 39.89],
@@ -63,8 +87,20 @@ const geoJsonData = {
   ],
 }
 const elasticMarkerStyles = {
-  0: { icon: { img: markerIcon, size: [24, 34], anchor: [12, 34] } },
-  1: { icon: { img: markerIcon, size: [32, 45], anchor: [16, 45] } },
+  0: {
+    icon: {
+      img: markerIcon,
+      size: [24, 34],
+      anchor: [12, 34],
+    },
+  },
+  1: {
+    icon: {
+      img: markerIcon,
+      size: [32, 45],
+      anchor: [16, 45],
+    },
+  },
 }
 const elasticMarkerZoomStyleMapping = { 3: 0, 13: 1 }
 

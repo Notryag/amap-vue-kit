@@ -119,7 +119,9 @@ export function useLabelMarker(
     try {
       const opts = optionsRef.value
       const { position, ...rest } = opts
-      const AMapInstance = await loader.load({ plugins: ['AMap.LabelsLayer'] })
+      const AMapInstance = await loader.load({
+        plugins: ['AMap.LabelsLayer'],
+      })
       const instance = new (AMapInstance as any).LabelMarker(rest)
       marker.value = instance
       bindListeners(instance)
@@ -146,7 +148,9 @@ export function useLabelMarker(
       }
     }
     catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
+      warn(error instanceof Error
+        ? error.message
+        : String(error))
     }
   }
 
@@ -223,7 +227,9 @@ export function useLabelMarker(
     if (!instance)
       return
     const AMapInstance = loader.get()
-    const value = AMapInstance ? toLngLat(AMapInstance, position) : position
+    const value = AMapInstance
+      ? toLngLat(AMapInstance, position)
+      : position
     instance.setPosition(value as any)
   }
 
@@ -236,7 +242,9 @@ export function useLabelMarker(
     const AMapInstance = loader.get()
     if (!AMapInstance)
       return text
-    const resolvedOffset = Array.isArray(offset) ? toPixel(AMapInstance, offset) : offset
+    const resolvedOffset = Array.isArray(offset)
+      ? toPixel(AMapInstance, offset)
+      : offset
     return {
       ...rest,
       offset: resolvedOffset ?? offset,

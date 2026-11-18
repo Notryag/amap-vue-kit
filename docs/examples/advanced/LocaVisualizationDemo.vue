@@ -10,17 +10,39 @@ interface LocaDemoPoint {
 }
 
 const sampleData = [
-  { lng: 116.397, lat: 39.908, value: 80, name: '前门' },
-  { lng: 116.405, lat: 39.912, value: 60, name: '东长安街' },
-  { lng: 116.388, lat: 39.905, value: 45, name: '西单' },
-  { lng: 116.414, lat: 39.91, value: 70, name: '王府井' },
+  {
+    lng: 116.397,
+    lat: 39.908,
+    value: 80,
+    name: '前门',
+  },
+  {
+    lng: 116.405,
+    lat: 39.912,
+    value: 60,
+    name: '东长安街',
+  },
+  {
+    lng: 116.388,
+    lat: 39.905,
+    value: 45,
+    name: '西单',
+  },
+  {
+    lng: 116.414,
+    lat: 39.91,
+    value: 70,
+    name: '王府井',
+  },
 ]
 
 const currentMap = shallowRef<AMap.Map | null>(null)
 const pointStyle = {
   radius: 12,
   unit: 'px',
-  color: (item: LocaDemoPoint) => item.value > 65 ? '#f97316' : '#2563eb',
+  color: (item: LocaDemoPoint) => item.value > 65
+    ? '#f97316'
+    : '#2563eb',
   borderColor: 'rgba(15, 23, 42, 0.45)',
   borderWidth: 1,
 }
@@ -29,7 +51,9 @@ const { container, hasKey, ready } = useHookDemoMap(() => ({
   center: [116.404, 39.912],
   zoom: 12,
   viewMode: '3D',
-}), { loaderOptions: { loca: true } })
+}), {
+  loaderOptions: { loca: true },
+})
 
 ready((mapInstance) => {
   currentMap.value = mapInstance

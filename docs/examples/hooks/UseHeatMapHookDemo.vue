@@ -27,7 +27,9 @@ const dataset = computed(() => basePoints.map(point => ({
 const { container, hasKey, map } = useHookDemoMap(() => ({
   center: [116.404, 39.912],
   zoom: 12,
-}), { plugins: ['AMap.HeatMap'] })
+}), {
+  plugins: ['AMap.HeatMap'],
+})
 
 useHeatMap(() => map.value, () => ({
   data: dataset.value,

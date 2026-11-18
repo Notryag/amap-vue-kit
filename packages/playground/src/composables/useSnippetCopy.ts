@@ -39,7 +39,9 @@ export function useSnippetCopy(options: {
   })
 
   const copyButtonStateClass = computed(() => (
-    copyStatus.value === 'idle' ? null : copyStatus.value
+    copyStatus.value === 'idle'
+      ? null
+      : copyStatus.value
   ))
 
   function scheduleCopyReset(status: CopyStatus) {
@@ -48,7 +50,9 @@ export function useSnippetCopy(options: {
       copyResetHandle = undefined
     }
 
-    const delay = status === 'copied' ? 2400 : 4000
+    const delay = status === 'copied'
+      ? 2400
+      : 4000
 
     copyResetHandle = setTimeout(() => {
       copyStatus.value = 'idle'

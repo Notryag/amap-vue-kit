@@ -3,7 +3,9 @@ import { useGeolocation } from '@amap-vue/hooks'
 import { computed, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { useDemoLoader } from '../useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Geolocation'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Geolocation'],
+})
 
 const geolocation = useGeolocation()
 const current = shallowRef<AMap.Geolocation.GeolocationResult | null>(null)
@@ -18,12 +20,24 @@ const isWatching = computed(() => watchId.value !== null)
 function normaliseLngLat(value: any): [number, number] | null {
   if (!value)
     return null
-  if (typeof value.getLng === 'function' && typeof value.getLat === 'function')
-    return [Number(value.getLng()), Number(value.getLat())]
-  if (Array.isArray(value) && value.length >= 2)
-    return [Number(value[0]), Number(value[1])]
-  if (typeof value.lng === 'number' && typeof value.lat === 'number')
-    return [Number(value.lng), Number(value.lat)]
+  if (typeof value.getLng === 'function' && typeof value.getLat === 'function') {
+    return [
+      Number(value.getLng()),
+      Number(value.getLat()),
+    ]
+  }
+  if (Array.isArray(value) && value.length >= 2) {
+    return [
+      Number(value[0]),
+      Number(value[1]),
+    ]
+  }
+  if (typeof value.lng === 'number' && typeof value.lat === 'number') {
+    return [
+      Number(value.lng),
+      Number(value.lat),
+    ]
+  }
   return null
 }
 
@@ -52,7 +66,9 @@ async function locateOnce() {
       error.value = '定位失败，请重试。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false
@@ -75,7 +91,9 @@ async function startWatch() {
       error.value = '无法启动持续定位。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false
@@ -98,7 +116,9 @@ async function lookupCity() {
       error.value = '未能获取城市信息。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
 }
 

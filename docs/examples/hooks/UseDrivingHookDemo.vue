@@ -11,7 +11,9 @@ const result = shallowRef<AMap.Driving.SearchResult | null>(null)
 
 const panelRef = ref<HTMLDivElement | null>(null)
 
-const { container, hasKey, map } = useHookDemoMap({}, { plugins: ['AMap.Driving'] })
+const { container, hasKey, map } = useHookDemoMap({}, {
+  plugins: ['AMap.Driving'],
+})
 
 const driving = useDriving(computed(() => ({
   map: map.value,

@@ -24,7 +24,9 @@ export interface UseEllipseReturn extends OverlayLifecycle<AMap.Ellipse> {
 function resolveCenter(AMapInstance: typeof AMap | undefined, center: LngLatLike | undefined) {
   if (!center)
     return undefined
-  return AMapInstance ? toLngLat(AMapInstance, center) ?? center : center
+  return AMapInstance
+    ? toLngLat(AMapInstance, center) ?? center
+    : center
 }
 
 export function useEllipse(
@@ -54,8 +56,11 @@ export function useEllipse(
       setCenterInternal(ellipse, center)
     if (Array.isArray(radius))
       ellipse.setRadius(radius as [number, number])
-    if (visible != null)
-      visible ? ellipse.show() : ellipse.hide()
+    if (visible != null) {
+      visible
+        ? ellipse.show()
+        : ellipse.hide()
+    }
   })
 
   function setCenterInternal(ellipse: AMap.Ellipse, center: LngLatLike | undefined) {

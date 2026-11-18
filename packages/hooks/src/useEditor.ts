@@ -103,10 +103,14 @@ function createEditorHook<
         return null
       const overlays: any[] = (map as any).getAllOverlays?.() ?? []
       for (const overlay of overlays) {
-        const id = typeof overlay.getId === 'function' ? overlay.getId() : undefined
+        const id = typeof overlay.getId === 'function'
+          ? overlay.getId()
+          : undefined
         if (id === targetValue)
           return overlay as TOverlay
-        const extData = typeof overlay.getExtData === 'function' ? overlay.getExtData() : undefined
+        const extData = typeof overlay.getExtData === 'function'
+          ? overlay.getExtData()
+          : undefined
         if (extData && typeof extData === 'object' && (extData as any).id === targetValue)
           return overlay as TOverlay
         if (overlay.id === targetValue)
@@ -120,7 +124,9 @@ function createEditorHook<
         return
       creating = true
       try {
-        const AMapInstance = await loader.load({ plugins: [plugin] })
+        const AMapInstance = await loader.load({
+          plugins: [plugin],
+        })
         if (!currentMap || currentTarget !== target) {
           creating = false
           return
@@ -139,7 +145,9 @@ function createEditorHook<
         applyActiveState()
       }
       catch (error) {
-        warn(error instanceof Error ? error.message : String(error))
+        warn(error instanceof Error
+          ? error.message
+          : String(error))
       }
       finally {
         creating = false

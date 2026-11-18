@@ -481,12 +481,14 @@ describe('useGeoJSONLayer', () => {
           properties: { name: 'test' },
           geometry: {
             type: 'Polygon',
-            coordinates: [[
-              [116.38, 39.9],
-              [116.4, 39.92],
-              [116.42, 39.9],
-              [116.38, 39.9],
-            ]],
+            coordinates: [
+              [
+                [116.38, 39.9],
+                [116.4, 39.92],
+                [116.42, 39.9],
+                [116.38, 39.9],
+              ],
+            ],
           },
         },
       ],
@@ -506,7 +508,11 @@ describe('useGeoJSONLayer', () => {
 
     expect(instance).toBeInstanceOf((AMap as any).GeoJSON)
     expect((instance as any).data).toEqual(data)
-    harness.hook.addOverlays([new AMap.Marker({ position: [116.39, 39.91] })])
+    harness.hook.addOverlays([
+      new AMap.Marker({
+        position: [116.39, 39.91],
+      }),
+    ])
     expect(harness.hook.getOverlays()).toHaveLength(1)
 
     harness.options.value = {
@@ -548,7 +554,9 @@ describe('useHeatMap', () => {
 
     expect(instance).toBeInstanceOf((AMap as any).HeatMap)
     expect((instance as any).dataSet).toEqual({
-      data: [{ lng: 116.39, lat: 39.91, count: 80 }],
+      data: [
+        { lng: 116.39, lat: 39.91, count: 80 },
+      ],
     })
     expect(harness.map.getLayers()).toHaveLength(1)
 

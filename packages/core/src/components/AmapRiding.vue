@@ -68,8 +68,12 @@ const ridingOptions = computed<UseRidingOptions>(() => {
 const ridingApi = useRiding(ridingOptions)
 const riding = ridingApi.riding
 
-const originInput = ref(typeof props.origin === 'string' ? props.origin : '')
-const destinationInput = ref(typeof props.destination === 'string' ? props.destination : '')
+const originInput = ref(typeof props.origin === 'string'
+  ? props.origin
+  : '')
+const destinationInput = ref(typeof props.destination === 'string'
+  ? props.destination
+  : '')
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)

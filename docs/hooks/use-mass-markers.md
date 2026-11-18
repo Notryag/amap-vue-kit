@@ -20,8 +20,16 @@ import { useMassMarkers } from '@amap-vue/hooks'
 const mass = useMassMarkers(() => map.value, () => ({
   data: points.value,
   style: [
-    { url: '/images/cluster-blue.png', anchor: [6, 6], size: [12, 12] },
-    { url: '/images/cluster-orange.png', anchor: [10, 10], size: [20, 20] },
+    {
+      url: '/images/cluster-blue.png',
+      anchor: [6, 6],
+      size: [12, 12]
+    },
+    {
+      url: '/images/cluster-orange.png',
+      anchor: [10, 10],
+      size: [20, 20]
+    },
   ],
 }))
 

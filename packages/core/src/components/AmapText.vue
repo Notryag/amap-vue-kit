@@ -57,14 +57,28 @@ const textOptions = computed(() => ({
   ...props.options,
 }))
 
-const textApi = context ? useText(() => context.map.value, textOptions) : null
+const textApi = context
+  ? useText(() => context.map.value, textOptions)
+  : null
 const text = textApi?.overlay ?? shallowRef<AMap.Text | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
-  { event: 'dragend', handler: event => emit('dragend', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
+  {
+    event: 'dragend',
+    handler: event => emit('dragend', event),
+  },
 ]
 
 if (textApi) {

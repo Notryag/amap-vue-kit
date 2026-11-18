@@ -46,13 +46,24 @@ const curveOptions = computed<UseBezierCurveOptions>(() => ({
   ...props.options,
 }) as UseBezierCurveOptions)
 
-const curveApi = context ? useBezierCurve(() => context.map.value, curveOptions) : null
+const curveApi = context
+  ? useBezierCurve(() => context.map.value, curveOptions)
+  : null
 const bezierCurve = curveApi?.overlay ?? shallowRef<AMap.BezierCurve | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (curveApi) {

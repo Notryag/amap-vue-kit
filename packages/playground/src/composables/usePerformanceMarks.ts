@@ -39,7 +39,9 @@ export function usePerformanceMarks(logEvent: (source: 'Dataset', summary: strin
       return []
 
     const globalCitys = (window as typeof window & { citys?: PlaygroundMassData[] }).citys
-    return Array.isArray(globalCitys) ? globalCitys : []
+    return Array.isArray(globalCitys)
+      ? globalCitys
+      : []
   }
 
   const officialCitys = shallowRef<PlaygroundMassData[]>(getOfficialCitys())
@@ -70,10 +72,18 @@ export function usePerformanceMarks(logEvent: (source: 'Dataset', summary: strin
       heat: [],
       summary: {
         bounds: {
-          minLng: hasData ? Math.min(...lngValues) : 0,
-          minLat: hasData ? Math.min(...latValues) : 0,
-          maxLng: hasData ? Math.max(...lngValues) : 0,
-          maxLat: hasData ? Math.max(...latValues) : 0,
+          minLng: hasData
+            ? Math.min(...lngValues)
+            : 0,
+          minLat: hasData
+            ? Math.min(...latValues)
+            : 0,
+          maxLng: hasData
+            ? Math.max(...lngValues)
+            : 0,
+          maxLat: hasData
+            ? Math.max(...latValues)
+            : 0,
         },
         averages: {
           weight: 0,

@@ -47,7 +47,9 @@ const editorOptions = computed<UseEditorCircleOptions>(() => {
   return base
 })
 
-const editorApi = mapContext ? useEditorCircle(() => mapContext.map.value, editorOptions) : null
+const editorApi = mapContext
+  ? useEditorCircle(() => mapContext.map.value, editorOptions)
+  : null
 const editor = editorApi?.editor ?? shallowRef<AMap.CircleEditor | null>(null)
 
 if (editorApi) {
@@ -58,8 +60,14 @@ if (editorApi) {
 }
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'adjust', handler: event => emit('adjust', event) },
-  { event: 'end', handler: event => emit('end', event) },
+  {
+    event: 'adjust',
+    handler: event => emit('adjust', event),
+  },
+  {
+    event: 'end',
+    handler: event => emit('end', event),
+  },
 ]
 
 eventBindings.forEach(({ event, handler }) => editorApi?.on(event, handler))

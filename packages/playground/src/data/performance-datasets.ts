@@ -139,7 +139,11 @@ function createDataset(id: PerformanceDataset['id'], size: number, seed: number)
 
   return {
     id,
-    label: id === 'small' ? '小型（100 个点）' : id === 'medium' ? '中型（3k 个点）' : '大型（10k 个点）',
+    label: id === 'small'
+      ? '小型（100 个点）'
+      : id === 'medium'
+        ? '中型（3k 个点）'
+        : '大型（10k 个点）',
     description:
       id === 'small'
         ? '适合快速冒烟测试或验证 prop 更新。'

@@ -93,7 +93,10 @@ describe('useMouseTool', () => {
     const instance = await waitForInstance(() => harness.hook.tool.value)
     expect(instance).toBeInstanceOf((AMap as any).MouseTool)
 
-    const circle = await harness.hook.drawCircle({ radius: 500, center: [116.38, 39.9] })
+    const circle = await harness.hook.drawCircle({
+      radius: 500,
+      center: [116.38, 39.9],
+    })
     expect(circle).toBeInstanceOf(AMap.Circle)
     expect(circle?.map?.container).toBe(harness.map.container)
 

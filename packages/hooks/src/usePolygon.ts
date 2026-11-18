@@ -26,7 +26,9 @@ function normalizePolygonPath(AMapInstance: typeof AMap | undefined, path: Polyg
   if (!path.length)
     return []
 
-  const convertPoint = (point: LngLatLike) => (AMapInstance ? toLngLat(AMapInstance, point) ?? point : point)
+  const convertPoint = (point: LngLatLike) => (AMapInstance
+    ? toLngLat(AMapInstance, point) ?? point
+    : point)
   const first = path[0] as any
 
   if (Array.isArray(first) && typeof first[0] !== 'number')
@@ -59,8 +61,11 @@ export function usePolygon(
       polygon.setOptions(rest as any)
     if (path !== undefined)
       setPathInternal(polygon, path)
-    if (visible != null)
-      visible ? polygon.show() : polygon.hide()
+    if (visible != null) {
+      visible
+        ? polygon.show()
+        : polygon.hide()
+    }
   })
 
   function setPathInternal(polygon: AMap.Polygon, path: PolygonPath | undefined) {

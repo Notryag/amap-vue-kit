@@ -3,7 +3,9 @@ import { AmapWeatherPanel } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-useDemoLoader({ plugins: ['AMap.Weather'] })
+useDemoLoader({
+  plugins: ['AMap.Weather'],
+})
 
 const city = ref('北京')
 const cities = ['北京', '上海', '广州', '深圳', '成都']

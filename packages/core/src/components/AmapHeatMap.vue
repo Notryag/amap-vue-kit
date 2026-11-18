@@ -63,7 +63,9 @@ const heatMapOptions = computed<UseHeatMapOptions>(() => {
   return base
 })
 
-const heatMapApi = mapContext ? useHeatMap(() => mapContext.map.value, heatMapOptions) : null
+const heatMapApi = mapContext
+  ? useHeatMap(() => mapContext.map.value, heatMapOptions)
+  : null
 const heatMap = heatMapApi?.overlay ?? shallowRef<AMap.HeatMap | null>(null)
 
 if (heatMapApi) {

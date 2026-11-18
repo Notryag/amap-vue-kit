@@ -33,8 +33,12 @@ const styles = computed<AMap.ElasticMarkerStyles>(() => ({
       img: emphasize.value
         ? 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'
         : 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
-      size: emphasize.value ? [34, 52] : [30, 46],
-      anchor: emphasize.value ? [17, 52] : [15, 46],
+      size: emphasize.value
+        ? [34, 52]
+        : [30, 46],
+      anchor: emphasize.value
+        ? [17, 52]
+        : [15, 46],
     },
     label: {
       content: emphasize.value ? 'Promo active' : 'Flagship',

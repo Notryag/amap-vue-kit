@@ -90,14 +90,28 @@ const options = computed(() => ({
   isCustom: shouldUseCustomContent.value,
 }))
 
-const markerApi = context ? useMarker(() => context.map.value, options) : null
+const markerApi = context
+  ? useMarker(() => context.map.value, options)
+  : null
 const marker = markerApi?.marker ?? shallowRef<AMap.Marker | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'dragend', handler: event => emit('dragend', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'dragend',
+    handler: event => emit('dragend', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (markerApi)

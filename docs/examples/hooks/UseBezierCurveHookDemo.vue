@@ -4,7 +4,10 @@ import { useBezierCurve } from '@amap-vue/hooks'
 import { ref, watch } from 'vue'
 import { useHookDemoMap } from './useHookDemoMap'
 
-const { container, hasKey, map } = useHookDemoMap({ plugins: ['AMap.BezierCurve'], zoom: 12 })
+const { container, hasKey, map } = useHookDemoMap({
+  plugins: ['AMap.BezierCurve'],
+  zoom: 12,
+})
 
 const path = ref<BezierCurvePath>([
   [

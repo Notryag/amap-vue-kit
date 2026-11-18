@@ -5,7 +5,9 @@ export function indentLines(text: string, spaces: number) {
 
   return text
     .split('\n')
-    .map(line => (line.length > 0 ? `${padding}${line}` : line))
+    .map(line => (line.length > 0
+      ? `${padding}${line}`
+      : line))
     .join('\n')
 }
 

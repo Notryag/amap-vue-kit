@@ -71,13 +71,18 @@ const layerOptions = computed<UseDistrictLayerOptions>(() => {
   return base
 })
 
-const layerApi = mapContext ? useDistrictLayer(() => mapContext.map.value, layerOptions) : null
+const layerApi = mapContext
+  ? useDistrictLayer(() => mapContext.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.DistrictLayer | null>(null)
 
 let readyEmitted = false
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'complete', handler: event => emit('complete', event) },
+  {
+    event: 'complete',
+    handler: event => emit('complete', event),
+  },
 ]
 
 if (layerApi) {

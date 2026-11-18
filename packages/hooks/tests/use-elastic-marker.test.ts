@@ -93,8 +93,20 @@ function mountHookWithMap<Options, HookReturn>(
 describe('useElasticMarker', () => {
   it('creates and updates an elastic marker', async () => {
     const styles: AMap.ElasticMarkerStyles = {
-      0: { icon: { img: 'icon.png', size: [20, 20], anchor: [10, 20] } },
-      1: { icon: { img: 'icon-large.png', size: [30, 30], anchor: [15, 30] } },
+      0: {
+        icon: {
+          img: 'icon.png',
+          size: [20, 20],
+          anchor: [10, 20],
+        },
+      },
+      1: {
+        icon: {
+          img: 'icon-large.png',
+          size: [30, 30],
+          anchor: [15, 30],
+        },
+      },
     }
 
     const harness = mountHookWithMap((mapRef, options) => useElasticMarker(() => mapRef.value, options), {
@@ -122,10 +134,22 @@ describe('useElasticMarker', () => {
     expect((instance as any).options.visible).toBe(false)
 
     harness.hook.setStyles({
-      0: { icon: { img: 'other.png', size: [24, 24], anchor: [12, 24] } },
+      0: {
+        icon: {
+          img: 'other.png',
+          size: [24, 24],
+          anchor: [12, 24],
+        },
+      },
     })
     expect((instance as any).options.styles).toEqual({
-      0: { icon: { img: 'other.png', size: [24, 24], anchor: [12, 24] } },
+      0: {
+        icon: {
+          img: 'other.png',
+          size: [24, 24],
+          anchor: [12, 24],
+        },
+      },
     })
 
     harness.hook.setZoomStyleMapping({ 11: 0 })

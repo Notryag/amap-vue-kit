@@ -20,8 +20,14 @@ import { useContextMenu } from '@amap-vue/hooks'
 let menuPosition: AMap.LngLat | undefined
 const menu = useContextMenu(() => map.value, () => ({
   items: [
-    { text: '放大', handler: () => map.value?.zoomIn?.() },
-    { text: '移动到这里', handler: () => menuPosition && map.value?.setCenter(menuPosition) },
+    {
+      text: '放大',
+      handler: () => map.value?.zoomIn?.()
+    },
+    {
+      text: '移动到这里',
+      handler: () => menuPosition && map.value?.setCenter(menuPosition)
+    },
   ],
 }))
 

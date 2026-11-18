@@ -3,7 +3,9 @@ import { usePlaceSearch } from '@amap-vue/hooks'
 import { computed, ref, shallowRef } from 'vue'
 import { useDemoLoader } from '../useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.PlaceSearch'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.PlaceSearch'],
+})
 
 const placeSearch = usePlaceSearch({ city: '北京', pageSize: 5 })
 const keyword = ref('美食')
@@ -19,11 +21,15 @@ const totalPages = computed(() => {
   if (!list)
     return 1
   const pageSize = list.pageSize ?? 5
-  return pageSize > 0 ? Math.max(1, Math.ceil((list.count ?? 0) / pageSize)) : 1
+  return pageSize > 0
+    ? Math.max(1, Math.ceil((list.count ?? 0) / pageSize))
+    : 1
 })
 
 function poiDistrict(poi: AMap.PlaceSearch.Poi) {
-  return 'district' in poi ? poi.district : ''
+  return 'district' in poi
+    ? poi.district
+    : ''
 }
 
 async function runSearch() {
@@ -44,7 +50,9 @@ async function runSearch() {
       error.value = '未找到匹配的地点。'
   }
   catch (err) {
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof Error
+      ? err.message
+      : String(err)
   }
   finally {
     loading.value = false

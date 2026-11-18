@@ -14,10 +14,18 @@ const useCustomContent = ref(false)
 
 function onDragEnd(event: any) {
   const lnglat = event?.lnglat
-  const lng = typeof lnglat?.getLng === 'function' ? lnglat.getLng() : lnglat?.lng
-  const lat = typeof lnglat?.getLat === 'function' ? lnglat.getLat() : lnglat?.lat
-  if (typeof lng === 'number' && typeof lat === 'number')
-    markerPosition.value = [Number(lng.toFixed(6)), Number(lat.toFixed(6))]
+  const lng = typeof lnglat?.getLng === 'function'
+    ? lnglat.getLng()
+    : lnglat?.lng
+  const lat = typeof lnglat?.getLat === 'function'
+    ? lnglat.getLat()
+    : lnglat?.lat
+  if (typeof lng === 'number' && typeof lat === 'number') {
+    markerPosition.value = [
+      Number(lng.toFixed(6)),
+      Number(lat.toFixed(6)),
+    ]
+  }
 }
 
 function resetMarker() {
@@ -30,7 +38,9 @@ const markerAnchor = computed<AMap.MarkerAnchor | undefined>(() => (
 ))
 
 const markerOffset = computed<AMap.Pixel | [number, number] | undefined>(() => (
-  useCustomContent.value ? [0, -36] : undefined
+  useCustomContent.value
+    ? [0, -36]
+    : undefined
 ))
 </script>
 

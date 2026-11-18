@@ -50,7 +50,7 @@ const { overlay, destroy } = useOverlay(
 
 | 字段 | 说明 |
 | --- | --- |
-| `overlay` | `ShallowRef<TOverlay | null>`，指向创建出的覆盖物。 |
+| `overlay` | `ShallowRef<TOverlay \| null>`，指向创建出的覆盖物。 |
 | `on` / `off` | 注册 JSAPI 事件监听器，并在实例重建后继续保留。 |
 | `destroy` | 从地图移除覆盖物并释放引用。 |
 

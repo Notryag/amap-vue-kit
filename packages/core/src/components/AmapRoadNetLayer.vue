@@ -52,7 +52,9 @@ const layerOptions = computed<UseTileLayerOptions>(() => {
   return base
 })
 
-const layerApi = context ? useRoadNetLayer(() => context.map.value, layerOptions) : null
+const layerApi = context
+  ? useRoadNetLayer(() => context.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.TileLayer.RoadNet | null>(null)
 
 if (layerApi) {

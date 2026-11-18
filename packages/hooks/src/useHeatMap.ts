@@ -25,7 +25,7 @@ interface HeatMapState {
 }
 
 function hasOwn(target: object, key: PropertyKey) {
-  return Object.prototype.hasOwnProperty.call(target, key)
+  return Object.hasOwn(target, key)
 }
 
 function buildDataSet(data: AMap.HeatMapDataPoint[] | undefined, max: number | undefined): AMap.HeatMapDataSet | null {
@@ -90,7 +90,9 @@ export function useHeatMap(
 
   function getLayers(mapInstance: AMap.Map): any[] {
     const layers = (mapInstance as any).getLayers?.()
-    return Array.isArray(layers) ? layers : []
+    return Array.isArray(layers)
+      ? layers
+      : []
   }
 
   function trackAddedLayers(mapInstance: AMap.Map, previousLayers: any[]) {
@@ -157,7 +159,9 @@ export function useHeatMap(
     (instance, nextOptions) => {
       applyHeatMapOptions(instance, nextOptions, state)
     },
-    () => ({ plugins: ['AMap.HeatMap'] }),
+    () => ({
+      plugins: ['AMap.HeatMap'],
+    }),
     {
       attach(map, instance) {
         const previousLayers = getLayers(map)
@@ -212,7 +216,9 @@ export function useHeatMap(
     if (lng == null || lat == null || count == null)
       return
     instance.addDataPoint?.(lng, lat, count)
-    const current = Array.isArray(state.data) ? state.data.slice() : []
+    const current = Array.isArray(state.data)
+      ? state.data.slice()
+      : []
     current.push(point)
     state.data = current
   }

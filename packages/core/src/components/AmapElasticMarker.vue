@@ -49,13 +49,24 @@ const markerOptions = computed(() => ({
   ...props.options,
 }))
 
-const markerApi = context ? useElasticMarker(() => context.map.value, markerOptions) : null
+const markerApi = context
+  ? useElasticMarker(() => context.map.value, markerOptions)
+  : null
 const elasticMarker = markerApi?.overlay ?? shallowRef<AMap.ElasticMarker | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (markerApi) {

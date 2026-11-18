@@ -43,7 +43,10 @@ const groupedPanels = computed(() => {
       return
     }
 
-    groups.push({ name: panel.group, panels: [panel] })
+    groups.push({
+      name: panel.group,
+      panels: [panel],
+    })
   })
 
   return groups

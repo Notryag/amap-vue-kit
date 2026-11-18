@@ -12,9 +12,18 @@ const { container, hasKey, map } = useHookDemoMap(() => ({
 
 const menu = useContextMenu(() => map.value, () => ({
   items: [
-    { text: '放大', handler: () => map.value?.zoomIn?.() },
-    { text: '缩小', handler: () => map.value?.zoomOut?.() },
-    { text: 'Center here', handler: () => map.value?.setCenter(menuPosition) },
+    {
+      text: '放大',
+      handler: () => map.value?.zoomIn?.(),
+    },
+    {
+      text: '缩小',
+      handler: () => map.value?.zoomOut?.(),
+    },
+    {
+      text: 'Center here',
+      handler: () => map.value?.setCenter(menuPosition),
+    },
   ],
 }))
 

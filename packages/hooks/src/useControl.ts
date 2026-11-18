@@ -42,7 +42,12 @@ interface CreateControlHookOptions<TOptions extends UseControlOptions> {
 }
 
 function snapshotOptions<T extends UseControlOptions>(options: T): T {
-  return Object.fromEntries(Object.entries(options).map(([key, value]) => [key, Array.isArray(value) ? [...value] : value])) as T
+  return Object.fromEntries(Object.entries(options).map(([key, value]) => [
+    key,
+    Array.isArray(value)
+      ? [...value]
+      : value,
+  ])) as T
 }
 
 function sameOption(before: unknown, after: unknown): boolean {
@@ -59,7 +64,9 @@ function applyControlOptions(control: ControlLike, options: UseControlOptions) {
 
   if (offset !== undefined && typeof control.setOffset === 'function') {
     const AMapInstance = loader.get()
-    const resolved = AMapInstance ? toPixel(AMapInstance, offset) : offset
+    const resolved = AMapInstance
+      ? toPixel(AMapInstance, offset)
+      : offset
     control.setOffset(resolved as any)
   }
 
@@ -78,7 +85,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
   factory: (context: { AMap: typeof AMap, options: TOptions }) => TControl,
   config: string | CreateControlHookOptions<TOptions> = {},
 ) {
-  const hookOptions = typeof config === 'string' ? { plugin: config } : config
+  const hookOptions = typeof config === 'string'
+    ? { plugin: config }
+    : config
 
   return function useSpecificControl(
     mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
@@ -102,7 +111,11 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
       creating = true
       const current = generation
       try {
-        const loadOptions = hookOptions.plugin ? { plugins: [hookOptions.plugin] } : undefined
+        const loadOptions = hookOptions.plugin
+          ? {
+              plugins: [hookOptions.plugin],
+            }
+          : undefined
         const AMapInstance = await loader.load(loadOptions)
         if (disposed || current !== generation || toValue(mapRef) !== mapInstance || control.value)
           return
@@ -115,7 +128,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
         previousOptions = snapshotOptions(optionsRef.value)
       }
       catch (error) {
-        warn(error instanceof Error ? error.message : String(error))
+        warn(error instanceof Error
+          ? error.message
+          : String(error))
       }
       finally {
         if (current === generation)
@@ -127,7 +142,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
       if (attachedMap && attachedMap !== mapInstance)
         detachFromMap()
 
-      const previousLayers = hookOptions.cleanupAddedLayers ? getLayerSet(mapInstance) : null
+      const previousLayers = hookOptions.cleanupAddedLayers
+        ? getLayerSet(mapInstance)
+        : null
 
       if (typeof instance.addTo === 'function')
         instance.addTo(mapInstance)
@@ -164,7 +181,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
 
     function getLayers(mapInstance: AMap.Map): any[] {
       const layers = (mapInstance as any).getLayers?.()
-      return Array.isArray(layers) ? layers : []
+      return Array.isArray(layers)
+        ? layers
+        : []
     }
 
     function getLayerSet(mapInstance: AMap.Map): Set<any> {
@@ -266,7 +285,9 @@ function createControlHook<TControl extends ControlLike, TOptions extends UseCon
       if (offset === undefined)
         return
       const AMapInstance = loader.get()
-      const resolved = AMapInstance ? toPixel(AMapInstance, offset) : offset
+      const resolved = AMapInstance
+        ? toPixel(AMapInstance, offset)
+        : offset
       control.value?.setOffset?.(resolved as any)
     }
 
@@ -337,7 +358,12 @@ export function useControlBar(
 
 export interface UseMapTypeOptions extends UseControlOptions {}
 
-const MAP_TYPE_RECREATE_OPTIONS = ['defaultType', 'showTraffic', 'showRoad', 'layers'] as const
+const MAP_TYPE_RECREATE_OPTIONS = [
+  'defaultType',
+  'showTraffic',
+  'showRoad',
+  'layers',
+] as const
 
 export function useMapType(
   mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
@@ -375,18 +401,28 @@ export function useHawkEye(
   options: MaybeRefOrGetter<UseHawkEyeOptions> = {},
 ): UseHawkEyeReturn {
   const overrides = shallowRef<Partial<UseHawkEyeOptions>>({})
-  const resolved = computed(() => ({ ...toValue(options), ...overrides.value }))
+  const resolved = computed(() => ({
+    ...toValue(options),
+    ...overrides.value,
+  }))
   const api = createControlHook<AMap.HawkEye, UseHawkEyeOptions>(
     ({ AMap, options }) => new AMap.HawkEye(options),
     {
       plugin: 'AMap.HawkEye',
-      shouldRecreate: (previous, next) => [...new Set([...Object.keys(previous), ...Object.keys(next)])]
+      shouldRecreate: (previous, next) => [
+        ...new Set([
+          ...Object.keys(previous),
+          ...Object.keys(next),
+        ]),
+      ]
         .filter(key => key !== 'visible' && key !== 'isOpen')
         .some(key => !sameOption(previous[key], next[key])),
       update: (control, options) => {
         if (options.isOpen !== undefined) {
           const hawkEye = control as AMap.HawkEye
-          options.isOpen ? hawkEye.open() : hawkEye.close()
+          options.isOpen
+            ? hawkEye.open()
+            : hawkEye.close()
         }
       },
     },
@@ -399,7 +435,10 @@ export function useHawkEye(
     open: () => api.control.value?.open(),
     close: () => api.control.value?.close(),
     setOptions: (next) => {
-      overrides.value = { ...overrides.value, ...next }
+      overrides.value = {
+        ...overrides.value,
+        ...next,
+      }
     },
     destroy: api.destroy,
   }

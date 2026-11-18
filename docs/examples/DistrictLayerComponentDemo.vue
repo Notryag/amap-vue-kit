@@ -4,7 +4,9 @@ import { AmapDistrictLayer, AmapMap } from '@amap-vue/core'
 import { computed, ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.DistrictLayer'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.DistrictLayer'],
+})
 
 const type = ref<DistrictLayerType>('Country')
 const adcode = ref<string | number | Array<string | number>>('100000')

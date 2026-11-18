@@ -5,7 +5,9 @@ import { useMarkerClusterer } from '@amap-vue/hooks'
 import { ref, watch } from 'vue'
 import { useHookDemoMap } from './useHookDemoMap'
 
-const { container, hasKey, map } = useHookDemoMap({ plugins: ['AMap.MarkerCluster'] })
+const { container, hasKey, map } = useHookDemoMap({
+  plugins: ['AMap.MarkerCluster'],
+})
 
 const points = ref<MarkerClusterPoint[]>(generatePoints(150))
 const visible = ref(true)
@@ -38,7 +40,12 @@ function generatePoints(count: number): MarkerClusterPoint[] {
   for (let index = 0; index < count; index++) {
     const lng = 116.35 + Math.random() * 0.7
     const lat = 39.82 + Math.random() * 0.7
-    items.push({ position: [Number(lng.toFixed(6)), Number(lat.toFixed(6))] })
+    items.push({
+      position: [
+        Number(lng.toFixed(6)),
+        Number(lat.toFixed(6)),
+      ],
+    })
   }
   return items
 }

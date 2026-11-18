@@ -45,7 +45,9 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
     creating = true
     const current = generation
     try {
-      const loaderOptions = loadOptions ? toValue(loadOptions) : undefined
+      const loaderOptions = loadOptions
+        ? toValue(loadOptions)
+        : undefined
       const AMap = await loader.load(loaderOptions)
       if (disposed || current !== generation || toValue(mapRef) !== mapInstance || overlay.value)
         return
@@ -59,7 +61,9 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
       updater?.(instance, optionsRef.value)
     }
     catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
+      warn(error instanceof Error
+        ? error.message
+        : String(error))
     }
     finally {
       if (current === generation)

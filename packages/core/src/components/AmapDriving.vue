@@ -68,8 +68,12 @@ const drivingOptions = computed<UseDrivingOptions>(() => {
 const drivingApi = useDriving(drivingOptions)
 const driving = drivingApi.driving
 
-const originInput = ref(typeof props.origin === 'string' ? props.origin : '')
-const destinationInput = ref(typeof props.destination === 'string' ? props.destination : '')
+const originInput = ref(typeof props.origin === 'string'
+  ? props.origin
+  : '')
+const destinationInput = ref(typeof props.destination === 'string'
+  ? props.destination
+  : '')
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)

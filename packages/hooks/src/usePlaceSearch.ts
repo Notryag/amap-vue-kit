@@ -48,10 +48,14 @@ export function usePlaceSearch(
   const { ensure: ensurePlaceSearch, invalidate } = useServiceInstance(
     placeSearch,
     'AMap.PlaceSearch',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       const { loadOptions: _loadOptions, map: mapMaybe, ...rest } = optionsRef.value
-      const map = mapMaybe !== undefined ? toValue(mapMaybe) ?? undefined : undefined
+      const map = mapMaybe !== undefined
+        ? toValue(mapMaybe) ?? undefined
+        : undefined
       return new AMapInstance.PlaceSearch({ ...rest, map })
     },
   )
@@ -119,7 +123,9 @@ export function usePlaceSearch(
     if (!instance)
       return null
     const mapInstance = loader.get()
-    const location = mapInstance ? toLngLat(mapInstance, center) ?? center : center
+    const location = mapInstance
+      ? toLngLat(mapInstance, center) ?? center
+      : center
     return new Promise((resolve) => {
       instance.searchNearBy(query, location as any, radius, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
         if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')
@@ -141,7 +147,9 @@ export function usePlaceSearch(
     if (!instance)
       return null
     const mapInstance = loader.get()
-    const area = mapInstance ? toBounds(mapInstance, bounds) ?? bounds : bounds
+    const area = mapInstance
+      ? toBounds(mapInstance, bounds) ?? bounds
+      : bounds
     return new Promise((resolve) => {
       instance.searchInBounds(query, area as any, (status: AMap.PlaceSearch.SearchStatus, result: string | PlaceSearchResult) => {
         if ((status === 'complete' || status === 'no_data') && typeof result !== 'string')

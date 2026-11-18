@@ -65,7 +65,10 @@ describe('amap loader timeouts', () => {
     await expect(promise).resolves.toBe(fakeAMap)
     expect(vi.getTimerCount()).toBe(0)
 
-    await expect(localLoader.load({ key: 'timeout-key', plugins: ['AMap.Adaptor'] })).resolves.toBe(fakeAMap)
+    await expect(localLoader.load({
+      key: 'timeout-key',
+      plugins: ['AMap.Adaptor'],
+    })).resolves.toBe(fakeAMap)
     expect(fakeAMap.Adaptor).toBe(Adaptor)
 
     script.remove()

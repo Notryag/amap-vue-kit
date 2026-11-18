@@ -68,7 +68,9 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
         hide()
     }
     catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
+      warn(error instanceof Error
+        ? error.message
+        : String(error))
     }
   }
 
@@ -128,7 +130,9 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     if (!instance)
       return
     const AMap = loader.get()
-    const value = AMap ? toLngLat(AMap, position) : position
+    const value = AMap
+      ? toLngLat(AMap, position)
+      : position
     instance.setPosition(value as any)
   }
 
@@ -167,7 +171,9 @@ export function useMarker(mapRef: MaybeRefOrGetter<AMap.Map | null | undefined>,
     if (!instance)
       return
     const AMap = loader.get()
-    const value = AMap ? toPixel(AMap, offset) : offset
+    const value = AMap
+      ? toPixel(AMap, offset)
+      : offset
     instance.setOffset(value as any)
   }
 

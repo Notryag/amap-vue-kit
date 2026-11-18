@@ -19,8 +19,16 @@ describe('labels layer', () => {
         visible: true,
         opacity: 0.8,
         items: [
-          { key: 'a', position: [116, 39], text: { content: 'A' } },
-          { key: 'b', position: [117, 40], text: { content: 'B' } },
+          {
+            key: 'a',
+            position: [116, 39],
+            text: { content: 'A' },
+          },
+          {
+            key: 'b',
+            position: [117, 40],
+            text: { content: 'B' },
+          },
         ],
       }),
       template: `
@@ -59,7 +67,11 @@ describe('labels layer', () => {
     expect(layer.options.opacity).toBe(0.4)
 
     wrapper.vm.items = [
-      { key: 'a', position: [116, 39], text: { content: 'Updated' } },
+      {
+        key: 'a',
+        position: [116, 39],
+        text: { content: 'Updated' },
+      },
     ]
     await waitForMap()
     expect(layer.markers.size).toBe(1)
@@ -71,8 +83,12 @@ describe('labels layer', () => {
 describe('overlay group', () => {
   it('adds and removes overlays efficiently', async () => {
     const createOverlays = () => [
-      new (window as any).AMap.Marker({ position: [0, 0] }),
-      new (window as any).AMap.Marker({ position: [1, 1] }),
+      new (window as any).AMap.Marker({
+        position: [0, 0],
+      }),
+      new (window as any).AMap.Marker({
+        position: [1, 1],
+      }),
     ]
 
     const wrapper = mount({
@@ -96,7 +112,9 @@ describe('overlay group', () => {
     expect(group.visible).toBe(true)
     expect(group.getOverlays().length).toBe(2)
 
-    const extraOverlay = new (window as any).AMap.Marker({ position: [2, 2] })
+    const extraOverlay = new (window as any).AMap.Marker({
+      position: [2, 2],
+    })
     ;(groupComponent.vm as any).addOverlay(extraOverlay)
     expect(group.getOverlays().length).toBe(3)
 

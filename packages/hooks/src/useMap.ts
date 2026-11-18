@@ -97,7 +97,9 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       const opts = optionsRef.value
       const { container: _ignoredContainer, plugins, loaderOptions, ...mapOptions } = opts
       const loadOptions: Partial<LoaderOptions> = {
-        ...(plugins ? { plugins } : {}),
+        ...(plugins
+          ? { plugins }
+          : {}),
         ...loaderOptions,
       }
 
@@ -111,7 +113,9 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
       applyInitialOptions(instance, opts)
     }
     catch (error) {
-      warn(error instanceof Error ? error.message : String(error))
+      warn(error instanceof Error
+        ? error.message
+        : String(error))
     }
     finally {
       if (current === generation)
@@ -170,7 +174,9 @@ export function useMap(options: MaybeRefOrGetter<UseMapOptions>, container?: May
     if (!instance)
       return
     const AMap = loader.get()
-    const value = AMap ? toLngLat(AMap, center) : center
+    const value = AMap
+      ? toLngLat(AMap, center)
+      : center
     instance.setCenter(value as any)
   }
 

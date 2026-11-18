@@ -11,7 +11,9 @@ const result = shallowRef<AMap.WalkingResult | null>(null)
 
 const panelRef = ref<HTMLDivElement | null>(null)
 
-const { container, hasKey, map } = useHookDemoMap({}, { plugins: ['AMap.Walking'] })
+const { container, hasKey, map } = useHookDemoMap({}, {
+  plugins: ['AMap.Walking'],
+})
 
 const walking = useWalking(computed(() => ({
   map: map.value,

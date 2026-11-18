@@ -47,7 +47,9 @@ export function useMarkerClusterer(
       return
 
     const { markers, points, visible, ...rest } = optionsRef.value
-    const AMapInstance = await loader.load({ plugins: ['AMap.MarkerCluster'] })
+    const AMapInstance = await loader.load({
+      plugins: ['AMap.MarkerCluster'],
+    })
     const markerList = markers ?? buildMarkers(AMapInstance, points ?? [])
     if (!markers) {
       createdMarkers = markerList

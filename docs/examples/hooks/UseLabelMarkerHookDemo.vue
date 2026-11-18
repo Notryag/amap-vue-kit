@@ -11,7 +11,9 @@ const visible = ref(true)
 const { container, hasKey, map } = useHookDemoMap(() => ({
   center: position.value,
   zoom: 13,
-}), { plugins: ['AMap.LabelsLayer'] })
+}), {
+  plugins: ['AMap.LabelsLayer'],
+})
 
 const labelsLayer = useLabelsLayer(() => map.value, () => ({ zIndex: 130 }))
 

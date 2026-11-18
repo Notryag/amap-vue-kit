@@ -62,7 +62,13 @@ export const mapTypeDefaultOptions = [
 ]
 
 export const CONTROL_POSITION_VALUES: readonly ControlPosition[] = ['LT', 'RT', 'LB', 'RB']
-export const MARKER_LABEL_DIRECTIONS: readonly MarkerLabelDirection[] = ['top', 'bottom', 'left', 'right', 'center']
+export const MARKER_LABEL_DIRECTIONS: readonly MarkerLabelDirection[] = [
+  'top',
+  'bottom',
+  'left',
+  'right',
+  'center',
+]
 export const VIEW_MODE_VALUES: readonly ViewMode[] = ['2D', '3D']
 export const MAP_STYLE_VALUES = mapStyleOptions.map(option => option.value)
 

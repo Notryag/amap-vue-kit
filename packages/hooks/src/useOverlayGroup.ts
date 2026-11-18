@@ -55,7 +55,9 @@ export function useOverlayGroup(
     optionsRef,
     ({ AMap, map, options: groupOptions }) => {
       const { overlays, visible: _ignoredVisible, extData, ...rest } = groupOptions
-      const initialOverlays = Array.isArray(overlays) ? overlays : []
+      const initialOverlays = Array.isArray(overlays)
+        ? overlays
+        : []
       const instance = new (AMap as any).OverlayGroup(initialOverlays)
       instance.setMap(map)
       if (extData !== undefined && typeof (instance as any).setExtData === 'function')

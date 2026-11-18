@@ -23,7 +23,9 @@ export interface UsePolylineReturn extends OverlayLifecycle<AMap.Polyline> {
 function normalizePath(AMapInstance: typeof AMap | undefined, path: LngLatLike[] | undefined) {
   if (!Array.isArray(path))
     return []
-  return path.map(item => (AMapInstance ? toLngLat(AMapInstance, item) ?? item : item))
+  return path.map(item => (AMapInstance
+    ? toLngLat(AMapInstance, item) ?? item
+    : item))
 }
 
 export function usePolyline(
@@ -50,8 +52,11 @@ export function usePolyline(
       polyline.setOptions(rest)
     if (path !== undefined)
       setPathInternal(polyline, path)
-    if (visible != null)
-      visible ? polyline.show() : polyline.hide()
+    if (visible != null) {
+      visible
+        ? polyline.show()
+        : polyline.hide()
+    }
   })
 
   function setPathInternal(polyline: AMap.Polyline, path: LngLatLike[] | undefined) {

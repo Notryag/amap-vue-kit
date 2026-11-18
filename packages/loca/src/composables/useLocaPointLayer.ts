@@ -27,14 +27,14 @@ export function useLocaPointLayer(
 
   function setData(data: PointLike[], lngKey = 'lng', latKey = 'lat') {
     if (!Array.isArray(data))
-      throw new Error('[amap-vue] Loca point layer data must be an array.')
+      throw new TypeError('[amap-vue] Loca point layer data must be an array.')
 
     const layerInstance = ensureLayer()
     const features = data.map((item) => {
       const lng = item[lngKey]
       const lat = item[latKey]
       if (typeof lng !== 'number' || typeof lat !== 'number')
-        throw new Error(`[amap-vue] Loca point layer requires numeric "${lngKey}"/"${latKey}" fields on each data item.`)
+        throw new TypeError(`[amap-vue] Loca point layer requires numeric "${lngKey}"/"${latKey}" fields on each data item.`)
       return createPointFeature(item, lng, lat)
     })
 

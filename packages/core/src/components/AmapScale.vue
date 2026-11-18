@@ -55,7 +55,9 @@ const controlOptions = computed<UseScaleOptions>(() => {
   return base
 })
 
-const controlApi = context ? useScale(() => context.map.value, controlOptions) : null
+const controlApi = context
+  ? useScale(() => context.map.value, controlOptions)
+  : null
 const control = controlApi?.control ?? shallowRef<any>(null)
 
 if (controlApi) {

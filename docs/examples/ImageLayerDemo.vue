@@ -21,12 +21,18 @@ const sources: Record<OverlayKey, OverlaySource> = {
   footprints: {
     label: 'Foot traffic heatmap',
     url: 'https://a.amap.com/jsapi_demos/static/demo-center-v2/overlay/overlay.png',
-    bounds: [[116.357, 39.903], [116.412, 39.949]],
+    bounds: [
+      [116.357, 39.903],
+      [116.412, 39.949],
+    ],
   },
   heatmap: {
     label: 'Nighttime lights',
     url: 'https://a.amap.com/jsapi_demos/static/demo-center-v2/overlay/overlay-heat.png',
-    bounds: [[116.365, 39.897], [116.418, 39.946]],
+    bounds: [
+      [116.365, 39.897],
+      [116.418, 39.946],
+    ],
   },
 }
 

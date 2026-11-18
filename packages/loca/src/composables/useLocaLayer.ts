@@ -13,7 +13,9 @@ export function useLocaLayer<T extends LocaLayer>(
   let attachedContainer: LocaContainer | null = null
 
   function getContainer() {
-    return (typeof container === 'function' ? container() : unref(container)) ?? fallback ?? null
+    return (typeof container === 'function'
+      ? container()
+      : unref(container)) ?? fallback ?? null
   }
 
   function ensureLayer(): T {
@@ -53,5 +55,12 @@ export function useLocaLayer<T extends LocaLayer>(
     layer.value = null
   }
 
-  return { layer, ensureLayer, addTo, remove, render, destroy }
+  return {
+    layer,
+    ensureLayer,
+    addTo,
+    remove,
+    render,
+    destroy,
+  }
 }

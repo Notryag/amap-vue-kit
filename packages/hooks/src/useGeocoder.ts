@@ -31,7 +31,9 @@ export function useGeocoder(options: MaybeRefOrGetter<UseGeocoderOptions | undef
   const { ensure: ensureGeocoder, invalidate } = useServiceInstance(
     geocoder,
     'AMap.Geocoder',
-    () => optionsRef.value.loadOptions ? toValue(optionsRef.value.loadOptions) : undefined,
+    () => optionsRef.value.loadOptions
+      ? toValue(optionsRef.value.loadOptions)
+      : undefined,
     (AMapInstance) => {
       const { loadOptions: _loadOptions, ...rest } = optionsRef.value
       amap = AMapInstance

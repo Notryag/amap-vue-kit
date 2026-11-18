@@ -76,7 +76,10 @@ describe('layers', () => {
       components: { AmapMap, AmapImageLayer },
       data: () => ({
         url: 'https://example.com/image.png',
-        bounds: [[116, 39], [117, 40]] as [[number, number], [number, number]],
+        bounds: [
+          [116, 39],
+          [117, 40],
+        ] as [[number, number], [number, number]],
         visible: true,
         opacity: 0.6,
       }),
@@ -102,7 +105,10 @@ describe('layers', () => {
     expect(layer.options.opacity).toBe(0.6)
 
     wrapper.vm.url = 'https://example.com/updated.png'
-    wrapper.vm.bounds = [[118, 38], [119, 39]]
+    wrapper.vm.bounds = [
+      [118, 38],
+      [119, 39],
+    ]
     wrapper.vm.visible = false
     wrapper.vm.opacity = 0.8
 

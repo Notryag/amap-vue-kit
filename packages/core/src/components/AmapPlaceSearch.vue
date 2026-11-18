@@ -110,7 +110,12 @@ watch(() => props.options, (value, oldValue) => {
   placeSearchApi.setOptions(value ?? {})
 }, { deep: true })
 
-watch(() => [props.mode, props.location, props.radius, props.bounds], () => {
+watch(() => [
+  props.mode,
+  props.location,
+  props.radius,
+  props.bounds,
+], () => {
   if (props.auto && keyword.value)
     scheduleSearch(keyword.value)
 }, { deep: true })
@@ -136,8 +141,15 @@ const pagination = computed(() => {
   const pageSize = list?.pageSize ?? props.options?.pageSize ?? 10
   const pageIndex = list?.pageIndex ?? props.options?.pageIndex ?? 1
   const total = list?.count ?? pois.value.length
-  const totalPages = pageSize > 0 ? Math.max(1, Math.ceil(total / pageSize)) : 1
-  return { pageSize, pageIndex, total, totalPages }
+  const totalPages = pageSize > 0
+    ? Math.max(1, Math.ceil(total / pageSize))
+    : 1
+  return {
+    pageSize,
+    pageIndex,
+    total,
+    totalPages,
+  }
 })
 
 async function runSearch(value: string = keyword.value) {
@@ -184,7 +196,9 @@ function selectPoi(poi: PlaceSearchPoi) {
 }
 
 function poiDistrict(poi: PlaceSearchPoi) {
-  return 'district' in poi ? poi.district : ''
+  return 'district' in poi
+    ? poi.district
+    : ''
 }
 
 async function goToPage(page: number) {

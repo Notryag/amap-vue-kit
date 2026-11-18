@@ -50,7 +50,9 @@ const groupOptions = computed<UseOverlayGroupOptions>(() => {
   return base
 })
 
-const groupApi = mapContext ? useOverlayGroup(() => mapContext.map.value, groupOptions) : null
+const groupApi = mapContext
+  ? useOverlayGroup(() => mapContext.map.value, groupOptions)
+  : null
 const group = groupApi?.overlay ?? shallowRef<AMap.OverlayGroup | null>(null)
 
 if (groupApi) {

@@ -37,8 +37,12 @@ export function useText(
     const { position, offset, visible, ...rest } = textOptions as UseTextOptions & { map?: AMap.Map }
     const text = new AMap.Text({
       ...rest,
-      position: position ? toLngLat(AMap, position) ?? position : rest.position,
-      offset: offset ? toPixel(AMap, offset) ?? offset : rest.offset,
+      position: position
+        ? toLngLat(AMap, position) ?? position
+        : rest.position,
+      offset: offset
+        ? toPixel(AMap, offset) ?? offset
+        : rest.offset,
     } as any)
     text.setMap(map)
     if (visible === false)
@@ -52,15 +56,20 @@ export function useText(
       setPositionInternal(text, position)
     if (offset !== undefined)
       setOffsetInternal(text, offset)
-    if (visible != null)
-      visible ? text.show() : text.hide()
+    if (visible != null) {
+      visible
+        ? text.show()
+        : text.hide()
+    }
   })
 
   function setPositionInternal(text: AMap.Text, position: LngLatLike | undefined) {
     if (!position)
       return
     const AMapInstance = loader.get()
-    const resolved = AMapInstance ? toLngLat(AMapInstance, position) ?? position : position
+    const resolved = AMapInstance
+      ? toLngLat(AMapInstance, position) ?? position
+      : position
     text.setPosition(resolved as any)
   }
 
@@ -68,7 +77,9 @@ export function useText(
     if (offset == null)
       return
     const AMapInstance = loader.get()
-    const resolved = AMapInstance ? toPixel(AMapInstance, offset) ?? offset : offset
+    const resolved = AMapInstance
+      ? toPixel(AMapInstance, offset) ?? offset
+      : offset
     text.setOffset?.(resolved as any)
   }
 

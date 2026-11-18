@@ -12,12 +12,19 @@ function harness() {
     resolve = done
   }))
   const map = shallowRef<AMap.Map | null>({} as AMap.Map)
-  const factory = vi.fn((_context: { map: AMap.Map }) => ({ setMap: vi.fn(), destroy: vi.fn(), on: vi.fn(), off: vi.fn() }))
+  const factory = vi.fn((_context: { map: AMap.Map }) => ({
+    setMap: vi.fn(),
+    destroy: vi.fn(),
+    on: vi.fn(),
+    off: vi.fn(),
+  }))
   let api!: ReturnType<typeof useOverlay<ReturnType<typeof factory>, Record<string, never>>>
-  const wrapper = mount(defineComponent({ setup() {
-    api = useOverlay(map, {}, factory)
-    return () => null
-  } }))
+  const wrapper = mount(defineComponent({
+    setup() {
+      api = useOverlay(map, {}, factory)
+      return () => null
+    },
+  }))
   return { api, map, factory, wrapper, resolve }
 }
 

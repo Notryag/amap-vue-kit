@@ -61,7 +61,9 @@ const layerOptions = computed<UseImageLayerOptions>(() => {
   return base
 })
 
-const layerApi = mapContext ? useImageLayer(() => mapContext.map.value, layerOptions) : null
+const layerApi = mapContext
+  ? useImageLayer(() => mapContext.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.ImageLayer | null>(null)
 
 if (layerApi) {

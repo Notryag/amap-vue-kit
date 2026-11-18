@@ -45,13 +45,24 @@ const overlayOptions = computed<UsePolygonOptions>(() => ({
   ...props.options,
 }) as UsePolygonOptions)
 
-const polygonApi = context ? usePolygon(() => context.map.value, overlayOptions) : null
+const polygonApi = context
+  ? usePolygon(() => context.map.value, overlayOptions)
+  : null
 const polygon = polygonApi?.overlay ?? shallowRef<AMap.Polygon | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (polygonApi) {

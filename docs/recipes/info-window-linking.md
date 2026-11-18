@@ -15,9 +15,24 @@ interface Place {
 }
 
 const places: Place[] = [
-  { id: 1, name: '北门咖啡馆', address: '朝阳门西街 12 号', position: [116.396923, 39.90816] },
-  { id: 2, name: '图书馆', address: '工人体育场路 88 号', position: [116.40021, 39.90986] },
-  { id: 3, name: '屋顶花园', address: '金宝街 22 号', position: [116.40137, 39.90745] },
+  {
+    id: 1,
+    name: '北门咖啡馆',
+    address: '朝阳门西街 12 号',
+    position: [116.396923, 39.90816]
+  },
+  {
+    id: 2,
+    name: '图书馆',
+    address: '工人体育场路 88 号',
+    position: [116.40021, 39.90986]
+  },
+  {
+    id: 3,
+    name: '屋顶花园',
+    address: '金宝街 22 号',
+    position: [116.40137, 39.90745]
+  },
 ]
 
 const container = ref<HTMLDivElement | null>(null)

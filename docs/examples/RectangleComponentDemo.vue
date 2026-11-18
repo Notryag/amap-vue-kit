@@ -16,8 +16,14 @@ const bounds = computed(() => {
   const halfWidth = width.value / 2
   const halfHeight = height.value / 2
   return [
-    [Number((lng - halfWidth).toFixed(6)), Number((lat - halfHeight).toFixed(6))],
-    [Number((lng + halfWidth).toFixed(6)), Number((lat + halfHeight).toFixed(6))],
+    [
+      Number((lng - halfWidth).toFixed(6)),
+      Number((lat - halfHeight).toFixed(6)),
+    ],
+    [
+      Number((lng + halfWidth).toFixed(6)),
+      Number((lat + halfHeight).toFixed(6)),
+    ],
   ] as [[number, number], [number, number]]
 })
 

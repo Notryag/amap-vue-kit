@@ -13,16 +13,28 @@ const marker = useMarker(() => map.value, () => ({
   position: markerPosition.value,
   draggable: draggable.value,
   label: showLabel.value
-    ? { content: '拖动我', direction: 'top', offset: [0, -20] }
+    ? {
+        content: '拖动我',
+        direction: 'top',
+        offset: [0, -20],
+      }
     : undefined,
 }))
 
 marker.on('dragend', (event: any) => {
   const lnglat = event?.lnglat
-  const lng = typeof lnglat?.getLng === 'function' ? lnglat.getLng() : lnglat?.lng
-  const lat = typeof lnglat?.getLat === 'function' ? lnglat.getLat() : lnglat?.lat
-  if (typeof lng === 'number' && typeof lat === 'number')
-    markerPosition.value = [Number(lng.toFixed(6)), Number(lat.toFixed(6))]
+  const lng = typeof lnglat?.getLng === 'function'
+    ? lnglat.getLng()
+    : lnglat?.lng
+  const lat = typeof lnglat?.getLat === 'function'
+    ? lnglat.getLat()
+    : lnglat?.lat
+  if (typeof lng === 'number' && typeof lat === 'number') {
+    markerPosition.value = [
+      Number(lng.toFixed(6)),
+      Number(lat.toFixed(6)),
+    ]
+  }
 })
 
 const markerCoords = computed(() => `${markerPosition.value[0].toFixed(4)}, ${markerPosition.value[1].toFixed(4)}`)

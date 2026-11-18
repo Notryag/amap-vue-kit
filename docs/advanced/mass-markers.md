@@ -7,11 +7,13 @@ import { useMassMarkers } from '@amap-vue/hooks'
 
 const mass = useMassMarkers(() => map.value, () => ({
   data: points,
-  style: [{
-    url: 'https://a.amap.com/jsapi_demos/static/resource/img/markers/mark_b.png',
-    anchor: [6, 6],
-    size: [11, 11]
-  }]
+  style: [
+    {
+      url: 'https://a.amap.com/jsapi_demos/static/resource/img/markers/mark_b.png',
+      anchor: [6, 6],
+      size: [11, 11]
+    }
+  ]
 }))
 ```
 

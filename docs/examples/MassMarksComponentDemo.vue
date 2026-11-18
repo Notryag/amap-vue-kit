@@ -3,7 +3,9 @@ import { AmapMap, AmapMassMarks } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-const { hasKey } = useDemoLoader({ plugins: ['AMap.Adaptor'] })
+const { hasKey } = useDemoLoader({
+  plugins: ['AMap.Adaptor'],
+})
 
 const center: [number, number] = [116.397, 39.908]
 const count = ref(800)
@@ -28,7 +30,10 @@ function createData(total: number) {
     const lng = center[0] + (Math.random() - 0.5) * 1.2
     const lat = center[1] + (Math.random() - 0.5) * 1.2
     items.push({
-      lnglat: [Number(lng.toFixed(6)), Number(lat.toFixed(6))],
+      lnglat: [
+        Number(lng.toFixed(6)),
+        Number(lat.toFixed(6)),
+      ],
       style: index % styles.length,
     })
   }

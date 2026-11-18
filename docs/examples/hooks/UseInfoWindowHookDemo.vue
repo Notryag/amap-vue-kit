@@ -7,7 +7,14 @@ const markerPosition = ref<[number, number]>([116.404, 39.915])
 const isOpen = ref(true)
 const isCustom = ref(false)
 const anchor = ref<AMap.InfoWindowAnchor>('top-center')
-const anchors: AMap.InfoWindowAnchor[] = ['top-left', 'top-center', 'top-right', 'bottom-left', 'bottom-center', 'bottom-right']
+const anchors: AMap.InfoWindowAnchor[] = [
+  'top-left',
+  'top-center',
+  'top-right',
+  'bottom-left',
+  'bottom-center',
+  'bottom-right',
+]
 
 const { container, hasKey, map } = useHookDemoMap(() => ({
   center: markerPosition.value,

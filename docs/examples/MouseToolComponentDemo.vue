@@ -3,7 +3,9 @@ import { AmapMap, AmapMouseTool } from '@amap-vue/core'
 import { ref } from 'vue'
 import { useDemoLoader } from './useDemoLoader'
 
-useDemoLoader({ plugins: ['AMap.MouseTool'] })
+useDemoLoader({
+  plugins: ['AMap.MouseTool'],
+})
 
 type DrawMode = 'none' | 'circle' | 'rectangle' | 'polygon' | 'polyline' | 'bezierCurve' | 'ellipse'
 

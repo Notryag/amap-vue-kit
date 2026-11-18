@@ -66,7 +66,9 @@ const layerOptions = computed<UseTileLayerOptions>(() => {
   return base
 })
 
-const layerApi = context ? useTileLayer(() => context.map.value, layerOptions) : null
+const layerApi = context
+  ? useTileLayer(() => context.map.value, layerOptions)
+  : null
 const layer = layerApi?.overlay ?? shallowRef<AMap.TileLayer | null>(null)
 
 if (layerApi) {

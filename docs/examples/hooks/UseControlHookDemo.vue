@@ -15,7 +15,10 @@ const { container, hasKey, map } = useHookDemoMap(() => ({
 
 useToolBar(() => map.value, () => ({ visible: showToolBar.value }))
 useScale(() => map.value, () => ({ visible: showScale.value }))
-useControlBar(() => map.value, () => ({ position: { top: '80px', right: '10px' }, visible: showControlBar.value }))
+useControlBar(() => map.value, () => ({
+  position: { top: '80px', right: '10px' },
+  visible: showControlBar.value,
+}))
 useMapType(() => map.value, () => ({ visible: showMapType.value }))
 </script>
 

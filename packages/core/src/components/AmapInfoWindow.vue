@@ -55,12 +55,20 @@ const options = computed(() => ({
   content: resolvedContent.value,
 }))
 
-const infoWindowApi = context ? useInfoWindow(() => context.map.value, options) : null
+const infoWindowApi = context
+  ? useInfoWindow(() => context.map.value, options)
+  : null
 const infoWindow = infoWindowApi?.infoWindow ?? shallowRef<AMap.InfoWindow | null>(null)
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'open', handler: event => emit('open', event) },
-  { event: 'close', handler: event => emit('close', event) },
+  {
+    event: 'open',
+    handler: event => emit('open', event),
+  },
+  {
+    event: 'close',
+    handler: event => emit('close', event),
+  },
 ]
 
 eventBindings.forEach(({ event, handler }) => infoWindowApi?.on(event, handler))

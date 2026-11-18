@@ -44,15 +44,26 @@ const layerOptions = computed<UseGeoJSONLayerOptions>(() => ({
   visible: props.visible,
 }))
 
-const geoApi = mapContext ? useGeoJSONLayer(() => mapContext.map.value, layerOptions) : null
+const geoApi = mapContext
+  ? useGeoJSONLayer(() => mapContext.map.value, layerOptions)
+  : null
 const layer = geoApi?.overlay ?? shallowRef<AMap.GeoJSON | null>(null)
 
 let readyEmitted = false
 
 const eventBindings: Array<{ event: string, handler: (event: any) => void }> = [
-  { event: 'click', handler: event => emit('click', event) },
-  { event: 'mouseover', handler: event => emit('mouseover', event) },
-  { event: 'mouseout', handler: event => emit('mouseout', event) },
+  {
+    event: 'click',
+    handler: event => emit('click', event),
+  },
+  {
+    event: 'mouseover',
+    handler: event => emit('mouseover', event),
+  },
+  {
+    event: 'mouseout',
+    handler: event => emit('mouseout', event),
+  },
 ]
 
 if (geoApi) {

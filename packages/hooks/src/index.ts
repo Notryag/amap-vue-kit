@@ -1,5 +1,6 @@
 export * from './useAutoComplete'
 export * from './useBezierCurve'
+export * from './useBuildings'
 export * from './useCircle'
 export * from './useCircleMarker'
 export * from './useContextMenu'

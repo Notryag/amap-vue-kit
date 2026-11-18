@@ -21,6 +21,7 @@ export const apiGroups: ApiGroup[] = [
     text: '高德官方图层',
     items: [
       { name: '瓦片与卫星图层 TileLayer', component: 'tile-layer', hook: 'use-tile-layer' },
+      { name: '3D 楼块 Buildings', component: 'buildings', hook: 'use-buildings' },
       { name: '行政区图层 DistrictLayer', component: 'district-layer' },
     ],
   },

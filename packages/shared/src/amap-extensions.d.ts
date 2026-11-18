@@ -36,6 +36,7 @@ declare global {
       rotation?: number
       mapStyle?: string
       theme?: string
+      showBuildingBlock?: boolean
     }
 
     class Map implements Evented {
@@ -321,6 +322,52 @@ declare global {
       constructor(options?: TextOptions)
       setText(text: string): void
       setStyle(style: Record<string, any>): void
+    }
+
+    type BuildingColor = string | number[] | string[]
+
+    interface BuildingStyleArea {
+      path: [number, number][]
+      /** Roof color within the area. */
+      color1?: BuildingColor
+      /** Wall color within the area. */
+      color2?: BuildingColor
+      visible?: boolean
+      rejectTexture?: boolean
+    }
+
+    interface BuildingsStyle {
+      hideWithoutStyle?: boolean
+      areas?: BuildingStyleArea[]
+    }
+
+    interface BuildingsOptions {
+      wallColor?: BuildingColor
+      roofColor?: BuildingColor
+      /** Building height multiplier in 3D mode. */
+      heightFactor?: number
+      styleOpts?: BuildingsStyle
+      zooms?: [number, number]
+      opacity?: number
+      visible?: boolean
+      zIndex?: number
+    }
+
+    class Buildings implements Evented {
+      constructor(options?: BuildingsOptions)
+      setStyle(style: BuildingsStyle): void
+      getOptions(): BuildingsOptions
+      getzIndex(): number
+      setzIndex(zIndex: number): void
+      getOpacity(): number
+      setOpacity(opacity: number): void
+      getZooms(): [number, number]
+      setZooms(zooms: [number, number]): void
+      show(): void
+      hide(): void
+      destroy(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
     }
 
     interface TileLayerOptions extends BaseOptions {

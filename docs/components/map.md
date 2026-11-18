@@ -25,6 +25,7 @@
 | `pitch` | `number \| undefined` | – | 初始俯仰角。 |
 | `rotation` | `number \| undefined` | – | 初始旋转角。 |
 | `mapStyle` | `string \| undefined` | – | 自定义地图样式 ID。 |
+| `showBuildingBlock` | `boolean \| undefined` | SDK 默认值 | 初始化时是否显示默认楼块。使用自定义 [`AmapBuildings`](./buildings) 时可设为 `false`。 |
 | `plugins` | `string[]` | `[]` | 额外加载的 JSAPI 插件。 |
 | `loaderOptions` | `Partial<LoaderOptions>` | `{}` | 传给共享 loader 的覆盖配置，例如自定义版本号。 |
 

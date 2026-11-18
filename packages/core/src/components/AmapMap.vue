@@ -20,6 +20,7 @@ const props = defineProps({
   pitch: Number,
   rotation: Number,
   mapStyle: String,
+  showBuildingBlock: { type: Boolean, default: undefined },
   plugins: {
     type: Array as PropType<string[]>,
     default: () => [],
@@ -48,6 +49,9 @@ const mapOptions = computed(() => ({
   pitch: props.pitch,
   rotation: props.rotation,
   mapStyle: props.mapStyle,
+  ...(props.showBuildingBlock === undefined
+    ? {}
+    : { showBuildingBlock: props.showBuildingBlock }),
   plugins: props.plugins,
   loaderOptions: props.loaderOptions,
   container: containerRef.value,

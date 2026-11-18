@@ -5,7 +5,6 @@
 
 ## P1：常用控件与服务
 
-- [ ] `AmapRangingTool` / `useRangingTool`：测距工具，支持启停、结果事件与清理。
 - [ ] `useDistrictSearch`：行政区查询，支持层级、子级及边界查询；与已有行政区图层区分。
 - [ ] `AmapTransfer` / `useTransfer`：公交换乘，支持方案查询、地图展示与结果面板。
 

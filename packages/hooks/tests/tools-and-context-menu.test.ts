@@ -6,6 +6,7 @@ import { defineComponent, nextTick, ref } from 'vue'
 
 import { useContextMenu } from '../src/useContextMenu'
 import { useMouseTool } from '../src/useMouseTool'
+import { useRangingTool } from '../src/useRangingTool'
 
 function createContainer() {
   const container = document.createElement('div')
@@ -85,6 +86,69 @@ function mountHookWithMap<HookReturn>(
     },
   }
 }
+
+describe('useRangingTool', () => {
+  it('starts, forwards results, and clears the instance when the map changes', async () => {
+    const onEnd = vi.fn()
+    const harness = mountHookWithMap(map => useRangingTool(map, {
+      options: { startLabelText: 'From here' },
+      onEnd,
+    }))
+    const tool = await waitForInstance(() => harness.hook.tool.value)
+    const turnOn = vi.spyOn(tool, 'turnOn')
+    const turnOff = vi.spyOn(tool, 'turnOff')
+
+    await expect(harness.hook.start()).resolves.toBe(true)
+    await expect(harness.hook.start()).resolves.toBe(true)
+    expect(turnOn).toHaveBeenCalledTimes(1)
+    expect(harness.hook.active.value).toBe(true)
+
+    const result = {
+      distance: 416,
+      points: [
+        new AMap.LngLat(120, 30),
+        new AMap.LngLat(120.004, 30),
+      ],
+    }
+    const complete = () => (tool as unknown as { emit: (event: string, payload: unknown) => void }).emit('end', result)
+    complete()
+    expect(onEnd).toHaveBeenCalledExactlyOnceWith(result)
+
+    harness.hook.stop()
+    expect(turnOff).toHaveBeenLastCalledWith(false)
+    expect(harness.hook.active.value).toBe(false)
+
+    harness.mapRef.value = null
+    expect(turnOff).toHaveBeenLastCalledWith(true)
+    expect(harness.hook.tool.value).toBeNull()
+    complete()
+    expect(onEnd).toHaveBeenCalledTimes(1)
+
+    const replacement = createMap()
+    harness.mapRef.value = replacement.map
+    const nextTool = await waitForInstance(() => harness.hook.tool.value)
+    expect(nextTool).not.toBe(tool)
+    const clearReplacement = vi.spyOn(nextTool, 'turnOff')
+    harness.cleanup()
+    replacement.cleanup()
+    expect(clearReplacement).toHaveBeenCalledExactlyOnceWith(true)
+  })
+
+  it('cancels a pending start on stop and a pending initialization on unmount', async () => {
+    const stopped = mountHookWithMap(map => useRangingTool(map))
+    const stoppedStart = stopped.hook.start()
+    stopped.hook.stop()
+    await expect(stoppedStart).resolves.toBe(false)
+    expect(stopped.hook.active.value).toBe(false)
+    stopped.cleanup()
+
+    const disposed = mountHookWithMap(map => useRangingTool(map))
+    const disposedStart = disposed.hook.start()
+    disposed.cleanup()
+    await expect(disposedStart).resolves.toBe(false)
+    expect(disposed.hook.tool.value).toBeNull()
+  })
+})
 
 describe('useMouseTool', () => {
   it('draws overlays using the mouse tool', async () => {

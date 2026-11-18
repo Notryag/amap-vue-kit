@@ -1188,6 +1188,16 @@ class MassMarks extends EventTarget {
   }
 }
 
+class RangingTool extends EventTarget {
+  constructor(public map: Map, public options?: AMap.RangingToolOptions) {
+    super()
+  }
+
+  turnOn() {}
+
+  turnOff(_removeOverlays?: boolean) {}
+}
+
 class MouseTool extends EventTarget {
   public map: Map
   public lastOverlay: any
@@ -1843,6 +1853,7 @@ Object.assign(globalThis, {
     OverlayGroup,
     MassMarks,
     MouseTool,
+    RangingTool,
     ContextMenu,
     CircleEditor,
     RectangleEditor,

@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import HawkEyeDemo from './HawkEyeDemo.vue'
 import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
+import RangingToolDemo from './RangingToolDemo.vue'
 
 const center = ref<[number, number]>([116.397, 39.908])
 const zoom = ref(11)
@@ -24,10 +25,12 @@ function toggleInfo() {
         <option value="marker">点标记与信息窗体</option>
         <option value="hawk-eye">鹰眼控件</option>
         <option value="pulse-line">Loca 脉冲轨迹线</option>
+        <option value="ranging-tool">测距工具</option>
       </select>
     </label>
     <HawkEyeDemo v-if="demo === 'hawk-eye'" />
     <LocaPulseLineDemo v-else-if="demo === 'pulse-line'" />
+    <RangingToolDemo v-else-if="demo === 'ranging-tool'" />
     <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。

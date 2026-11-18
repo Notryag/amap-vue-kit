@@ -32,6 +32,7 @@ import AmapPolygon from './components/AmapPolygon.vue'
 import AmapPolygonEditor from './components/AmapPolygonEditor.vue'
 import AmapPolyline from './components/AmapPolyline.vue'
 import AmapPolylineEditor from './components/AmapPolylineEditor.vue'
+import AmapRangingTool from './components/AmapRangingTool.vue'
 import AmapRectangle from './components/AmapRectangle.vue'
 import AmapRectangleEditor from './components/AmapRectangleEditor.vue'
 import AmapReverseGeocodePanel from './components/AmapReverseGeocodePanel.vue'
@@ -79,6 +80,7 @@ export {
   AmapPolygonEditor,
   AmapPolyline,
   AmapPolylineEditor,
+  AmapRangingTool,
   AmapRectangle,
   AmapRectangleEditor,
   AmapReverseGeocodePanel,
@@ -121,6 +123,7 @@ const components = [
   AmapMarkerCluster,
   AmapMassMarks,
   AmapMouseTool,
+  AmapRangingTool,
   AmapOverlayGroup,
   AmapPlaceSearch,
   AmapPolygon,

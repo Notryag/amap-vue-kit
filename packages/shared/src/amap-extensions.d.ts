@@ -608,6 +608,41 @@ declare global {
       translate(data: any): any
     }
 
+    interface RangingToolOptions {
+      startMarkerOptions?: MarkerOptions
+      midMarkerOptions?: MarkerOptions
+      endMarkerOptions?: MarkerOptions
+      lineOptions?: PolylineOptions
+      tmpLineOptions?: PolylineOptions
+      startLabelText?: string
+      midLabelText?: string
+      endLabelText?: string
+      startLabelOffset?: Pixel
+      midLabelOffset?: Pixel
+      endLabelOffset?: Pixel
+    }
+
+    interface RangingToolEventMap {
+      addnode: { type: 'addnode', position: LngLat, marker: Marker }
+      removenode: RangingToolResult & { type: 'removenode' }
+      end: RangingToolResult & { type: 'end' }
+    }
+
+    interface RangingToolResult {
+      polyline: Polyline
+      points: LngLat[]
+      /** Total measured distance in meters. */
+      distance: number
+    }
+
+    class RangingTool implements Evented {
+      constructor(map: Map, options?: RangingToolOptions)
+      turnOn(): void
+      turnOff(removeOverlays?: boolean): void
+      on<K extends keyof RangingToolEventMap>(event: K, handler: (event: RangingToolEventMap[K]) => void): void
+      off<K extends keyof RangingToolEventMap>(event: K, handler: (event: RangingToolEventMap[K]) => void): void
+    }
+
     interface MouseToolDrawOptions extends BaseOptions {}
 
     class MouseTool implements Evented {

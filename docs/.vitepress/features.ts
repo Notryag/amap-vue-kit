@@ -85,6 +85,7 @@ export const apiGroups: ApiGroup[] = [
     text: '工具',
     items: [
       { name: '鼠标绘制 MouseTool', component: 'mouse-tool', hook: 'use-mouse-tool' },
+      { name: '测距工具 RangingTool', component: 'ranging-tool', hook: 'use-ranging-tool' },
       { name: '图形编辑器 Editor', component: 'editors', hook: 'use-editor' },
     ],
   },

@@ -48,6 +48,7 @@ import AmapTransfer from './components/AmapTransfer.vue'
 import AmapWalking from './components/AmapWalking.vue'
 import AmapWeatherPanel from './components/AmapWeatherPanel.vue'
 import AmapWMSLayer from './components/AmapWMSLayer.vue'
+import AmapWMTSLayer from './components/AmapWMTSLayer.vue'
 
 export {
   AmapAutoComplete,
@@ -98,6 +99,7 @@ export {
   AmapWalking,
   AmapWeatherPanel,
   AmapWMSLayer,
+  AmapWMTSLayer,
 }
 
 const components = [
@@ -148,6 +150,7 @@ const components = [
   AmapTrafficLayer,
   AmapWalking,
   AmapWMSLayer,
+  AmapWMTSLayer,
   AmapWeatherPanel,
 ]
 

@@ -28,6 +28,7 @@ export const apiGroups: ApiGroup[] = [
     text: '行业标准图层',
     items: [
       { name: 'WMS 图层', component: 'wms-layer', hook: 'use-wms-layer' },
+      { name: 'WMTS 图层', component: 'wmts-layer', hook: 'use-wmts-layer' },
     ],
   },
   {

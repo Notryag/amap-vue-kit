@@ -5,7 +5,6 @@
 
 ## P2：标准图层与楼块
 
-- [ ] `AmapWMTSLayer` / `useWMTSLayer`：对接 `AMap.TileLayer.WMTS`。
 - [ ] `AmapBuildings` / `useBuildings`：楼块图层，支持样式、可见性与生命周期管理。
 
 ## P3：自定义渲染与轨迹

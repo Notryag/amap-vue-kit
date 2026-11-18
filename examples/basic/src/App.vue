@@ -6,6 +6,7 @@ import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
 import TransferDemo from './TransferDemo.vue'
 import WMSLayerDemo from './WMSLayerDemo.vue'
+import WMTSLayerDemo from './WMTSLayerDemo.vue'
 
 const center = ref<[number, number]>([116.397, 39.908])
 const zoom = ref(11)
@@ -32,6 +33,7 @@ function toggleInfo() {
         <option value="district-search">行政区查询</option>
         <option value="transfer">公交换乘</option>
         <option value="wms-layer">WMS 图层</option>
+        <option value="wmts-layer">WMTS 图层</option>
       </select>
     </label>
     <HawkEyeDemo v-if="demo === 'hawk-eye'" />
@@ -40,6 +42,7 @@ function toggleInfo() {
     <DistrictSearchDemo v-else-if="demo === 'district-search'" />
     <TransferDemo v-else-if="demo === 'transfer'" />
     <WMSLayerDemo v-else-if="demo === 'wms-layer'" />
+    <WMTSLayerDemo v-else-if="demo === 'wmts-layer'" />
     <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。

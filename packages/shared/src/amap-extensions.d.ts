@@ -348,11 +348,12 @@ declare global {
     namespace TileLayer {
       type WMSParams = Record<string, string | number | boolean>
 
-      interface WMSOptions {
-        /** Base URL of the WMS service. */
+      type WMTSParams = Record<string, string | number | boolean>
+
+      interface OgcLayerOptions {
+        /** Base URL of the map service. */
         url: string
-        /** GetMap parameters such as LAYERS, VERSION and FORMAT. */
-        params: WMSParams
+        params: Record<string, string | number | boolean>
         blend?: boolean
         tileSize?: number
         zooms?: [number, number]
@@ -361,12 +362,31 @@ declare global {
         zIndex?: number
       }
 
+      interface WMSOptions extends OgcLayerOptions {
+        /** GetMap parameters such as LAYERS, VERSION and FORMAT. */
+        params: WMSParams
+      }
+
+      interface WMTSOptions extends OgcLayerOptions {
+        /** GetTile parameters such as Layer, Version and Format. */
+        params: WMTSParams
+      }
+
       class WMS extends TileLayer {
         constructor(options: WMSOptions)
         getUrl(): string
         setUrl(url: string): void
         getParams(): WMSParams
         setParams(params: WMSParams): void
+        setZooms(zooms: [number, number]): void
+      }
+
+      class WMTS extends TileLayer {
+        constructor(options: WMTSOptions)
+        getUrl(): string
+        setUrl(url: string): void
+        getParams(): WMTSParams
+        setParams(params: WMTSParams): void
         setZooms(zooms: [number, number]): void
       }
 

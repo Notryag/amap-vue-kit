@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { LocaContainerOptions } from '../types'
-import { computed, onBeforeUnmount, provide, watchEffect } from 'vue'
+import { computed, onUnmounted, provide, watchEffect } from 'vue'
 import { useLocaContainer } from '../composables/useLocaContainer'
 
 interface ProviderProps {
@@ -28,7 +28,7 @@ watchEffect(() => {
     container.destroy()
 })
 
-onBeforeUnmount(() => {
+onUnmounted(() => {
   container.destroy()
 })
 </script>

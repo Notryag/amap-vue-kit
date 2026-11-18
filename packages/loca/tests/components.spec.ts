@@ -48,10 +48,18 @@ class MockLayer {
 }
 
 let createdLayers: MockLayer[]
+let createdContainers: MockContainer[]
 let mockLoca: LocaNamespace
 
 beforeEach(() => {
   createdLayers = []
+  createdContainers = []
+  class Container extends MockContainer {
+    constructor(options: Record<string, any>) {
+      super(options)
+      createdContainers.push(this)
+    }
+  }
   class PointLayer extends MockLayer {
     constructor(options: Record<string, any> = {}) {
       super(options)
@@ -59,7 +67,7 @@ beforeEach(() => {
     }
   }
   mockLoca = {
-    Container: MockContainer as any,
+    Container: Container as any,
     GeoJSONSource: class {
       constructor(public readonly options: { data: Record<string, any> }) {}
 
@@ -81,6 +89,37 @@ beforeEach(() => {
 })
 
 describe('amap loca components', () => {
+  it('removes and destroys child layers before destroying the container', async () => {
+    const Root = defineComponent({
+      components: { AmapLocaProvider, AmapLocaPointLayer },
+      setup: () => ({
+        map: {},
+        points: [
+          { lng: 120, lat: 30 },
+        ],
+      }),
+      template: `
+        <AmapLocaProvider :map="map">
+          <AmapLocaPointLayer :data="points" />
+        </AmapLocaProvider>
+      `,
+    })
+
+    const wrapper = mount(Root)
+    await nextTick()
+    const [container] = createdContainers
+    const [layer] = createdLayers
+    expect(container.add).toHaveBeenCalledWith(layer)
+
+    wrapper.unmount()
+
+    expect(container.remove).toHaveBeenCalledExactlyOnceWith(layer)
+    expect(layer.destroy).toHaveBeenCalledTimes(1)
+    expect(container.destroy).toHaveBeenCalledTimes(1)
+    expect(container.remove).toHaveBeenCalledBefore(layer.destroy)
+    expect(layer.destroy).toHaveBeenCalledBefore(container.destroy)
+  })
+
   it('binds point layer data reactively', async () => {
     const Root = defineComponent({
       components: { AmapLocaProvider, AmapLocaPointLayer },

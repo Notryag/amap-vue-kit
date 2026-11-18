@@ -39,10 +39,9 @@ export function useLocaContainer(options: UseLocaContainerOptions) {
   }
 
   function destroy() {
-    if (instance.value) {
-      instance.value.destroy()
-      instance.value = null
-    }
+    const current = instance.value
+    instance.value = null
+    current?.destroy()
   }
 
   return {

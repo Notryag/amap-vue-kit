@@ -73,6 +73,8 @@ const points = [
 
 <script setup lang="ts">
 import LocaVisualizationDemo from '../examples/advanced/LocaVisualizationDemo.vue'
+import LocaPulseLineDemo from '../../examples/basic/src/LocaPulseLineDemo.vue'
+import { demoHasKey } from '../examples/demo-access'
 </script>
 
 ## 可用组件
@@ -81,6 +83,42 @@ import LocaVisualizationDemo from '../examples/advanced/LocaVisualizationDemo.vu
 - `<AmapLocaPointLayer>`：点数据图层，数据项默认读取 `lng` / `lat` 字段。
 - `<AmapLocaHeatmapLayer>`：热力图图层，默认读取 `value` 字段。
 - `<AmapLocaPolygonLayer>`：GeoJSON 面图层，适合行政区、围栏、网格面等数据。
+- `<AmapLocaPulseLineLayer>`：沿经纬度路径绘制脉冲轨迹线。
+
+## 脉冲轨迹线 PulseLine
+
+为 `AmapLocaProvider` 加上 `animate` 即可启用动画。每条轨迹至少包含两个 `[经度, 纬度]` 坐标。
+
+```vue
+<AmapLocaProvider v-if="map" :map="map" animate>
+  <AmapLocaPulseLineLayer
+    :data="[{ path: [[116.38, 39.905], [116.395, 39.921], [116.42, 39.921]] }]"
+    :layer-style="{ lineWidth: 5, headColor: '#2563eb', duration: 2200 }"
+  />
+</AmapLocaProvider>
+```
+
+<DemoPreview>
+<ClientOnly>
+  <LocaPulseLineDemo :enabled="demoHasKey" />
+</ClientOnly>
+
+<template #code>
+
+<<< ../../examples/basic/src/LocaPulseLineDemo.vue
+
+</template>
+</DemoPreview>
+
+| Prop | TypeScript 类型 | 说明 |
+| --- | --- | --- |
+| `data` | `PulseLineItem[]` | 轨迹数据，每项包含 `path`。数据更新时会重建图层的 GeoJSON 数据源。 |
+| `layerStyle` | `LocaPulseLineStyle` | 响应式样式。`duration` 以毫秒为单位，`interval` 是单段脉冲占整条路径长度的比例。 |
+| `options` | `LocaPulseLineLayerOptions` | 创建图层时的选项，如 `zIndex`、`opacity`、`visible` 和 `zooms`。 |
+
+轨迹线静止时，检查 Provider 是否传入 `animate`。图层不可见时，检查 `path` 的坐标顺序和地图的缩放级别。[高德 Loca API 参考](https://a.amap.com/Loca/static/loca-v2/doc/html/index.html#locapulselinelayer)
+
+[在 StackBlitz 打开示例](https://stackblitz.com/github/Notryag/amap-vue-kit/tree/main/examples/basic)
 
 ## 常见问题
 

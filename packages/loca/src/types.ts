@@ -13,6 +13,7 @@ export interface LocaContainerOptions {
 }
 
 export interface LocaContainer {
+  animate?: { start: () => void, stop: () => void }
   getMap: () => AMap.Map
   add: (layer: LocaLayer) => void
   remove: (layer: LocaLayer) => void
@@ -71,6 +72,10 @@ export interface LocaPolygonLayerOptions {
 }
 
 export interface LocaPulseLineLayerOptions {
+  zIndex?: number
+  opacity?: number
+  visible?: boolean
+  zooms?: [number, number]
   lineWidth?: number
   duration?: number
   interval?: number

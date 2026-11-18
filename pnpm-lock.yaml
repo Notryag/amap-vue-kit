@@ -251,6 +251,9 @@ importers:
       '@amap-vue/hooks':
         specifier: workspace:*
         version: link:../../packages/hooks
+      '@amap-vue/loca':
+        specifier: workspace:*
+        version: link:../../packages/loca
       '@amap-vue/shared':
         specifier: workspace:*
         version: link:../../packages/shared

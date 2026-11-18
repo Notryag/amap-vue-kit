@@ -6,8 +6,14 @@ import AmapLocaHeatmapLayer from '../src/components/AmapLocaHeatmapLayer.vue'
 import AmapLocaPointLayer from '../src/components/AmapLocaPointLayer.vue'
 import AmapLocaPolygonLayer from '../src/components/AmapLocaPolygonLayer.vue'
 import AmapLocaProvider from '../src/components/AmapLocaProvider.vue'
+import AmapLocaPulseLineLayer from '../src/components/AmapLocaPulseLineLayer.vue'
 
 class MockContainer {
+  public animate = {
+    start: vi.fn(),
+    stop: vi.fn(),
+  }
+
   public render = vi.fn()
   public destroy = vi.fn()
   public add = vi.fn()
@@ -89,6 +95,62 @@ beforeEach(() => {
 })
 
 describe('amap loca components', () => {
+  it('mounts pulse lines when the map becomes available and updates their data and style', async () => {
+    const Root = defineComponent({
+      components: { AmapLocaProvider, AmapLocaPulseLineLayer },
+      setup: () => ({
+        map: ref<object | null>(null),
+        data: ref([
+          {
+            path: [
+              [120, 30],
+              [121, 31],
+            ],
+          },
+        ]),
+        layerStyle: ref({ duration: 2000 }),
+      }),
+      template: `
+        <AmapLocaProvider :map="map" animate>
+          <AmapLocaPulseLineLayer :data="data" :layer-style="layerStyle" />
+        </AmapLocaProvider>
+      `,
+    })
+
+    const wrapper = mount(Root)
+    expect(createdLayers).toHaveLength(0)
+
+    wrapper.vm.map = {}
+    await nextTick()
+    const [container] = createdContainers
+    const [layer] = createdLayers
+    expect(container.add).toHaveBeenCalledExactlyOnceWith(layer)
+    expect(container.animate.start).toHaveBeenCalledTimes(1)
+    expect(layer.source.data.features[0].geometry).toEqual({
+      type: 'LineString',
+      coordinates: [
+        [120, 30],
+        [121, 31],
+      ],
+    })
+    expect(layer.style).toEqual({ duration: 2000 })
+
+    wrapper.vm.data[0].path[1] = [122, 32]
+    wrapper.vm.layerStyle.duration = 800
+    await nextTick()
+    expect(layer.source.data.features[0].geometry.coordinates[1]).toEqual([122, 32])
+    expect(layer.style).toEqual({ duration: 800 })
+
+    wrapper.vm.map = null
+    await nextTick()
+    wrapper.unmount()
+    expect(container.remove).toHaveBeenCalledExactlyOnceWith(layer)
+    expect(container.animate.stop).toHaveBeenCalledTimes(1)
+    expect(layer.destroy).toHaveBeenCalledExactlyOnceWith()
+    expect(layer.destroy).toHaveBeenCalledBefore(container.destroy)
+    expect(container.animate.stop).toHaveBeenCalledBefore(container.destroy)
+  })
+
   it('removes and destroys child layers before destroying the container', async () => {
     const Root = defineComponent({
       components: { AmapLocaProvider, AmapLocaPointLayer },

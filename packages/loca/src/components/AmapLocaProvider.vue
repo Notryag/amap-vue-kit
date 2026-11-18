@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { LocaContainerOptions } from '../types'
-import { computed, onUnmounted, provide, watchEffect } from 'vue'
+import { computed, onUnmounted, provide, watch } from 'vue'
 import { useLocaContainer } from '../composables/useLocaContainer'
 
 interface ProviderProps {
   map: AMap.Map | null | undefined
   options?: Partial<LocaContainerOptions>
+  /** Run the shared Loca animation loop for this container. */
+  animate?: boolean
 }
 
 defineOptions({
@@ -21,12 +23,23 @@ const container = useLocaContainer({
 
 provide('amapLocaContainer', container.instance)
 
-watchEffect(() => {
-  if (props.map)
+watch(() => props.map, (map) => {
+  if (map)
     container.init()
   else
     container.destroy()
-})
+}, { immediate: true })
+
+watch([
+  container.instance,
+  () => props.animate,
+], ([instance, animate], _, onCleanup) => {
+  if (animate && instance?.animate) {
+    const controller = instance.animate
+    controller.start()
+    onCleanup(() => controller.stop())
+  }
+}, { immediate: true, flush: 'sync' })
 
 onUnmounted(() => {
   container.destroy()

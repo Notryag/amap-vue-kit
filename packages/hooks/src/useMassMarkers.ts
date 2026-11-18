@@ -3,6 +3,7 @@ import type { MaybeRefOrGetter, ShallowRef } from 'vue'
 
 import { isClient, loader, warn } from '@amap-vue/shared'
 import { computed, shallowRef, toValue, watch } from 'vue'
+import { tryOnBeforeUnmount } from './lifecycle'
 
 export interface MassDataLike extends Omit<Partial<AMap.MassData>, 'lnglat'> {
   lnglat: AMap.LngLat | [number, number]
@@ -52,6 +53,7 @@ export function useMassMarkers(
 
   let currentMap: AMap.Map | null = null
   let creating = false
+  let disposed = false
 
   async function ensureMassMarkers(mapInstance: AMap.Map | null | undefined) {
     if (!isClient || mass.value || !mapInstance || creating)
@@ -70,10 +72,8 @@ export function useMassMarkers(
           'AMap.Adaptor',
         ])),
       })
-      if (!currentMap) {
-        creating = false
+      if (disposed || !currentMap)
         return
-      }
       const MassMarks = (AMapInstance as any).MassMarks
       if (typeof MassMarks !== 'function')
         throw new TypeError('AMap.MassMarks is unavailable. Ensure the AMap.Adaptor plugin is loaded for JSAPI 2.0 MassMarks.')
@@ -86,7 +86,7 @@ export function useMassMarkers(
 
       const instance = new MassMarks(data ?? [], initialOptions) as AMap.MassMarks
       if (visible !== false)
-        instance.setMap(mapInstance)
+        instance.setMap(currentMap)
       mass.value = instance
       bindListeners(instance)
     }
@@ -213,6 +213,11 @@ export function useMassMarkers(
     }
     mass.value = null
   }
+
+  tryOnBeforeUnmount(() => {
+    disposed = true
+    destroy()
+  })
 
   function on(event: string, handler: (event: any) => void) {
     const record = { event, handler }

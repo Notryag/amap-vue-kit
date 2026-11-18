@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 
 import type { UseMassMarkersOptions } from '../src/useMassMarkers'
 import { flushPromises as flushPendingPromises, mount } from '@vue/test-utils'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { defineComponent, nextTick, ref } from 'vue'
 import { useMassMarkers } from '../src/useMassMarkers'
@@ -83,6 +83,30 @@ function mountMassMarkers(initialOptions: UseMassMarkersOptions): HookHarness<Us
 }
 
 describe('useMassMarkers', () => {
+  it('detaches and destroys the instance when its component unmounts', async () => {
+    const harness = mountMassMarkers({})
+    const instance = await waitForInstance(() => harness.hook.mass.value)
+    const setMap = vi.spyOn(instance, 'setMap')
+    const destroy = vi.spyOn(instance, 'destroy')
+
+    harness.cleanup()
+
+    expect(setMap).toHaveBeenCalledExactlyOnceWith(null)
+    expect(destroy).toHaveBeenCalledTimes(1)
+    expect(setMap).toHaveBeenCalledBefore(destroy)
+    expect(harness.hook.mass.value).toBeNull()
+  })
+
+  it('does not create an instance if the component unmounts while the plugin loads', async () => {
+    const harness = mountMassMarkers({})
+    expect(harness.hook.mass.value).toBeNull()
+
+    harness.cleanup()
+    await flushReactivity()
+
+    expect(harness.hook.mass.value).toBeNull()
+  })
+
   it('responds to option updates', async () => {
     const initialOptions = {
       data: [

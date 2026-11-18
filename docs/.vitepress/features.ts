@@ -113,6 +113,7 @@ export const apiGroups: ApiGroup[] = [
   {
     text: '其他服务',
     items: [
+      { name: '行政区查询 DistrictSearch', hook: 'use-district-search' },
       { name: '天气 Weather', component: 'weather-panel', hook: 'use-weather' },
     ],
   },

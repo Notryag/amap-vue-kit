@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import DistrictSearchDemo from './DistrictSearchDemo.vue'
 import HawkEyeDemo from './HawkEyeDemo.vue'
 import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
@@ -26,11 +27,13 @@ function toggleInfo() {
         <option value="hawk-eye">鹰眼控件</option>
         <option value="pulse-line">Loca 脉冲轨迹线</option>
         <option value="ranging-tool">测距工具</option>
+        <option value="district-search">行政区查询</option>
       </select>
     </label>
     <HawkEyeDemo v-if="demo === 'hawk-eye'" />
     <LocaPulseLineDemo v-else-if="demo === 'pulse-line'" />
     <RangingToolDemo v-else-if="demo === 'ranging-tool'" />
+    <DistrictSearchDemo v-else-if="demo === 'district-search'" />
     <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。

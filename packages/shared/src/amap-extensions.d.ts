@@ -1025,6 +1025,46 @@ declare global {
       forecasts: WeatherForecast[]
     }
 
+    class DistrictSearch {
+      constructor(options?: DistrictSearch.Options)
+      search(keyword: string, callback: (status: DistrictSearch.Status, result: DistrictSearch.Result | string) => void): void
+      setLevel(level: DistrictSearch.QueryLevel): void
+      setSubdistrict(depth: DistrictSearch.Depth): void
+      setExtensions(extensions: DistrictSearch.Extensions): void
+    }
+
+    namespace DistrictSearch {
+      type QueryLevel = 'country' | 'province' | 'city' | 'district' | 'biz_area'
+      type Depth = 0 | 1 | 2 | 3
+      type Extensions = 'base' | 'all'
+      type Status = 'complete' | 'error' | 'no_data'
+
+      interface Options {
+        level?: QueryLevel
+        /** Number of lower levels to include. */
+        subdistrict?: Depth
+        /** Use `all` to include boundary coordinates. */
+        extensions?: Extensions
+        showbiz?: boolean
+      }
+
+      interface District {
+        name: string
+        adcode: string
+        citycode?: string | string[]
+        level: QueryLevel | 'street'
+        center?: LngLat
+        /** One coordinate array per boundary ring, when available. */
+        boundaries?: LngLat[][]
+        districtList?: District[]
+      }
+
+      interface Result {
+        info: string
+        districtList: District[]
+      }
+    }
+
     class Weather {
       getLive(city: string, callback: (status: string, result: WeatherLiveResult) => void): void
       getForecast(city: string, callback: (status: string, result: WeatherForecastResult) => void): void

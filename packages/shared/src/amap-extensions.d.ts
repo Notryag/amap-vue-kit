@@ -346,6 +346,30 @@ declare global {
     }
 
     namespace TileLayer {
+      type WMSParams = Record<string, string | number | boolean>
+
+      interface WMSOptions {
+        /** Base URL of the WMS service. */
+        url: string
+        /** GetMap parameters such as LAYERS, VERSION and FORMAT. */
+        params: WMSParams
+        blend?: boolean
+        tileSize?: number
+        zooms?: [number, number]
+        opacity?: number
+        visible?: boolean
+        zIndex?: number
+      }
+
+      class WMS extends TileLayer {
+        constructor(options: WMSOptions)
+        getUrl(): string
+        setUrl(url: string): void
+        getParams(): WMSParams
+        setParams(params: WMSParams): void
+        setZooms(zooms: [number, number]): void
+      }
+
       interface TrafficOptions extends TileLayerOptions {
         autoRefresh?: boolean
         interval?: number

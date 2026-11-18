@@ -25,6 +25,12 @@ export const apiGroups: ApiGroup[] = [
     ],
   },
   {
+    text: '行业标准图层',
+    items: [
+      { name: 'WMS 图层', component: 'wms-layer', hook: 'use-wms-layer' },
+    ],
+  },
+  {
     text: '自有数据图层',
     items: [
       { name: '热力图 HeatMap', component: 'heat-map', hook: 'use-heat-map' },

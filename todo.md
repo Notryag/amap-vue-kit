@@ -5,7 +5,6 @@
 
 ## P2：标准图层与楼块
 
-- [ ] `AmapWMSLayer` / `useWMSLayer`：对接 `AMap.TileLayer.WMS`，支持服务地址与参数更新。
 - [ ] `AmapWMTSLayer` / `useWMTSLayer`：对接 `AMap.TileLayer.WMTS`。
 - [ ] `AmapBuildings` / `useBuildings`：楼块图层，支持样式、可见性与生命周期管理。
 

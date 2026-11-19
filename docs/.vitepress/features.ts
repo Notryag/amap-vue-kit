@@ -53,6 +53,7 @@ export const apiGroups: ApiGroup[] = [
       { name: '灵活标记 ElasticMarker', component: 'elastic-marker', hook: 'use-elastic-marker' },
       { name: '点聚合 MarkerCluster', component: 'marker-cluster', hook: 'use-marker-clusterer' },
       { name: '海量点 MassMarks', component: 'mass-marks', hook: 'use-mass-markers' },
+      { name: '轨迹动画 MoveAnimation', hook: 'use-move-animation' },
     ],
   },
   {

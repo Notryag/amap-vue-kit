@@ -3,10 +3,6 @@
 仅保留未完成事项；完成后删除，历史进度通过 Git 和 Changelog 查询。
 开发规范见 [AGENTS.md](./AGENTS.md)，现有能力见 [README.md](./README.md)。
 
-## P3：自定义渲染与轨迹
-
-- [ ] `useMoveAnimation`：已有轨迹动画文档和示例，补充独立 Hook，支持启停、暂停、恢复及事件清理。
-
 ## 后续扩展
 
 - [ ] `AmapIndoorMap` / `useIndoorMap`：室内地图及楼层切换。

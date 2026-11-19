@@ -138,6 +138,41 @@ declare global {
       draggable?: boolean
     }
 
+    interface MoveAnimationOptions extends BaseOptions {
+      easing?: (passedTime: number) => number
+      autoRotation?: boolean
+    }
+
+    interface MoveToOptions extends MoveAnimationOptions {
+      duration?: number
+      delay?: number
+    }
+
+    type MoveSegmentTiming = number | ((index: number, data: LngLat) => number)
+
+    interface MoveAlongOptions extends MoveAnimationOptions {
+      /** Duration of each segment in milliseconds. */
+      duration?: MoveSegmentTiming
+      delay?: MoveSegmentTiming
+      circlable?: boolean
+      aniInterval?: number
+    }
+
+    interface MoveAlongPoint {
+      position: LngLatLike
+      duration?: number
+      delay?: number
+    }
+
+    /** Methods installed on point overlays by AMap.MoveAnimation. */
+    interface MoveAnimationOverlay extends Evented {
+      moveTo?: (position: LngLatLike, options?: MoveToOptions) => void
+      moveAlong?: (path: LngLatLike[] | MoveAlongPoint[], options?: MoveAlongOptions) => void
+      pauseMove?: () => void
+      resumeMove?: () => void
+      stopMove?: () => void
+    }
+
     class Marker implements OverlayLike {
       constructor(options?: MarkerOptions)
       setMap(map: Map | null): void
@@ -149,10 +184,11 @@ declare global {
       setzIndex(zIndex: number): void
       setOptions(options: Partial<MarkerOptions>): void
       setExtData(extData: any): void
-      moveAlong?(path: LngLatLike[], options?: BaseOptions): void
-      pauseMove?(): void
-      resumeMove?(): void
-      stopMove?(): void
+      moveTo?: MoveAnimationOverlay['moveTo']
+      moveAlong?: MoveAnimationOverlay['moveAlong']
+      pauseMove?: MoveAnimationOverlay['pauseMove']
+      resumeMove?: MoveAnimationOverlay['resumeMove']
+      stopMove?: MoveAnimationOverlay['stopMove']
       show(): void
       hide(): void
       on(event: string, handler: (event: any) => void): void
@@ -642,6 +678,11 @@ declare global {
       setOpacity(opacity: number): void
       setzIndex(zIndex: number): void
       setExtData(extData: any): void
+      moveTo?: MoveAnimationOverlay['moveTo']
+      moveAlong?: MoveAnimationOverlay['moveAlong']
+      pauseMove?: MoveAnimationOverlay['pauseMove']
+      resumeMove?: MoveAnimationOverlay['resumeMove']
+      stopMove?: MoveAnimationOverlay['stopMove']
       show(): void
       hide(): void
       on(event: string, handler: (event: any) => void): void

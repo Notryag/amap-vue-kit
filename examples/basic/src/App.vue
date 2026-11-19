@@ -9,6 +9,7 @@ import GLCustomLayerDemo from './GLCustomLayerDemo.vue'
 import HawkEyeDemo from './HawkEyeDemo.vue'
 import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
+import TrackAnimationDemo from './TrackAnimationDemo.vue'
 import TransferDemo from './TransferDemo.vue'
 import WMSLayerDemo from './WMSLayerDemo.vue'
 import WMTSLayerDemo from './WMTSLayerDemo.vue'
@@ -44,6 +45,7 @@ function toggleInfo() {
         <option value="custom-layer">自定义图层</option>
         <option value="gl-custom-layer">WebGL 自定义图层</option>
         <option value="flexible-layer">自定义瓦片</option>
+        <option value="track-animation">轨迹动画</option>
       </select>
     </label>
     <HawkEyeDemo v-if="demo === 'hawk-eye'" />
@@ -58,6 +60,7 @@ function toggleInfo() {
     <CustomLayerDemo v-else-if="demo === 'custom-layer'" />
     <GLCustomLayerDemo v-else-if="demo === 'gl-custom-layer'" />
     <FlexibleLayerDemo v-else-if="demo === 'flexible-layer'" />
+    <TrackAnimationDemo v-else-if="demo === 'track-animation'" />
     <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。

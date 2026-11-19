@@ -50,6 +50,7 @@ declare global {
       getBounds(): Bounds
       getSize(): Size
       lngLatToContainer(position: LngLatLike): Pixel
+      render(): void
       zoomIn?(): void
       zoomOut?(): void
       setPitch?(pitch: number): void
@@ -455,6 +456,30 @@ declare global {
       class RoadNet extends TileLayer {
         constructor(options?: TileLayerOptions)
       }
+    }
+
+    type GLContext = WebGLRenderingContext | WebGL2RenderingContext
+
+    interface GLCustomLayerOptions {
+      init?: (gl: GLContext) => void
+      render?: (gl: GLContext, state?: unknown) => void
+      zooms?: [number, number]
+      opacity?: number
+      visible?: boolean
+      zIndex?: number
+    }
+
+    class GLCustomLayer implements Evented {
+      constructor(options: GLCustomLayerOptions)
+      getMap(): Map | null
+      setOpacity(opacity: number): void
+      setzIndex(zIndex: number): void
+      setZooms(zooms: [number, number]): void
+      show(): void
+      hide(): void
+      destroy?(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
     }
 
     interface CustomLayerOptions {

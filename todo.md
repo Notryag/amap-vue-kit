@@ -5,7 +5,6 @@
 
 ## P3：自定义渲染与轨迹
 
-- [ ] `AmapGLCustomLayer` / `useGLCustomLayer`：WebGL 自定义图层，明确资源释放责任。
 - [ ] `AmapFlexibleLayer` / `useFlexibleLayer`：对接 `AMap.TileLayer.Flexible`，支持自定义切片生成。
 - [ ] `useMoveAnimation`：已有轨迹动画文档和示例，补充独立 Hook，支持启停、暂停、恢复及事件清理。
 

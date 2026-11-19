@@ -4,6 +4,7 @@ import BuildingsDemo from './BuildingsDemo.vue'
 import CanvasLayerDemo from './CanvasLayerDemo.vue'
 import CustomLayerDemo from './CustomLayerDemo.vue'
 import DistrictSearchDemo from './DistrictSearchDemo.vue'
+import GLCustomLayerDemo from './GLCustomLayerDemo.vue'
 import HawkEyeDemo from './HawkEyeDemo.vue'
 import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
@@ -40,6 +41,7 @@ function toggleInfo() {
         <option value="buildings">3D 楼块</option>
         <option value="canvas-layer">Canvas 图层</option>
         <option value="custom-layer">自定义图层</option>
+        <option value="gl-custom-layer">WebGL 自定义图层</option>
       </select>
     </label>
     <HawkEyeDemo v-if="demo === 'hawk-eye'" />
@@ -52,6 +54,7 @@ function toggleInfo() {
     <BuildingsDemo v-else-if="demo === 'buildings'" />
     <CanvasLayerDemo v-else-if="demo === 'canvas-layer'" />
     <CustomLayerDemo v-else-if="demo === 'custom-layer'" />
+    <GLCustomLayerDemo v-else-if="demo === 'gl-custom-layer'" />
     <div v-else class="map-shell">
       <div v-if="!hasKey" class="map-placeholder">
         在 <code>.env.local</code> 中设置 <code>VITE_AMAP_KEY</code> 后即可加载真实地图。

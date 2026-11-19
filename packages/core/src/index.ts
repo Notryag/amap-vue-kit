@@ -17,6 +17,7 @@ import AmapElasticMarker from './components/AmapElasticMarker.vue'
 import AmapEllipse from './components/AmapEllipse.vue'
 import AmapEllipseEditor from './components/AmapEllipseEditor.vue'
 import AmapGeoJSONLayer from './components/AmapGeoJSONLayer.vue'
+import AmapGLCustomLayer from './components/AmapGLCustomLayer.vue'
 import AmapHawkEye from './components/AmapHawkEye.vue'
 import AmapHeatMap from './components/AmapHeatMap.vue'
 import AmapImageLayer from './components/AmapImageLayer.vue'
@@ -71,6 +72,7 @@ export {
   AmapEllipse,
   AmapEllipseEditor,
   AmapGeoJSONLayer,
+  AmapGLCustomLayer,
   AmapHawkEye,
   AmapHeatMap,
   AmapImageLayer,
@@ -114,6 +116,7 @@ const components = [
   AmapBezierCurve,
   AmapBezierCurveEditor,
   AmapBuildings,
+  AmapGLCustomLayer,
   AmapCanvasLayer,
   AmapCircle,
   AmapCircleEditor,

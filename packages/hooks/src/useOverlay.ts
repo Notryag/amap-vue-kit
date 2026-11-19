@@ -15,6 +15,7 @@ export type OverlayFactory<TOverlay, TOptions> = (context: { AMap: typeof AMap, 
 export type OverlayUpdater<TOverlay, TOptions> = (overlay: TOverlay, options: TOptions) => void
 
 export interface OverlayAttachOptions<TOverlay> {
+  recreateOnMapChange?: boolean
   attach?: (map: AMap.Map, overlay: TOverlay) => void
   detach?: (map: AMap.Map, overlay: TOverlay) => void
   destroy?: (overlay: TOverlay) => void
@@ -115,6 +116,9 @@ export function useOverlay<TOverlay, TOptions extends Record<string, any>>(
   watch(() => toValue(mapRef), (mapInstance) => {
     generation++
     creating = false
+    if (overlay.value && attachOptions.recreateOnMapChange)
+      destroy()
+
     if (!mapInstance) {
       if (overlay.value)
         detachOverlay(overlay.value)

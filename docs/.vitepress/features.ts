@@ -40,6 +40,7 @@ export const apiGroups: ApiGroup[] = [
       { name: '图片图层 ImageLayer', component: 'image-layer', hook: 'use-image-layer' },
       { name: 'Canvas 图层', component: 'canvas-layer', hook: 'use-canvas-layer' },
       { name: '自定义图层 CustomLayer', component: 'custom-layer', hook: 'use-custom-layer' },
+      { name: 'WebGL 自定义图层', component: 'gl-custom-layer', hook: 'use-gl-custom-layer' },
     ],
   },
   {

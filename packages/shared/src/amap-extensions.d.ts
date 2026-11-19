@@ -396,6 +396,31 @@ declare global {
     }
 
     namespace TileLayer {
+      type FlexibleTile = HTMLCanvasElement | HTMLImageElement
+
+      type FlexibleCreateTile = (
+        x: number,
+        y: number,
+        z: number,
+        success: (tile: FlexibleTile) => void,
+        fail: () => void,
+      ) => void
+
+      interface FlexibleOptions {
+        createTile: FlexibleCreateTile
+        cacheSize?: number
+        tileSize?: 64 | 128 | 256
+        zooms?: [number, number]
+        opacity?: number
+        visible?: boolean
+        zIndex?: number
+      }
+
+      class Flexible extends TileLayer {
+        constructor(options: FlexibleOptions)
+        setZooms(zooms: [number, number]): void
+      }
+
       type WMSParams = Record<string, string | number | boolean>
 
       type WMTSParams = Record<string, string | number | boolean>

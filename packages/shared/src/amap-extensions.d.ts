@@ -455,6 +455,33 @@ declare global {
       }
     }
 
+    interface CanvasLayerOptions {
+      canvas: HTMLCanvasElement
+      bounds: Bounds | [number, number, number, number]
+      zooms?: [number, number]
+      opacity?: number
+      visible?: boolean
+      zIndex?: number
+    }
+
+    class CanvasLayer implements OverlayLike {
+      constructor(options: CanvasLayerOptions)
+      setMap(map: Map | null): void
+      setCanvas(canvas: HTMLCanvasElement): void
+      getElement(): HTMLCanvasElement
+      setBounds(bounds: Bounds): void
+      getBounds(): Bounds
+      reFresh(): void
+      setOpacity(opacity: number): void
+      setzIndex(zIndex: number): void
+      setZooms(zooms: [number, number]): void
+      show(): void
+      hide(): void
+      destroy(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+    }
+
     interface ImageLayerOptions extends BaseOptions {
       url?: string
       bounds?: BoundsLike

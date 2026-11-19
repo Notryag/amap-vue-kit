@@ -4,6 +4,7 @@ import AmapAutoComplete from './components/AmapAutoComplete.vue'
 import AmapBezierCurve from './components/AmapBezierCurve.vue'
 import AmapBezierCurveEditor from './components/AmapBezierCurveEditor.vue'
 import AmapBuildings from './components/AmapBuildings.vue'
+import AmapCanvasLayer from './components/AmapCanvasLayer.vue'
 import AmapCircle from './components/AmapCircle.vue'
 import AmapCircleEditor from './components/AmapCircleEditor.vue'
 import AmapCircleMarker from './components/AmapCircleMarker.vue'
@@ -56,6 +57,7 @@ export {
   AmapBezierCurve,
   AmapBezierCurveEditor,
   AmapBuildings,
+  AmapCanvasLayer,
   AmapCircle,
   AmapCircleEditor,
   AmapCircleMarker,
@@ -110,6 +112,7 @@ const components = [
   AmapBezierCurve,
   AmapBezierCurveEditor,
   AmapBuildings,
+  AmapCanvasLayer,
   AmapCircle,
   AmapCircleEditor,
   AmapCircleMarker,

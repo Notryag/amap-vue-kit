@@ -12,6 +12,7 @@ import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
 import TrackAnimationDemo from './TrackAnimationDemo.vue'
 import TransferDemo from './TransferDemo.vue'
+import VectorLayerDemo from './VectorLayerDemo.vue'
 import WMSLayerDemo from './WMSLayerDemo.vue'
 import WMTSLayerDemo from './WMTSLayerDemo.vue'
 
@@ -43,6 +44,7 @@ function toggleInfo() {
         <option value="wmts-layer">WMTS 图层</option>
         <option value="buildings">3D 楼块</option>
         <option value="indoor-map">室内地图</option>
+        <option value="vector-layer">矢量图层</option>
         <option value="canvas-layer">Canvas 图层</option>
         <option value="custom-layer">自定义图层</option>
         <option value="gl-custom-layer">WebGL 自定义图层</option>
@@ -59,6 +61,7 @@ function toggleInfo() {
     <WMTSLayerDemo v-else-if="demo === 'wmts-layer'" />
     <BuildingsDemo v-else-if="demo === 'buildings'" />
     <IndoorMapDemo v-else-if="demo === 'indoor-map'" />
+    <VectorLayerDemo v-else-if="demo === 'vector-layer'" />
     <CanvasLayerDemo v-else-if="demo === 'canvas-layer'" />
     <CustomLayerDemo v-else-if="demo === 'custom-layer'" />
     <GLCustomLayerDemo v-else-if="demo === 'gl-custom-layer'" />

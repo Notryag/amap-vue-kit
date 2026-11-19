@@ -37,6 +37,7 @@ export const apiGroups: ApiGroup[] = [
     text: '自有数据图层',
     items: [
       { name: '热力图 HeatMap', component: 'heat-map', hook: 'use-heat-map' },
+      { name: '矢量图层 VectorLayer', component: 'vector-layer', hook: 'use-vector-layer' },
       { name: '标签图层 LabelsLayer', component: 'labels-layer', hook: 'use-labels-layer' },
       { name: '图片图层 ImageLayer', component: 'image-layer', hook: 'use-image-layer' },
       { name: 'Canvas 图层', component: 'canvas-layer', hook: 'use-canvas-layer' },

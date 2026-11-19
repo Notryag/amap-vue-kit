@@ -451,6 +451,31 @@ declare global {
       destroy?(): void
     }
 
+    type VectorOverlay = Circle | CircleMarker | Polygon | Polyline | Rectangle | Ellipse | BezierCurve
+
+    interface VectorLayerOptions {
+      visible?: boolean
+      zIndex?: number
+    }
+
+    class VectorLayer implements Evented, Destroyable {
+      constructor(options?: VectorLayerOptions)
+      add(overlays: VectorOverlay | VectorOverlay[]): void
+      remove(overlays: VectorOverlay | VectorOverlay[]): void
+      has(overlay: VectorOverlay): boolean
+      clear(): void
+      show(): void
+      hide(): void
+      setzIndex(zIndex: number): void
+      getzIndex(): number
+      setOptions(options: BaseOptions): void
+      query(position: LngLatLike): VectorOverlay | undefined
+      getBounds(): Bounds | undefined
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy?(): void
+    }
+
     interface TileLayerOptions extends BaseOptions {
       tileUrl?: string | ((x: number, y: number, z: number) => string)
       getTileUrl?: string | ((x: number, y: number, z: number) => string)

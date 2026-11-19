@@ -5,7 +5,6 @@
 
 ## 后续扩展
 
-- [ ] `AmapVectorLayer` / `useVectorLayer`：矢量图层与批量管理。
 - [ ] `AmapLayerGroup` / `useLayerGroup`：图层分组管理，区别于已有的 `OverlayGroup`。
 - [ ] `useTruckDriving`：货车路线规划。
 - [ ] `useDragRoute`：拖拽路线规划。

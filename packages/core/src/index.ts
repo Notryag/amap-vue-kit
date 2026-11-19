@@ -51,6 +51,7 @@ import AmapTileLayer from './components/AmapTileLayer.vue'
 import AmapToolBar from './components/AmapToolBar.vue'
 import AmapTrafficLayer from './components/AmapTrafficLayer.vue'
 import AmapTransfer from './components/AmapTransfer.vue'
+import AmapVectorLayer from './components/AmapVectorLayer.vue'
 import AmapWalking from './components/AmapWalking.vue'
 import AmapWeatherPanel from './components/AmapWeatherPanel.vue'
 import AmapWMSLayer from './components/AmapWMSLayer.vue'
@@ -108,6 +109,7 @@ export {
   AmapToolBar,
   AmapTrafficLayer,
   AmapTransfer,
+  AmapVectorLayer,
   AmapWalking,
   AmapWeatherPanel,
   AmapWMSLayer,
@@ -165,6 +167,7 @@ const components = [
   AmapTileLayer,
   AmapToolBar,
   AmapTransfer,
+  AmapVectorLayer,
   AmapTrafficLayer,
   AmapWalking,
   AmapWMSLayer,

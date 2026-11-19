@@ -10,6 +10,7 @@ import AmapCircleEditor from './components/AmapCircleEditor.vue'
 import AmapCircleMarker from './components/AmapCircleMarker.vue'
 import AmapContextMenu from './components/AmapContextMenu.vue'
 import AmapControlBar from './components/AmapControlBar.vue'
+import AmapCustomLayer from './components/AmapCustomLayer.vue'
 import AmapDistrictLayer from './components/AmapDistrictLayer.vue'
 import AmapDriving from './components/AmapDriving.vue'
 import AmapElasticMarker from './components/AmapElasticMarker.vue'
@@ -63,6 +64,7 @@ export {
   AmapCircleMarker,
   AmapContextMenu,
   AmapControlBar,
+  AmapCustomLayer,
   AmapDistrictLayer,
   AmapDriving,
   AmapElasticMarker,
@@ -118,6 +120,7 @@ const components = [
   AmapCircleMarker,
   AmapContextMenu,
   AmapControlBar,
+  AmapCustomLayer,
   AmapDistrictLayer,
   AmapDriving,
   AmapElasticMarker,

@@ -48,6 +48,8 @@ declare global {
       getPitch(): number
       getRotation(): number
       getBounds(): Bounds
+      getSize(): Size
+      lngLatToContainer(position: LngLatLike): Pixel
       zoomIn?(): void
       zoomOut?(): void
       setPitch?(pitch: number): void
@@ -453,6 +455,29 @@ declare global {
       class RoadNet extends TileLayer {
         constructor(options?: TileLayerOptions)
       }
+    }
+
+    interface CustomLayerOptions {
+      zooms?: [number, number]
+      opacity?: number
+      visible?: boolean
+      zIndex?: number
+      /** Also run the render callback during map interactions. */
+      alwaysRender?: boolean
+    }
+
+    class CustomLayer implements OverlayLike {
+      constructor(canvas: HTMLCanvasElement, options?: CustomLayerOptions)
+      render: () => void
+      setMap(map: Map | null): void
+      setOpacity(opacity: number): void
+      setzIndex(zIndex: number): void
+      setZooms(zooms: [number, number]): void
+      show(): void
+      hide(): void
+      destroy?(): void
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
     }
 
     interface CanvasLayerOptions {

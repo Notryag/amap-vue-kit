@@ -37,6 +37,7 @@ declare global {
       mapStyle?: string
       theme?: string
       showBuildingBlock?: boolean
+      showIndoorMap?: boolean
     }
 
     class Map implements Evented {
@@ -407,6 +408,47 @@ declare global {
       destroy(): void
       on(event: string, handler: (event: any) => void): void
       off(event: string, handler: (event: any) => void): void
+    }
+
+    interface IndoorMapOptions {
+      zIndex?: number
+      opacity?: number
+      cursor?: string
+      hideFloorBar?: boolean
+    }
+
+    interface IndoorBuilding {
+      id: string
+      name: string
+      lnglat?: LngLat
+      floor: number
+      floor_details: {
+        floor_indexs: number[]
+        floor_names?: string[]
+        floor_nonas?: string[]
+      }
+    }
+
+    class IndoorMap implements Evented, Destroyable {
+      constructor(options?: IndoorMapOptions)
+      setMap(map: Map): void
+      getMap(): Map | null
+      showIndoorMap(indoorId: string, floor?: number, shopId?: string): void
+      showFloor(floor: number): void
+      show(): void
+      hide(): void
+      setzIndex(zIndex: number): void
+      setOpacity(opacity: number): void
+      getOpacity(): number
+      showFloorBar(): void
+      hideFloorBar(): void
+      showLabels(): void
+      hideLabels(): void
+      getSelectedBuildingId(): string | null | undefined
+      getSelectedBuilding(): IndoorBuilding | null | undefined
+      on(event: string, handler: (event: any) => void): void
+      off(event: string, handler: (event: any) => void): void
+      destroy?(): void
     }
 
     interface TileLayerOptions extends BaseOptions {

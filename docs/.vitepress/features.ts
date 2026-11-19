@@ -23,6 +23,7 @@ export const apiGroups: ApiGroup[] = [
       { name: '瓦片与卫星图层 TileLayer', component: 'tile-layer', hook: 'use-tile-layer' },
       { name: '3D 楼块 Buildings', component: 'buildings', hook: 'use-buildings' },
       { name: '行政区图层 DistrictLayer', component: 'district-layer' },
+      { name: '室内地图 IndoorMap', component: 'indoor-map', hook: 'use-indoor-map' },
     ],
   },
   {

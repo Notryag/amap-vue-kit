@@ -21,6 +21,7 @@ const props = defineProps({
   rotation: Number,
   mapStyle: String,
   showBuildingBlock: { type: Boolean, default: undefined },
+  showIndoorMap: { type: Boolean, default: undefined },
   plugins: {
     type: Array as PropType<string[]>,
     default: () => [],
@@ -52,6 +53,9 @@ const mapOptions = computed(() => ({
   ...(props.showBuildingBlock === undefined
     ? {}
     : { showBuildingBlock: props.showBuildingBlock }),
+  ...(props.showIndoorMap === undefined
+    ? {}
+    : { showIndoorMap: props.showIndoorMap }),
   plugins: props.plugins,
   loaderOptions: props.loaderOptions,
   container: containerRef.value,

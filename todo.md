@@ -5,7 +5,6 @@
 
 ## 后续扩展
 
-- [ ] `AmapIndoorMap` / `useIndoorMap`：室内地图及楼层切换。
 - [ ] `AmapVectorLayer` / `useVectorLayer`：矢量图层与批量管理。
 - [ ] `AmapLayerGroup` / `useLayerGroup`：图层分组管理，区别于已有的 `OverlayGroup`。
 - [ ] `useTruckDriving`：货车路线规划。
@@ -18,6 +17,7 @@
 
 ## 发布与部署核实
 
+- [ ] 配置与高德 Key 匹配的安全密钥，验证室内地图加载和真实楼层切换。
 - [ ] 推送修复后核实远端 CI 通过。
 - [ ] 在 GitHub Pages 中将 Source 设为 GitHub Actions，并核实文档部署、资源路径及页面访问。
 - [ ] 核实 npm 上四个 `@amap-vue/*` 包的实际发布版本及安装结果；本地 `0.1.0` 提交不作为发布成功依据。

@@ -22,6 +22,7 @@ import AmapGLCustomLayer from './components/AmapGLCustomLayer.vue'
 import AmapHawkEye from './components/AmapHawkEye.vue'
 import AmapHeatMap from './components/AmapHeatMap.vue'
 import AmapImageLayer from './components/AmapImageLayer.vue'
+import AmapIndoorMap from './components/AmapIndoorMap.vue'
 import AmapInfoWindow from './components/AmapInfoWindow.vue'
 import AmapLabelMarker from './components/AmapLabelMarker.vue'
 import AmapLabelsLayer from './components/AmapLabelsLayer.vue'
@@ -78,6 +79,7 @@ export {
   AmapHawkEye,
   AmapHeatMap,
   AmapImageLayer,
+  AmapIndoorMap,
   AmapInfoWindow,
   AmapLabelMarker,
   AmapLabelsLayer,
@@ -135,6 +137,7 @@ const components = [
   AmapGeoJSONLayer,
   AmapHeatMap,
   AmapImageLayer,
+  AmapIndoorMap,
   AmapInfoWindow,
   AmapLabelMarker,
   AmapLabelsLayer,

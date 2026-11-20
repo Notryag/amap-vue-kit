@@ -29,7 +29,7 @@
     "verify:pack": "node scripts/verify-pack.mjs",
     "verify:npm-names": "node scripts/check-npm-names.mjs",
     "changeset": "changeset",
-    "version-packages": "changeset version && pnpm install",
+    "version-packages": "changeset version && pnpm install --no-frozen-lockfile",
     "release": "pnpm run release:stable",
     "release:stable": "pnpm run lint && pnpm run typecheck && pnpm exec vitest run && pnpm run build:all && pnpm run verify:pack && changeset publish",
     "release:canary": "pnpm changeset version --snapshot canary && pnpm install && pnpm -r publish --tag canary --access public --no-git-checks"

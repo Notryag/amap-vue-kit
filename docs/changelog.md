@@ -4,14 +4,14 @@
 
 ## 发布流程
 
-`Release` GitHub Action 会监听 `main` 分支推送，也支持手动触发。工作流通过 [`changesets/action`](https://github.com/changesets/action) 创建版本 PR；当 changeset 准备好后，会调用项目脚本发布新版本。
+`Release` 工作流监听 `master` 和 `main` 的推送，也支持手动触发。工作流通过 Changesets 创建发版 PR。[Changesets GitHub Action](https://github.com/changesets/action)
 
 ### 稳定版发布
 
 1. 本地执行 `pnpm changeset` 记录本次变更。
-2. 将生成的 changeset 文件合并到 `main`。
-3. 工作流执行 `pnpm changeset version` 更新版本号。
-4. 工作流执行 `pnpm run release:stable`，完成 lint、typecheck、test、build 和 packed tarball 消费端验证后发布到 npm。
+2. 将生成的 changeset 文件合并到默认分支。
+3. 工作流执行 `pnpm run version-packages`，更新版本、更新日志和 pnpm 锁文件，并创建或更新发版 PR。
+4. 发版 PR 合并后，工作流执行 `pnpm run release:stable`，完成 lint、类型检查、测试、构建和发布包验证后发布到 npm。
 
 如果需要临时发布，也可以手动触发工作流并选择 **stable** channel。
 
@@ -23,7 +23,7 @@
 
 ```bash
 pnpm changeset
-pnpm changeset version
+pnpm run version-packages
 # 可选：使用相同脚本试运行
 pnpm run release:stable
 pnpm run release:canary

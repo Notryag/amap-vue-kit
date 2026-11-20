@@ -211,8 +211,7 @@ VITE_AMAP_SECURITY_CODE=你的安全密钥
 
 ```bash
 pnpm changeset
-pnpm changeset version
-pnpm install
+pnpm run version-packages
 pnpm run release:stable
 ```
 

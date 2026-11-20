@@ -26,6 +26,7 @@ import AmapIndoorMap from './components/AmapIndoorMap.vue'
 import AmapInfoWindow from './components/AmapInfoWindow.vue'
 import AmapLabelMarker from './components/AmapLabelMarker.vue'
 import AmapLabelsLayer from './components/AmapLabelsLayer.vue'
+import AmapLayerGroup from './components/AmapLayerGroup.vue'
 import AmapMap from './components/AmapMap.vue'
 import AmapMapType from './components/AmapMapType.vue'
 import AmapMarker from './components/AmapMarker.vue'
@@ -84,6 +85,7 @@ export {
   AmapInfoWindow,
   AmapLabelMarker,
   AmapLabelsLayer,
+  AmapLayerGroup,
   AmapMap,
   AmapMapType,
   AmapMarker,
@@ -143,6 +145,7 @@ const components = [
   AmapInfoWindow,
   AmapLabelMarker,
   AmapLabelsLayer,
+  AmapLayerGroup,
   AmapMap,
   AmapMapType,
   AmapMarker,

@@ -1,5 +1,7 @@
 # `usePlaceSearch`
 
+[输入提示与 POI 搜索](../recipes/poi-search) 展示了如何用该 Hook 读取结果并更新地图标记。
+
 通过 AMap PlaceSearch 服务以编程方式查询 POI。该组合式函数支持关键字、周边、范围检索，并让分页状态保留在 JSAPI 服务侧。
 
 <DemoPreview>

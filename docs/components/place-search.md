@@ -42,6 +42,8 @@
 
 ## 最小示例
 
+[输入提示与 POI 搜索](../recipes/poi-search) 演示如何把关键词搜索、候选选择和地图标记接起来。
+
 ```vue
 <AmapPlaceSearch v-model="keyword" mode="nearby" :location="center" :radius="1500" @select="handlePoi" />
 ```

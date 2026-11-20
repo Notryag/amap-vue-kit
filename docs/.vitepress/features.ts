@@ -86,6 +86,7 @@ export const apiGroups: ApiGroup[] = [
   {
     text: '覆盖物群组',
     items: [
+      { name: '图层分组 LayerGroup', component: 'layer-group', hook: 'use-layer-group' },
       { name: '覆盖物分组 OverlayGroup', component: 'overlay-group', hook: 'use-overlay-group' },
     ],
   },

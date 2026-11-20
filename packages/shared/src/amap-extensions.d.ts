@@ -460,6 +460,7 @@ declare global {
 
     class VectorLayer implements Evented, Destroyable {
       constructor(options?: VectorLayerOptions)
+      setMap(map: Map | null): void
       add(overlays: VectorOverlay | VectorOverlay[]): void
       remove(overlays: VectorOverlay | VectorOverlay[]): void
       has(overlay: VectorOverlay): boolean
@@ -758,6 +759,38 @@ declare global {
     }
 
     interface OverlayGroupOptions extends BaseOptions {}
+
+    interface LayerGroupMember {
+      setMap: (map: Map | null) => void
+      show: () => void
+      hide: () => void
+      on?: Evented['on']
+      off?: Evented['off']
+    }
+
+    interface LayerGroupOptions {
+      visible?: boolean
+      opacity?: number
+      zIndex?: number
+      zooms?: [number, number]
+    }
+
+    class LayerGroup {
+      constructor(layers: LayerGroupMember[])
+      setMap(map: Map): this
+      hasLayer(layer: LayerGroupMember): boolean
+      setOptions(options: LayerGroupOptions): this
+      addLayer(layer: LayerGroupMember): void
+      addLayers(layers: LayerGroupMember[]): void
+      removeLayer(layer: LayerGroupMember): LayerGroupMember
+      removeLayers(layers: LayerGroupMember[]): void
+      getLayers(): LayerGroupMember[]
+      clearLayers(): void
+      show(): this
+      hide(): this
+      on(event: string, handler: (event: any) => void): this
+      reload(): this
+    }
 
     class OverlayGroup implements OverlayLike {
       constructor(overlays?: any[])

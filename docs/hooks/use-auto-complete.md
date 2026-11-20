@@ -1,5 +1,7 @@
 # `useAutoComplete`
 
+[输入提示与 POI 搜索](../recipes/poi-search) 展示了候选列表、地点查询和地图联动的完整流程。
+
 `useAutoComplete` 用组合式 API 封装高德输入提示服务。它会按需加载 `AMap.AutoComplete` 插件，提供 Promise 风格的 `search` 方法，也可以和 [`<AmapAutoComplete>`](/components/auto-complete) 组件搭配使用。
 
 <DemoPreview>

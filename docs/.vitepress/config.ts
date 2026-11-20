@@ -53,6 +53,7 @@ export default defineConfig({
             { text: '园区底图', link: '/recipes/campus-basemap' },
             { text: '点聚合', link: '/recipes/marker-clusters' },
             { text: '联动信息窗体', link: '/recipes/info-window-linking' },
+            { text: '输入提示与 POI 搜索', link: '/recipes/poi-search' },
             { text: '热力图', link: '/recipes/heatmap' },
           ],
         },

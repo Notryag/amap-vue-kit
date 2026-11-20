@@ -8,7 +8,9 @@ import FlexibleLayerDemo from './FlexibleLayerDemo.vue'
 import GLCustomLayerDemo from './GLCustomLayerDemo.vue'
 import HawkEyeDemo from './HawkEyeDemo.vue'
 import IndoorMapDemo from './IndoorMapDemo.vue'
+import LayerGroupDemo from './LayerGroupDemo.vue'
 import LocaPulseLineDemo from './LocaPulseLineDemo.vue'
+import PoiSearchDemo from './PoiSearchDemo.vue'
 import RangingToolDemo from './RangingToolDemo.vue'
 import TrackAnimationDemo from './TrackAnimationDemo.vue'
 import TransferDemo from './TransferDemo.vue'
@@ -45,6 +47,8 @@ function toggleInfo() {
         <option value="buildings">3D 楼块</option>
         <option value="indoor-map">室内地图</option>
         <option value="vector-layer">矢量图层</option>
+        <option value="layer-group">图层分组</option>
+        <option value="poi-search">输入提示与 POI 搜索</option>
         <option value="canvas-layer">Canvas 图层</option>
         <option value="custom-layer">自定义图层</option>
         <option value="gl-custom-layer">WebGL 自定义图层</option>
@@ -62,6 +66,8 @@ function toggleInfo() {
     <BuildingsDemo v-else-if="demo === 'buildings'" />
     <IndoorMapDemo v-else-if="demo === 'indoor-map'" />
     <VectorLayerDemo v-else-if="demo === 'vector-layer'" />
+    <LayerGroupDemo v-else-if="demo === 'layer-group'" />
+    <PoiSearchDemo v-else-if="demo === 'poi-search'" />
     <CanvasLayerDemo v-else-if="demo === 'canvas-layer'" />
     <CustomLayerDemo v-else-if="demo === 'custom-layer'" />
     <GLCustomLayerDemo v-else-if="demo === 'gl-custom-layer'" />

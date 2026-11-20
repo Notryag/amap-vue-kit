@@ -3,17 +3,6 @@
 仅保留未完成事项；完成后删除，历史进度通过 Git 和 Changelog 查询。
 开发规范见 [AGENTS.md](./AGENTS.md)，现有能力见 [README.md](./README.md)。
 
-## 后续扩展
-
-- [ ] `AmapLayerGroup` / `useLayerGroup`：图层分组管理，区别于已有的 `OverlayGroup`。
-- [ ] `useTruckDriving`：货车路线规划。
-- [ ] `useDragRoute`：拖拽路线规划。
-- [ ] `useGraspRoad`：轨迹纠偏。
-- [ ] `useCitySearch`：城市查询。
-- [ ] `useLineSearch`：公交线路查询。
-- [ ] `useStationSearch`：公交站点查询。
-- [ ] `AmapGeolocation`：复用已有 `useGeolocation`，补充声明式定位组件。
-
 ## 发布与部署核实
 
 - [ ] 配置与高德 Key 匹配的安全密钥，验证室内地图加载和真实楼层切换。
@@ -23,7 +12,7 @@
 
 ## 每项功能的交付要求
 
-组件优先复用 Hook；服务类优先提供 Hook，按场景增加展示组件。以上新增名称为暂定名称。
+组件优先复用 Hook；服务类优先提供 Hook，按场景增加展示组件。
 
 - 完善 TS 类型、JSDoc、按需插件加载、响应式更新和卸载清理；面向浏览器运行，保留静态文档构建所需的安全导入和 SDK 惰性初始化。
 - 添加覆盖创建、更新、事件与销毁行为的测试；同步最小示例和文档内嵌 Demo。

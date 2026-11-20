@@ -37,6 +37,8 @@
 
 ## 最小示例
 
+[输入提示与 POI 搜索](../recipes/poi-search) 演示如何处理 `select`，查询地点并在地图上定位。
+
 ```vue
 <AmapAutoComplete v-model="keyword" @select="handleSelect" />
 ```
@@ -69,7 +71,7 @@ export interface AmapAutoCompleteProps {
 
 ### 常见错误
 
-- 组件挂载前通过 `loadOptions.plugins` 或 `useDemoLoader` 加载 `AMap.AutoComplete` 插件。
+- 首次搜索会按需加载 `AMap.AutoComplete`。搜索前配置高德 Key 和匹配的安全密钥。
 - `auto` 为 `false` 时，需要手动调用暴露的 `search(keyword)` 方法。
 - 监听 `error` 事件，将配额或网络错误反馈给用户。
 

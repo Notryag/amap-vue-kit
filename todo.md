@@ -8,7 +8,7 @@
 - [ ] 配置与高德 Key 匹配的安全密钥，验证室内地图加载和真实楼层切换。
 - [ ] 推送修复后核实远端 CI 通过。
 - [ ] 在 GitHub Pages 中将 Source 设为 GitHub Actions，并核实文档部署、资源路径及页面访问。
-- [ ] 核实 npm 上四个 `@amap-vue/*` 包的实际发布版本及安装结果；本地 `0.1.0` 提交不作为发布成功依据。
+- [ ] 允许 GitHub Actions 创建发版 PR，并核实 Release 工作流能生成 Changesets 发版 PR。
 
 ## 每项功能的交付要求
 

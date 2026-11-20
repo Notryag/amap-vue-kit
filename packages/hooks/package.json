@@ -1,7 +1,7 @@
 {
   "name": "@amap-vue/hooks",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": false,
   "description": "Composable Vue 3 hooks for AMap JSAPI 2.x overlays, services, and map state.",
   "license": "MIT",
@@ -45,6 +45,6 @@
     "vue": "^3.4.0"
   },
   "dependencies": {
-    "@amap-vue/shared": "workspace:^0.1.0"
+    "@amap-vue/shared": "workspace:^0.2.0"
   }
 }

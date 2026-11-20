@@ -271,10 +271,10 @@ importers:
   packages/core:
     dependencies:
       '@amap-vue/hooks':
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.2.0
         version: link:../hooks
       '@amap-vue/shared':
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.2.0
         version: link:../shared
       vue:
         specifier: ^3.4.0
@@ -283,7 +283,7 @@ importers:
   packages/hooks:
     dependencies:
       '@amap-vue/shared':
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.2.0
         version: link:../shared
       vue:
         specifier: ^3.4.0
@@ -292,7 +292,7 @@ importers:
   packages/loca:
     dependencies:
       '@amap-vue/shared':
-        specifier: workspace:^0.1.0
+        specifier: workspace:^0.2.0
         version: link:../shared
       vue:
         specifier: ^3.4.0
